@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#f0f0f2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/local_office"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="지역"/>
+
+        <TextView
+            android:id="@+id/scan_office"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="영업소"/>
+
+        <Button
+            android:id="@+id/scan_barcode"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:text="영업소 스캔"
+            android:background="@drawable/blue_btn"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/scan_unit"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="단말기 스캔"
+            android:background="@drawable/blue_btn"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/submit_barcode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="등록 하기"
+            android:background="@drawable/blue_btn"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/view_refresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="초기화"
+            android:background="@drawable/blue_btn"
+            android:textColor="@color/white"
+            android:layout_margin="5dp"/>
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/add_unit_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:choiceMode="singleChoice">
+
+    </ListView>
+
+</LinearLayout>

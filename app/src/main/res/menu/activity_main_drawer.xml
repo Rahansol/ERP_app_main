@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="차량 단말기 바코드" />
+        <item
+            android:id="@+id/reserve_item_give"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="영업소 단말기 바코드 지급" />
+        <item
+            android:id="@+id/reserve_item_return"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="영업소 단말기 바코드 회수"/>
+
+        <item
+            android:id="@+id/field_error_all"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="장애등록"/>
+
+        <item
+            android:id="@+id/my_barcode_workList"
+            android:icon="@drawable/ic_menu_share"
+            android:title="내 바코드 부착내역"/>
+
+        <item
+            android:id="@+id/reserve_item_workList"
+            android:icon="@drawable/ic_menu_share"
+            android:title="예비품 지급 내역"/>
+
+    </group>
+
+</menu>

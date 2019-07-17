@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="시작일"
+                android:textAlignment="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/start_day"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="2018-10-10"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="종료일"
+                android:textAlignment="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/end_day"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="2018-10-25"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:maxLines="1"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/work_serch_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="조회"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TableRow
+                android:id="@+id/mywork_head">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="부착일자"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="조합"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="운수사"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="버스"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="상세보기"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/mywork_bus_head">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="순번"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="버스번호"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="바코드 수량"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="상세보기"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/mywork_bus_unitbarcode_head">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="단말기"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="바코드"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:text="구 시리얼"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size"
+                    android:textColor="@color/textBlack"/>
+            </TableRow>
+
+
+        </TableLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:layout_marginTop="5dp">
+
+        <TableLayout
+            android:id="@+id/my_work_list_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TableLayout>
+
+    </ScrollView>
+
+</LinearLayout>

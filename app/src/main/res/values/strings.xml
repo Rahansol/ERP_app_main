@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">인터패스</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="test_url">http://192.168.0.13:8180/controller/</string>
+    <!--<string name="test_url">http://ierp.interpass.co.kr/controller/</string>-->
+    <string name="action_settings">Settings</string>
+
+    <string name="unit_index">※ 순번</string>
+    <string name="area_code">※ 조합</string>
+    <string name="cms_code_string">※ 가맹점번호(CMS)</string>
+    <string name="local_string">※ 영업소</string>
+    <string name = "office_string2">※ 지부</string>
+    <string name="route_string">※ 노선</string>
+    <string name="unit_name">※ 단말기</string>
+    <string name="unit_barcode">※ 바코드</string>
+    <string name="office_string">※ 운수사</string>
+    <string name="ori_unit_barcode">※ EB 시리얼</string>
+    <string name="bus_num_string">※ 차량</string>
+    <string name="unit_string">※ 장비</string>
+    <string name="care_name">※ 조치</string>
+    <string name="new_old">※ 신형 / 구형</string>
+    <string name="original_barcode">※ 기존시리얼</string>
+    <string name="new_barcode">※ 교체시리얼</string>
+    <string name="trouble_high_code">※ 장애대분류</string>
+    <string name="trouble_low_code">※ 장애소분류</string>
+    <string name="notice">※ 특이사항</string>
+    <string name="driver_tel">※ 기사연락처</string>
+    <string name="bus_num_result">※ 검색결과</string>
+    <string name="error_tpye_text">※ 장애타입</string>
+
+    <string name="error_time_hour">※ 장애발생시간</string>
+    <string name="error_time_min">※ 장애발생시간(분)</string>
+
+    <string name = "infra_type">※ 인프라타입</string>
+</resources>
