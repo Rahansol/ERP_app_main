@@ -51,7 +51,6 @@ public class LoginActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         pref = getSharedPreferences("user_info" , MODE_PRIVATE);
-
         editor = pref.edit();
 
         progressDialog = new ProgressDialog(this);

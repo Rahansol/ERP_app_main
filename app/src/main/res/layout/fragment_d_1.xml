@@ -24,7 +24,8 @@
             android:singleLine="true"
             android:maxLines="1"
             android:maxLength="4"
-            android:hint="차량번호"/>
+            android:hint="차량번호"
+            android:imeOptions="actionDone"/>
 
         <Button
             android:id="@+id/bus_num_find"
@@ -148,6 +149,7 @@
                     android:text="@string/local_string" />
 
                 <EditText
+                    android:id="@+id/field_error_garage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/middle_font_size"
@@ -171,6 +173,7 @@
                     android:text="@string/route_string" />
 
                 <EditText
+                    android:id="@+id/field_error_route"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/middle_font_size"
@@ -333,9 +336,10 @@
                     android:text="@string/original_barcode" />
 
                 <EditText
+                    android:id="@+id/unit_before_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="기존시리얼 입력"
+                    android:hint="바코드를 스캔해주세요"
                     android:textSize="@dimen/middle_font_size"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -345,6 +349,15 @@
 
                 </EditText>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/unit_before_camera"
+                android:layout_gravity="center"
+                android:layout_width="45dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_menu_camera"
+                android:orientation="horizontal">
             </LinearLayout>
 
         </LinearLayout>
@@ -389,9 +402,10 @@
                     android:text="@string/new_barcode" />
 
                 <EditText
+                    android:id="@+id/unit_after_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="교체시리얼 입력"
+                    android:hint="바코드를 스캔해주세요"
                     android:textSize="@dimen/middle_font_size"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -401,6 +415,15 @@
 
                 </EditText>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/unit_after_camera"
+                android:layout_gravity="center"
+                android:layout_width="45dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_menu_camera"
+                android:orientation="horizontal">
             </LinearLayout>
 
         </LinearLayout>
@@ -455,7 +478,7 @@
                     android:text="@string/notice" />
 
                 <EditText
-                    android:id="@+id/reserve_notice"
+                    android:id="@+id/field_error_notice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="특이사항 입력"
@@ -514,7 +537,7 @@
             android:layout_height="50dp"
             android:gravity="center">
             <Button
-                android:id="@+id/submit_barcode"
+                android:id="@+id/error_insert_btn"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="등록 하기"

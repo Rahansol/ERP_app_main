@@ -178,13 +178,17 @@
                         android:layout_height="wrap_content"
                         android:text="@string/cms_code_string" />
 
-                    <Spinner
+                    <EditText
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/middle_font_size"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:inputType="phone"
+                        android:textColor="@color/textBlack"
+                        android:imeOptions="actionDone">
 
-                    </Spinner>
+                    </EditText>
 
                 </LinearLayout>
 

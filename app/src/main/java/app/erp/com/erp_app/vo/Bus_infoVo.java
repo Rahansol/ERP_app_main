@@ -15,9 +15,10 @@ public class Bus_infoVo {
     private String office_group;
     private String busoff_name;
     private String infra_code;
+    private String r_num;
 //    private String junk_date;
 
-    public Bus_infoVo(String transp_bizr_id, String busoff_bus, String bus_barcode, String bus_id, String bus_num, String vehicle_num, String office_group, String busoff_name, String infra_code) {
+    public Bus_infoVo(String transp_bizr_id, String busoff_bus, String bus_barcode, String bus_id, String bus_num, String vehicle_num, String office_group, String busoff_name, String infra_code, String r_num) {
         this.transp_bizr_id = transp_bizr_id;
         this.busoff_bus = busoff_bus;
         this.bus_barcode = bus_barcode;
@@ -27,6 +28,7 @@ public class Bus_infoVo {
         this.office_group = office_group;
         this.busoff_name = busoff_name;
         this.infra_code = infra_code;
+        this.r_num = r_num;
     }
 
     public String getTransp_bizr_id() {
@@ -99,5 +101,13 @@ public class Bus_infoVo {
 
     public void setInfra_code(String infra_code) {
         this.infra_code = infra_code;
+    }
+
+    public String getR_num() {
+        return r_num;
+    }
+
+    public void setR_num(String r_num) {
+        this.r_num = r_num;
     }
 }

@@ -137,6 +137,10 @@ public class MainActivity extends AppCompatActivity
             fragment = new Fragment_d();
             title = "장애등록";
         }
+        else if(id == R.id.field_my_error){
+            fragment = new Fragment_d_0();
+            title = "장애처리";
+        }
         if(fragment != null){
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.frage_change,fragment);

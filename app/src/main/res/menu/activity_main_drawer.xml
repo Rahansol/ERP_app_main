@@ -23,6 +23,11 @@
             android:title="장애등록"/>
 
         <item
+            android:id="@+id/field_my_error"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="장애처리"/>
+
+        <item
             android:id="@+id/my_barcode_workList"
             android:icon="@drawable/ic_menu_share"
             android:title="내 바코드 부착내역"/>

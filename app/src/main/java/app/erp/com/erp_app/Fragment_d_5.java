@@ -57,7 +57,7 @@ public class Fragment_d_5 extends Fragment implements MainActivity.OnBackPressed
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_d_4, container ,false);
+        final View view = inflater.inflate(R.layout.fragment_d_5, container ,false);
         context = getActivity();
         return view;
     }
