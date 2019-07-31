@@ -26,7 +26,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bus_num_string" />
+                    android:text="@string/reg_date_string" />
 
                 <TextView
                     android:gravity="center"
@@ -34,7 +34,7 @@
                     android:textSize="@dimen/big_font_size"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="2018-10-10"
+                    android:text="2019-10-10"
                     android:textAlignment="center"
                     android:singleLine="true"
                     android:maxLines="1"/>
@@ -113,7 +113,8 @@
                         android:textColor="@color/textBlack"
                         android:gravity="center"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:layout_margin="2dp"
+                        android:text="일반업무"/>
 
                 </LinearLayout>
 
@@ -129,6 +130,7 @@
                         android:text="@string/office_string2" />
 
                     <TextView
+                        android:id="@+id/nomal_dep_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="@dimen/middle_font_size"
@@ -158,10 +160,10 @@
                         android:text="@string/unit_string" />
 
                     <Spinner
+                        android:id="@+id/nomal_unit_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 
@@ -179,10 +181,10 @@
                         android:text="@string/trouble_high_code" />
 
                     <Spinner
+                        android:id="@+id/nomal_trouble_high_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 
@@ -207,10 +209,10 @@
                         android:text="@string/trouble_low_code" />
 
                     <Spinner
+                        android:id="@+id/nomal_trouble_low_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 
@@ -228,12 +230,71 @@
                         android:text="@string/care_name" />
 
                     <Spinner
+                        android:id="@+id/nomal_care_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/original_barcode" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="기존시리얼 입력"
+                        android:textSize="@dimen/middle_font_size"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:inputType="text"
+                        android:textColor="@color/textBlack"
+                        android:imeOptions="actionDone">
+
+                    </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/new_barcode" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="교체시리얼 입력"
+                        android:textSize="@dimen/middle_font_size"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:inputType="text"
+                        android:textColor="@color/textBlack"
+                        android:imeOptions="actionDone">
+
+                    </EditText>
 
                 </LinearLayout>
 

@@ -210,10 +210,10 @@
                         android:text="@string/office_string" />
 
                     <Spinner
+                        android:id="@+id/nms_office_group"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 
@@ -264,10 +264,10 @@
                         android:text="@string/unit_string" />
 
                     <Spinner
+                        android:id="@+id/nms_unit_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 
@@ -285,10 +285,10 @@
                         android:text="@string/trouble_high_code" />
 
                     <Spinner
+                        android:id="@+id/nms_trouble_high_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 
@@ -313,10 +313,10 @@
                         android:text="@string/trouble_low_code" />
 
                     <Spinner
+                        android:id="@+id/nms_trouble_low_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 
@@ -334,10 +334,10 @@
                         android:text="@string/care_name" />
 
                     <Spinner
+                        android:id="@+id/nms_care_code"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
-                        android:entries="@array/time_hour">
+                        style="@style/spinner_style">
 
                     </Spinner>
 

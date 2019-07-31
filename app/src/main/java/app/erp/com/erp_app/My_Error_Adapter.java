@@ -64,6 +64,7 @@ public class My_Error_Adapter extends BaseAdapter {
 
         Trouble_HistoryListVO trouble_historylistvo = listViewItem.get(position);
 
+        viewHolder.btn_1.setTag(position);
         viewHolder.btn_1.setOnClickListener(defaultRequestBtnClickListener);
 
         viewHolder.error_office.setText(trouble_historylistvo.getBusoff_name());
@@ -73,7 +74,7 @@ public class My_Error_Adapter extends BaseAdapter {
             viewHolder.error_route.setText("노선 : "+trouble_historylistvo.getRoute_id());
         }
 
-        viewHolder.error_bus_num.setText(trouble_historylistvo.getBus_id());
+        viewHolder.error_bus_num.setText(trouble_historylistvo.getBus_num());
         viewHolder.error_unit.setText(trouble_historylistvo.getUnit_name());
         viewHolder.error_high_code.setText(trouble_historylistvo.getTrouble_name());
         viewHolder.error_low_code.setText(trouble_historylistvo.getTrouble_low_name());
@@ -102,14 +103,14 @@ public class My_Error_Adapter extends BaseAdapter {
 
     public void addItem (Trouble_HistoryListVO list){
 
-        Trouble_HistoryListVO trouble_historylistvo = new Trouble_HistoryListVO();
-        trouble_historylistvo.setBusoff_name(list.getBusoff_name());
-        trouble_historylistvo.setRoute_id(list.getRoute_id());
-        trouble_historylistvo.setBus_id(list.getBus_num());
-        trouble_historylistvo.setUnit_name(list.getUnit_name());
-        trouble_historylistvo.setTrouble_name(list.getTrouble_name());
-        trouble_historylistvo.setTrouble_low_name(list.getTrouble_low_name());
-        trouble_historylistvo.setOffice_group(list.getOffice_group());
+        Trouble_HistoryListVO trouble_historylistvo = list;
+//        trouble_historylistvo.setBusoff_name(list.getBusoff_name());
+//        trouble_historylistvo.setRoute_id(list.getRoute_id());
+//        trouble_historylistvo.setBus_id(list.getBus_num());
+//        trouble_historylistvo.setUnit_name(list.getUnit_name());
+//        trouble_historylistvo.setTrouble_name(list.getTrouble_name());
+//        trouble_historylistvo.setTrouble_low_name(list.getTrouble_low_name());
+//        trouble_historylistvo.setOffice_group(list.getOffice_group());
 
         listViewItem.add(trouble_historylistvo);
     }
@@ -141,6 +142,10 @@ public class My_Error_Adapter extends BaseAdapter {
         TextView error_high_code;
         TextView error_low_code;
         TextView error_office_group;
+    }
+
+    public Trouble_HistoryListVO  resultItem(int postion){
+        return listViewItem.get(postion);
     }
 
 }

@@ -212,8 +212,6 @@ public class Fragment_a extends Fragment {
                     scan_eb_barcode_list.add(result_list.get(i).getEb_barcode());
                 }
             }
-            Log.d("size :" , ":::::"+scan_eb_barcode_list.size());
-            Log.d("size :" , ":::::"+scan_unit_barcode_list.size());
             Call<String> call = erp.app_barcode_install(scan_unit_barcode_list,bus_barcode,emp_id,scan_eb_barcode_list);
             final AlertDialog.Builder a_builder = new AlertDialog.Builder(context);
             call.enqueue(new Callback<String>() {

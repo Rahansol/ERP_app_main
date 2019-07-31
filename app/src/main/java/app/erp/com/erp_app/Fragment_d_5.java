@@ -1,16 +1,22 @@
 package app.erp.com.erp_app;
 
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -21,9 +27,19 @@ import android.widget.TextView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import app.erp.com.erp_app.vo.Bus_infoVo;
+import app.erp.com.erp_app.vo.Trouble_CodeVo;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by hsra on 2019-06-21.
@@ -36,18 +52,16 @@ public class Fragment_d_5 extends Fragment implements MainActivity.OnBackPressed
 
     private Retrofit retrofit;
 
-    String click_type ,bus_barcode, area_code;
+    String click_type ,service_id, infra_code, unit_code, trouble_high_code, trouble_low_code;
     List<String> scan_unit_barcodes;
     EditText find_bus_num;
-    TextView reserve_area_name , reserve_unit_barcode;
-    SharedPreferences pref, barcode_type_pref;
+    TextView reserve_area_name , reserve_unit_barcode, nomal_dep_name, start_day;
+    SharedPreferences pref;
     SharedPreferences.Editor editor;
-
-    LinearLayout care_layout , old_new_layout , old_select , old_barcode , new_old_layout , new_selcet ,new_barcode;
 
     CheckBox bs_yn;
 
-    Spinner bus_num_list, field_trouble_error_type_list , field_trouble_high_code_list, field_trouble_low_code_list, field_trouble_care_code_list;
+    Spinner  nomal_unit_code ,nomal_trouble_high_code , nomal_trouble_low_code, nomal_care_code;
 
     RadioGroup today_group;
     RadioButton today_y , today_n;
@@ -59,7 +73,203 @@ public class Fragment_d_5 extends Fragment implements MainActivity.OnBackPressed
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_d_5, container ,false);
         context = getActivity();
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String get_today = sdf.format(date);
+
+        pref = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        String dep_name = pref.getString("dep_name",null);
+
+        nomal_dep_name = (TextView)view.findViewById(R.id.nomal_dep_name);
+        nomal_dep_name.setText(dep_name);
+
+        start_day = (TextView)view.findViewById(R.id.start_day);
+        start_day.setText(get_today);
+
+        final Calendar cal = Calendar.getInstance();
+        view.findViewById(R.id.start_day).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+
+                        String msg = String.format("%d-%02d-%02d", year, month+1, date);
+                        start_day.setText(msg);
+
+                    }
+                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+
+                dialog.getDatePicker().setMaxDate(new Date().getTime());    //입력한 날짜 이후로 클릭 안되게 옵션
+                dialog.show();
+            }
+        });
+
+        new Getfield_trouble_error_type().execute();
+        nomal_unit_code = (Spinner)view.findViewById(R.id.nomal_unit_code);
+        nomal_trouble_high_code = (Spinner)view.findViewById(R.id.nomal_trouble_high_code);
+        nomal_trouble_low_code = (Spinner)view.findViewById(R.id.nomal_trouble_low_code);
+        nomal_care_code = (Spinner)view.findViewById(R.id.nomal_care_code);
+
         return view;
+    }
+
+    private class Getfield_trouble_error_type extends AsyncTask<String , Integer, Long>{
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            service_id = "09";
+            infra_code = "99";
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_error_type(service_id,infra_code);
+            call.enqueue(new Callback<List<Trouble_CodeVo>>() {
+                @Override
+                public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
+                    final List<Trouble_CodeVo> list = response.body();
+                    List<String> spinner_list = new ArrayList<>();
+                    for (Trouble_CodeVo i : list){
+                        spinner_list.add(i.getUnit_name());
+                    }
+                    nomal_unit_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
+                    nomal_unit_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            unit_code = list.get(position).getUnit_code();
+                            new Getfield_trouble_high_code().execute(unit_code);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Trouble_CodeVo>> call, Throwable t) {
+
+                }
+            });
+            return null;
+        }
+    }
+
+    private class Getfield_trouble_high_code extends AsyncTask<String , Integer , Long>{
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_high_code(service_id,infra_code,strings[0]);
+            call.enqueue(new Callback<List<Trouble_CodeVo>>() {
+                @Override
+                public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
+                    final List<Trouble_CodeVo> list = response.body();
+                    List<String> spinner_list = new ArrayList<>();
+                    for(Trouble_CodeVo i : list){
+                        spinner_list.add(i.getTrouble_high_name());
+                    }
+                    nomal_trouble_high_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
+                    nomal_trouble_high_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            trouble_high_code = list.get(position).getTrouble_high_cd();
+                            new Getfield_trouble_low_code().execute();
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<List<Trouble_CodeVo>> call, Throwable t) {
+
+                }
+            });
+
+            return null;
+        }
+    }
+
+    private class Getfield_trouble_low_code extends AsyncTask<String , Integer, Long>{
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_low_code(service_id,infra_code,unit_code,trouble_high_code);
+            call.enqueue(new Callback<List<Trouble_CodeVo>>() {
+                @Override
+                public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
+                    final List<Trouble_CodeVo> list = response.body();
+                    List<String> spinner_list = new ArrayList<>();
+                    for (Trouble_CodeVo i : list){
+                        spinner_list.add(i.getTrouble_low_name());
+                    }
+                    nomal_trouble_low_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
+                    nomal_trouble_low_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            trouble_low_code = list.get(position).getTrouble_low_cd();
+                            new Getfield_trouble_carecode().execute();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<List<Trouble_CodeVo>> call, Throwable t) {
+
+                }
+            });
+            return null;
+        }
+    }
+
+    private class Getfield_trouble_carecode extends AsyncTask<String, Integer, Long>{
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_carecode(service_id,infra_code,unit_code,trouble_high_code,trouble_low_code);
+            call.enqueue(new Callback<List<Trouble_CodeVo>>() {
+                @Override
+                public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
+                    List<Trouble_CodeVo> list = response.body();
+                    List<String> spinner_list = new ArrayList<>();
+                    for(Trouble_CodeVo i : list){
+                        spinner_list.add(i.getTrouble_care_name());
+                    }
+                    nomal_care_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
+                }
+
+                @Override
+                public void onFailure(Call<List<Trouble_CodeVo>> call, Throwable t) {
+
+                }
+            });
+            return null;
+        }
     }
 
     @Override
@@ -93,4 +303,6 @@ public class Fragment_d_5 extends Fragment implements MainActivity.OnBackPressed
         Log.e("Other", "onAttach()");
         ((MainActivity)activity).setOnBackPressedListener(this);
     }
+
+
 }

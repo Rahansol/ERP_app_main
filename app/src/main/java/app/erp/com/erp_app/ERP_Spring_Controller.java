@@ -87,4 +87,8 @@ public interface ERP_Spring_Controller {
 
     @GET("barcode/app_error_Bus_Office")
     Call<List<Bus_infoVo>> get_app_error_Bus_Office (@Query("johap_name") String johap_name);
+
+    @GET("barcode/getMyWork_Job")
+    Call<List<Trouble_HistoryListVO>> getMyWork_Job (@Query("reg_date") String reg_date , @Query("job_viewer") String job_viewer, @Query("reg_time") String reg_time);
+
 }

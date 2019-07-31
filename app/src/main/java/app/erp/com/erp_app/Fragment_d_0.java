@@ -32,9 +32,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Fragment_d_0 extends Fragment {
 
-    private RecyclerView recyclerview;
-
-    Button error_bus_btn , error_nms_btn, error_charger_btn, error_bit_btn, error_nomalWork_btn;
     Context context;
 
     My_Error_Adapter adapter;
@@ -56,7 +53,13 @@ public class Fragment_d_0 extends Fragment {
         adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int postion = (int) v.getTag();
+                Trouble_HistoryListVO thlvo = adapter.resultItem(postion);
+
                 Fragment_d_6 fragment = new Fragment_d_6();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Obj",thlvo);
+                fragment.setArguments(bundle);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.frage_change,fragment);
                 ft.commit();
@@ -103,7 +106,6 @@ public class Fragment_d_0 extends Fragment {
         Log.d("d","list_"+list.size());
         for(Trouble_HistoryListVO i : list){
             adapter.addItem(i);
-            Log.d("d","list_"+i.getService_name());
         }
     }
 

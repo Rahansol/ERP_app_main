@@ -1,6 +1,8 @@
 package app.erp.com.erp_app.vo;
 
-public class Trouble_HistoryListVO {
+import java.io.Serializable;
+
+public class Trouble_HistoryListVO implements Serializable {
 
     private String reg_date;
     private String reg_time;

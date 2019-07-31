@@ -34,13 +34,14 @@
                         android:text="@string/reg_date_string" />
 
                     <TextView
+                        android:id="@+id/insert_start_day"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -56,13 +57,14 @@
                         android:text="@string/error_time_hour"/>
 
                     <TextView
+                        android:id="@+id/insert_start_time"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -85,13 +87,14 @@
                         android:text="@string/reg_emp_name_string" />
 
                     <TextView
+                        android:id="@+id/insert_reg_emp_id"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -107,13 +110,14 @@
                         android:text="@string/error_tpye_text" />
 
                     <TextView
+                        android:id="@+id/insert_unit_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -136,13 +140,14 @@
                         android:text="@string/bus_num_string" />
 
                     <TextView
+                        android:id="@+id/insert_bus_num"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -158,13 +163,14 @@
                         android:text="@string/driver_tel" />
 
                     <TextView
+                        android:id="@+id/insert_phone_num"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -187,13 +193,14 @@
                         android:text="@string/area_code" />
 
                     <TextView
+                        android:id="@+id/insert_area_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -209,13 +216,14 @@
                         android:text="@string/office_string" />
 
                     <TextView
+                        android:id="@+id/insert_office_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -238,13 +246,14 @@
                         android:text="@string/local_string" />
 
                     <TextView
+                        android:id="@+id/insert_garage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -260,13 +269,14 @@
                         android:text="@string/route_string" />
 
                     <TextView
+                        android:id="@+id/insert_route_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -306,13 +316,14 @@
                         android:text="@string/unit_string" />
 
                     <TextView
+                        android:id="@+id/insert_ars_unit_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -328,13 +339,14 @@
                         android:text="@string/trouble_high_code" />
 
                     <TextView
+                        android:id="@+id/insert_ars_trouble_high_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -357,13 +369,14 @@
                         android:text="@string/trouble_low_code" />
 
                     <TextView
+                        android:id="@+id/insert_ars_trouble_low_code"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/middle_font_size"
-                        android:textColor="@color/textBlack"
-                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:background="@drawable/input_mute_text"
-                        android:layout_margin="2dp"/>
+                        android:gravity="center"
+                        android:textColor="@color/textBlack"
+                        android:textSize="@dimen/middle_font_size" />
 
                 </LinearLayout>
 
@@ -403,9 +416,10 @@
                         android:text="@string/unit_string" />
 
                     <Spinner
+                        android:id="@+id/insert_process_unit_code"
+                        style="@style/spinner_style"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
                         android:entries="@array/time_hour">
 
                     </Spinner>
@@ -424,9 +438,10 @@
                         android:text="@string/trouble_high_code" />
 
                     <Spinner
+                        android:id="@+id/insert_process_trouble_high_code"
+                        style="@style/spinner_style"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
                         android:entries="@array/time_hour">
 
                     </Spinner>
@@ -452,9 +467,10 @@
                         android:text="@string/trouble_low_code" />
 
                     <Spinner
+                        android:id="@+id/insert_process_trouble_low_code"
+                        style="@style/spinner_style"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
                         android:entries="@array/time_hour">
 
                     </Spinner>
@@ -473,9 +489,10 @@
                         android:text="@string/care_name" />
 
                     <Spinner
+                        android:id="@+id/insert_process_trouble_care_code"
+                        style="@style/spinner_style"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        style="@style/spinner_style"
                         android:entries="@array/time_hour">
 
                     </Spinner>

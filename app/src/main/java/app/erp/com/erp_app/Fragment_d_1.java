@@ -386,8 +386,9 @@ public class Fragment_d_1 extends Fragment implements MainActivity.OnBackPressed
                     .baseUrl(getResources().getString(R.string.test_url))
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+            Log.d("d:","::"+"test");
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
-            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_error_type("1","01");
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_error_type("01","1");
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
@@ -446,7 +447,7 @@ public class Fragment_d_1 extends Fragment implements MainActivity.OnBackPressed
                     .build();
             final String select_error_code = strings[0];
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
-            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_high_code("1","01",select_error_code);
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_high_code("01","1",select_error_code);
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
@@ -499,7 +500,7 @@ public class Fragment_d_1 extends Fragment implements MainActivity.OnBackPressed
             final String select_error_code = strings[0];
             final String select_high_code = strings[1];
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
-            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_low_code("1","01",select_error_code,select_high_code);
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_low_code("01","1",select_error_code,select_high_code);
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
@@ -551,7 +552,7 @@ public class Fragment_d_1 extends Fragment implements MainActivity.OnBackPressed
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
-            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_carecode("1","01",strings[0],strings[1],strings[2]);
+            Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_carecode("01","1",strings[0],strings[1],strings[2]);
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
