@@ -12,6 +12,7 @@
     <string name="area_code">※ 조합</string>
     <string name="cms_code_string">※ 가맹점번호(CMS)</string>
     <string name="local_string">※ 영업소</string>
+    <string name="store_code">※ 가맹점번호(CMS)</string>
     <string name = "office_string2">※ 지부</string>
     <string name="route_string">※ 노선</string>
     <string name="unit_name">※ 단말기</string>

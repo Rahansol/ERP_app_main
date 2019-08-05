@@ -284,7 +284,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:padding="5dp">
 
                 <TextView
@@ -384,7 +384,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:padding="5dp">
 
                 <TextView
@@ -419,8 +419,7 @@
                         android:id="@+id/insert_process_unit_code"
                         style="@style/spinner_style"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:entries="@array/time_hour">
+                        android:layout_height="40dp">
 
                     </Spinner>
 
@@ -441,8 +440,7 @@
                         android:id="@+id/insert_process_trouble_high_code"
                         style="@style/spinner_style"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:entries="@array/time_hour">
+                        android:layout_height="40dp">
 
                     </Spinner>
 
@@ -470,8 +468,7 @@
                         android:id="@+id/insert_process_trouble_low_code"
                         style="@style/spinner_style"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:entries="@array/time_hour">
+                        android:layout_height="40dp">
 
                     </Spinner>
 
@@ -492,8 +489,7 @@
                         android:id="@+id/insert_process_trouble_care_code"
                         style="@style/spinner_style"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:entries="@array/time_hour">
+                        android:layout_height="40dp">
 
                     </Spinner>
 

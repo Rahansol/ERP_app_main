@@ -63,6 +63,7 @@ public class Trouble_HistoryListVO implements Serializable {
     private String job_viewer;
     private String job_viewer_view;
     private String driver_tel_num;
+    private String work_reg_emp_name;
 
     public String getReg_date() {
         return reg_date;
@@ -534,5 +535,13 @@ public class Trouble_HistoryListVO implements Serializable {
 
     public void setDriver_tel_num(String driver_tel_num) {
         this.driver_tel_num = driver_tel_num;
+    }
+
+    public String getWork_reg_emp_name() {
+        return work_reg_emp_name;
+    }
+
+    public void setWork_reg_emp_name(String work_reg_emp_name) {
+        this.work_reg_emp_name = work_reg_emp_name;
     }
 }
