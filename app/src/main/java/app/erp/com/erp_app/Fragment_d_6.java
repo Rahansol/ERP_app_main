@@ -237,7 +237,7 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
-                    List<Trouble_CodeVo> list = response.body();
+                    final List<Trouble_CodeVo> list = response.body();
                     List<String> spinner_list = new ArrayList<>();
                     int pos = 0;
 
@@ -249,9 +249,18 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                     }
                     insert_process_trouble_high_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
                     if(high_intdex == 0 ){insert_process_trouble_high_code.setSelection(pos);}
+                    insert_process_trouble_high_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String select_high_code = list.get(position).getTrouble_high_cd();
+                            trouble_high_id = select_high_code;
+                            new getfield_trouble_low_code().execute();
+                        }
 
-                    new getfield_trouble_low_code().execute();
-
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
                 }
 
                 @Override
@@ -276,10 +285,10 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
-                    List<Trouble_CodeVo> list = response.body();
+                    final List<Trouble_CodeVo> list = response.body();
                     List<String> spinner_list = new ArrayList<>();
                     int pos = 0;
-
+                    Log.d("DDD", "trouble_low_id select :" + trouble_low_id);
                     for(int i = 0 ; i < list.size(); i++){
                         spinner_list.add(list.get(i).getTrouble_low_name());
                         if(list.get(i).getTrouble_low_cd().equals(trouble_low_id)){
@@ -287,9 +296,21 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         }
                     }
                     insert_process_trouble_low_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
-                    if(low_index == 0 ){insert_process_trouble_low_code.setSelection(pos);}
+                    if(low_index == 0 ){
+                        Log.d("D:", "pos <:" + pos);
+                        insert_process_trouble_low_code.setSelection(pos);}
+                    insert_process_trouble_low_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            trouble_low_id = list.get(position).getTrouble_low_cd();
+                            new get_field_trouble_carecode().execute();
+                        }
 
-                    new get_field_trouble_carecode().execute();
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                     low_index++;
                 }
 

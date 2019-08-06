@@ -435,6 +435,7 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
                     final List<String> spinner_list = new ArrayList<>();
                     spinner_list.add("내역 미등록");
                     for(Trouble_CodeVo i : list){
+                        Log.d("dd: " , "code : " + i.getTrouble_care_name() +":::" + i.getTrouble_care_cd());
                         spinner_list.add(i.getTrouble_care_name());
                     }
                     nms_care_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
@@ -445,8 +446,7 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
                             if(sercy_type.equals("내역 미등록")){
                                 filed_error_map.put("trouble_care_cd","X001");
                             }else{
-
-                                filed_error_map.put("trouble_care_cd",list.get(position).getTrouble_care_cd());
+                                filed_error_map.put("trouble_care_cd",list.get(position-1).getTrouble_care_cd());
                             }
                         }
 
