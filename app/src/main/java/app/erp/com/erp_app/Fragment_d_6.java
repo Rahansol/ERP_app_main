@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.ListPopupWindow;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +69,8 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
     RadioGroup today_group;
     RadioButton today_y , today_n;
 
+    int high_intdex, low_index = 0 ;
+
     public Fragment_d_6(){
     }
 
@@ -98,6 +102,8 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
         insert_process_trouble_care_code = (Spinner)view.findViewById(R.id.insert_process_trouble_care_code);
 
         new GetMyWork_Job().execute(thlvo.getReg_date(),thlvo.getJob_viewer(),thlvo.getReg_time());
+
+
 
         return view;
     }
@@ -178,11 +184,23 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                     }
                     insert_process_unit_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
                     insert_process_unit_code.setSelection(pos);
+
+                    try{
+                        Field popup = Spinner.class.getDeclaredField("mPopup");
+                        popup.setAccessible(true);
+                        ListPopupWindow window = (ListPopupWindow)popup.get(insert_process_unit_code);
+                        window.setHeight(300); //pixel
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                     insert_process_unit_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            String select_high_code = list.get(position).getTrouble_high_cd();
-                            Log.d("Df:","Dfdf");
+                            String select_high_code = list.get(position).getUnit_code();
+                            Log.d("Df:","Dfdf : " + list.get(position).getUnit_name());
+                            unit_id = select_high_code;
+                            new get_insert_trobule_high_code().execute();
 
                         }
 
@@ -192,7 +210,7 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         }
                     });
 
-                    new get_insert_trobule_high_code().execute();
+
 
                 }
 
@@ -230,7 +248,8 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         }
                     }
                     insert_process_trouble_high_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
-                    insert_process_trouble_high_code.setSelection(pos);
+                    if(high_intdex == 0 ){insert_process_trouble_high_code.setSelection(pos);}
+
                     new getfield_trouble_low_code().execute();
 
                 }
@@ -240,7 +259,7 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
 
                 }
             });
-
+            high_intdex ++;
             return null;
         }
     }
@@ -268,8 +287,10 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         }
                     }
                     insert_process_trouble_low_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
-                    insert_process_trouble_low_code.setSelection(pos);
+                    if(low_index == 0 ){insert_process_trouble_low_code.setSelection(pos);}
+
                     new get_field_trouble_carecode().execute();
+                    low_index++;
                 }
 
                 @Override
