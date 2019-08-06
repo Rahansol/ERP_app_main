@@ -12,6 +12,7 @@
     <string name="area_code">※ 조합</string>
     <string name="cms_code_string">※ 가맹점번호(CMS)</string>
     <string name="local_string">※ 영업소</string>
+    <string name="store_code">※ 가맹점번호(CMS)</string>
     <string name = "office_string2">※ 지부</string>
     <string name="route_string">※ 노선</string>
     <string name="unit_name">※ 단말기</string>
@@ -33,6 +34,8 @@
 
     <string name="error_time_hour">※ 장애발생시간</string>
     <string name="error_time_min">※ 장애발생시간(분)</string>
+    <string name="reg_date_string">※ 장애발생일</string>
+    <string name="reg_emp_name_string">※ 등록자</string>
 
     <string name = "infra_type">※ 인프라타입</string>
 </resources>

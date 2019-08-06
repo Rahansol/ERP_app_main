@@ -1,16 +1,19 @@
 package app.erp.com.erp_app;
 
 import java.util.List;
+import java.util.Map;
 
 import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.My_Work_ListVo;
 import app.erp.com.erp_app.vo.Reserve_Work_Vo;
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
+import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 import app.erp.com.erp_app.vo.UnitList;
 import app.erp.com.erp_app.vo.User_InfoVo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by hsra on 2019-06-21.
@@ -72,6 +75,21 @@ public interface ERP_Spring_Controller {
 
     @GET("barcode/field_trouble_carecode")
     Call<List<Trouble_CodeVo>> getfield_trouble_carecode (@Query("service_id") String service_id, @Query("infra_code") String infra_code, @Query("unit_code") String unit_code , @Query("tb_highcd")String tb_highcd, @Query("tb_lowcd") String tb_lowcd);
+
+    @GET("barcode/field_my_error_list")
+    Call<List<Trouble_HistoryListVO>> getfield_my_error_list (@Query("emp_id") String emp_id);
+
+    @GET("barcode/insert_filed_error_test")
+    Call<Boolean> insert_filed_error_test (@QueryMap Map<String,Object> test);
+
+    @GET("barcode/app_history_office_group")
+    Call<List<Bus_infoVo>> get_app_history_office_group();
+
+    @GET("barcode/app_error_Bus_Office")
+    Call<List<Bus_infoVo>> get_app_error_Bus_Office (@Query("johap_name") String johap_name);
+
+    @GET("barcode/getMyWork_Job")
+    Call<List<Trouble_HistoryListVO>> getMyWork_Job (@Query("reg_date") String reg_date , @Query("job_viewer") String job_viewer, @Query("reg_time") String reg_time);
 
 
 }

@@ -193,6 +193,8 @@ public class Fragment_c extends Fragment {
                                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                                     ft.replace(R.id.frage_change,fragment);
                                     ft.commit();
+
+
                                 }
                             });
                     if(result.equals("true")){
