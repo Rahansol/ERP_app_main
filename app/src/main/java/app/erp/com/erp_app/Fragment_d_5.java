@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import app.erp.com.erp_app.vo.Bus_infoVo;
@@ -47,19 +48,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Fragment_d_5 extends Fragment implements MainActivity.OnBackPressedListener{
 
-    Button bus_num_find , bus_num_barcode_find;
+    Button bus_num_find , bus_num_barcode_find, submit_barcode;
     Context context;
 
     private Retrofit retrofit;
 
     String click_type ,service_id, infra_code, unit_code, trouble_high_code, trouble_low_code;
     List<String> scan_unit_barcodes;
-    EditText find_bus_num;
+    EditText find_bus_num, nomal_notice;
     TextView reserve_area_name , reserve_unit_barcode, nomal_dep_name, start_day;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
     CheckBox bs_yn;
+
+    HashMap<String, Object> filed_error_map;
 
     Spinner  nomal_unit_code ,nomal_trouble_high_code , nomal_trouble_low_code, nomal_care_code;
 
@@ -111,6 +114,61 @@ public class Fragment_d_5 extends Fragment implements MainActivity.OnBackPressed
         nomal_trouble_high_code = (Spinner)view.findViewById(R.id.nomal_trouble_high_code);
         nomal_trouble_low_code = (Spinner)view.findViewById(R.id.nomal_trouble_low_code);
         nomal_care_code = (Spinner)view.findViewById(R.id.nomal_care_code);
+
+        nomal_notice = (EditText)view.findViewById(R.id.nomal_notice);
+
+        submit_barcode = (Button)view.findViewById(R.id.submit_barcode);
+        submit_barcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emp_id = pref.getString("emp_id",null);
+                String dep_code = pref.getString("dep_code",null);
+
+                filed_error_map.put("bus_id","000002010");
+                filed_error_map.put("transp_bizr_id","9990004");
+
+                filed_error_map.put("emp_id",emp_id);
+                filed_error_map.put("dep_code",dep_code);
+                filed_error_map.put("infra_code",infra_code);
+                filed_error_map.put("service_id",service_id);
+                filed_error_map.put("garage_id","");
+                filed_error_map.put("route_id","");
+                filed_error_map.put("driver_tel_num","");
+                filed_error_map.put("notice",nomal_notice.getText().toString());
+                filed_error_map.put("job_viewer",emp_id);
+                filed_error_map.put("reg_emp_id",emp_id);
+                filed_error_map.put("unit_before_id","");
+                filed_error_map.put("unit_after_id","");
+
+                // 이부분 화면에서 입력할때 무조건 입력하게끔으로 바꿔야함
+                filed_error_map.put("unit_change_yn","N");
+                filed_error_map.put("move_distance","");
+                filed_error_map.put("move_time","");
+                filed_error_map.put("wait_time","");
+                filed_error_map.put("work_time","");
+
+                filed_error_map.put("restore_yn","N");
+                filed_error_map.put("bs_yn","Y");
+                filed_error_map.put("mintong","N");
+                filed_error_map.put("analysis_yn","N");
+
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("HHmmss");
+                String getdate = sdf.format(date);
+                String gettime = sdf2.format(date);
+
+                filed_error_map.put("reg_time",gettime);
+                filed_error_map.put("reg_date",getdate);
+                filed_error_map.put("unit_change_yn","N");
+                filed_error_map.put("unit_before_id","");
+                filed_error_map.put("unit_after_id","");
+                filed_error_map.put("direct_care","N");
+
+
+            }
+        });
 
         return view;
     }

@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import app.erp.com.erp_app.vo.Bus_infoVo;
@@ -47,19 +48,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressedListener{
 
-    Button bus_num_find , bus_num_barcode_find;
+    Button bus_num_find , bus_num_barcode_find, submit_barcode;
     Context context;
 
     private Retrofit retrofit;
 
     String click_type ,service_id, infra_code, unit_code, trouble_high_code, trouble_low_code;
     List<String> scan_unit_barcodes;
-    EditText find_bus_num;
+    EditText find_bus_num, bit_notice;
     TextView reserve_area_name , reserve_unit_barcode, bit_dep_name, start_day;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
     CheckBox bs_yn;
+
+    HashMap<String, Object> filed_error_map;
 
     Spinner  bit_unit_code ,bit_trouble_high_code , bit_trouble_low_code, bit_care_code;
 
@@ -112,6 +115,62 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
         bit_trouble_low_code = (Spinner)view.findViewById(R.id.bit_trouble_low_code);
         bit_care_code = (Spinner)view.findViewById(R.id.bit_care_code);
 
+        bit_notice = (EditText)view.findViewById(R.id.bit_notice);
+
+
+        submit_barcode = (Button)view.findViewById(R.id.submit_barcode);
+        submit_barcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emp_id = pref.getString("emp_id",null);
+                String dep_code = pref.getString("dep_code",null);
+
+                filed_error_map.put("bus_id","000002010");
+                filed_error_map.put("transp_bizr_id","9990004");
+
+                filed_error_map.put("emp_id",emp_id);
+                filed_error_map.put("dep_code",dep_code);
+                filed_error_map.put("infra_code",infra_code);
+                filed_error_map.put("service_id",service_id);
+                filed_error_map.put("garage_id","");
+                filed_error_map.put("route_id","");
+                filed_error_map.put("driver_tel_num","");
+                filed_error_map.put("notice",bit_notice.getText().toString());
+                filed_error_map.put("job_viewer",emp_id);
+                filed_error_map.put("reg_emp_id",emp_id);
+                filed_error_map.put("unit_before_id","");
+                filed_error_map.put("unit_after_id","");
+
+                // 이부분 화면에서 입력할때 무조건 입력하게끔으로 바꿔야함
+                filed_error_map.put("unit_change_yn","N");
+                filed_error_map.put("move_distance","");
+                filed_error_map.put("move_time","");
+                filed_error_map.put("wait_time","");
+                filed_error_map.put("work_time","");
+
+                filed_error_map.put("restore_yn","N");
+                filed_error_map.put("bs_yn","Y");
+                filed_error_map.put("mintong","N");
+                filed_error_map.put("analysis_yn","N");
+
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("HHmmss");
+                String getdate = sdf.format(date);
+                String gettime = sdf2.format(date);
+
+                filed_error_map.put("reg_time",gettime);
+                filed_error_map.put("reg_date",getdate);
+                filed_error_map.put("unit_change_yn","N");
+                filed_error_map.put("unit_before_id","");
+                filed_error_map.put("unit_after_id","");
+                filed_error_map.put("direct_care","N");
+
+                Log.d("t:" , ":::" + filed_error_map.toString());
+            }
+        });
+
         return view;
     }
 
@@ -139,6 +198,7 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             unit_code = list.get(position).getUnit_code();
+                            filed_error_map.put("unit_code",unit_code);
                             new Getfield_trouble_high_code().execute(unit_code);
                         }
 
@@ -158,6 +218,7 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
             return null;
         }
     }
+
 
     private class Getfield_trouble_high_code extends AsyncTask<String , Integer , Long>{
         @Override
@@ -181,6 +242,7 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             trouble_high_code = list.get(position).getTrouble_high_cd();
+                            filed_error_map.put("trouble_high_cd",trouble_high_code);
                             new Getfield_trouble_low_code().execute();
 
                         }
@@ -224,6 +286,7 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             trouble_low_code = list.get(position).getTrouble_low_cd();
+                            filed_error_map.put("trouble_low_cd",trouble_high_code);
                             new Getfield_trouble_carecode().execute();
                         }
 
@@ -255,12 +318,29 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
-                    List<Trouble_CodeVo> list = response.body();
-                    List<String> spinner_list = new ArrayList<>();
+                    final List<Trouble_CodeVo> list = response.body();
+                    final List<String> spinner_list = new ArrayList<>();
+                    spinner_list.add("내역 미등록");
                     for(Trouble_CodeVo i : list){
                         spinner_list.add(i.getTrouble_care_name());
                     }
                     bit_care_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
+                    bit_care_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                            String sercy_type = spinner_list.get(position);
+                            if(sercy_type.equals("내역 미등록")){
+                                filed_error_map.put("trouble_care_cd","X001");
+                            }else{
+                                filed_error_map.put("trouble_care_cd",list.get(position).getTrouble_care_cd());
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
                 }
 
                 @Override
