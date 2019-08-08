@@ -27,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -57,7 +58,7 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
 
     private Retrofit retrofit;
 
-    String click_type, page_info ,service_id, infra_code, unit_code, trouble_high_code, trouble_low_code;
+    String click_type, page_info ,service_id, infra_code, unit_code, trouble_high_code, trouble_low_code, start_hour, start_min;
     List<String> scan_unit_barcodes;
     EditText find_bus_num, nms_garage_id, nms_notice;
     TextView reserve_area_name , reserve_unit_barcode, nms_dep_name, start_day;
@@ -67,7 +68,7 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
     CheckBox bs_yn;
     HashMap<String, Object> filed_error_map;
 
-    Spinner nms_infra_type , nms_group , nms_office_group,nms_unit_code ,nms_trouble_high_code , nms_trouble_low_code, nms_care_code;
+    Spinner nms_infra_type , nms_group , nms_office_group,nms_unit_code ,nms_trouble_high_code , nms_trouble_low_code, nms_care_code, nms_start_hour, nms_start_min;
 
     RadioGroup today_group;
     RadioButton today_y , today_n;
@@ -81,22 +82,24 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
         final View view = inflater.inflate(R.layout.fragment_d_2, container ,false);
         context = getActivity();
 
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String get_today = sdf.format(date);
-
+        // shared 에서 user_info 가져옴
         pref = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String dep_name = pref.getString("dep_name",null);
 
         nms_dep_name = (TextView)view.findViewById(R.id.nms_dep_name);
         nms_dep_name.setText(dep_name);
 
-        start_day = (TextView)view.findViewById(R.id.start_day);
-        start_day.setText(get_today);
-
+        // dialog 호출
         progressDialog = new ProgressDialog(context);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
+
+        // 화면의 달력 날짜 등록 , 달력 활성화
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String get_today = sdf.format(date);
+        start_day = (TextView)view.findViewById(R.id.start_day);
+        start_day.setText(get_today);
 
         final Calendar cal = Calendar.getInstance();
         view.findViewById(R.id.start_day).setOnClickListener(new View.OnClickListener() {
@@ -118,6 +121,7 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
         });
         new get_app_history_office_group().execute();
 
+        // 장애 등록시 필요한 spiner 등록
         nms_infra_type = (Spinner)view.findViewById(R.id.nms_infra_type);
         nms_group = (Spinner)view.findViewById(R.id.nms_group);
         nms_office_group = (Spinner)view.findViewById(R.id.nms_office_group);
@@ -125,6 +129,8 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
         nms_trouble_high_code = (Spinner)view.findViewById(R.id.nms_trouble_high_code);
         nms_trouble_low_code = (Spinner)view.findViewById(R.id.nms_trouble_low_code);
         nms_care_code = (Spinner)view.findViewById(R.id.nms_care_code);
+        nms_start_hour = (Spinner)view.findViewById(R.id.nms_start_hour);
+        nms_start_min = (Spinner)view.findViewById(R.id.nms_start_min);
 
         //edti Text
         nms_garage_id = (EditText)view.findViewById(R.id.nms_garage_id);
@@ -134,7 +140,32 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String serch_type = parent.getItemAtPosition(position).toString();
-                new Getfield_trouble_error_type().execute(serch_type);
+                if(!serch_type.equals("검색조건")){new Getfield_trouble_error_type().execute(serch_type);}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        nms_start_hour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                start_hour = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        nms_start_min.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String serch_type = parent.getItemAtPosition(position).toString();
+                start_min = serch_type;
             }
 
             @Override
@@ -175,25 +206,25 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
                 filed_error_map.put("work_time","");
 
                 filed_error_map.put("restore_yn","N");
-                filed_error_map.put("bs_yn","Y");
+
                 filed_error_map.put("mintong","N");
                 filed_error_map.put("analysis_yn","N");
 
-                long now = System.currentTimeMillis();
-                Date date = new Date(now);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                SimpleDateFormat sdf2 = new SimpleDateFormat("HHmmss");
-                String getdate = sdf.format(date);
-                String gettime = sdf2.format(date);
-
-                filed_error_map.put("reg_time",gettime);
-                filed_error_map.put("reg_date",getdate);
+                filed_error_map.put("reg_date",start_day.getText().toString());
                 filed_error_map.put("unit_change_yn","N");
                 filed_error_map.put("unit_before_id","");
                 filed_error_map.put("unit_after_id","");
-                filed_error_map.put("direct_care","N");
 
-                new insert_filed_error_test().execute();
+                start_min = start_min.replaceAll("분","");
+                start_hour = start_hour.replaceAll("시","");
+
+                if(start_min.equals("-  -") || start_hour.equals("- 간 -")){
+                    Toast.makeText(context,"시간 , 분을 선택해주세요 . " , Toast.LENGTH_SHORT).show();
+                    return;
+                }else{
+                    filed_error_map.put("reg_time",start_hour+start_min);
+                    new insert_filed_error_test().execute();
+                }
             }
         });
 
@@ -445,8 +476,12 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
                             String sercy_type = spinner_list.get(position);
                             if(sercy_type.equals("내역 미등록")){
                                 filed_error_map.put("trouble_care_cd","X001");
+                                filed_error_map.put("direct_care","N");
+                                filed_error_map.put("bs_yn","N");
                             }else{
+                                filed_error_map.put("direct_care","Y");
                                 filed_error_map.put("trouble_care_cd",list.get(position-1).getTrouble_care_cd());
+                                filed_error_map.put("bs_yn","Y");
                             }
                         }
 
@@ -529,6 +564,7 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
 
                 @Override
                 public void onFailure(Call<Boolean> call, Throwable t) {
+                    Log.d("ttttt:","tt"+t);
 
                 }
             });

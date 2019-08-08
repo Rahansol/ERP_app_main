@@ -58,6 +58,7 @@
                         android:text="@string/error_time_hour" />
 
                     <Spinner
+                        android:id="@+id/nms_start_hour"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         style="@style/spinner_style"
@@ -79,6 +80,7 @@
                         android:text="@string/error_time_min"/>
 
                     <Spinner
+                        android:id="@+id/nms_start_min"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         style="@style/spinner_style"

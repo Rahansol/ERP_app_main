@@ -185,20 +185,19 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                     insert_process_unit_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
                     insert_process_unit_code.setSelection(pos);
 
-                    try{
-                        Field popup = Spinner.class.getDeclaredField("mPopup");
-                        popup.setAccessible(true);
-                        ListPopupWindow window = (ListPopupWindow)popup.get(insert_process_unit_code);
-                        window.setHeight(300); //pixel
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+//                    try{
+//                        Field popup = Spinner.class.getDeclaredField("mPopup");
+//                        popup.setAccessible(true);
+//                        ListPopupWindow window = (ListPopupWindow)popup.get(insert_process_unit_code);
+//                        window.setHeight(300); //pixel
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
 
                     insert_process_unit_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             String select_high_code = list.get(position).getUnit_code();
-                            Log.d("Df:","Dfdf : " + list.get(position).getUnit_name());
                             unit_id = select_high_code;
                             new get_insert_trobule_high_code().execute();
 
@@ -248,7 +247,8 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         }
                     }
                     insert_process_trouble_high_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
-                    if(high_intdex == 0 ){insert_process_trouble_high_code.setSelection(pos);}
+                    if(high_intdex == 0 ){ insert_process_trouble_high_code.setSelection(pos); }
+                    Log.d("d", " test " + high_intdex);
                     insert_process_trouble_high_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -261,6 +261,7 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
+                    high_intdex ++;
                 }
 
                 @Override
@@ -268,7 +269,7 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
 
                 }
             });
-            high_intdex ++;
+
             return null;
         }
     }
@@ -288,7 +289,6 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                     final List<Trouble_CodeVo> list = response.body();
                     List<String> spinner_list = new ArrayList<>();
                     int pos = 0;
-                    Log.d("DDD", "trouble_low_id select :" + trouble_low_id);
                     for(int i = 0 ; i < list.size(); i++){
                         spinner_list.add(list.get(i).getTrouble_low_name());
                         if(list.get(i).getTrouble_low_cd().equals(trouble_low_id)){
@@ -296,8 +296,9 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         }
                     }
                     insert_process_trouble_low_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
+                    Log.d("D:", "pos <:" + low_index);
                     if(low_index == 0 ){
-                        Log.d("D:", "pos <:" + pos);
+
                         insert_process_trouble_low_code.setSelection(pos);}
                     insert_process_trouble_low_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
