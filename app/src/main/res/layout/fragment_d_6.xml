@@ -514,13 +514,14 @@
                         android:text="@string/original_barcode" />
 
                     <EditText
+                        android:id="@+id/insert_care_unit_before"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="기존시리얼 입력"
                         android:textSize="@dimen/middle_font_size"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="@color/textBlack"
                         android:imeOptions="actionDone">
 
@@ -540,13 +541,14 @@
                         android:text="@string/new_barcode" />
 
                     <EditText
+                        android:id="@+id/insert_care_unit_after"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="교체시리얼 입력"
                         android:textSize="@dimen/middle_font_size"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="@color/textBlack"
                         android:imeOptions="actionDone">
 
@@ -573,7 +575,7 @@
                         android:text="@string/notice" />
 
                     <EditText
-                        android:id="@+id/reserve_notice"
+                        android:id="@+id/insert_care_notice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="특이사항 입력"
@@ -594,7 +596,7 @@
                 android:layout_height="50dp"
                 android:gravity="center">
                 <Button
-                    android:id="@+id/submit_barcode"
+                    android:id="@+id/update_history"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:text="등록 하기"

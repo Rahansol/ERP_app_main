@@ -195,11 +195,13 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
                 filed_error_map.put("notice",nms_notice.getText().toString());
                 filed_error_map.put("job_viewer",emp_id);
                 filed_error_map.put("reg_emp_id",emp_id);
-                filed_error_map.put("unit_before_id","");
-                filed_error_map.put("unit_after_id","");
+
 
                 // 이부분 화면에서 입력할때 무조건 입력하게끔으로 바꿔야함
                 filed_error_map.put("unit_change_yn","N");
+                filed_error_map.put("unit_before_id","");
+                filed_error_map.put("unit_after_id","");
+
                 filed_error_map.put("move_distance","");
                 filed_error_map.put("move_time","");
                 filed_error_map.put("wait_time","");
@@ -211,9 +213,6 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
                 filed_error_map.put("analysis_yn","N");
 
                 filed_error_map.put("reg_date",start_day.getText().toString());
-                filed_error_map.put("unit_change_yn","N");
-                filed_error_map.put("unit_before_id","");
-                filed_error_map.put("unit_after_id","");
 
                 start_min = start_min.replaceAll("분","");
                 start_hour = start_hour.replaceAll("시","");
@@ -430,7 +429,7 @@ public class Fragment_d_2 extends Fragment implements MainActivity.OnBackPressed
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             trouble_low_code = list.get(position).getTrouble_low_cd();
-                            filed_error_map.put("trouble_low_cd",trouble_high_code);
+                            filed_error_map.put("trouble_low_cd",trouble_low_code);
                             new Getfield_trouble_carecode().execute();
                         }
 

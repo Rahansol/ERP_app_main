@@ -222,12 +222,9 @@ public class Fragment_d_3 extends Fragment implements MainActivity.OnBackPressed
                 filed_error_map.put("analysis_yn","N");
 
                 filed_error_map.put("reg_date",start_day.getText().toString());
-                filed_error_map.put("unit_before_id","");
 
                 charger_hour = charger_hour.replaceAll("시","");
                 charger_min = charger_min.replaceAll("분","");
-
-                Log.d("String", ":::" + charger_min + "::::" + charger_hour);
 
                 if(charger_min.equals("-  -") || charger_hour.equals("- 간 -")){
                     Toast.makeText(context,"시간 , 분을 선택해주세요 . " , Toast.LENGTH_SHORT).show();

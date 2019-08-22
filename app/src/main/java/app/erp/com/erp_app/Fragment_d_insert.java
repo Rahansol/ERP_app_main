@@ -3,22 +3,19 @@ package app.erp.com.erp_app;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
@@ -32,63 +29,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by hsra on 2019-06-21.
  */
 
-public class Fragment_d_0 extends Fragment {
+public class Fragment_d_insert extends Fragment {
 
     Context context;
 
-    My_Error_Adapter adapter;
+    My_Error_care_Adapter adapter;
     ListView listView;
-
-    RadioGroup trouble_history_list;
-    RadioButton trouble_bus , trouble_nms, trouble_chager , trouble_bit , trouble_nomal;
 
     private Retrofit retrofit;
     SharedPreferences pref;
 
-    String service_id;
-    public Fragment_d_0(){
+    Button my_error_list_insert;
+
+    public Fragment_d_insert(){
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_d_0, container ,false);
+        final View view = inflater.inflate(R.layout.fragment_d_insert, container ,false);
         context = getActivity();
         pref = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
 
-        //상단 라디오 버튼
-        trouble_bus = (RadioButton) view.findViewById(R.id.trouble_bus);
-        trouble_nms = (RadioButton) view.findViewById(R.id.trouble_nms);
-        trouble_chager = (RadioButton) view.findViewById(R.id.trouble_chager);
-        trouble_bit = (RadioButton) view.findViewById(R.id.trouble_bit);
-        trouble_nomal = (RadioButton)view.findViewById(R.id.trouble_nomal);
-
-        trouble_history_list = (RadioGroup)view.findViewById(R.id.trouble_history_list);
-        trouble_history_list.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.trouble_bus :
-                        service_id = "01";
-                        break;
-                    case R.id.trouble_nms :
-                        service_id = "02";
-                        break;
-                    case R.id.trouble_chager :
-                        service_id = "04";
-                        break;
-                    case R.id.trouble_bit :
-                        service_id = "13";
-                        break;
-                    case R.id.trouble_nomal :
-                        service_id = "09";
-                        break;
-                }
-                new Filed_MyErrorList().execute();
-            }
-        });
-
-        adapter = new My_Error_Adapter();
+        adapter = new My_Error_care_Adapter();
         adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +69,15 @@ public class Fragment_d_0 extends Fragment {
         });
 
         listView = (ListView)view.findViewById(R.id.my_error_list);
+        new Filed_MyErrorList().execute();
 
+        my_error_list_insert = (Button)view.findViewById(R.id.my_error_list_insert);
+        my_error_list_insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new insert_my_success_error_list().execute();
+            }
+        });
 
         return view;
     }
@@ -120,7 +91,7 @@ public class Fragment_d_0 extends Fragment {
                     .build();
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
             String emp_id = pref.getString("emp_id","inter");
-            Call<List<Trouble_HistoryListVO>> call = erp.getfield_my_error_list(emp_id , service_id);
+            Call<List<Trouble_HistoryListVO>> call = erp.getMy_fieldError_care_list(emp_id);
             call.enqueue(new Callback<List<Trouble_HistoryListVO>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_HistoryListVO>> call, Response<List<Trouble_HistoryListVO>> response) {
@@ -140,8 +111,55 @@ public class Fragment_d_0 extends Fragment {
         }
     }
 
+    private class insert_my_success_error_list extends AsyncTask<String, Integer, Long>{
+
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            String emp_id = pref.getString("emp_id","inter");
+            Call<Boolean> call = erp.insert_my_success_error_list(emp_id);
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    boolean reulst = response.body();
+                    final AlertDialog.Builder a_builder = new AlertDialog.Builder(context);
+                    a_builder.setTitle("콜 처리");
+                    a_builder.setPositiveButton("확인",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Fragment fragment ;
+                                    fragment = new Fragment_d_insert();
+                                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                    ft.replace(R.id.frage_change,fragment);
+                                    ft.commit();
+
+                                }
+                            });
+                    if(reulst){
+                        a_builder.setMessage(" 등록 완료.");
+                        a_builder.show();
+                    }else{
+                        a_builder.setMessage("오류 발생 다시 시도 해주세요 .");
+                        a_builder.show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
+            return null;
+        }
+    }
+
     private void MakeMyErrorList(List<Trouble_HistoryListVO> list) {
-        adapter.clearItem();
         listView.setAdapter(adapter);
         Log.d("d","list_"+list.size());
         for(Trouble_HistoryListVO i : list){

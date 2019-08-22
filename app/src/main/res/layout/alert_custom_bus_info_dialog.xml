@@ -21,12 +21,18 @@
             android:layout_margin="20dp"
             android:text="작업 이력이 존재합니다. 확인하세요."/>
 
-        <ListView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"
-            android:dividerHeight="10dp"
-            android:id="@+id/bus_info_listview"/>
+            android:layout_height="250dp">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:dividerHeight="10dp"
+                android:id="@+id/bus_info_listview"/>
+
+        </ScrollView>
 
         <Button
             android:id="@+id/bus_info_dialog_cancle"

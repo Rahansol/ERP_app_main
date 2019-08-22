@@ -15,8 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,14 +132,18 @@ public class MainActivity extends AppCompatActivity
             fragment = new Fragment_f();
             title = "예비품 지급 내역";
         }
-        else if (id == R.id.field_error_all){
-            fragment = new Fragment_d();
-            title = "장애등록";
-        }
-        else if(id == R.id.field_my_error){
-            fragment = new Fragment_d_0();
-            title = "장애처리";
-        }
+//        else if (id == R.id.field_error_all){
+//            fragment = new Fragment_d();
+//            title = "장애등록";
+//        }
+//        else if(id == R.id.field_my_error){
+//            fragment = new Fragment_d_0();
+//            title = "장애처리";
+//        }
+//        else if (id == R.id.field_my_error_success){
+//            fragment = new Fragment_d_insert();
+//            title = "장애처리완료";
+//        }
         if(fragment != null){
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.frage_change,fragment);

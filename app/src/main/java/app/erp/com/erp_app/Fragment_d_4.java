@@ -2,11 +2,15 @@ package app.erp.com.erp_app;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -53,18 +58,20 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
 
     private Retrofit retrofit;
 
-    String click_type ,service_id, infra_code, unit_code, trouble_high_code, trouble_low_code;
+    String click_type ,service_id, infra_code, unit_code, trouble_high_code, trouble_low_code, bit_hour , bit_min, page_info;
     List<String> scan_unit_barcodes;
     EditText find_bus_num, bit_notice;
     TextView reserve_area_name , reserve_unit_barcode, bit_dep_name, start_day;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+    ProgressDialog progressDialog;
+
     CheckBox bs_yn;
 
     HashMap<String, Object> filed_error_map;
 
-    Spinner  bit_unit_code ,bit_trouble_high_code , bit_trouble_low_code, bit_care_code;
+    Spinner  bit_unit_code ,bit_trouble_high_code , bit_trouble_low_code, bit_care_code, bit_start_hour, bit_start_min;
 
     RadioGroup today_group;
     RadioButton today_y , today_n;
@@ -76,6 +83,12 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_d_4, container ,false);
         context = getActivity();
+
+        filed_error_map = new HashMap<>();
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
 
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -110,13 +123,41 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
         });
 
         new Getfield_trouble_error_type().execute();
+        //edit Text
+        bit_notice = (EditText)view.findViewById(R.id.bit_notice);
+        // spinner
         bit_unit_code = (Spinner)view.findViewById(R.id.bit_unit_code);
         bit_trouble_high_code = (Spinner)view.findViewById(R.id.bit_trouble_high_code);
         bit_trouble_low_code = (Spinner)view.findViewById(R.id.bit_trouble_low_code);
         bit_care_code = (Spinner)view.findViewById(R.id.bit_care_code);
+        bit_start_hour = (Spinner)view.findViewById(R.id.bit_start_hour);
+        bit_start_min = (Spinner)view.findViewById(R.id.bit_start_min);
 
-        bit_notice = (EditText)view.findViewById(R.id.bit_notice);
+        bit_start_hour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String hour = parent.getItemAtPosition(position).toString();
+                bit_hour = hour;
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        bit_start_min.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String min = parent.getItemAtPosition(position).toString();
+                bit_min = min;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         submit_barcode = (Button)view.findViewById(R.id.submit_barcode);
         submit_barcode.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +166,7 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                 String emp_id = pref.getString("emp_id",null);
                 String dep_code = pref.getString("dep_code",null);
 
-                filed_error_map.put("bus_id","000002010");
-                filed_error_map.put("transp_bizr_id","9990004");
+                filed_error_map.put("bus_id","000003010");
 
                 filed_error_map.put("emp_id",emp_id);
                 filed_error_map.put("dep_code",dep_code);
@@ -149,24 +189,21 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                 filed_error_map.put("work_time","");
 
                 filed_error_map.put("restore_yn","N");
-                filed_error_map.put("bs_yn","Y");
                 filed_error_map.put("mintong","N");
                 filed_error_map.put("analysis_yn","N");
 
-                long now = System.currentTimeMillis();
-                Date date = new Date(now);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                SimpleDateFormat sdf2 = new SimpleDateFormat("HHmmss");
-                String getdate = sdf.format(date);
-                String gettime = sdf2.format(date);
+                filed_error_map.put("reg_date",start_day.getText().toString());
 
-                filed_error_map.put("reg_time",gettime);
-                filed_error_map.put("reg_date",getdate);
-                filed_error_map.put("unit_change_yn","N");
-                filed_error_map.put("unit_before_id","");
-                filed_error_map.put("unit_after_id","");
-                filed_error_map.put("direct_care","N");
+                bit_hour = bit_hour.replaceAll("시","");
+                bit_min = bit_min.replaceAll("분","");
 
+                if(bit_min.equals("-  -") || bit_hour.equals("- 간 -")){
+                    Toast.makeText(context,"시간 , 분을 선택해주세요 . " , Toast.LENGTH_SHORT).show();
+                    return;
+                }else{
+                    filed_error_map.put("reg_time",bit_hour+bit_min);
+                    new insert_filed_error_test().execute();
+                }
                 Log.d("t:" , ":::" + filed_error_map.toString());
             }
         });
@@ -198,7 +235,20 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             unit_code = list.get(position).getUnit_code();
+
+                            switch (unit_code){
+                                case "Z3":
+                                    filed_error_map.put("transp_bizr_id","9990003");
+                                    break;
+                                case "Z1":
+                                    filed_error_map.put("transp_bizr_id","9990001");
+                                    break;
+                                case "Z2":
+                                    filed_error_map.put("transp_bizr_id","9990002");
+                                    break;
+                            }
                             filed_error_map.put("unit_code",unit_code);
+
                             new Getfield_trouble_high_code().execute(unit_code);
                         }
 
@@ -286,7 +336,7 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             trouble_low_code = list.get(position).getTrouble_low_cd();
-                            filed_error_map.put("trouble_low_cd",trouble_high_code);
+                            filed_error_map.put("trouble_low_cd",trouble_low_code);
                             new Getfield_trouble_carecode().execute();
                         }
 
@@ -331,8 +381,12 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
                             String sercy_type = spinner_list.get(position);
                             if(sercy_type.equals("내역 미등록")){
                                 filed_error_map.put("trouble_care_cd","X001");
+                                filed_error_map.put("direct_care","N");
+                                filed_error_map.put("bs_yn","N");
                             }else{
-                                filed_error_map.put("trouble_care_cd",list.get(position).getTrouble_care_cd());
+                                filed_error_map.put("trouble_care_cd",list.get(position-1).getTrouble_care_cd());
+                                filed_error_map.put("direct_care","Y");
+                                filed_error_map.put("bs_yn","Y");
                             }
                         }
 
@@ -345,6 +399,66 @@ public class Fragment_d_4 extends Fragment implements MainActivity.OnBackPressed
 
                 @Override
                 public void onFailure(Call<List<Trouble_CodeVo>> call, Throwable t) {
+
+                }
+            });
+            return null;
+        }
+    }
+
+    private class insert_filed_error_test extends AsyncTask<String, Integer, Long>{
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            progressDialog.dismiss();
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            Call<Boolean> call = erp.insert_filed_error_test(filed_error_map);
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    boolean result = response.body();
+                    final AlertDialog.Builder a_builder = new AlertDialog.Builder(context);
+                    page_info = "list";
+                    a_builder.setTitle("콜 처리");
+                    a_builder.setPositiveButton("확인",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Fragment fragment ;
+                                    String title = "";
+                                    if(page_info.equals("repg")){
+                                        fragment = new Fragment_d_1();
+                                        title = "장애등록 (버스)";
+                                    }else{
+                                        fragment = new Fragment_d_0();
+                                        title = "장애처리";
+                                    }
+                                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                    ft.replace(R.id.frage_change,fragment);
+                                    ft.commit();
+
+                                    if (((MainActivity)getActivity()).getSupportActionBar() != null) {
+                                        ((MainActivity)getActivity()).getSupportActionBar().setTitle(title);
+                                    }
+                                }
+                            });
+                    if(result){
+                        page_info = "list";
+                        a_builder.setMessage(" 등록 완료.");
+                        a_builder.show();
+                    }else{
+                        page_info = "repg";
+                        a_builder.setMessage("오류 발생 다시 시도 해주세요 .");
+                        a_builder.show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
 
                 }
             });

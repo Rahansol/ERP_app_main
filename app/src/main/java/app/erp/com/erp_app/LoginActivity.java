@@ -21,8 +21,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import app.erp.com.erp_app.vo.User_InfoVo;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,9 +105,16 @@ public class LoginActivity extends Activity{
     private class App_Login extends AsyncTask<String , Integer, Long>{
         @Override
         protected Long doInBackground(String... strings) {
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(2, TimeUnit.MINUTES)
+                    .readTimeout(1,TimeUnit.MINUTES)
+                    .writeTimeout(30,TimeUnit.SECONDS)
+                    .build();
             retrofit = new Retrofit.Builder()
                     .baseUrl(getResources().getString(R.string.test_url))
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(okHttpClient)
                     .build();
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
             String emp_id = strings[0];

@@ -106,8 +106,36 @@ public class Fragment_a extends Fragment {
                 click_type = "scan";
                 editor.putString("camera_type" , "bus");
                 editor.commit();
-                new Bus_num_info().execute("02105671016506");
-//                IntentIntegrator.forFragment(Fragment_a.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
+
+                if(bus_num.length() > 1){
+                    AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
+                    alertdialog.setTitle("차량 바코드 스캔");
+
+                    alertdialog
+                            .setMessage("차량 바코드를 다시 스캔 하시겠습니까?")
+                            .setCancelable(false)
+                            .setPositiveButton("취소",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    })
+                            .setNegativeButton("확인",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+//                                            new Bus_num_info().execute("02105671016506");
+                                        IntentIntegrator.forFragment(Fragment_a.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
+                                        }
+                                    });
+                    AlertDialog adialog = alertdialog.create();
+                    adialog.show();
+                }else{
+//                    new Bus_num_info().execute("02105671016506");
+                    new Bus_num_info().execute("01106672021100");
+//                    IntentIntegrator.forFragment(Fragment_a.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
+                }
             }
         });
 
@@ -119,18 +147,10 @@ public class Fragment_a extends Fragment {
                 editor.putString("camera_type" , "unit");
                 editor.commit();
 
-//                make_unit_info("021029001555");
-//                make_unit_info("021029001555");
-//                make_unit_info("021022010177");
 //                make_unit_info("021017004219");
-//                make_unit_info("021017004219");
-//                make_unit_info("021017004219");
-//                make_unit_info("021017004219");
-//                make_unit_info("021017004219");
-//                make_unit_info("021017004219");
-//                make_unit_info("021017004219");
-
-                IntentIntegrator.forFragment(Fragment_a.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
+                make_unit_info("011019034405");
+                make_unit_info("011019034404");
+//                IntentIntegrator.forFragment(Fragment_a.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
             }
         });
 
@@ -162,7 +182,31 @@ public class Fragment_a extends Fragment {
         view_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeItem();
+
+
+                AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
+                alertdialog.setTitle("단말기 바코드 삭제");
+
+                alertdialog
+                        .setMessage("마지막 단말기 바코드를 삭제 하시겠습니까?")
+                        .setCancelable(false)
+                        .setPositiveButton("취소",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .setNegativeButton("확인",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        removeItem();
+                                    }
+                                });
+                AlertDialog adialog = alertdialog.create();
+                adialog.show();
+
             }
         });
         return view;
@@ -259,7 +303,8 @@ public class Fragment_a extends Fragment {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
-            final Call<List<UnitList>> call = erp.getUnisList();
+//            final Call<List<UnitList>> call = erp.getUnisList();
+            final Call<List<UnitList>> call = erp.getUnitListMore();
             call.enqueue(new Callback<List<UnitList>>() {
                 @Override
                 public void onResponse(Call<List<UnitList>> call, Response<List<UnitList>> response) {
@@ -290,7 +335,8 @@ public class Fragment_a extends Fragment {
         for(int i = 0 ; i < result_list.size(); i++){
             scan_unit_barcode_list.add(result_list.get(i).getArea_code());
         }
-        if(result_list.contains(unit_barcode)){
+
+        if(scan_unit_barcodes.contains(unit_barcode)){
             Toast.makeText(context,"이미 입력한 바코드 입니다. 확인해주세요 .",Toast.LENGTH_SHORT).show();
             return;
         }
@@ -299,10 +345,11 @@ public class Fragment_a extends Fragment {
             Toast.makeText(context,"지역바코드가 틀립니다. 확인해주세요 .",Toast.LENGTH_SHORT).show();
             return;
         }
-        String unit_barocde_sbt = unit_barcode.substring(0,6);
+        String unit_barocde_sbt = unit_barcode.substring(0,8);
         String area_name = "";
         String unit_name = "";
         for(int i = 0 ; i < unit_list_all.size(); i++){
+            Log.d("dddddddd:","dddddddd"+unit_list_all.get(i).getArea_code());
             if(unit_list_all.get(i).getArea_code().equals(unit_barocde_sbt)){
                 area_name = unit_list_all.get(i).getArea_name();
                 unit_name = unit_list_all.get(i).getUnit_name();

@@ -25,6 +25,8 @@ public interface ERP_Spring_Controller {
     Call<List<Bus_infoVo>> getBusList(@Query("bus_barcode") String bar_cdoe);
     @GET("barcode/app_select_all_unit")
     Call<List<UnitList>> getUnisList();
+    @GET("barcode/app_select_all_unit_more")
+    Call<List<UnitList>> getUnitListMore();
     @GET("barcode/app_barcode_install")
     Call<String> app_barcode_install(@Query("barcode_list[]") List<String> barcode_list , @Query("bus_barcode") String unit_barcode, @Query("emp_id") String emp_id , @Query("eb_barcode_list[]") List<String> eb_barcode_list);
     @GET("barcode/app_Login")
@@ -76,8 +78,11 @@ public interface ERP_Spring_Controller {
     @GET("barcode/field_trouble_carecode")
     Call<List<Trouble_CodeVo>> getfield_trouble_carecode (@Query("service_id") String service_id, @Query("infra_code") String infra_code, @Query("unit_code") String unit_code , @Query("tb_highcd")String tb_highcd, @Query("tb_lowcd") String tb_lowcd);
 
-    @GET("barcode/field_my_error_list")
-    Call<List<Trouble_HistoryListVO>> getfield_my_error_list (@Query("emp_id") String emp_id);
+//    @GET("barcode/field_my_error_list")
+//    Call<List<Trouble_HistoryListVO>> getfield_my_error_list (@Query("emp_id") String emp_id);
+
+    @GET("barcode/app_fieldError_not_care")
+    Call<List<Trouble_HistoryListVO>> getfield_my_error_list (@Query("emp_id") String emp_id , @Query("service_id") String service_id);
 
     @GET("barcode/insert_filed_error_test")
     Call<Boolean> insert_filed_error_test (@QueryMap Map<String,Object> test);
@@ -91,5 +96,13 @@ public interface ERP_Spring_Controller {
     @GET("barcode/getMyWork_Job")
     Call<List<Trouble_HistoryListVO>> getMyWork_Job (@Query("reg_date") String reg_date , @Query("job_viewer") String job_viewer, @Query("reg_time") String reg_time);
 
+    @GET("barcode/app_trouble_history_update")
+    Call<Boolean> update_trouble_history (@QueryMap Map<String,Object> update_map);
+
+    @GET("barcode/app_fieldError_MyErrorList")
+    Call<List<Trouble_HistoryListVO>> getMy_fieldError_care_list (@Query("emp_id") String emp_id);
+
+    @GET("barcode/field_my_error_list_success")
+    Call<Boolean> insert_my_success_error_list (@Query("emp_id") String emp_Id);
 
 }

@@ -145,8 +145,8 @@ public class Fragment_d_1 extends Fragment implements MainActivity.OnBackPressed
                 click_type = "scan";
                 editor.putString("camera_type" , "bus");
                 editor.commit();
-                new getfield_error_busnum().execute("02105671016854");
-//                IntentIntegrator.forFragment(Fragment_d_1.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
+//                new getfield_error_busnum().execute("02105671016854");
+                IntentIntegrator.forFragment(Fragment_d_1.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
             }
         });
 
@@ -299,9 +299,6 @@ public class Fragment_d_1 extends Fragment implements MainActivity.OnBackPressed
 
                 filed_error_map.put("reg_time",gettime);
                 filed_error_map.put("reg_date",getdate);
-                filed_error_map.put("unit_change_yn","N");
-                filed_error_map.put("unit_before_id","");
-                filed_error_map.put("unit_after_id","");
 
                 progressDialog.setMessage("등록중...");
                 progressDialog.show();

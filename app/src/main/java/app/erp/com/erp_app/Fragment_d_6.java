@@ -1,11 +1,14 @@
 package app.erp.com.erp_app;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ListPopupWindow;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +30,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
@@ -44,32 +50,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressedListener{
 
-    Button bus_num_find , bus_num_barcode_find;
+    Button bus_num_find , bus_num_barcode_find, update_history;
     Context context;
 
     private Retrofit retrofit;
 
-    String click_type ,bus_barcode, area_code;
-    List<String> scan_unit_barcodes;
-    EditText find_bus_num;
+    String click_type ,bus_barcode, area_code, emp_id, page_info;
     TextView insert_start_day , insert_start_time, insert_reg_emp_id, insert_unit_code , insert_bus_num, insert_phone_num, insert_area_code,
             insert_office_code, insert_garage, insert_route_code, insert_ars_unit_code, insert_ars_trouble_high_code,insert_ars_trouble_low_code;
 
     SharedPreferences pref, barcode_type_pref;
     SharedPreferences.Editor editor;
 
-    LinearLayout care_layout , old_new_layout , old_select , old_barcode , new_old_layout , new_selcet ,new_barcode;
-
-    CheckBox bs_yn;
-
     Spinner insert_process_unit_code , insert_process_trouble_high_code, insert_process_trouble_low_code, insert_process_trouble_care_code ;
 
     String service_id , infra_id , unit_id , trouble_high_id, trouble_low_id , trouble_care_id;
 
-    RadioGroup today_group;
-    RadioButton today_y , today_n;
+    EditText insert_care_unit_before , insert_care_unit_after , insert_care_notice;
 
     int high_intdex, low_index = 0 ;
+
+    HashMap<String, Object> update_trouble_history_map;
 
     public Fragment_d_6(){
     }
@@ -79,9 +80,15 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
         final View view = inflater.inflate(R.layout.fragment_d_6, container ,false);
         context = getActivity();
 
+        update_trouble_history_map = new HashMap<>();
+
         Bundle bundle = getArguments();
         Trouble_HistoryListVO thlvo = (Trouble_HistoryListVO) bundle.getSerializable("Obj");
 
+        pref = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        emp_id = pref.getString("emp_id",null);
+
+        //textView
         insert_start_day = (TextView)view.findViewById(R.id.insert_start_day);
         insert_start_time = (TextView)view.findViewById(R.id.insert_start_time);
         insert_reg_emp_id = (TextView)view.findViewById(R.id.insert_reg_emp_id);
@@ -96,14 +103,53 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
         insert_ars_trouble_high_code = (TextView)view.findViewById(R.id.insert_ars_trouble_high_code);
         insert_ars_trouble_low_code = (TextView)view.findViewById(R.id.insert_ars_trouble_low_code);
 
+        //spinner
         insert_process_unit_code = (Spinner)view.findViewById(R.id.insert_process_unit_code);
         insert_process_trouble_high_code = (Spinner)view.findViewById(R.id.insert_process_trouble_high_code);
         insert_process_trouble_low_code = (Spinner)view.findViewById(R.id.insert_process_trouble_low_code);
         insert_process_trouble_care_code = (Spinner)view.findViewById(R.id.insert_process_trouble_care_code);
 
+        //editText
+        insert_care_unit_before = (EditText)view.findViewById(R.id.insert_care_unit_before);
+        insert_care_unit_after = (EditText)view.findViewById(R.id.insert_care_unit_after);
+        insert_care_notice = (EditText)view.findViewById(R.id.insert_care_notice);
+
+        //button
+        update_history = (Button)view.findViewById(R.id.update_history);
+        update_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("HHmmss");
+                String getdate = sdf.format(date);
+                String gettime = sdf2.format(date);
+
+                String care_before = insert_care_unit_before.getText().toString();
+                String care_after  = insert_care_unit_after.getText().toString();
+
+                if(!care_before.equals("") || !care_after.equals("")){
+                    update_trouble_history_map.put("unit_change_yn","N");
+                    update_trouble_history_map.put("unit_before_id",care_before);
+                    update_trouble_history_map.put("unit_after_id",care_after);
+                }else{
+                    update_trouble_history_map.put("unit_change_yn","Y");
+                    update_trouble_history_map.put("unit_before_id",care_before);
+                    update_trouble_history_map.put("unit_after_id",care_after);
+                }
+
+                update_trouble_history_map.put("care_date",getdate);
+                update_trouble_history_map.put("care_time",gettime);
+                update_trouble_history_map.put("care_emp_id",emp_id);
+                update_trouble_history_map.put("notice",insert_care_notice.getText().toString());
+
+                new trouble_history_care_update().execute();
+
+            }
+        });
+
         new GetMyWork_Job().execute(thlvo.getReg_date(),thlvo.getJob_viewer(),thlvo.getReg_time());
-
-
 
         return view;
     }
@@ -159,6 +205,18 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
         insert_ars_unit_code.setText(list.get(0).getUnit_name());
         insert_ars_trouble_high_code.setText(list.get(0).getTrouble_name());
         insert_ars_trouble_low_code.setText(list.get(0).getTrouble_low_name());
+
+        insert_care_unit_before.setText(list.get(0).getUnit_before_id());
+        insert_care_unit_after.setText(list.get(0).getUnit_after_id());
+        insert_care_notice.setText(list.get(0).getNotice());
+
+        update_trouble_history_map.put("reg_date", list.get(0).getReg_date());
+        update_trouble_history_map.put("reg_time",list.get(0).getReg_time());
+        update_trouble_history_map.put("unit_code_before",list.get(0).getUnit_code());
+        update_trouble_history_map.put("trouble_high_cd_before",list.get(0).getTrouble_high_cd());
+        update_trouble_history_map.put("trouble_low_cd_before",list.get(0).getTrouble_low_cd());
+        update_trouble_history_map.put("transp_bizr_id",list.get(0).getTransp_bizr_id());
+        update_trouble_history_map.put("garage_id",list.get(0).getGarage_id());
     }
 
     private class get_insert_unit_code extends AsyncTask<String , Integer, Long>{
@@ -184,21 +242,12 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                     }
                     insert_process_unit_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
                     insert_process_unit_code.setSelection(pos);
-
-//                    try{
-//                        Field popup = Spinner.class.getDeclaredField("mPopup");
-//                        popup.setAccessible(true);
-//                        ListPopupWindow window = (ListPopupWindow)popup.get(insert_process_unit_code);
-//                        window.setHeight(300); //pixel
-//                    }catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-
                     insert_process_unit_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             String select_high_code = list.get(position).getUnit_code();
                             unit_id = select_high_code;
+                            update_trouble_history_map.put("unit_code",unit_id);
                             new get_insert_trobule_high_code().execute();
 
                         }
@@ -254,6 +303,7 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             String select_high_code = list.get(position).getTrouble_high_cd();
                             trouble_high_id = select_high_code;
+                            update_trouble_history_map.put("trouble_high_cd",trouble_high_id);
                             new getfield_trouble_low_code().execute();
                         }
 
@@ -297,13 +347,12 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                     }
                     insert_process_trouble_low_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
                     Log.d("D:", "pos <:" + low_index);
-                    if(low_index == 0 ){
-
-                        insert_process_trouble_low_code.setSelection(pos);}
+                    if(low_index == 0 ){insert_process_trouble_low_code.setSelection(pos);}
                     insert_process_trouble_low_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             trouble_low_id = list.get(position).getTrouble_low_cd();
+                            update_trouble_history_map.put("trouble_low_cd",trouble_low_id);
                             new get_field_trouble_carecode().execute();
                         }
 
@@ -337,12 +386,23 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override
                 public void onResponse(Call<List<Trouble_CodeVo>> call, Response<List<Trouble_CodeVo>> response) {
-                    List<Trouble_CodeVo> list = response.body();
+                    final List<Trouble_CodeVo> list = response.body();
                     List<String> spinner_list = new ArrayList<>();
                     for(int i = 0 ; i < list.size(); i++){
                         spinner_list.add(list.get(i).getTrouble_care_name());
                     }
                     insert_process_trouble_care_code.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item,spinner_list));
+                    insert_process_trouble_care_code.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            update_trouble_history_map.put("trouble_care_cd",list.get(position).getTrouble_care_cd());
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                 }
 
                 @Override
@@ -351,6 +411,66 @@ public class Fragment_d_6 extends Fragment implements MainActivity.OnBackPressed
                 }
             });
 
+            return null;
+        }
+    }
+
+    private class trouble_history_care_update extends AsyncTask<String, Integer, Long>{
+
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            Call<Boolean> call = erp.update_trouble_history(update_trouble_history_map);
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    boolean result = response.body();
+
+                    final AlertDialog.Builder a_builder = new AlertDialog.Builder(context);
+                    page_info = "list";
+                    a_builder.setTitle("콜 처리");
+                    a_builder.setPositiveButton("확인",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Fragment fragment ;
+                                    String title = "";
+                                    if(page_info.equals("repg")){
+                                        fragment = new Fragment_d_1();
+                                        title = "장애등록 (버스)";
+                                    }else{
+                                        fragment = new Fragment_d_0();
+                                        title = "장애처리";
+                                    }
+                                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                    ft.replace(R.id.frage_change,fragment);
+                                    ft.commit();
+
+                                    if (((MainActivity)getActivity()).getSupportActionBar() != null) {
+                                        ((MainActivity)getActivity()).getSupportActionBar().setTitle(title);
+                                    }
+                                }
+                            });
+                    if(result){
+                        page_info = "list";
+                        a_builder.setMessage(" 등록 완료.");
+                        a_builder.show();
+                    }else{
+                        page_info = "repg";
+                        a_builder.setMessage("오류 발생 다시 시도 해주세요 .");
+                        a_builder.show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
             return null;
         }
     }
