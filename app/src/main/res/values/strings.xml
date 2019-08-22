@@ -29,6 +29,7 @@
     <string name="trouble_low_code">※ 장애소분류</string>
     <string name="notice">※ 특이사항</string>
     <string name="driver_tel">※ 기사연락처</string>
+    <string name="order_tel">※ 담담자 연락처</string>
     <string name="bus_num_result">※ 검색결과</string>
     <string name="error_tpye_text">※ 장애타입</string>
 
