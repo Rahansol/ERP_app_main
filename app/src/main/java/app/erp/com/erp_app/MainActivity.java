@@ -3,6 +3,7 @@ package app.erp.com.erp_app;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -14,6 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import app.erp.com.erp_app.barcode_old_fragment.Fragment_barcode_bus;
+import app.erp.com.erp_app.barcode_old_fragment.Fragment_my_barcode;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setTitle("차량 단말기 바코드");
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.add(R.id.frage_change , new Fragment_a());
+        fragmentTransaction.add(R.id.frage_change , new Fragment_barcode_bus());
         fragmentTransaction.commit();
 
     }
@@ -52,7 +56,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         if(mBackListener != null) {
-            mBackListener.onBack();
+
+            try {
+                mBackListener.onBack();
+            }catch (Exception e){
+
+            }
             Log.e("!!!", "Listener is not null");
             // 리스너가 설정되지 않은 상태(예를들어 메인Fragment)라면
             // 뒤로가기 버튼을 연속적으로 두번 눌렀을 때 앱이 종료됩니다.
@@ -87,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -100,10 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -116,33 +120,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String title = "";
         if (id == R.id.nav_camera) {
-            fragment = new Fragment_a();
+            fragment = new Fragment_barcode_bus();
             title = "차량 단말기 바코드";
         } else if (id == R.id.reserve_item_give) {
-            fragment = new Fragment_b();
-            title = "영업소 단말기 바코드 지급";
+//            fragment = new Barcode_garage_input_Activity();
+//            title = "영업소 단말기 바코드 지급";
         } else if (id == R.id.reserve_item_return) {
-            fragment = new Fragment_c();
+//            fragment = new Barcode_garage_output_Activity();
             title = "영업소 단말기 바코드 회수";
         }else if ( id == R.id.my_barcode_workList){
-            fragment = new Fragment_e();
+            fragment = new Fragment_my_barcode();
             title = "내 바코드 부착 내역";
         }
-        else if (id == R.id.reserve_item_workList){
-            fragment = new Fragment_f();
-            title = "예비품 지급 내역";
+//        else if (id == R.id.reserve_item_workList){
+////            fragment = new Barcode_input_list_Activity();
+//            title = "예비품 지급 내역";
+//        }
+        else if(id == R.id.new_bus_insert){
+            Intent i = new Intent(MainActivity.this , New_Bus_Activity.class);
+            startActivity(i);
         }
-//        else if (id == R.id.field_error_all){
-//            fragment = new Fragment_d();
-//            title = "장애등록";
-//        }
-//        else if(id == R.id.field_my_error){
-//            fragment = new Fragment_d_0();
-//            title = "장애처리";
-//        }
-//        else if (id == R.id.field_my_error_success){
-//            fragment = new Fragment_d_insert();
-//            title = "장애처리완료";
+//        else if(id == R.id.gtv_error_install){
+//            Intent i = new Intent(MainActivity.this , Gtv_Error_Install_Activity.class);
+//            startActivity(i);
 //        }
         if(fragment != null){
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -158,5 +158,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }

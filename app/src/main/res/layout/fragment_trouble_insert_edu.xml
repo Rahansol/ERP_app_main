@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#f0f0f2">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="※ 교육일" />
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/start_day"
+                    android:textSize="28dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="2019-10-10"
+                    android:textAlignment="center"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:background="@drawable/spinner_background"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="※ 교육시간" />
+
+                    <LinearLayout
+                        android:id="@+id/hour_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_background"
+                        android:layout_margin="2dp">
+
+                        <Spinner
+                            android:id="@+id/nms_start_hour"
+                            style="@style/spinner_style_padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/time_hour"
+                            android:spinnerMode="dialog">
+                        </Spinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="※ 교육시간(분)"/>
+
+                    <LinearLayout
+                        android:id="@+id/min_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_background"
+                        android:layout_margin="2dp">
+
+                        <Spinner
+                            android:id="@+id/nms_start_min"
+                            style="@style/spinner_style_padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/time_min"
+                            android:spinnerMode="dialog">
+                        </Spinner>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/area_code" />
+
+                    <LinearLayout
+                        android:id="@+id/office_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_background"
+                        android:layout_margin="2dp">
+
+                        <Spinner
+                            android:id="@+id/nms_group"
+                            style="@style/spinner_style_padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/edu_office_group"
+                            android:spinnerMode="dialog">
+                        </Spinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="※ 교육주제" />
+
+                    <LinearLayout
+                        android:id="@+id/edu_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_background"
+                        android:layout_margin="2dp">
+
+                        <Spinner
+                            android:id="@+id/eud_unit_code"
+                            style="@style/spinner_style_padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/edu_unit_code"
+                            android:spinnerMode="dialog">
+
+                        </Spinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_weight="0.6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="※ 교육대상자" />
+
+                    <TextView
+                        android:id="@+id/care_emp_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="현재 대상자 0명"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/textBlack"
+                        android:textSize="17dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="0.4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/edit_edu_emp_list"
+                        android:text="추가/수정하기"
+                        android:layout_width="115dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/blue_btn"
+                        android:textColor="@color/white"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="※ 교육장비" />
+
+                    <LinearLayout
+                        android:id="@+id/edu_unit_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_background"
+                        android:layout_margin="2dp">
+
+                        <Spinner
+                            android:id="@+id/nms_unit_code"
+                            style="@style/spinner_style_padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:spinnerMode="dialog">
+
+                        </Spinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="※ 교육대분류" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/spinner_background"
+                        android:id="@+id/edu_trouble_layout">
+
+                        <Spinner
+                            android:id="@+id/nms_trouble_high_code"
+                            style="@style/spinner_style_padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:spinnerMode="dialog">
+                        </Spinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="70dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/trouble_low_code" />-->
+
+<!--                    <Spinner-->
+<!--                        android:id="@+id/nms_trouble_low_code"-->
+<!--                        style="@style/spinner_style"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:background="@drawable/spinner_background"-->
+<!--                        android:spinnerMode="dialog">-->
+
+<!--                    </Spinner>-->
+
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/care_name" />-->
+
+<!--                    <Spinner-->
+<!--                        android:id="@+id/nms_care_code"-->
+<!--                        style="@style/spinner_style"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:background="@drawable/spinner_background"-->
+<!--                        android:spinnerMode="dialog">-->
+
+<!--                    </Spinner>-->
+
+<!--                </LinearLayout>-->
+
+<!--            </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/notice" />
+
+                    <EditText
+                        android:id="@+id/nms_notice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="특이사항 입력"
+                        android:textSize="@dimen/middle_font_size"
+                        android:textColor="@color/textBlack"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:inputType="text">
+
+                    </EditText>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/edu_insert"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="등록 하기"
+                    android:background="@drawable/blue_btn"
+                    android:textColor="@color/white"
+                    android:layout_margin="5dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

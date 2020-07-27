@@ -10,4 +10,7 @@
     <dimen name="big_font_size">30dp</dimen>
     <dimen name="border_width">0.5dp</dimen>
     <dimen name="border_offset">-0.5dp</dimen>
+    <dimen name="call_insert_btn_text">23dp</dimen>
+    <dimen name="nomal2_font_size">18dp</dimen>
+    <dimen name="table_font_heder">14dp</dimen>
 </resources>

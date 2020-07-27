@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="edu_office_group">
+        <item>조합선택</item>
+        <item>경기시내</item>
+        <item>경기시외</item>
+        <item>경기마을</item>
+        <item>인천시내</item>
+    </string-array>
+</resources>

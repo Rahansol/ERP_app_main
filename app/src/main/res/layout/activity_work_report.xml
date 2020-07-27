@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/table_font_heder"
+            android:textColor="@color/textBlack"
+            android:text="업무계획일 :"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:layout_alignParentStart="true"/>
+
+        <ImageView
+            android:id="@+id/before_serch_btn"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/start_day"
+            android:gravity="center_vertical"
+            android:src="@drawable/right_btn"/>
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/start_day"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="2018-10-10"
+            android:textAlignment="center"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:textSize="@dimen/table_font_heder"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/after_serch_btn"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/start_day"
+            android:gravity="center_vertical"
+            android:src="@drawable/left_btn"/>
+
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="저장"
+            android:textSize="@dimen/table_font_heder"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/blue_btn"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/titleBadgeText"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/text_box_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/table_font_heder"
+            android:textColor="@color/textBlack"
+            android:text="0 / 2000자"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/edit_box_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_margin="10dp"
+        android:scrollbarFadeDuration="0">
+
+        <EditText
+            android:id="@+id/text_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLength="2000"
+            android:gravity="top"/>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:focusable="true"-->
+<!--                android:focusableInTouchMode="true">-->
+
+<!--               -->
+
+<!--            </LinearLayout>-->
+
+<!--        </LinearLayout>-->
+
+    </ScrollView>
+
+</LinearLayout>

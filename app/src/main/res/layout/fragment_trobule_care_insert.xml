@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bgContent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
+
+    <ListView
+        android:layout_weight="1"
+        android:id="@+id/my_error_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/my_error_list_insert"
+            android:layout_width="110dp"
+            android:layout_height="45dp"
+            android:text="완료 등록"
+            android:background="@drawable/button_unselected"/>
+
+    </LinearLayout>
+
+</LinearLayout>

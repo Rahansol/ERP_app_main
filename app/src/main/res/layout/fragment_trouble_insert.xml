@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+                <LinearLayout
+                    android:id="@+id/call_layout"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
+
+                        <Button
+                            android:id="@+id/call_bus_insert"
+                            android:text="콜 버스"
+                            style="@style/call_insert_btn"
+                            android:background="@drawable/dailog_btn_effect_black"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+                        </Button>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/error_bus_btn"
+                            android:text="버스"
+                            style="@style/call_insert_btn"
+                            android:background="@drawable/dailog_btn_effect_black"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+                        </Button>
+
+                        <LinearLayout
+                            android:layout_width="10dp"
+                            android:layout_height="70dp"
+                            android:background="@color/white"/>
+
+                        <Button
+                            android:id="@+id/error_nms_btn"
+                            android:text="집계"
+                            style="@style/call_insert_btn"
+                            android:background="@drawable/dailog_btn_effect_black"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+                        </Button>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/white"/>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/error_charger_btn"
+                            android:text="충전기"
+                            style="@style/call_insert_btn"
+                            android:background="@drawable/dailog_btn_effect_black"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+                        </Button>
+
+                        <LinearLayout
+                            android:layout_width="10dp"
+                            android:layout_height="70dp"
+                            android:background="@color/white"/>
+
+                        <Button
+                            android:id="@+id/error_bit_btn"
+                            android:text="BIT"
+                            style="@style/call_insert_btn"
+                            android:background="@drawable/dailog_btn_effect_black"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+                        </Button>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/white"/>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/error_nomalWork_btn"
+                            android:text="일반업무"
+                            style="@style/call_insert_btn"
+                            android:background="@drawable/dailog_btn_effect_black"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+                        </Button>
+
+                        <LinearLayout
+                            android:layout_width="10dp"
+                            android:layout_height="70dp"
+                            android:background="@color/white"/>
+
+                        <Button
+                            android:id="@+id/education_btn"
+                            android:text="교육"
+                            style="@style/call_insert_btn"
+                            android:background="@drawable/dailog_btn_effect_black"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+                        </Button>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+</RelativeLayout>

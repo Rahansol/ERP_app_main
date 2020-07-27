@@ -28,6 +28,27 @@
         <item name="android:popupBackground">#DFFFFFFF</item>
     </style>
 
+    <style name="spinner_style_for_jip">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:popupBackground">#DFFFFFFF</item>
+    </style>
+
+    <style name="spinner_style_for_jip_test">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:popupBackground">#DFFFFFFF</item>
+    </style>
+
+    <style name="spinner_style_padding">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:popupBackground">#DFFFFFFF</item>
+    </style>
+
     <style name="ContentImageBadgeTitle" parent="AppTheme">
         <item name="android:alpha">0.5</item>
         <item name="android:textColor">@android:color/white</item>
@@ -54,6 +75,123 @@
     <style name="TitleBadgeTitle" parent="AppTheme">
         <item name="android:textColor">@color/titleBadgeTitle</item>
         <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="call_insert_btn">
+        <item name="android:layout_height">70dp</item>
+        <item name="android:textSize">@dimen/call_insert_btn_text</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="text_single_center_black">
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/textBlack</item>
+    </style>
+
+    <style name="gtv_table_text_style">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/table_font_heder</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="gtv_error_check_detail_l">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/table_font_heder</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/dailog_detail_info_boder</item>
+
+    </style>
+
+    <style name="gtv_error_check_detail_r">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">@dimen/table_font_heder</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/dailog_detail_info_boder2</item>
+    </style>
+
+    <style name="menu_item_text">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">@dimen/table_font_heder</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="cash_radio_linearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="cash_radio_button_style">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="cash_check_name_style">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">17dp</item>
+    </style>
+
+    <style name="project_dialog_text_style">
+        <item name="android:textSize">@dimen/table_font_heder</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+    <style name="project_dialog_text_style2">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">@dimen/table_font_heder</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@drawable/prj_item_view_boder</item>
+    </style>
+
+    <style name="project_dialog_text_style3">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">@dimen/table_font_heder</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:background">@drawable/prj_item_view_boder</item>
+    </style>
+
+    <style name="t_history_layout_style">
+        <item name="android:layout_height">25dp</item>
+    </style>
+
+    <style name="t_history_table_heder_style">
+        <item name="android:background">#333333</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="t_history_text_style">
+        <item name="android:textSize">14dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+
+    <style name="t_history_text_center_style">
+        <item name="android:textSize">14dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/textBlack</item>
+    </style>
+
+    <style name="single_line_style">
+        <item name="singleLine">true</item>
+        <item name="android:maxLength">4</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:imeOptions">actionDone</item>
+    </style>
+
+    <style name="dov_view_text_style">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/textBlack</item>
+
     </style>
 
 </resources>

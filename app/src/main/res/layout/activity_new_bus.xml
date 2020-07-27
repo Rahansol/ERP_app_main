@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+        <TextView
+            style="@style/text_single_center_black"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="@dimen/nomal2_font_size"
+            android:text="* 필수사항"/>
+
+        <TextView
+            style="@style/text_single_center_black"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="@dimen/middle_font_size"
+            android:text="장애 등록시 차량이 없는 경우만 사용하세요."/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
+
+                        <TextView
+                            style="@style/text_single_center_black"
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:text="* 운수사 : "
+                            android:textSize="@dimen/nomal2_font_size"/>
+
+                        <EditText
+                            android:id="@+id/office_name"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:hint="예) 천지,오륜"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionDone">
+
+                        </EditText>
+
+                        <Button
+                            android:id="@+id/office_serch_btn"
+                            android:layout_width="75dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/button_unselected"
+                            android:text="검색"
+                            android:textSize="@dimen/nomal2_font_size"
+                            android:gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp">
+
+                        </Button>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/rounded_corner"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
+
+                        <Spinner
+                            android:id="@+id/office_group_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:textAlignment="center"
+                            android:entries="@array/office_names"
+                            android:spinnerMode="dropdown"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            style="@style/text_single_center_black"
+                            android:text="* 차량번호 :"
+                            android:textSize="@dimen/nomal2_font_size"/>
+
+                        <EditText
+                            android:id="@+id/bus_num_edit_text"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:hint="예) 경기12아1231"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionDone">
+
+                        </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            style="@style/text_single_center_black"
+                            android:text="차대번호 :"
+                            android:textSize="@dimen/nomal2_font_size"/>
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:hint="예) XXXXX19XXXX005049"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionDone">
+
+                        </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="50dp"
+                            style="@style/text_single_center_black"
+                            android:text="정원 :"
+                            android:textSize="@dimen/nomal2_font_size"/>
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:hint="예) 00"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionDone">
+
+                        </EditText>
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="50dp"
+                            style="@style/text_single_center_black"
+                            android:text="연식 :"
+                            android:textSize="@dimen/nomal2_font_size"/>
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:hint="예) 20xx"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionDone">
+
+                        </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            style="@style/text_single_center_black"
+                            android:text="버스모델 :"
+                            android:textSize="@dimen/nomal2_font_size"/>
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:hint="예) 현대그린시티"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionDone">
+
+                        </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
+
+                        <Button
+                            android:id="@+id/bus_info_insert_btn"
+                            android:layout_width="250dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/button_unselected"
+                            android:text="등록하기"
+                            android:textSize="@dimen/nomal2_font_size">
+
+                        </Button>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+</LinearLayout>

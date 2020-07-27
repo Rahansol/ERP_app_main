@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="input_type">
+        <item>- 입고구분 -</item>
+        <item>불량</item>
+        <item>반납</item>
+        <item>원인분석</item>
+        <item>철수</item>
+    </string-array>
+
+    <string-array name="work_type">
+        <item>작업선택</item>
+        <item>증차</item>
+        <item>대폐차</item>
+        <item>추가설치</item>
+        <item>감차</item>
+        <item>이벤트업무</item>
+    </string-array>
+</resources>

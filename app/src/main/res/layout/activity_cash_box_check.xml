@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/cash_list"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="작업조회"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/table_font_heder">
+        </TextView>
+
+        <TextView
+            android:id="@+id/cash_insert"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="작업등록"
+            android:background="@drawable/text_btn"
+            android:layout_marginRight="35dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="#00ac00"
+            android:textSize="@dimen/table_font_heder">
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/titleBadgeText"/>
+
+    <FrameLayout
+        android:id="@+id/cash_frag_change"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+</LinearLayout>

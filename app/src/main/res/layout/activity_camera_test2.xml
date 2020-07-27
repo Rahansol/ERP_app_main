@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/pic_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사진 촬영"/>
+
+    <Button
+        android:id="@+id/mv_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="동영상 촬영"/>
+
+    <Button
+        android:id="@+id/pic_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사진 갤러리"/>
+
+    <Button
+        android:id="@+id/mv_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="동영상 갤러리"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_cloud_upload_white_36dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/confirm_check_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="고객 서명"
+            android:layout_centerVertical="true"
+            android:textSize="18dp"
+            android:textColor="@color/textBlack"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/install_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="설치 확인서"
+            android:layout_toRightOf="@id/confirm_check_text"
+            android:textColor="@color/textBlack"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/confirm_check_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. 상기내용과 같이 차량별 단말기 설치 및 점검결과 이상 없음을 확인 합니다."
+            android:textSize="11dp"
+            android:layout_toRightOf="@id/confirm_check_text"
+            android:textColor="@color/textBlack"
+            android:layout_below="@id/install_msg"/>
+
+        <TextView
+            android:id="@+id/confirm_check_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. 단말기 점검내용 : 승차,하차 단말기 카드처리 및 무선 송수신 , 운전자 단말기 BMS 및 기본기능"
+            android:textSize="11dp"
+            android:textColor="@color/textBlack"
+            android:layout_below="@id/confirm_check_text1"
+            android:layout_toRightOf="@id/confirm_check_text"
+            />
+
+        <TextView
+            android:id="@+id/confirm_check_text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. 상기 물품을 분실하거나 파손시 변상하겠슴."
+            android:textSize="11dp"
+            android:textColor="@color/textBlack"
+            android:layout_toRightOf="@id/confirm_check_text"
+            android:layout_below="@id/confirm_check_text2"/>
+
+        <TextView
+            android:id="@+id/confirm_check_text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="장비 인수증"
+            android:layout_toRightOf="@id/confirm_check_text"
+            android:layout_below="@id/confirm_check_text3"
+            android:textSize="18dp"
+            android:textColor="@color/textBlack"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상기의 품목을 정히 인수 하였음을 확인합니다"
+            android:textSize="11dp"
+            android:textColor="@color/textBlack"
+            android:layout_toRightOf="@id/confirm_check_text"
+            android:layout_below="@id/confirm_check_text4"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="담당자 :"/>
+
+        <EditText
+            android:id="@+id/sign_man"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="연락처 :"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_tel"
+            android:inputType="phone"
+            android:hint="연락처를 입력해주세요."
+            android:textColor="@color/textBlack"
+            android:maxLength="13"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sign_input_btn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="서명하기"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_btn"/>
+
+    <ImageView
+        android:id="@+id/sign_img"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
+
+</LinearLayout>

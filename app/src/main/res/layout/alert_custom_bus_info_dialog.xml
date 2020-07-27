@@ -3,7 +3,8 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_height="400dp"
     card_view:cardCornerRadius="20dp"
     card_view:cardUseCompatPadding="true">
 
@@ -16,23 +17,17 @@
         <TextView
             android:id="@+id/textview_alterdialog_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:gravity="center"
             android:layout_margin="20dp"
             android:text="작업 이력이 존재합니다. 확인하세요."/>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="250dp">
-
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:divider="@null"
                 android:dividerHeight="10dp"
                 android:id="@+id/bus_info_listview"/>
-
-        </ScrollView>
 
         <Button
             android:id="@+id/bus_info_dialog_cancle"

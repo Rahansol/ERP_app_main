@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import app.erp.com.erp_app.callcenter.Call_Center_Activity;
 import app.erp.com.erp_app.vo.User_InfoVo;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -52,17 +53,17 @@ public class LoginActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         pref = getSharedPreferences("user_info" , MODE_PRIVATE);
         editor = pref.edit();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage("로그인중..");
-        progressDialog.setCancelable(false);
 
-        TextView app_version = (TextView)findViewById(R.id.app_version);
+        TextView app_version_text = (TextView)findViewById(R.id.app_version_text);
         String version = getVersionInfo(getApplicationContext());
-        app_version.setText("v"+version);
+        app_version_text.setText("v"+version);
 
         id_text = (EditText)findViewById(R.id.id_text);
         pw_text = (EditText)findViewById(R.id.pw_text);
@@ -84,11 +85,14 @@ public class LoginActivity extends Activity{
                     editor.putString("auto_login" , "auto");
                     editor.putString("auto_id" , id_text.getText().toString());
                     editor.putString("auto_pw" , pw_text.getText().toString());
+                    editor.commit();
                 }else{
                     editor.putString("auto_login" , "Nauto");
+                    editor.commit();
                 }
                 if(id_text.getText().toString().equals("ratest")){
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this,Call_Center_Activity.class);
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -136,8 +140,10 @@ public class LoginActivity extends Activity{
                         editor.putString("dep_name",list.get(0).getDep_name());
                         editor.putString("dep_code",list.get(0).getDep_code());
                         editor.commit();
+
                         progressDialog.dismiss();
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, Call_Center_Activity.class);
+//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }

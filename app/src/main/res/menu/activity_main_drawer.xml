@@ -1,47 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="차량 단말기 바코드" />
-        <item
-            android:id="@+id/reserve_item_give"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="영업소 단말기 바코드 지급" />
-        <item
-            android:id="@+id/reserve_item_return"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="영업소 단말기 바코드 회수"/>
+    <item
+        android:icon="@drawable/ic_menu_camera"
+        android:title="현장관리">
+        <menu>
+            <item
+                android:id="@+id/new_bus_insert"
+                android:icon="@drawable/ic_menu_new_bus"
+                android:title="버스등록" />
+            <item
+                android:id="@+id/trouble_serch_btn"
+                android:icon="@drawable/ic_menu_report"
+                android:title="장애 처리 조회" />
+            <item
+                android:id="@+id/project_work_btn"
+                android:icon="@drawable/ic_menu_new_bus"
+                android:title="프로젝트 업무 수행" />
+            <item
+                android:id="@+id/work_report_btn"
+                android:icon="@drawable/ic_menu_new_bus"
+                android:title="업무계획" />
+            <item
+                android:id="@+id/over_work_btn"
+                android:icon="@drawable/ic_menu_new_bus"
+                android:title="연장 근무 신청" />
+            <item
+                android:id="@+id/over_work_approval_btn"
+                android:icon="@drawable/ic_menu_new_bus"
+                android:title="연장 근무 승인" />
+            <item
+                android:id="@+id/gtv_error_install"
+                android:icon="@drawable/ic_menu_report"
+                android:title="GTV_가동률" />
+        </menu>
+    </item>
 
-        
-        <!--<item-->
-            <!--android:id="@+id/field_error_all"-->
-            <!--android:icon="@drawable/ic_menu_camera"-->
-            <!--android:title="장애등록"/>-->
-        <!--<item-->
-            <!--android:id="@+id/field_my_error"-->
-            <!--android:icon="@drawable/ic_menu_camera"-->
-            <!--android:title="장애처리"/>-->
-        <!--<item-->
-            <!--android:id="@+id/field_my_error_success"-->
-            <!--android:icon="@drawable/ic_menu_camera"-->
-            <!--android:title="장애처리완료"/>-->
+    <item android:id="@+id/big_menu_1" android:title="바코드 관리" android:icon="@drawable/ic_menu_camera">
+        <menu>
+            <item
+                android:id="@+id/my_barcode_workList"
+                android:icon="@drawable/ic_menu_report"
+                android:title="내 바코드 부착내역"/>
+            <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="차량 바코드 등록"/>
+        </menu>
+    </item>
+
+    <item android:id="@+id/big_menu_2" android:title="단말기 관리">
+        <menu>
+            <item
+                android:id="@+id/reserve_item_give"
+                android:icon="@drawable/ic_menu_bus_unit"
+                android:title="예비품 지급"/>
+            <item
+                android:id="@+id/reserve_item_return"
+                android:icon="@drawable/ic_menu_bus_unit"
+                android:title="예비품 회수"
+                />
+            <item
+                android:id="@+id/reserve_item_repair"
+                android:icon="@drawable/ic_menu_report"
+                android:title="불량품 입고"/>
+<!--            <item-->
+<!--                android:id="@+id/reserve_item_workList"-->
+<!--                android:icon="@drawable/ic_menu_report"-->
+<!--                android:title="예비품 지급내역"/>-->
+        </menu>
+    </item>
+
+<!--    <item android:title="프로젝트 업무">-->
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:id="@+id/cash_box_btn"-->
+<!--                android:icon="@drawable/ic_menu_new_bus"-->
+<!--                android:title="인천 통합징수기 일제 점검" />-->
+<!--            <item-->
+<!--                android:id="@+id/test_camera"-->
+<!--                android:icon="@drawable/ic_menu_new_bus"-->
+<!--                android:title="사진/동영상 업로드" />-->
+
+<!--        </menu>-->
+<!--    </item>-->
 
 
-        <item
-            android:id="@+id/my_barcode_workList"
-            android:icon="@drawable/ic_menu_share"
-            android:title="내 바코드 부착내역"/>
 
-        <item
-            android:id="@+id/reserve_item_workList"
-            android:icon="@drawable/ic_menu_share"
-            android:title="예비품 지급 내역"/>
-
-    </group>
 
 </menu>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/contentDividerLine2">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/detail_info_boder"
+        android:text="상세 조회 : 설치차량 / 점검대상 터치"
+        android:gravity="left|center"
+        android:textColor="@color/textBlack"
+        android:textSize="@dimen/nomal2_font_size"
+        android:textStyle="bold"
+        android:paddingLeft="20dp"
+        />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:stretchColumns="*"
+        android:gravity="center"
+        android:background="@color/colorPrimaryDark">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="9">
+
+            <TextView
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/gtv_table_text_style"
+                android:text="운수사"/>
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/gtv_table_text_style"
+                android:background="@drawable/table_head"
+                android:text="총 대수"/>
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/gtv_table_text_style"
+                android:background="@drawable/table_head"
+                android:text="점검대상"/>
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/gtv_table_text_style"
+                android:background="@drawable/table_head"
+                android:text="가동율"/>
+        </TableRow>
+    </TableLayout>
+
+    <ScrollView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TableLayout
+            android:id="@+id/table_gtv_body_emp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="*">
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>

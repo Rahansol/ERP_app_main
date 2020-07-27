@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="office_names">
+        <item>-- 운수사를 검색하세요 -- </item>
+    </string-array>
+</resources>

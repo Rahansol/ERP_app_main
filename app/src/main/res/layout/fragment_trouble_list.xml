@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bgContent"
+    android:baselineAligned="false"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
+
+    <LinearLayout
+        android:id="@+id/radio_header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border_top_bottom">
+
+        <RadioGroup
+            android:id="@+id/trouble_history_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/radio_button"
+                android:gravity="center_horizontal">
+
+                <RadioButton
+                    android:id="@+id/trouble_bus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:background="@drawable/radio_button"
+                    android:text="버스 "
+                    android:textSize="@dimen/middle_font_size"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/bus_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="()"
+                    android:textSize="11dp"
+                    android:background="@drawable/radio_button"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textBlack"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/radio_button"
+                android:gravity="center_horizontal">
+
+                <RadioButton
+                    android:id="@+id/trouble_nms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:background="@drawable/radio_button"
+                    android:text="집계 "
+                    android:textSize="@dimen/middle_font_size"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/nms_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="()"
+                    android:textSize="11dp"
+                    android:background="@drawable/radio_button"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textBlack"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/radio_button"
+                android:gravity="center_horizontal">
+
+                <RadioButton
+                    android:id="@+id/trouble_chager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:background="@drawable/radio_button"
+                    android:text="충전기 "
+                    android:textSize="@dimen/middle_font_size"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/chager_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="()"
+                    android:textSize="11dp"
+                    android:background="@drawable/radio_button"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textBlack"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="0.9"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/radio_button"
+                android:gravity="center_horizontal">
+
+                <RadioButton
+                    android:id="@+id/trouble_bit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:background="@drawable/radio_button"
+                    android:text="BIT "
+                    android:textSize="@dimen/middle_font_size"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/bit_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="()"
+                    android:textSize="11dp"
+                    android:background="@drawable/radio_button"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textBlack"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/radio_button"
+                android:gravity="center_horizontal">
+
+                <RadioButton
+                    android:id="@+id/trouble_nomal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:background="@drawable/radio_button"
+                    android:text="일반업무 "
+                    android:textSize="@dimen/middle_font_size"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/nomal_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="()"
+                    android:textSize="11dp"
+                    android:background="@drawable/radio_button"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textBlack"
+                    />
+
+            </LinearLayout>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/my_error_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>

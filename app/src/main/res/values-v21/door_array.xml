@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="door_array">
+        <item>-- 선택 --</item>
+        <item> 1 DOOR </item>
+        <item> 2 DOOR </item>
+        <item> 미운행 </item>
+    </string-array>
+</resources>

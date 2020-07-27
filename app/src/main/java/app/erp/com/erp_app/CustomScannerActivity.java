@@ -44,7 +44,7 @@ public class CustomScannerActivity extends Activity implements DecoratedBarcodeV
 
         switchFlashlightButtonCheck = true;
 
-        setting_btn = (ImageButton)findViewById(R.id.setting_btn);
+//        setting_btn = (ImageButton)findViewById(R.id.setting_btn);
         switchFlashlightButton = (ImageButton)findViewById(R.id.switch_flashlight);
 
         if (!hasFlash()) {

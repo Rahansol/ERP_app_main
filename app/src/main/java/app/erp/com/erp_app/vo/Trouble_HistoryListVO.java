@@ -64,6 +64,102 @@ public class Trouble_HistoryListVO implements Serializable {
     private String job_viewer_view;
     private String driver_tel_num;
     private String work_reg_emp_name;
+    private String gubun;
+    private String bus;
+    private String jib;
+    private String charge;
+    private String ib;
+    private String jung;
+    private String bit;
+
+    private String move_emp_id;
+    private String move_emp_name;
+    private String first_yn;
+
+    private String trouble_high_name;
+    private String emp_name;
+
+
+    public Trouble_HistoryListVO() {
+    }
+
+    @Override
+    public String toString() {
+        return "Trouble_HistoryListVO{" +
+                "reg_date='" + reg_date + '\'' +
+                ", reg_time='" + reg_time + '\'' +
+                ", dep_name='" + dep_name + '\'' +
+                ", reg_emp_name='" + reg_emp_name + '\'' +
+                ", infra_name='" + infra_name + '\'' +
+                ", busoff_name='" + busoff_name + '\'' +
+                ", service_name='" + service_name + '\'' +
+                ", unit_code='" + unit_code + '\'' +
+                ", ars_high_name='" + ars_high_name + '\'' +
+                ", ars_low_name='" + ars_low_name + '\'' +
+                ", ars_unit_name='" + ars_unit_name + '\'' +
+                ", unit_name='" + unit_name + '\'' +
+                ", garage_name='" + garage_name + '\'' +
+                ", route_num='" + route_num + '\'' +
+                ", bus_num='" + bus_num + '\'' +
+                ", trouble_name='" + trouble_name + '\'' +
+                ", ars_trouble_name='" + ars_trouble_name + '\'' +
+                ", trouble_low_name='" + trouble_low_name + '\'' +
+                ", ars_trouble_low_name='" + ars_trouble_low_name + '\'' +
+                ", trouble_care_name='" + trouble_care_name + '\'' +
+                ", care_emp_name='" + care_emp_name + '\'' +
+                ", unit_change_yn='" + unit_change_yn + '\'' +
+                ", unit_before_id='" + unit_before_id + '\'' +
+                ", unit_after_id='" + unit_after_id + '\'' +
+                ", direct_care='" + direct_care + '\'' +
+                ", care_date='" + care_date + '\'' +
+                ", care_time='" + care_time + '\'' +
+                ", care_emp_id='" + care_emp_id + '\'' +
+                ", trouble_care_cd='" + trouble_care_cd + '\'' +
+                ", trouble_low_cd='" + trouble_low_cd + '\'' +
+                ", trouble_high_cd='" + trouble_high_cd + '\'' +
+                ", ars_trouble_low_cd='" + ars_trouble_low_cd + '\'' +
+                ", ars_trouble_high_cd='" + ars_trouble_high_cd + '\'' +
+                ", bus_id='" + bus_id + '\'' +
+                ", route_id='" + route_id + '\'' +
+                ", garage_id='" + garage_id + '\'' +
+                ", service_id='" + service_id + '\'' +
+                ", transp_bizr_id='" + transp_bizr_id + '\'' +
+                ", infra_code='" + infra_code + '\'' +
+                ", reg_emp_id='" + reg_emp_id + '\'' +
+                ", dep_code='" + dep_code + '\'' +
+                ", office_group='" + office_group + '\'' +
+                ", restore_yn='" + restore_yn + '\'' +
+                ", analysis_yn='" + analysis_yn + '\'' +
+                ", bs_yn='" + bs_yn + '\'' +
+                ", mintong='" + mintong + '\'' +
+                ", notice='" + notice + '\'' +
+                ", ars_notice='" + ars_notice + '\'' +
+                ", move_distance='" + move_distance + '\'' +
+                ", move_time='" + move_time + '\'' +
+                ", wait_time='" + wait_time + '\'' +
+                ", work_time='" + work_time + '\'' +
+                ", st='" + st + '\'' +
+                ", st_grade='" + st_grade + '\'' +
+                ", st_calc='" + st_calc + '\'' +
+                ", ars_yn='" + ars_yn + '\'' +
+                ", job_viewer='" + job_viewer + '\'' +
+                ", job_viewer_view='" + job_viewer_view + '\'' +
+                ", driver_tel_num='" + driver_tel_num + '\'' +
+                ", work_reg_emp_name='" + work_reg_emp_name + '\'' +
+                ", gubun='" + gubun + '\'' +
+                ", bus='" + bus + '\'' +
+                ", jib='" + jib + '\'' +
+                ", charge='" + charge + '\'' +
+                ", ib='" + ib + '\'' +
+                ", jung='" + jung + '\'' +
+                ", bit='" + bit + '\'' +
+                ", move_emp_id='" + move_emp_id + '\'' +
+                ", move_emp_name='" + move_emp_name + '\'' +
+                ", first_yn='" + first_yn + '\'' +
+                ", trouble_high_name='" + trouble_high_name + '\'' +
+                ", emp_name='" + emp_name + '\'' +
+                '}';
+    }
 
     public String getReg_date() {
         return reg_date;
@@ -543,5 +639,101 @@ public class Trouble_HistoryListVO implements Serializable {
 
     public void setWork_reg_emp_name(String work_reg_emp_name) {
         this.work_reg_emp_name = work_reg_emp_name;
+    }
+
+    public String getGubun() {
+        return gubun;
+    }
+
+    public void setGubun(String gubun) {
+        this.gubun = gubun;
+    }
+
+    public String getBus() {
+        return bus;
+    }
+
+    public void setBus(String bus) {
+        this.bus = bus;
+    }
+
+    public String getJib() {
+        return jib;
+    }
+
+    public void setJib(String jib) {
+        this.jib = jib;
+    }
+
+    public String getCharge() {
+        return charge;
+    }
+
+    public void setCharge(String charge) {
+        this.charge = charge;
+    }
+
+    public String getIb() {
+        return ib;
+    }
+
+    public void setIb(String ib) {
+        this.ib = ib;
+    }
+
+    public String getJung() {
+        return jung;
+    }
+
+    public void setJung(String jung) {
+        this.jung = jung;
+    }
+
+    public String getBit() {
+        return bit;
+    }
+
+    public void setBit(String bit) {
+        this.bit = bit;
+    }
+
+    public String getMove_emp_id() {
+        return move_emp_id;
+    }
+
+    public void setMove_emp_id(String move_emp_id) {
+        this.move_emp_id = move_emp_id;
+    }
+
+    public String getMove_emp_name() {
+        return move_emp_name;
+    }
+
+    public void setMove_emp_name(String move_emp_name) {
+        this.move_emp_name = move_emp_name;
+    }
+
+    public String getFirst_yn() {
+        return first_yn;
+    }
+
+    public void setFirst_yn(String first_yn) {
+        this.first_yn = first_yn;
+    }
+
+    public String getTrouble_high_name() {
+        return trouble_high_name;
+    }
+
+    public void setTrouble_high_name(String trouble_high_name) {
+        this.trouble_high_name = trouble_high_name;
+    }
+
+    public String getEmp_name() {
+        return emp_name;
+    }
+
+    public void setEmp_name(String emp_name) {
+        this.emp_name = emp_name;
     }
 }

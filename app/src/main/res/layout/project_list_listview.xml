@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="50dp"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="7"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/project_name"
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textColor="@color/textBlack"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textSize="14dp"
+        android:paddingLeft="20px"/>
+
+    <LinearLayout
+        android:id="@+id/s_v_i_btn_layout"
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/project_work_serch_btn"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:background="@drawable/custom_btn"
+                android:text="조회"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/project_detail_btn"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:background="@drawable/custom_btn"
+                android:text="보기"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/project_work_insert_btn"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:background="@drawable/custom_btn"
+                android:text="등록"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/prj_doc_btn_layout"
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/prj_doc_insert_btn"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:background="@drawable/custom_btn"
+            android:text="작성하기"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:id="@+id/prj_doc_view_btn"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:background="@drawable/custom_btn"
+            android:text="조회하기"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp">
+
+        <EditText
+            android:id="@+id/find_cash_bus_num"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:maxLength="4"
+            android:hint="차량번호"
+            android:imeOptions="actionDone"/>
+
+        <Button
+            android:id="@+id/bus_num_find"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="차량검색"
+            android:background="@drawable/blue_btn2"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:layout_margin="5dp"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:orientation="vertical"
+            android:layout_margin="2dp"
+            android:background="@drawable/spinner_background">
+
+            <Spinner
+                android:id="@+id/cash_bus_num_spinner"
+                style="@style/spinner_style_for_jip"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:spinnerMode="dialog"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bus_num_list_find"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="차량조회"
+            android:background="@drawable/blue_btn2"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/textBlack"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/local_string" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/spinner_background">
+
+                    <Spinner
+                        android:id="@+id/first_address_spinner"
+                        style="@style/spinner_style_for_jip"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:spinnerMode="dialog"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/spinner_background">
+
+                    <Spinner
+                        android:id="@+id/add_no_spinner"
+                        style="@style/spinner_style_for_jip"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:spinnerMode="dialog"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/office_string" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="vertical"
+                android:layout_margin="2dp"
+                android:background="@drawable/spinner_background">
+
+                <Spinner
+                    android:id="@+id/all_office_spinner"
+                    style="@style/spinner_style_for_jip"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dialog"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
+
+        <RadioGroup
+            android:id="@+id/all_or_my_radio"
+            android:layout_weight= "1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/all_data_serch"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="전체 현황"/>
+
+            <RadioButton
+                android:id="@+id/my_data_serch"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="내 작업"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/check_list_fin_btn"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="조회"
+            android:background="@drawable/blue_btn2"
+            android:textColor="@color/white"
+            android:textSize="12dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/bus_list_text"
+        android:maxLines="1"
+        android:textSize="16dp"
+        android:textColor="@color/red_btn"
+        android:textAlignment="textStart"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/textBlack"/>
+
+    <TextView
+        android:id="@+id/cash_chec_head"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text=""
+        android:maxLines="1"
+        android:textAlignment="center"/>
+
+    <ListView
+        android:id="@+id/cash_data_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>
