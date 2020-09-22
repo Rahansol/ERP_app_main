@@ -126,11 +126,11 @@
                     android:id="@+id/trouble_bit"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:button="@null"
                     android:background="@drawable/radio_button"
-                    android:text="BIT "
-                    android:textSize="@dimen/middle_font_size"
-                    android:textAlignment="center"/>
+                    android:button="@null"
+                    android:text="DTG, BIT"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/middle_font_size" />
 
                 <TextView
                     android:id="@+id/bit_count"
