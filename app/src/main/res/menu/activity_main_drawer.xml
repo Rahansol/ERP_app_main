@@ -55,6 +55,14 @@
     <item android:id="@+id/big_menu_2" android:title="단말기 관리">
         <menu>
             <item
+                android:id="@+id/release_request"
+                android:icon="@drawable/custom_btn"
+                android:title="출고신청"/>
+            <item
+                android:id="@+id/warehousing_request"
+                android:icon="@drawable/custom_btn"
+                android:title="입고신청"/>
+            <item
                 android:id="@+id/reserve_item_give"
                 android:icon="@drawable/ic_menu_bus_unit"
                 android:title="예비품 지급"/>
@@ -67,10 +75,10 @@
                 android:id="@+id/reserve_item_repair"
                 android:icon="@drawable/ic_menu_report"
                 android:title="불량품 입고"/>
-<!--            <item-->
-<!--                android:id="@+id/reserve_item_workList"-->
-<!--                android:icon="@drawable/ic_menu_report"-->
-<!--                android:title="예비품 지급내역"/>-->
+            <item
+                android:id="@+id/test_menu"
+                android:icon="@drawable/ic_menu_report"
+                android:title="테스트메뉴"/>
         </menu>
     </item>
 

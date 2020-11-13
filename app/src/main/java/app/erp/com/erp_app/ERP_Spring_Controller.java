@@ -16,7 +16,9 @@ import app.erp.com.erp_app.vo.Over_Work_List_VO;
 import app.erp.com.erp_app.vo.Over_Work_VO;
 import app.erp.com.erp_app.vo.Prj_Item_VO;
 import app.erp.com.erp_app.vo.ProJectVO;
+import app.erp.com.erp_app.vo.ReleaseRequestVO;
 import app.erp.com.erp_app.vo.Reserve_Work_Vo;
+import app.erp.com.erp_app.vo.TestAllVO;
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 import app.erp.com.erp_app.vo.UnitList;
@@ -83,6 +85,7 @@ public interface ERP_Spring_Controller {
     @GET("barcode/field_error_busnum")
     Call<List<Bus_infoVo>> getfield_error_busnum (@Query("bus_num") String bus_num);
 
+    //스프링프로젝트에서 barcode 컨트롤러에 field_trouble_error_type
     @GET("barcode/field_trouble_error_type")
     Call<List<Trouble_CodeVo>> getfield_trouble_error_type (@Query("service_id") String service_id, @Query("infra_code") String infra_code);
 
@@ -359,6 +362,84 @@ public interface ERP_Spring_Controller {
     @GET("erp_project/unit_item_group_list")
     Call<List<ProJectVO>> unit_item_group_list (@QueryMap Map<String,Object> req_map);
 
+
+
+
+    //테스트 목적
+    // Retrofit Service
+    @GET("test/app_busoffice_test")
+    Call<List<Bus_infoVo>> app_busoffice_test(@Query("useyn") String useryn);
+
+//    //지부 스피너..
+    @GET("test/DepName")
+    Call<List<TestAllVO>> DepNameList(@Query("emp_id") String dep_name);
+
+    //분류 스피너..
+    @GET("test/TestList")
+    Call<List<TestAllVO>> InfraList(@Query("barcode_dep_id") String barcode_dep_id);
+
+
+    //분류 스피너 아이템 선택한 상태현황
+    @GET("test/selected_unit_status")
+    Call<List<TestAllVO>> selected_unit_status(@Query("barcode_dep_id") String barcode_dep_id
+                                              ,@Query("unit_group") String unit_group);  //전달받을 데이터 스프링으로 던저주기
+
+
+    // 재고 리스트
+    // 요건데
+    // @get == @RequestMapping 이거는 알고계시져 앗 네
+    // 그럼 select_stock_list 이친구는 test/select_stock_list 여기에
+    // 파라미터 (@Query("barcode_dep_id") String barcode_dep_id
+    //         ,@Query("unit_code") String unit_code
+    //         ,@Query("rep_unit_code") String rep_unit_code
+    // 이걸 전달하는 함수이져 ? 스프링쪽에 전달한다는 말이져? 네 네네 그럼 다시 돌아가서
+    @GET("test/select_stock_list")
+    Call<List<TestAllVO>> select_stock_list(@Query("barcode_dep_id") String barcode_dep_id
+                                           ,@Query("unit_code") String unit_code
+                                           ,@Query("rep_unit_code") String rep_unit_code);
+
+
+    //출고위치
+    @GET("test/release_location")
+    Call<List<TestAllVO>> release_location(@Query("emp_id") String emp_id
+                                          ,@Query("barcode_dep_id") String location_id);   //@Query("barcode_dep_id") - 스프링 확인하기   == WHERE LOCATION_ID <> #{barcode_dep_id} /*출고위치의 Location_id*/ 스프링과 같아야함.
+
+
+
+
+    //예약 (insert/ delete/ update)
+    @GET("test/booking_status")
+    Call<List<TestAllVO>> booking(@Query("unit_code") String unit_code
+                                 ,@Query("rep_unit_code") String rep_unit_code
+                                 ,@Query("unit_id") String unit_id
+                                 ,@Query("barcode_dep_id") String location_code
+                                 ,@Query("emp_id") String emp_id);
+
+
+
+
+    @GET("test/booking_status")
+    Call<List<TestAllVO>> insert_map(@Query("unit_code") String unit_code
+                                    ,@Query("rep_unit_code") String rep_unit_code
+                                    ,@Query("unit_id") String unit_id
+                                    ,@Query("barcode_dep_id") String location_code
+                                    ,@Query("emp_id") String emp_id);
+
+
+
+
+
+
+
+
+
+
+
+
+//String CallListname 은요? CallListName <- 이것도 그냥 변수명이니까 바꾸셔도 상관없습닏
+
+
+    // Retrofit Helper
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -366,8 +447,8 @@ public interface ERP_Spring_Controller {
             .build();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-//            .baseUrl("http://192.168.0.13:8180/controller/")
-            .baseUrl("http://ierp.interpass.co.kr/controller/")
+            .baseUrl("http://192.168.0.122:8180/controller/")
+//            .baseUrl("http://ierp.interpass.co.kr/controller/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build();

@@ -4,8 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-<!--    <string name="test_url">http://192.168.0.13:8180/controller/</string>-->
-    <string name="test_url">http://ierp.interpass.co.kr/controller/</string>
+    <string name="test_url">http://192.168.0.122:8180/controller/</string>
+    <!--    <string name="test_url">http://ierp.interpass.co.kr/controller/</string>-->
 
     <string name="action_settings">Settings</string>
 
@@ -14,7 +14,7 @@
     <string name="cms_code_string">※ 가맹점번호(CMS)</string>
     <string name="local_string">※ 영업소</string>
     <string name="store_code">※ 가맹점번호(CMS)</string>
-    <string name = "office_string2">※ 지부</string>
+    <string name="office_string2">※ 지부</string>
     <string name="route_string">※ 노선</string>
     <string name="unit_name">※ 단말기</string>
     <string name="unit_barcode">※ 바코드</string>
@@ -36,7 +36,7 @@
     <string name="reg_emp_list">※ 작업자</string>
     <string name="st_date">※ 시작일</string>
     <string name="ed_date">※ 종료일</string>
-    <string name ="office_string3">※ 지부/담당자</string>
+    <string name="office_string3">※ 지부/담당자</string>
     <string name="error_time_hour">※ 장애발생시간</string>
     <string name="error_time_min">※ 장애발생시간(분)</string>
     <string name="reg_date_string">※ 장애발생일</string>
@@ -46,15 +46,15 @@
     <string name="reg_month">※ 작성월</string>
 
 
-    <string name = "infra_type">※ 인프라타입</string>
+    <string name="infra_type">※ 인프라타입</string>
 
-    <string name = "check_1">1. 함체 보안 작업</string>
-    <string name = "check_2">2. 함체 부식 정도 - 부식에 의한 천공</string>
-    <string name = "check_3">3. 시건장치 고장 - 잠기지 않음</string>
-    <string name = "check_4">4. 함체 도어 부식 - 표면적 50% 이상</string>
-    <string name = "check_5">5. 캐시박스 탈거시 도어 닫힘 여부</string>
-    <string name = "check_6">6. RF부 상단 커버 인서트 상태 - 파손 2개 이상</string>
-    <string name = "check_7">7. 기능 작동 상태</string>
+    <string name="check_1">1. 함체 보안 작업</string>
+    <string name="check_2">2. 함체 부식 정도 - 부식에 의한 천공</string>
+    <string name="check_3">3. 시건장치 고장 - 잠기지 않음</string>
+    <string name="check_4">4. 함체 도어 부식 - 표면적 50% 이상</string>
+    <string name="check_5">5. 캐시박스 탈거시 도어 닫힘 여부</string>
+    <string name="check_6">6. RF부 상단 커버 인서트 상태 - 파손 2개 이상</string>
+    <string name="check_7">7. 기능 작동 상태</string>
 
     <string name="office_change_text">※ 수정 운수사 (운수사 미일치 시 선택)</string>
     <string name="bus_change_text">※ 차량번호가 미조회 시에만 입력하세요</string>
@@ -65,7 +65,7 @@
     <string name="over_work_input_text3">ex) 통합징수기 일제 점검 프로젝트</string>
     <string name="over_work_input_text4">※ 인정 ST는 업무 확인 후 표시 됩니다.</string>
     <string name="over_work_input_text5">검색된 내용이 없습니다.</string>
-    
+
     <string name="confirm_text1">1. 상기내용과 같이 차량별 단말기 설치 및 점검결과 이상 없음을 확인 합니다.</string>
     <string name="confirm_text2">2. 단말기 점검내용 : 승차,하차 단말기 카드처리 및 무선 송수신 , 운전자 단말기 BMS 및 기본기능</string>
     <string name="confirm_text3">3. 상기 물품을 분실하거나 파손시 변상하겠슴.</string>
@@ -75,5 +75,51 @@
 
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
+
+
+    <!--    Edit text hint 출고 단말기 (특이사항..)-->
+    <string name="editText_hint"><font size="14">요청사항을 입력하세요</font></string>
+
+
+
+
+<!--    단말기 출고신청 화면-->
+<!--    지부 스피너 리스트..-->
+    <string-array name="area_arrays">
+        <item>강남</item>
+        <item>강북</item>
+        <item>인천</item>
+        <item>경기</item>
+    </string-array>
+
+    <string-array name="terminal_arrays">
+        <item>V1.0</item>
+        <item>V1.5</item>
+        <item>L2</item>
+        <item>운전자</item>
+        <item>승차</item>
+        <item>하차</item>
+    </string-array>
+
+    <string-array name="release_location">
+        <item>출고위치 1</item>
+        <item>출고위치 2</item>
+        <item>출고위치 3</item>
+        <item>출고위치 4</item>
+        <item>출고위치 5</item>
+        <item>출고위치 6</item>
+    </string-array>
+
+
+
+
+
+    
+    
+    
+    
+<!--    다이얼로그 띄우기-->
+
+
 
 </resources>

@@ -7,65 +7,160 @@
         android:allowBackup="true"
         android:icon="@mipmap/ierp_app_img"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ierp_app_img_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ReleaseRequestActivity"
+            android:label="출고 신청"></activity>
+        <activity
+            android:name=".WarehousingActivity"
+            android:label="입고 신청"/>
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|screenSize">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AnyOrientationCaptureActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:configChanges="orientation|screenSize"/>
-
-        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".LoginActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".CustomScannerActivity" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".CustomScannerReserveItemActivity" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".callcenter.Call_Center_Activity" android:theme="@style/AppTheme.NoActionBar" android:label="인터패스" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".New_Bus_Activity" android:label="신규 버스 등록" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Gtv_Error_Install_Activity" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Barcode_bus_Activity" android:label="차량 바코드 등록" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Barcode_My_list_Activity" android:label="바코드 부착내역" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Barcode_garage_input_Activity" android:label="예비품 지급" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Barcode_garage_output_Activity" android:label="예비품 회수" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Barcode_input_list_Activity" android:label="예비품 지급내역" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Help_Actaivity" android:theme="@style/AppTheme.NoActionBar" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".ReserveItemRepairActivity" android:label="불량품 입고" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Work_Report_Activity" android:label="업무계획" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".work.Work_Insert_Activity" android:label="테스트 업무" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".ic_check_menu.Cash_Box_Check_Activity" android:label="인천 통합징수기 일제 점검" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".document_care.CameraTestActivity" android:theme="@style/AppTheme.NoActionBar" android:label="카메라 테스트" android:configChanges="orientation|screenSize" android:screenOrientation="landscape"
+        <activity
+            android:name=".CustomScannerActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".CustomScannerReserveItemActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".callcenter.Call_Center_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="인터패스"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".New_Bus_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="신규 버스 등록" />
+        <activity
+            android:name=".Gtv_Error_Install_Activity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".Barcode_bus_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="차량 바코드 등록" />
+        <activity
+            android:name=".Barcode_My_list_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="바코드 부착내역" />
+        <activity
+            android:name=".Barcode_garage_input_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="예비품 지급" />
+        <activity
+            android:name=".Barcode_garage_output_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="예비품 회수" />
+        <activity
+            android:name=".Barcode_input_list_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="예비품 지급내역" />
+        <activity
+            android:name=".Help_Actaivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ReserveItemRepairActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="불량품 입고" />
+        <activity
+            android:name=".Work_Report_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="업무계획" />
+        <activity
+            android:name=".work.Work_Insert_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="테스트 업무" />
+        <activity
+            android:name=".ic_check_menu.Cash_Box_Check_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="인천 통합징수기 일제 점검" />
+        <activity
+            android:name=".document_care.CameraTestActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="카메라 테스트"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".document_care.CameraTest2Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="카메라 테스트" />
+        <activity
+            android:name=".document_care.ProJectMainActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="프로젝트 업무 수행" />
+        <activity
+            android:name=".error_history.Error_History_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="장애 처리 조회" />
+        <activity
+            android:name=".over_work.Over_Work_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="연장 근무 내역" />
+        <activity
+            android:name=".over_work.Over_Work_Insert_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="연장 근무 신청" />
+        <activity
+            android:name=".over_work.Over_Work_Re_Insert_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="연장 근무 신청" />
+        <activity
+            android:name=".over_work.Over_Work_Approval_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="연장 근무 승인" />
+        <activity
+            android:name=".document_care.UnitInstallConfirmActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="인수증" />
+        <activity
+            android:name=".document_care.ProJect_Work_Insert_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="프로젝트 업무 수행" />
+        <activity
+            android:name=".document_care.ProJect_Doc_Insert_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="설치 인수 확인메뉴" />
+        <activity
+            android:name=".document_care.ProJect_Doc_Write_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="설치 인수 확인메뉴" />
+        <activity
+            android:name=".document_care.ProJect_Doc_View_Activity"
+            android:configChanges="orientation|screenSize"
+            android:label="문서 조회" />
+        <activity android:name="test.TestActivity" />
 
-        <activity android:name=".document_care.CameraTest2Activity"  android:label="카메라 테스트" android:configChanges="orientation|screenSize"/>
-
-        <activity android:name=".document_care.ProJectMainActivity" android:label="프로젝트 업무 수행" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".error_history.Error_History_Activity" android:label="장애 처리 조회" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".over_work.Over_Work_Activity" android:label="연장 근무 내역" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".over_work.Over_Work_Insert_Activity" android:label="연장 근무 신청" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".over_work.Over_Work_Re_Insert_Activity" android:label="연장 근무 신청" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".over_work.Over_Work_Approval_Activity" android:label="연장 근무 승인" android:configChanges="orientation|screenSize"/>
-
-        <activity android:name=".document_care.UnitInstallConfirmActivity" android:label="인수증" android:configChanges="orientation|screenSize"/>
-
-        <activity android:name=".document_care.ProJect_Work_Insert_Activity" android:label="프로젝트 업무 수행" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".document_care.ProJect_Doc_Insert_Activity" android:label="설치 인수 확인메뉴" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".document_care.ProJect_Doc_Write_Activity" android:label="설치 인수 확인메뉴" android:configChanges="orientation|screenSize"/>
-        <activity android:name=".document_care.ProJect_Doc_View_Activity" android:label="문서 조회" android:configChanges="orientation|screenSize"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="app.erp.com.erp_app"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <service android:name=".fcm.MyFirebaseInstanceIDService">
             <intent-filter>
@@ -77,27 +172,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <provider
-            android:authorities="app.erp.com.erp_app"
-            android:name="android.support.v4.content.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
-
-        </provider>
-
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true">
-    </uses-feature>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 </manifest>

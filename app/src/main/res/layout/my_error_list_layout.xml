@@ -174,6 +174,19 @@
                     android:textSize="14dp" />
 
                 <Button
+                    android:id="@+id/notice_btn"
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:textSize="10dp"
+                    android:text="특이사항"
+                    android:layout_below="@id/line_2"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/erp_btn"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:padding="0dp"/>
+
+                <Button
                     android:id="@+id/btn_1"
                     android:layout_width="55dp"
                     android:layout_height="30dp"

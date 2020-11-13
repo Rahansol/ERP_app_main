@@ -4,16 +4,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +38,8 @@ import java.util.TimerTask;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.adapter.My_Error_Adapter;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.dialog.Dialog_ErrorNotice;
+import app.erp.com.erp_app.dialog.Dialog_ProJect_Detail;
 import app.erp.com.erp_app.gtv_fragment.Fragement_Gtv_Emp_List;
 import app.erp.com.erp_app.vo.Gtv_Report_Vo;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
@@ -183,6 +190,32 @@ public class Fragment_trouble_list extends Fragment {
 
         String emp_id = pref.getString("emp_id","inter");
         adapter = new My_Error_Adapter(emp_id);
+
+        adapter.setNotice_btn_listener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int postion = (int) view.getTag();
+                Trouble_HistoryListVO thlvo = adapter.resultItem(postion);
+
+                Dialog_ErrorNotice den = new Dialog_ErrorNotice(context, thlvo.getArs_notice());
+                den.setCancelable(true);
+                den.show();
+
+                DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+                int width = dm.widthPixels; //디바이스 화면 너비
+                width = (int)(width * 0.9);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(den.getWindow().getAttributes());
+                lp.width = width;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                Window window = den.getWindow();
+                window.setAttributes(lp);
+                den.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            }
+        });
+
         adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -421,14 +454,15 @@ public class Fragment_trouble_list extends Fragment {
 
         @Override
         protected void onPostExecute(List<Trouble_HistoryListVO> trouble_historyListVOS) {
-            Trouble_HistoryListVO vo = trouble_historyListVOS.get(0);
+            if (null != trouble_historyListVOS) {
+                Trouble_HistoryListVO vo = trouble_historyListVOS.get(0);
 
-            bus_count.setText(text_plus(vo.getBus()));
-            nms_count.setText(text_plus(vo.getJib()));
-            chager_count.setText(text_plus(vo.getCharge()));
-            bit_count.setText(text_plus(vo.getBit()));
-            nomal_count.setText(text_plus(vo.getIb()));
-
+                bus_count.setText(text_plus(vo.getBus()));
+                nms_count.setText(text_plus(vo.getJib()));
+                chager_count.setText(text_plus(vo.getCharge()));
+                bit_count.setText(text_plus(vo.getBit()));
+                nomal_count.setText(text_plus(vo.getIb()));
+            }
         }
     }
 

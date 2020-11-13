@@ -31,6 +31,7 @@ public class My_Error_Adapter extends BaseAdapter {
     private View.OnClickListener equal_trouble_btn;
     private View.OnClickListener call_text_listener;
     private View.OnClickListener move_info_btn;
+    private View.OnClickListener notice_btn_listener;
     private String emp_id;
 
     AdapterViewHolder viewHolder;
@@ -55,6 +56,7 @@ public class My_Error_Adapter extends BaseAdapter {
             viewHolder.btn_1 = (Button)convertView.findViewById(R.id.btn_1);
             viewHolder.btn_2 = (Button)convertView.findViewById(R.id.btn_2);
             viewHolder.move_btn = (Button)convertView.findViewById(R.id.move_btn);
+            viewHolder.notice_btn = (Button)convertView.findViewById(R.id.notice_btn);
 //            viewHolder.btn_3 = (Button)convertView.findViewById(R.id.btn_3);
 
             viewHolder.error_office = convertView.findViewById(R.id.error_office);
@@ -135,6 +137,14 @@ public class My_Error_Adapter extends BaseAdapter {
             viewHolder.error_office.setTextColor(context.getResources().getColor(R.color.history_text_color));
         }
 
+        if(null != trouble_historylistvo.getArs_notice()){
+            viewHolder.notice_btn.setTag(position);
+            viewHolder.notice_btn.setVisibility(View.VISIBLE);
+            viewHolder.notice_btn.setOnClickListener(notice_btn_listener);
+        }else{
+            viewHolder.notice_btn.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
@@ -168,6 +178,10 @@ public class My_Error_Adapter extends BaseAdapter {
 
     public void setMove_info_btn(View.OnClickListener move_info_btn) {
         this.move_info_btn = move_info_btn;
+    }
+
+    public void setNotice_btn_listener(View.OnClickListener notice_btn_listener) {
+        this.notice_btn_listener = notice_btn_listener;
     }
 
     @Override
@@ -216,6 +230,7 @@ public class My_Error_Adapter extends BaseAdapter {
         Button btn_1;
         Button btn_2;
         Button move_btn;
+        Button notice_btn;
 //        Button btn_3;
         TextView error_office;
         TextView error_route;

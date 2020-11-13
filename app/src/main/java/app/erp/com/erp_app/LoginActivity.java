@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -18,6 +19,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
+import com.google.android.play.core.tasks.Task;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -49,10 +57,43 @@ public class LoginActivity extends Activity{
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+    private final int MY_REQUEST_CODE = 100;
+    private AppUpdateManager mAppUpdateManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // 업데이트 사용 가능 상태인지 체크
+        mAppUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
+        Task<AppUpdateInfo> appUpdateInfoTask = mAppUpdateManager.getAppUpdateInfo();
+        // 사용가능 체크 리스너를 달아준다
+        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        && // 유연한 업데이트 사용 시 (AppUpdateType.FLEXIBLE) 사용
+                        appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    try {
+                        mAppUpdateManager.startUpdateFlowForResult(
+                                appUpdateInfo,
+                                // 유연한 업데이트 사용 시 (AppUpdateType.FLEXIBLE) 사용
+                                AppUpdateType.IMMEDIATE,
+                                // 현재 Activity
+                                LoginActivity.this,
+                                // 전역변수로 선언해준 Code
+                                MY_REQUEST_CODE);
+                    } catch (IntentSender.SendIntentException e) {
+                        Log.e("AppUpdater", "AppUpdateManager Error", e);
+                        e.printStackTrace();
+                    }
+                    // 업데이트가 사용 가능한 상태 (업데이트 있음) -> 이곳에서 업데이트를 요청해주자
+                } else {
+                    // 업데이트가 사용 가능하지 않은 상태(업데이트 없음) -> 다음 액티비티로 넘어가도록
+                }
+            }
+        });
 
         pref = getSharedPreferences("user_info" , MODE_PRIVATE);
         editor = pref.edit();
@@ -135,6 +176,7 @@ public class LoginActivity extends Activity{
                         Toast.makeText(LoginActivity.this , "아이디랑 비민번호를 다시 확인해주세요",Toast.LENGTH_SHORT).show();
                         return;
                     }else{
+                        //로그인 한 사람의 정보를 sharedPreference 에 저장/ 네네
                         editor.putString("emp_id" , list.get(0).getEmp_id());
                         editor.putString("emp_name", list.get(0).getEmp_name());
                         editor.putString("dep_name",list.get(0).getDep_name());
@@ -166,5 +208,38 @@ public class LoginActivity extends Activity{
             version = i.versionName;
         } catch(PackageManager.NameNotFoundException e) { }
         return version;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                Log.d("AppUpdate", "Update flow failed! Result code: " + resultCode); // 로그로 코드 확인
+                Toast.makeText(this , "ERP 어플을 사용하기 위해서는 업데이트가 필요해요",Toast.LENGTH_SHORT).show();
+                finishAffinity(); // 앱 종료
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(
+                new OnSuccessListener<AppUpdateInfo>() {
+                    @Override
+                    public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                        if (appUpdateInfo.updateAvailability()
+                                == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                            // 인 앱 업데이트가 이미 실행중이었다면 계속해서 진행하도록
+                            try {
+                                mAppUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, LoginActivity.this, MY_REQUEST_CODE);
+                            } catch (IntentSender.SendIntentException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
     }
 }

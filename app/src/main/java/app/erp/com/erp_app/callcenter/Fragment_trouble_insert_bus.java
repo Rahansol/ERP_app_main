@@ -433,8 +433,6 @@ public class Fragment_trouble_insert_bus extends Fragment {
                 String dep_code = pref.getString("dep_code",null);
                 String care_cd = (String)filed_error_map.get("trouble_care_cd");
 
-                Log.d("care_cd",care_cd);
-
                 filed_error_map.put("emp_id",emp_id);
                 filed_error_map.put("dep_code",dep_code);
                 filed_error_map.put("infra_code","1");

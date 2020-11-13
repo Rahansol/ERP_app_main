@@ -1,11 +1,9 @@
 package app.erp.com.erp_app.callcenter;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,11 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,26 +30,23 @@ import app.erp.com.erp_app.Barcode_My_list_Activity;
 import app.erp.com.erp_app.Barcode_bus_Activity;
 import app.erp.com.erp_app.Barcode_garage_input_Activity;
 import app.erp.com.erp_app.Barcode_garage_output_Activity;
-import app.erp.com.erp_app.Barcode_input_list_Activity;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.Gtv_Error_Install_Activity;
 import app.erp.com.erp_app.Help_Actaivity;
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.New_Bus_Activity;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.ReleaseRequestActivity;
 import app.erp.com.erp_app.ReserveItemRepairActivity;
+import app.erp.com.erp_app.WarehousingActivity;
 import app.erp.com.erp_app.Work_Report_Activity;
-import app.erp.com.erp_app.document_care.CameraTest2Activity;
-import app.erp.com.erp_app.document_care.CameraTestActivity;
 import app.erp.com.erp_app.document_care.ProJectMainActivity;
-import app.erp.com.erp_app.document_care.UnitInstallConfirmActivity;
 import app.erp.com.erp_app.error_history.Error_History_Activity;
-import app.erp.com.erp_app.ic_check_menu.Cash_Box_Check_Activity;
 import app.erp.com.erp_app.over_work.Over_Work_Activity;
 import app.erp.com.erp_app.over_work.Over_Work_Approval_Activity;
-import app.erp.com.erp_app.work.Work_Insert_Activity;
 import retrofit2.Call;
 import retrofit2.Response;
+import test.TestActivity;
 
 public class Call_Center_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , View.OnClickListener {
 
@@ -177,10 +168,32 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             Intent i = new Intent(Call_Center_Activity.this , Over_Work_Activity.class);
             startActivity(i);
         }
-        else if(id == R.id.over_work_approval_btn){
-            Intent i = new Intent(Call_Center_Activity.this , Over_Work_Approval_Activity.class);
+        else if(id == R.id.over_work_approval_btn) {
+            Intent i = new Intent(Call_Center_Activity.this, Over_Work_Approval_Activity.class);
             startActivity(i);
         }
+
+        //테스트
+        else if(id == R.id.test_menu){
+            Intent i = new Intent(Call_Center_Activity.this , TestActivity.class);
+            startActivity(i);
+        }
+
+        //출고신청 액티비티로 이동
+        else if(id == R.id.release_request){
+            Intent i = new Intent(Call_Center_Activity.this, ReleaseRequestActivity.class);
+            startActivity(i);
+        }
+
+        //입고신청 액티비티로 이동
+        else if(id == R.id.warehousing_request){
+            Intent i= new Intent(Call_Center_Activity.this, WarehousingActivity.class);
+            startActivity(i);
+        }
+
+
+
+
 
 //        else if(id == R.id.camera_tset){
 //            Intent i = new Intent(Call_Center_Activity.this , CameraTest2Activity.class);

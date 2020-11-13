@@ -548,8 +548,11 @@ public class Fragment_Project_Work_Insert_3 extends Fragment {
                         main_layout.addView(unit_name_textview);
 
                         LinearLayout group_layout_seq = (LinearLayout) group_layout.get("group_layout_"+list.get(i).getItem_group_seq());
-                        group_layout_seq.addView(main_layout);
-//                        li.addView(main_layout);
+                        if(null != group_layout_seq){
+                            group_layout_seq.addView(main_layout);
+                        }else{
+                            li.addView(main_layout);
+                        }
 
                         break;
                 }

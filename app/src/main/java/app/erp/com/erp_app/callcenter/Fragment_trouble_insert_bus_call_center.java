@@ -467,6 +467,7 @@ public class Fragment_trouble_insert_bus_call_center extends Fragment {
 //                                field_error_route.requestFocus();
 //                                upKeyboard(field_error_route);
                                 field_trouble_error_type_list.setBackground(getResources().getDrawable(R.drawable.spinner_select_background));
+                                // 장비 가져오는 레트로핏 execute
                                 new getfield_trouble_error_type().execute();
                             }
                         }
@@ -494,6 +495,7 @@ public class Fragment_trouble_insert_bus_call_center extends Fragment {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            //스프링 프로젝트에서 장비리스트 가져오는 Call
             Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_error_type("01","1");
             call.enqueue(new Callback<List<Trouble_CodeVo>>() {
                 @Override

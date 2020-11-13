@@ -144,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Intent i = new Intent(MainActivity.this , Gtv_Error_Install_Activity.class);
 //            startActivity(i);
 //        }
+
+
+
         if(fragment != null){
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.frage_change,fragment);
@@ -160,4 +163,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-}
+}//Main Activity....
