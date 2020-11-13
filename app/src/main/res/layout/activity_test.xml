@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="test.TestActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+        <Button
+            android:id="@+id/test_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BTN Y"/>
+
+        <Button
+            android:id="@+id/test_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BTN N"/>
+
+        <TextView
+            android:id="@+id/count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/black"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btn_y"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click Yes"/>
+    <Button
+        android:id="@+id/btn_n"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click No"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="결과 : "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
