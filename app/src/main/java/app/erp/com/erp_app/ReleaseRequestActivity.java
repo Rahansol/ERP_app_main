@@ -99,6 +99,8 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_request);
 
+        //transfer the ownership to interapss acct
+
         mContext = this;
 
 
