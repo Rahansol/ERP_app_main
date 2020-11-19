@@ -78,7 +78,7 @@
 
 
     <!--    Edit text hint 출고 단말기 (특이사항..)-->
-    <string name="editText_hint"><font size="14">요청사항을 입력하세요</font></string>
+    <string name="editText_hint"><font size="14">특이사항을 입력하세요</font></string>
 
 
 

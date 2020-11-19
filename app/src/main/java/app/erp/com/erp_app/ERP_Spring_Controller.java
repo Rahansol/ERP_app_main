@@ -399,6 +399,13 @@ public interface ERP_Spring_Controller {
                                            ,@Query("rep_unit_code") String rep_unit_code);
 
 
+    // 위의 재고리스트랑 이어서 사용용
+   @GET("test/select_stock_list_2")
+    Call<List<TestAllVO>> select_stock_list_2(@Query("barcode_dep_id") String barcode_dep_id
+            ,@Query("unit_code") String unit_code
+            ,@Query("rep_unit_code") String rep_unit_code);
+
+
     //출고위치
     @GET("test/release_location")
     Call<List<TestAllVO>> release_location(@Query("emp_id") String emp_id

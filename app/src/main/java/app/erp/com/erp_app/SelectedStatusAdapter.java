@@ -77,7 +77,7 @@ public class SelectedStatusAdapter extends RecyclerView.Adapter {
         selectedStatusItems item= items.get(position);   //원래느 여기에 position 이건데 int i로 되어있더라구요 이것도 마찬가지로 변수명 개념으로 보시면 되영 아하하
         vh.tvUnitName.setText(item.unitName);
         vh.tvUnitTotalNum.setText(item.unitTotalNum);
-        vh.tvUnitSelectedNum.setText(""+item.unitSelectedNum);
+        /*vh.tvUnitSelectedNum.setText(""+item.unitSelectedNum);*/
 
         // 여기서 settag 할때 스트링이 들어가는데 만약 T1022 이렇게 들어가면 어떤게 unitCode 인지 repUnitCode 인지 모르겠져 ?
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ public class SelectedStatusAdapter extends RecyclerView.Adapter {
 
         TextView tvUnitName;
         TextView tvUnitTotalNum;
-        TextView tvUnitSelectedNum;
+        /*TextView tvUnitSelectedNum;*/
 
         public VH(@NonNull final View itemView) {
             super(itemView);
@@ -127,7 +127,9 @@ public class SelectedStatusAdapter extends RecyclerView.Adapter {
 
             this.tvUnitName= itemView.findViewById(R.id.unit_name);
             this.tvUnitTotalNum= itemView.findViewById(R.id.unit_total_num);
-            this.tvUnitSelectedNum= itemView.findViewById(R.id.unit_selected_num);
+            /*this.tvUnitSelectedNum= itemView.findViewById(R.id.unit_selected_num);*/
+
+
 
             // 3. 아이템 클릭 이벤트 핸들러 메소드에서 리스너 객체 메소드(onItemClick)호출 = 뷰홀더에서 아이템 클릭 시, 커스텀 이벤트 메소드를 호출하는 코드를 작성..
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +141,8 @@ public class SelectedStatusAdapter extends RecyclerView.Adapter {
                             mListener.onItemClick(view , pos);
                         }
                     }
-
                 }
+
 
             });
 
