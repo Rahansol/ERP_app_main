@@ -181,13 +181,17 @@ public class LoginActivity extends Activity{
                         editor.putString("emp_name", list.get(0).getEmp_name());
                         editor.putString("dep_name",list.get(0).getDep_name());
                         editor.putString("dep_code",list.get(0).getDep_code());
+                        editor.putString("emp_dep_id", list.get(0).getEmp_dep_id());
                         editor.commit();
+
+                        Log.d("emp_dep_id 확인+++++++++++++++++++++++++++", list.get(0).getEmp_dep_id()+" ooooooooooooooooo");
 
                         progressDialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, Call_Center_Activity.class);
 //                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
+
                     }
                 }
 

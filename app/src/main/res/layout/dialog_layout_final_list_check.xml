@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="500dp">
+    <TextView
+        android:id="@+id/tv_titlle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="출고신청 목록을 최종 확인하세요."
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="#265FDA"
+        android:textStyle="bold"
+        android:layout_margin="16dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tv_titlle"
+        android:layout_centerInParent="true"/>
+    <RelativeLayout
+        android:id="@+id/final_item_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/ok_btn_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:textSize="30sp"
+            android:layout_alignParentBottom="true"
+            android:background="#265FDA"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+</RelativeLayout>

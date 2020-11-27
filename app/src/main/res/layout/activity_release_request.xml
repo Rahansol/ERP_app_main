@@ -19,7 +19,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="70dp"
                 android:orientation="vertical">
                 <!--<RelativeLayout
@@ -55,6 +54,10 @@
                         android:src="@drawable/ic_menu_black_40dp" />
                 </RelativeLayout>-->
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/release_reqeust2"/>
                <LinearLayout
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -66,19 +69,29 @@
                        android:orientation="vertical">
                        <RelativeLayout
                            android:id="@+id/calendar_layout"
-                           android:layout_width="wrap_content"
+                           android:layout_width="match_parent"
                            android:layout_height="wrap_content"
-                           android:layout_marginLeft="19dp"
+                           android:layout_marginLeft="12dp"
                            android:layout_marginTop="15dp">
                            <TextView
                                android:id="@+id/tv_show_date"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
                                android:layout_centerVertical="true"
-                               android:text="2020/11/18"
+                               android:text="요청날짜 설정"
                                android:textColor="#265FDA"
                                android:textStyle="bold"
                                android:textSize="18sp"/>
+                           <ImageView
+                               android:id="@+id/btn_calendar"
+                               android:layout_width="40dp"
+                               android:layout_height="35dp"
+                               android:layout_centerVertical="true"
+                               android:textColor="@color/white"
+                               android:background="@drawable/ic_baseline_date_range_24"
+                               android:layout_toRightOf="@id/tv_show_date"
+                               android:layout_marginLeft="3dp"/>
+
                            <!--<ImageView
                                android:id="@+id/iv_calendar"
                                android:layout_width="30dp"
@@ -184,7 +197,7 @@
                        android:layout_height="wrap_content"
                        android:padding="5dp"
                        android:layout_marginLeft="10dp"
-                       android:layout_marginTop="45dp"
+                       android:layout_marginTop="55dp"
                        android:gravity="center_vertical">
                        <android.support.v7.widget.RecyclerView
                            android:id="@+id/recyclerview_selected"
@@ -387,7 +400,7 @@
                         android:text="재고 리스트"
                         android:layout_gravity="center"
                         android:textColor="#265FDA"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_margin="10dp"/>
                     <!--<Button
@@ -450,19 +463,19 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_stock_list"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager">
                 </android.support.v7.widget.RecyclerView>
 
-                <View
+                <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:orientation="vertical"
                     android:background="#265FDA"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"/>-->
 
 
 
@@ -477,7 +490,7 @@
                         android:id="@+id/tv_stock_list_title2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="재고 리스트 확인"
+                        android:text="선택한 재고 리스트"
                         android:textColor="#265FDA"
                         android:textSize="18dp"
                         android:textStyle="bold"
@@ -522,20 +535,47 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_stock_list2"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager">
                 </android.support.v7.widget.RecyclerView>
 
-                <View
+
+
+
+                <!--신청목록 확인-->
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="신청목록 확인"
+                        android:textColor="#265FDA"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:layout_margin="10dp"/>
+                </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_final_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager">
+                </android.support.v7.widget.RecyclerView>-->
+
+                <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:orientation="vertical"
                     android:background="#265FDA"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_marginBottom="20dp"/>-->
 
 
 
@@ -551,6 +591,7 @@
                     android:orientation="vertical"
                     android:layout_margin="10dp">
                     <TextView
+                        android:id="@+id/tv_msg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="특이사항"
@@ -564,12 +605,15 @@
                         android:orientation="vertical"
                         android:background="@drawable/box">
                         <EditText
+                            android:id="@+id/et_msg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/editText_hint"
                             android:textSize="14sp"
                             android:layout_margin="8dp"/>
+
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <!--<RelativeLayout
@@ -618,24 +662,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--<Button
-                android:id="@+id/btn_cancel"
+            <Button
+                android:id="@+id/btn_check"
                 android:layout_width="206dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/btn_cancel"
-                android:onClick="clickCancel"
-                android:text="취소"
-                android:textColor="@android:color/white" />-->
+                android:text="신청목록 확인"
+                android:textColor="@android:color/white"
+                android:onClick="clickCheck"/>
 
             <Button
                 android:id="@+id/btn_ok"
-                android:layout_width="match_parent"
+                android:layout_width="206dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/btn_ok"
+                android:layout_toRightOf="@id/btn_check"
                 android:onClick="clickOK"
-                android:text="출고신청 예약 완료"
+                android:text="신청예약 완료"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
 

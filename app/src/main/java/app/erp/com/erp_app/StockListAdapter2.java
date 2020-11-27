@@ -1,8 +1,10 @@
 package app.erp.com.erp_app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,13 +87,41 @@ public class StockListAdapter2 extends RecyclerView.Adapter {
                     String UnitId= items2.get(getLayoutPosition()).unit_id;
                     Boolean CheckBox= items2.get(getLayoutPosition()).checkbox? true : false;
 
+                    StockListItems item= items2.get(getLayoutPosition());
+
                     if(isChecked){
 
-                    }else {  //체크박스를 취소하면 items2 가 지워지면서 items 도 지워짐.
+                    }else {  //체크박스를 취소하면 items2 가 지워지면서 items 의 체크박스 선택이 취소로 변경.
+                        int i;
+                        for (i=0; i< items.size(); i++){
+                            StockListItems t= items.get(i);
+                            if (t.rnum==item.rnum) break;
+                        }
+                        items.get(i).checkbox= false;
+
+                        ReleaseRequestActivity ac= (ReleaseRequestActivity) context;    //context를 이용해 액티비티에 접근..
+                        ac.adapter_stock.notifyItemChanged(i);                          //액티비티에서 adapter_stock 멤버변수를 static으로 만들어, 생성자 전달없이 클래스명으로 접근하여 notify..
+                        
+
+                        items2.remove(item);
+                        notifyItemRemoved(getLayoutPosition());
+
+                        /*items2.remove(items2.get(getLayoutPosition()));
+                        notifyItemRemoved(getAdapterPosition());
+                        //item.checkbox.*/
                     }
                 }
             });
 
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkBox.setChecked(false);
+
+                }
+            });
 
 
         }

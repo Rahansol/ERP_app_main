@@ -3,6 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="app.erp.com.erp_app">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ierp_app_img"
@@ -11,12 +20,18 @@
         android:roundIcon="@mipmap/ierp_app_img_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".InventoryInOutStatusActivity"></activity>
+        <activity
+            android:name=".DialogFinalRequestList"
+            android:label="   출고신청 목록을 최종 확인하세요"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+        <activity android:name=".CheckReleaseRequestList" />
         <activity
             android:name=".ReleaseRequestActivity"
-            android:label="출고 신청"></activity>
+            android:label="출고 신청" />
         <activity
             android:name=".WarehousingActivity"
-            android:label="입고 신청"/>
+            android:label="입고 신청" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
@@ -173,14 +188,5 @@
             </intent-filter>
         </service>
     </application>
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

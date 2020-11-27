@@ -81,10 +81,8 @@
     <string name="editText_hint"><font size="14">특이사항을 입력하세요</font></string>
 
 
-
-
-<!--    단말기 출고신청 화면-->
-<!--    지부 스피너 리스트..-->
+    <!--    단말기 출고신청 화면-->
+    <!--    지부 스피너 리스트..-->
     <string-array name="area_arrays">
         <item>강남</item>
         <item>강북</item>
@@ -111,15 +109,7 @@
     </string-array>
 
 
-
-
-
-    
-    
-    
-    
-<!--    다이얼로그 띄우기-->
-
+    <!--    다이얼로그 띄우기-->
 
 
 </resources>

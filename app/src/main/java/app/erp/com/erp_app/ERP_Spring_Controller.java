@@ -1,5 +1,7 @@
 package app.erp.com.erp_app;
 
+import android.widget.EditText;
+
 import org.json.JSONArray;
 
 import java.util.List;
@@ -370,13 +372,15 @@ public interface ERP_Spring_Controller {
     @GET("test/app_busoffice_test")
     Call<List<Bus_infoVo>> app_busoffice_test(@Query("useyn") String useryn);
 
-//    //지부 스피너..
+    //지부 스피너..
     @GET("test/DepName")
-    Call<List<TestAllVO>> DepNameList(@Query("emp_id") String dep_name);
+    Call<List<TestAllVO>> DepNameList(@Query("emp_id") String dep_name
+                                      ,@Query("emp_dep_id") String emp_dep_id);
 
     //분류 스피너..
     @GET("test/TestList")
-    Call<List<TestAllVO>> InfraList(@Query("barcode_dep_id") String barcode_dep_id);
+    Call<List<TestAllVO>> InfraList(@Query("barcode_dep_id") String barcode_dep_id
+                                    ,@Query("emp_dep_id") String emp_dep_id);
 
 
     //분류 스피너 아이템 선택한 상태현황
@@ -399,17 +403,18 @@ public interface ERP_Spring_Controller {
                                            ,@Query("rep_unit_code") String rep_unit_code);
 
 
-    // 위의 재고리스트랑 이어서 사용용
+    // 재고리스트(2) ----> 이거 안씀..
    @GET("test/select_stock_list_2")
     Call<List<TestAllVO>> select_stock_list_2(@Query("barcode_dep_id") String barcode_dep_id
-            ,@Query("unit_code") String unit_code
-            ,@Query("rep_unit_code") String rep_unit_code);
+                                            ,@Query("unit_code") String unit_code
+                                            ,@Query("rep_unit_code") String rep_unit_code);
 
 
     //출고위치
     @GET("test/release_location")
     Call<List<TestAllVO>> release_location(@Query("emp_id") String emp_id
-                                          ,@Query("barcode_dep_id") String location_id);   //@Query("barcode_dep_id") - 스프링 확인하기   == WHERE LOCATION_ID <> #{barcode_dep_id} /*출고위치의 Location_id*/ 스프링과 같아야함.
+                                          ,@Query("barcode_dep_id") String location_id
+                                            ,@Query("emp_dep_id") String emp_dep_id);   //@Query("barcode_dep_id") - 스프링 확인하기   == WHERE LOCATION_ID <> #{barcode_dep_id} /*출고위치의 Location_id*/ 스프링과 같아야함.
 
 
 
@@ -431,6 +436,77 @@ public interface ERP_Spring_Controller {
                                     ,@Query("unit_id") String unit_id
                                     ,@Query("barcode_dep_id") String location_code
                                     ,@Query("emp_id") String emp_id);
+
+
+
+
+
+
+
+
+
+
+
+    //예약상태 (SQL1, SQL2, SQL3) 이걸로 다시...   하나로 관리
+    @GET("test/AndroidUnitBookingChk")           // 타입- void (리턴타입 없음)
+    Call<Void> AppUnitBookingChk_map(@Query("un_yn") String un_yn
+                                                ,@Query("in_yn") String in_yn
+                                               ,@Query("unit_code") String unit_code
+                                               ,@Query("rep_unit_code") String rep_unit_code
+                                               ,@Query("unit_id") String unit_id
+                                               ,@Query("barcode_dep_id") String barcode_dep_id
+                                                ,@Query("emp_id") String emp_id);
+    /*//예약 업데이트....
+    @GET("test/UpdateUnitBookingChk")
+    Call<List<TestAllVO>> UpdateUnitBookingChk(
+             @Query("un_yn") String un_yn
+            ,@Query("unit_code") String unit_code
+            ,@Query("rep_unit_code") String rep_unit_code
+            ,@Query("unit_id") String unit_id
+            ,@Query("barcode_dep_id") String barcode_dep_id);
+
+    //예약 인서트....
+    @GET("test/InsertUnitRequestListDetail")
+    Call<List<TestAllVO>> InsertUnitRequestListDetail(
+             @Query("in_yn") String in_yn
+            ,@Query("emp_id") String emp_id
+            ,@Query("unit_code") String unit_code
+            ,@Query("rep_unit_code") String rep_unit_code
+            ,@Query("unit_id") String unit_id);*/
+
+
+
+
+    //최종목록 확인하기
+    @GET("test/Android_FinalBookingChk")
+    Call<List<TestAllVO>> FinalBookingChk(@Query("unit_code") String unit_code
+                                         ,@Query("rep_unit_code") String rep_unit_code
+                                         ,@Query("reg_date") String reg_date
+                                         ,@Query("reg_time") String reg_time
+                                         ,@Query("req_emp_id") String req_emp_id);
+
+
+
+
+
+
+
+
+    //출고신청 완료버튼 누르면 (SQL1-insert,  SQL2-insert, SQL3-update, SQL4-update)  ----  하나로 관리... Void 타입
+    @GET("test/AppInsertRequestList")
+    Call<Void> AppInsertRequestList(@Query("emp_id") String emp_id
+                                   ,@Query("req_date") String req_date
+                                   ,@Query("notice") String notice
+                                   ,@Query("request_dep_id") String request_dep_id      //입고스피너 개인 김민수씨 개인 지부값 992000203
+                                   ,@Query("response_dep_id") String response_dep_id    //출고 스피너 값
+                                   ,@Query("barcode_dep_id") String barcode_dep_id );      // emp_dep_id 로그인 한 사람의 지부 (전역변수)
+
+
+
+
+
+
+
 
 
 

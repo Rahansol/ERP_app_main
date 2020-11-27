@@ -5,6 +5,16 @@ package app.erp.com.erp_app.vo;
  */
 
 public class User_InfoVo {
+    private String emp_dep_id;
+
+    public String getEmp_dep_id() {
+        return emp_dep_id;
+    }
+
+    public void setEmp_dep_id(String emp_dep_id) {
+        this.emp_dep_id = emp_dep_id;
+    }
+
     private String emp_id;
     private String emp_pw;
     private String emp_name;
@@ -271,5 +281,38 @@ public class User_InfoVo {
 
     public void setTot_cnt(int tot_cnt) {
         this.tot_cnt = tot_cnt;
+    }
+
+    @Override
+    public String toString() {
+        return "User_InfoVo{" +
+                "emp_dep_id='" + emp_dep_id + '\'' +
+                ", emp_id='" + emp_id + '\'' +
+                ", emp_pw='" + emp_pw + '\'' +
+                ", emp_name='" + emp_name + '\'' +
+                ", emp_birthday='" + emp_birthday + '\'' +
+                ", emp_postnumber='" + emp_postnumber + '\'' +
+                ", emp_address='" + emp_address + '\'' +
+                ", emp_address_old='" + emp_address_old + '\'' +
+                ", join_date='" + join_date + '\'' +
+                ", resign_date='" + resign_date + '\'' +
+                ", dep_code='" + dep_code + '\'' +
+                ", dep_name='" + dep_name + '\'' +
+                ", rank_code='" + rank_code + '\'' +
+                ", bank_name='" + bank_name + '\'' +
+                ", acc_number='" + acc_number + '\'' +
+                ", email='" + email + '\'' +
+                ", imm_superior='" + imm_superior + '\'' +
+                ", tel_no='" + tel_no + '\'' +
+                ", useyn='" + useyn + '\'' +
+                ", authority='" + authority + '\'' +
+                ", app_token_id='" + app_token_id + '\'' +
+                ", call_num='" + call_num + '\'' +
+                ", call_ext_num='" + call_ext_num + '\'' +
+                ", st_date='" + st_date + '\'' +
+                ", end_date='" + end_date + '\'' +
+                ", tot_st=" + tot_st +
+                ", tot_cnt=" + tot_cnt +
+                '}';
     }
 }

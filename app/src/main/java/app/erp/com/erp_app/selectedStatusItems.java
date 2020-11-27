@@ -10,6 +10,11 @@ public class selectedStatusItems {
     String unitCode;
     String repUnitCode;
 
+    /*String unYn;
+    String inYn;
+    String empId;
+    String barcode_dep*/
+
     public selectedStatusItems() {
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/custum_toast_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_toast_background_red">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/iv_custom_toast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/custom_toast_check"/>
+        <TextView
+            android:id="@+id/tv_custom_toast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_custom_toast"
+            android:layout_centerVertical="true"
+            android:text="커스텀 토스트 테스트 중.."
+            android:layout_marginRight="5dp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,3 +1,4 @@
+
 package app.erp.com.erp_app;
 
 import android.app.AlertDialog;
@@ -7,21 +8,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.TooltipCompat;
-import android.util.AndroidException;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,32 +27,32 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import org.w3c.dom.Text;
+import com.google.zxing.client.result.CalendarParsedResult;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import app.erp.com.erp_app.error_history.Error_History_Activity;
 import app.erp.com.erp_app.vo.TestAllVO;
-import app.erp.com.erp_app.vo.Trouble_CodeVo;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReleaseRequestActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class ReleaseRequestActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener{
     private ImageView iv_back;
 
     //선택 현황 리사이클러뷰
@@ -66,9 +64,9 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
     //재고 리스트-(1) 리사이클러뷰
     private RecyclerView recyclerView_stock_list;
-    private ArrayList<StockListItems> items_stock;
+    private ArrayList<StockListItems> items_stock;   //같은 클래스 어레이아이템 공유
     private ArrayList<StockListItems> items_stock_2;
-    private StockListAdapter adapter_stock;
+    static StockListAdapter adapter_stock;
     //재고 리스트-(2) 리사이클러뷰   (1과 같은 ArrayList items 사용)
     private RecyclerView recyclerView_stock_list_2;
     private StockListAdapter2 adapter_stock_2;
@@ -88,18 +86,45 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
     private Button btn_area; //테스트용 버튼
     private TextView tv_area; //테스트용 텍스트뷰
 
-    private String emp_id;     // 아이디 전역변수로..
-    private String barcode_dep_id; // 선택한 지부 id- 전역변수로...
-    private String select_dep_name; // 선택한 분류?
-    private String unitCode_1;
-    private String repUnitCode_2;
-    private String getUnitId;
+    //날짜, 스피너 선택하면 넘어가도록 하는 boolean 변수...
+    Boolean spinner_result;
+
+
+
+    static String emp_id;     // 아이디 전역변수로..
+    static String barcode_dep_id; // 선택한 지부 id- 전역변수로...
+    static String emp_dep_id;    //전역변수로..  //response_dep_id (응답을 받는 곳)
+    static String select_dep_name; // 지부 스피너 값
+    static String select_unit_group;  //분류선택값
+    static String select_release_location;
+    static String selected_location_id;  //입고 스피너 선택값
+
+    static String unitCode_1;
+    static String repUnitCode_2;
+    static String getUnitId;
+    static String getUn_yn;
+    static String getIn_yn;
+
+    //최종 선택목록 확인
+    private Button btn_check;
+    private ArrayList<FinalStockListItem> finalStockListItems;
+    private FinalListItemAdapter finalListItemAdapter;
+    private RecyclerView finalListRecyclerview;
+    private RecyclerView recyclerView_final_list;
+    static String finalUnitCode;
+    static String finalRepUnitCode;
+    static String finalUnitId;
+
+    //특이사항- 요청 메세지..
+    private EditText et_msg;
+    static String notice;
 
 
 
     //캘린터
     private TextView tvShowDate;
     private RelativeLayout calendar_layout;
+    static String current_date_value;
 
     private AlertDialog.Builder builder;
 
@@ -109,15 +134,41 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
 
 
+    //입고신청 옵션메뉴 버튼
+   @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater= this.getMenuInflater();
+        menuInflater.inflate(R.menu.warehousing_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.warehousing_btn:
+                Toast.makeText(mContext, "입고신청 페이지로 이동", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(ReleaseRequestActivity.this, WarehousingActivity.class);
+                startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_request);
 
+
         mContext = this;
 
         //로그인 정보 가져오기
         pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+
+
 
         // back 버튼 누르면 장애처리 조회 화면으로 돌아감
         /*iv_back= findViewById(R.id.iv_back);
@@ -167,12 +218,15 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
         });*/
 
 
-
         //지부- 스피너.. 이건가여 ?네네 저기 dep_name 들어간게 거기서 아이디값 가져와서 넣어주시면 로그인할떄 app 에 저장해버리는 기능 sharedPreference
         spinnerArea= findViewById(R.id.spinner_area);
         ERP_Spring_Controller erp1= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
         emp_id= pref.getString("emp_id",""); // 저장된 emp_id  가져오기
-        Call<List<TestAllVO>> Call1= erp1.DepNameList(emp_id); // <- 이걸 로그인한 사람의 아이디로 변경해야하는거죠..아하 어떻게 변경해요? 지금은 그냥 String타입 "emp_id" 이걸 던지죠 ? 네 저걸 그 네 이거에 저정된 id를 불러와서
+        emp_dep_id= pref.getString("emp_dep_id","");
+        Log.d("emp_id 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", emp_id+"tt");          //나옴
+        Log.d("emp_dep_id 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", emp_dep_id+"dd");   //나옴
+
+        Call<List<TestAllVO>> Call1= erp1.DepNameList(emp_id, emp_dep_id); // <- 이걸 로그인한 사람의 아이디로 변경해야하는거죠..아하 어떻게 변경해요? 지금은 그냥 String타입 "emp_id" 이걸 던지죠 ? 네 저걸 그 네 이거에 저정된 id를 불러와서
         // 저기에 넣어주면 되는거에여. 그 아이디가 이미 저장이 되어있나요? 로그인할때 저장하는 부분이 있어요
         new DepName().execute(Call1);
 
@@ -184,16 +238,14 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
         spinner_release_location= findViewById(R.id.spinner_release_location);
 
 
-        //현재 날짜 보여주기
-        tvShowDate= findViewById(R.id.tv_show_date);
-        long now= System.currentTimeMillis();
-        Date date= new Date(now);
-        SimpleDateFormat mFormat= new SimpleDateFormat("yyyy/MM/dd");
-        String stCurrentDate= mFormat.format(date);
-        tvShowDate= findViewById(R.id.tv_show_date);
-        tvShowDate.setText(stCurrentDate);
 
-
+        //최종목록 확인하기 버튼
+        /*btn_check= findViewById(R.id.btn_check);
+        btn_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });*/
 
 
         //캘린더 레이아웃 (출고요청일, 날짜, 아이콘)을 클릭하면 밑에 onDateSet 라는 함수가 실행되어 선택된 날짜로 텍스트를 변경해줌
@@ -201,17 +253,30 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
         calendar_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*DialogFragment datePicker= new DatePickerFragment();        //밑에
-                datePicker.show(getSupportFragmentManager(), "date picker");*/
+                DialogFragment datePicker= new DatePickerFragment();        //밑에
+                datePicker.show(getSupportFragmentManager(), "date picker");
+
             }
         });
 
 
-
+        et_msg= findViewById(R.id.et_msg);
+        //notice= et_msg.getText().toString();     // 액티비티가 생성될때 입력할수없어 null
+        /*Button btn_msg= findViewById(R.id.btn_msg);
+        btn_msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notice= et_msg.getText().toString();   //여기는 됨
+                TextView tv_msg= findViewById(R.id.tv_msg);
+                tv_msg.setText(notice);
+            }
+        });*/
 
 
 
     }//onCreate...
+
+
 
 
     // 지부 선택...
@@ -239,11 +304,11 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
                 //커스텀 토스트 설정 ...
                 LayoutInflater inflater= getLayoutInflater();
-                View layout= inflater.inflate(R.layout.custom_toast, (ViewGroup)findViewById(R.id.custum_toast_layout));
+                View layout= inflater.inflate(R.layout.custom_toast_complete, (ViewGroup)findViewById(R.id.custum_toast_layout));
                 TextView tv_custom_toast= layout.findViewById(R.id.tv_custom_toast);
                 tv_custom_toast.setText("지부를 선택하세요");
                 final Toast toast = new Toast(getApplicationContext());
-                toast.setGravity(Gravity.BOTTOM, 0,200);
+                toast.setGravity(Gravity.BOTTOM, 0,80);
                 toast.setDuration(Toast.LENGTH_SHORT);
                 toast.setView(layout);
                 toast.show();
@@ -258,36 +323,36 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         // 지부 스피너 선택한 화면에 보이는 String 값 select_dep_name     //select_dep_name = 선택한 지부코드?
                         //String select_dep_name = spinnerArea.getSelectedItem().toString();
-                        String select_dep_name = spinnerArea.getSelectedItem().toString();
+                        select_dep_name = spinnerArea.getSelectedItem().toString();
                         if(select_dep_name != "선택"){
-//                            String barcode_dep_id = ""; // <- 이거 삭제한 이유는 위에 전역변수랑 변수명이 똑같아서 삭제했어요
+//                            String barcode_dep_id = ""; // <- 이거 삭제한 이유는 위에 전역변수랑 변수명이 똑같아서 삭제
                             for(int j=0; j < testAllVO.size(); j++){
                                 // 선택한 String 값 == 리스트 의 지부명과 동일할때 if문
                                 if(select_dep_name == testAllVO.get(j).getDep_name()){
                                     //동일한 리스트이므로 여기서 getBarcode_dep_id 한다
                                     //선택한 지부의 값 => (getBarcode_dep_id) 한 값을 [전역변수= String barcode_dep_id]에 값을 담는다
                                     barcode_dep_id = testAllVO.get(j).getBarcode_dep_id();
+
                                 }
                             }
 //                             분류 스피너 생성 ->  DepName() 안에서 TestList() 실행시키기...
                             ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                            Call<List<TestAllVO>> test_call= erp.InfraList(barcode_dep_id);
+                            Call<List<TestAllVO>> test_call= erp.InfraList(barcode_dep_id, emp_dep_id);
                             new ReleaseRequestActivity.TestList().execute(test_call); //test_call 이게 뭐징 하고 보면
 
                             // 지부 선택했을때 해야지 지부 선택값이 들어가게 하기 위해 지부선택한 곳에서 release_location()로 넘겨주기..
-                            // 출고 스피너 생성 emp_id는 아마 전역으로 바꾸시면될것같아요
+                            // 출고 스피너 생성 emp_id는 아마 전역으로
                             // 이렇게 한 이유는 아까 출고 쿼리를 보니까 선택한 location_id (지부_id) 가 들어가는데
-                            // 그래서 지부 스피너 선택 이벤트 발생하는곳에서 출고스피너 생성입니다.
+                            // 그래서 지부 스피너 선택 이벤트 발생하는곳에서 출고스피너 생성
                             ERP_Spring_Controller erp2= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                            Call<List<TestAllVO>> call2= erp2.release_location(emp_id, barcode_dep_id);  //그럼 여기다 erp2.Dename() 이 말씀ㅇ딘가요?
+                            Call<List<TestAllVO>> call2= erp2.release_location(emp_id, barcode_dep_id, emp_dep_id);
                             new release_location().execute(call2);
                         }
-
                     }
-
 
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
+
                     }
                 });
 
@@ -295,9 +360,6 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
         }
     }
-
-
-
 
 
     // 단말기 분류
@@ -318,6 +380,11 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
         @Override
         protected void onPostExecute(final List<TestAllVO> TestAllVO) {
             super.onPostExecute(TestAllVO);
+
+            Log.d("barcode_dep_id확인********************************* ",barcode_dep_id+" tt");
+            Log.d("barcode_dep_id확인********************************* ",emp_id+" tt");
+            Log.d("barcode_dep_id확인********************************* ",emp_dep_id+" tt");
+
             if(TestAllVO != null){
                 /////// 스피너에 들어갈 array를 만들어준다  ////////
                 List<String> spinner_array = new ArrayList<>();
@@ -326,11 +393,11 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
                 //커스텀 토스트 설정...
                 LayoutInflater inflater= getLayoutInflater();
-                View layout= inflater.inflate(R.layout.custom_toast, (ViewGroup)findViewById(R.id.custum_toast_layout));
+                View layout= inflater.inflate(R.layout.custom_toast_complete, (ViewGroup)findViewById(R.id.custum_toast_layout));
                 TextView tv_custom_toast= layout.findViewById(R.id.tv_custom_toast);
                 tv_custom_toast.setText("분류와 입고를 선택하세요");
                 final Toast toast = new Toast(getApplicationContext());
-                toast.setGravity(Gravity.BOTTOM, 0,200);
+                toast.setGravity(Gravity.BOTTOM, 0,80);
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setView(layout);
                 toast.show();
@@ -344,7 +411,7 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
                 spinnerTerminal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String select_unit_group= spinnerTerminal.getSelectedItem().toString();  // 선택된 아이템
+                        select_unit_group= spinnerTerminal.getSelectedItem().toString();  // 선택된 아이템
 
                         Log.d("이미 담겨져있음 ",barcode_dep_id);
                         Log.d("분류 선택값 ",select_unit_group);        //얘는 왜 전역변수로 안함??
@@ -395,18 +462,6 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
             recyclerView_selected.setLayoutManager(new GridLayoutManager(mContext,2));   //Grid로 설정, span 설정
             recyclerView_selected.setAdapter(adapter_selected);       //리사이클러뷰에 어댑터 붙이기..
 
-            //커스텀 토스트 설정...
-            /*LayoutInflater inflater= getLayoutInflater();
-            View layout= inflater.inflate(R.layout.custom_toast2, (ViewGroup)findViewById(R.id.custum_toast_layout));
-            TextView tv_custom_toast= layout.findViewById(R.id.tv_custom_toast);
-            tv_custom_toast.setText("원하는 단말기를 클릭하세요");
-            final Toast toast = new Toast(getApplicationContext());
-            toast.setGravity(Gravity.TOP, 250,120);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(layout);
-            toast.show();*/
-
-
             // 4. 마지막으로, 액티비티(or 프래그먼트)에서 커스텀 리스너 객체를 생성하여 어댑터에 전달
             adapter_selected.setmListener(new SelectedStatusAdapter.OnitemClickListener() {
                 @Override
@@ -422,7 +477,6 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
 
 
-
                     // 여기서 이제 barcode_dep_id , unit_code :" +tt[0] rep_unit_code : " + tt[1] 로 재고리스트 조회   //그럼 이제 아이템을 넣어줘야되네요?
                     // 재고리스트 조회해서 리사이클러뷰 만들어주면 끝인데 지금
                     // 뭔가 수량이 많은것같긴해요 오잉 여긴또 10개씩이네 아까 많이뜬거 한번 확인해보셔요 쿼리가 잘못된거일수도있으니 네넹
@@ -430,7 +484,6 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
                     // 이렇게 하면 눌렀을때 한번에 좌라락 네 그러내ㅔ요 , ㅜ연습이 조금 필요하겠네요
                     // 여기 전까지 한번 연습을 계속해보셔요 어차피 마지막에는 재고리스트 뿌리는거니까 네네
                     // tt[0] tt[1] 이 필요한곳이 재고리스트 를 조회 할때 필요한거입니다
-
 
 
                     ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
@@ -441,12 +494,14 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
                     // 자 erp.select_stock_list 이걸 이제 보면
                     // 이제 call 이게 어떤건지 감 오시져 ?네네
                     //그걸
+                    Log.d("분류에서 선택현황으로 바코드받음:::::::::",barcode_dep_id);
 
                     //저기에서 +item.unitName+"&"+item.unitTotalNum) 이건 어디서 사용하는거죠
                     // ReleaseRequestActivity에 있는  select_stock_list 에다가  execute 하고 안에 call 이걸 넣었죠
                     // 해석하면 select_stock_list 에서 execute 하는데 어떤걸? call 이걸 하는거입니다 네네
                     // 그럼 저기로 가보져
                     new ReleaseRequestActivity.select_stock_list().execute(call);
+
 
                 }
             });
@@ -503,32 +558,44 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
             items_stock = new ArrayList<>();
             items_stock_2 = new ArrayList<>();
-
             for(int i=0; i<testAllVOS.size(); i++){
-                items_stock.add(new StockListItems(testAllVOS.get(i).getRnum(), testAllVOS.get(i).getUnit_ver(), testAllVOS.get(i).getUnit_id(), false));
+                Log.d("barcode",testAllVOS.get(i).getBarcode_dep_id()+"ttt");
+                Log.d("emp_id   kkkkkkkkkkk", emp_id);
+                items_stock.add(new StockListItems(testAllVOS.get(i).getRnum()
+                                                 , testAllVOS.get(i).getUnit_ver()
+                                                 , testAllVOS.get(i).getUnit_id()
+                                                 , false, testAllVOS.get(i).getUn_yn()
+                                                 , testAllVOS.get(i).getIn_yn()
+                                                 , emp_id
+                                                 ,  testAllVOS.get(i).getRep_unit_code()
+                                                 ,  testAllVOS.get(i).getUnit_code()
+                                                 , barcode_dep_id));   //checkbox getter/setter는 안필요한가?
                 //items_stock_2.add(new StockListItems(testAllVOS.get(i).getRnum(), testAllVOS.get(i).getUnit_ver(), testAllVOS.get(i).getUnit_id(), false));
-                getUnitId= testAllVOS.get(i).getUnit_id();
+
             }
 
-            adapter_stock_2= new StockListAdapter2(mContext, items_stock_2, items_stock, adapter_stock
-            );
+            adapter_stock_2= new StockListAdapter2(mContext, items_stock_2, items_stock, adapter_stock);
             adapter_stock= new StockListAdapter(mContext, items_stock, items_stock_2, adapter_stock_2);
+
             recyclerView_stock_list= findViewById(R.id.recyclerView_stock_list);
             recyclerView_stock_list.setAdapter(adapter_stock);
 
-
             recyclerView_stock_list_2= findViewById(R.id.recyclerView_stock_list2);
             recyclerView_stock_list_2.setAdapter(adapter_stock_2);
+            adapter_stock_2.notifyDataSetChanged();
 
-            //adapter_stock.notifyDataSetChanged();
+            ERP_Spring_Controller erp1= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+            Call<List<TestAllVO>> call1= erp1.FinalBookingChk(unitCode_1, repUnitCode_2, "IMSI-IM-SI", "IMSIDT","msookim");
+            //intent로 값 넘기기.... -> 출고신청 목록 최종확인 값..
+            Intent intent= new Intent(mContext, DialogFinalRequestList.class);
+            intent.putExtra("unitCode", unitCode_1);
+            intent.putExtra("repUnitCode", repUnitCode_2);
+           // new Final_booking_check().execute(call1);
         }
-
     }// select_stock_list class...
 
-
-
-    //선택한 재고리스트(2) 확인.....리사이클러뷰에 붙이기
-    public class select_stock_list_2 extends AsyncTask<Call, Void, List<TestAllVO>>{
+    //최종목록 확인하기 버튼
+    /*public class Final_booking_check extends AsyncTask<Call, Void, List<TestAllVO>>{
 
         @Override
         protected List<TestAllVO> doInBackground(Call... calls) {
@@ -538,26 +605,25 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
                 return response.body();
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
         }
-
         @Override
         protected void onPostExecute(List<TestAllVO> testAllVOS) {
             super.onPostExecute(testAllVOS);
 
-            /*items_stock_2= new ArrayList<>();
+            finalStockListItems = new ArrayList<>();
             for (int i=0; i<testAllVOS.size(); i++){
-                items_stock_2.add(new StockListItems(testAllVOS.get(i).getRnum(), testAllVOS.get(i).getUnit_ver(), testAllVOS.get(i).getUnit_id(), false));
-
+                finalStockListItems.add(new FinalStockListItem(testAllVOS.get(i).getUnit_ver(), testAllVOS.get(i).getUnit_id(), testAllVOS.get(i).getUnit_code(), testAllVOS.get(i).getRep_unit_code()));
             }
-            adapter_stock_2 = new StockListAdapter2(mContext,items_stock ,items_stock_2);
-            recyclerView_stock_list_2 = findViewById(R.id.recyclerView_stock_list2);
-            recyclerView_stock_list_2.setAdapter(adapter_stock_2);*/
 
-
+            finalListItemAdapter= new FinalListItemAdapter(mContext, finalStockListItems);
+            recyclerView_final_list= findViewById(R.id.recyclerView_final_list);
+            recyclerView_final_list.setAdapter(finalListItemAdapter);
+            finalListItemAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
+
 
 
 
@@ -582,17 +648,33 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
         protected void onPostExecute(final List<TestAllVO> testAllVOS) {      // 스프링 프로젝트의 결과값을 받는 곳
             super.onPostExecute(testAllVOS);
 
+            Log.d("emp_dep_id==================================================", testAllVOS.toString()+"   777777777777777777777777777");    //나옴
+
             if(testAllVOS != null){
                 List<String> spinner_array = new ArrayList<>();
                 spinner_array.add("선택");
                 //Toast.makeText(mContext, "출고위치를 선택하세요", Toast.LENGTH_SHORT).show();
                 for (int i=0; i < testAllVOS.size(); i++){
                     spinner_array.add(testAllVOS.get(i).getDep_name());
+                    Log.d("getDep_name()==================================================", testAllVOS.get(i).getDep_name()+"   88888888888888888888888888888");
                 }
+
                 spinner_release_location.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line, spinner_array));
                 spinner_release_location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        select_release_location= spinner_release_location.getSelectedItem().toString();
+                        if (select_release_location != "선택"){
+                            for (int j=0; j<testAllVOS.size(); j++){
+                                if (select_release_location == testAllVOS.get(j).getDep_name()){
+                                    //김민수씨 개인지부 값 (파라미터- request_dep_id)
+                                    selected_location_id= testAllVOS.get(j).getLocation_id();
+                                    //Toast.makeText(mContext, "입고 스피너- 개인지부값: "+selected_location_id, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+
                        /* String select_dep_name = spinner_release_location.getSelectedItem().toString();
                         if(select_dep_name != "선택"){
                             for(int j=0; j<testAllVOS.size(); j++){
@@ -626,131 +708,180 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
 
     // 캘린터 클릭- 선택된 날짜 보여주기 설정
-    /*@Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        *//*long now= System.currentTimeMillis();
+
+        // 1. SimleDateFormat을 이용하여 현재날짜 설정 -- 오직 현재날짜만..
+        /*long now= System.currentTimeMillis();
         Date date= new Date(now);
         SimpleDateFormat mFormat= new SimpleDateFormat("yyyy/MM/dd");
         String stCurrentDate= mFormat.format(date);
         tvShowDate= findViewById(R.id.tv_show_date);
-        tvShowDate.setText(stCurrentDate);*//*
+        tvShowDate.setText(stCurrentDate);*/
 
-
-        Calendar c= Calendar.getInstance(Locale.KOREA);
+        // 2. Calendar 객체를 이용하여 선택된 날짜 설정
+        /*Calendar c= Calendar.getInstance(Locale.KOREAN);
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
-        c.set(Calendar.DATE, dayOfMonth);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        Locale.setDefault(Locale.KOREAN);      //한국어로 설정.. 안그러면 NOV, 20..이런식으로 나옴
         String currentDateString= DateFormat.getDateInstance().format(c.getTime());
         tvShowDate= findViewById(R.id.tv_show_date);
         tvShowDate.setText(currentDateString);
-    }*/
+        tvShowDate.setTextSize(19);*/
+
+        //만약 신청날짜가 현재보다 작으면 다이얼로그 띄어서 신청불가처리. "현재보다 전날짜로 신청할 수 없습니다."
+        //텍스트뷰에 선택된 날짜 보여주기
+        tvShowDate= findViewById(R.id.tv_show_date);
+        /*mMonth= month+1;
+        tvShowDate.setText(year+"-"+mMonth+"-"+dayOfMonth);
+        tvShowDate.setTextSize(19);*/
+        current_date_value= String.format("%4d-%02d-%02d", year, (month+1), dayOfMonth);
+        tvShowDate.setText(current_date_value);
+        tvShowDate.setTextSize(19);
 
 
-    //장비리스트 retrofit   //여기서부터 하시면 되요. 제가잠깐 테스트 해본거라
-    private class getfield_trouble_error_type extends AsyncTask<Call,Void,List<Trouble_CodeVo>>{
-        // 실질적으로 Call이 돌아가는 부분
-        @Override
-        protected List<Trouble_CodeVo> doInBackground(Call... calls) {
-            Call<List<Trouble_CodeVo>> call = calls[0];             //call[0]은 뭐죠? -> Call<List<Trouble_CodeVo>> call = erp.getfield_trouble_error_type("01","1"); 요거입니다 짝짝 ㅎㅎ
-            // execute 는 try catch 로 예외처리를 해줘야함
-            try{
-                // execute 해서 결과 값 받는 변수
-                Response<List<Trouble_CodeVo>> response = call.execute();
-                return response.body();
-            }catch (Exception e){                                   //Toast로 확인가능하나요? 토스트로 어떤거요 ? 요렇게 하면 에러떳을때 토스트로 나오고 로그는
-                e.printStackTrace();
-//                Toast.makeText(ReleaseRequestActivity.this, "fail"+e.toString(), Toast.LENGTH_SHORT).show();
-                return null;
-            }
-        }
-
-        // doInBackground 의 return 이 넘어오는곳
-        @Override
-        protected void onPostExecute(List<Trouble_CodeVo> trouble_codeVos) {
-            super.onPostExecute(trouble_codeVos);
-            if(trouble_codeVos != null){
-                for (Trouble_CodeVo i : trouble_codeVos){
-                    Log.d("result ", i.getUnit_name());
-                }
-            }
-        }
     }
 
 
 
 
 
-    // 재고리스트 전체/ 삭제 버튼.....
-    public void clickDeleteStockList(View view) {
-        Toast.makeText(mContext, "재고 리스트 삭제.....", Toast.LENGTH_SHORT).show();
-    }
-
-    public void clickAllStockList(View view) {
-        Toast.makeText(mContext, "재고 리스트 전체 선택..........", Toast.LENGTH_SHORT).show();
-
-    }
-
-
-
-
-    // 출고신청 -- [취소버튼]
-    public void clickCancel(View view) {
-        Toast.makeText(mContext, "출고신청을 취소하였습니다.", Toast.LENGTH_SHORT).show();
-        Intent intent= new Intent(this, MainActivity.class);
+    // 출고신청 목록 최종확인
+    public void clickCheck(View view) {
+        // 액티비티를 다이얼로그처럼 보이게...
+        Intent intent= new Intent(mContext, DialogFinalRequestList.class);
         startActivity(intent);
+
     }
+
+
+
+
+
 
     // 출고신청 -- [완료버튼]
     public void clickOK(View view) {
-        //다이얼로그 띄우기
-        builder= new AlertDialog.Builder(this);
-        builder.setTitle("출고 신청").setMessage("예약을 완료 하시겠습니까?");
-        builder.setPositiveButton("완료", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // DB에 데이터 insert, update 하기....???
-                //ERP_Spring_Controller= erp....
-                Toast.makeText(mContext, "신청이 완료되었습니다.", Toast.LENGTH_SHORT).show();
 
-                //완료버튼을 누르면 예약상태 업데이트 및... (UPDATE, INSERT...)
-                ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                Call<List<TestAllVO>> call= erp.booking(unitCode_1, repUnitCode_2, getUnitId, barcode_dep_id, emp_id);
-                new ReleaseRequestActivity.booking_status().execute(call);
+        notice= et_msg.getText().toString();
 
-            }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, "신청이 취소되었습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        AlertDialog alertDialog= builder.create();
-        alertDialog.show();
+        Log.d("select_release_location111111111111111111111111111111111111111111111111111111111",select_release_location+"   11111111111");
+
+        //작업완료 전 이벤트에 대해 체크하기..
+        if (select_dep_name.equals("선택")){
+            builder= new AlertDialog.Builder(this);
+            builder.setTitle("지부 정보부족").setMessage("지부 선택을 완료하세요");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog alertDialog= builder.create();
+            alertDialog.show();
+        }else if (select_unit_group.equals("선택")){
+            builder= new AlertDialog.Builder(this);
+            builder.setTitle("분류 정보부족").setMessage("분류 선택을 완료하세요");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog alertDialog= builder.create();
+            alertDialog.show();
+        }else if (select_release_location.equals("선택")) {
+            builder = new AlertDialog.Builder(this);
+            builder.setTitle("입고 정보부족").setMessage("입고 선택을 완료하세요");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }else if (tvShowDate==null){
+            builder = new AlertDialog.Builder(this);
+            builder.setTitle("요청날짜 설정").setMessage("출고신청 날짜선택을 완료하세요");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+        else{
+            //다이얼로그 띄우기
+            builder= new AlertDialog.Builder(this);
+            builder.setTitle("출고 신청").setMessage("예약을 완료 하시겠습니까?");
+            builder.setPositiveButton("완료", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // DB에 데이터 insert, update 하기....???
+                    //ERP_Spring_Controller= erp....
+
+                    //커스텀 토스트 설정 ...
+                    LayoutInflater inflater= getLayoutInflater();
+                    View layout= inflater.inflate(R.layout.custom_toast_complete, (ViewGroup)findViewById(R.id.custum_toast_layout));
+                    TextView tv_custom_toast= layout.findViewById(R.id.tv_custom_toast);
+                    tv_custom_toast.setText("신청이 완료되었습니다.");
+                    final Toast toast = new Toast(getApplicationContext());
+                    toast.setGravity(Gravity.BOTTOM, 0,80);
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.setView(layout);
+                    toast.show();
+
+                    //스프링쪽에서 reg_date, reg_time 해줬으니 여기서 파라미터 필요하지 않음..
+                    //완료버튼을 누르면 예약상태 업데이트 및... (INSERT, UPDATE...)
+                    ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                    Call<Void> call = erp.AppInsertRequestList(emp_id, current_date_value, notice, selected_location_id, barcode_dep_id, emp_dep_id);
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            Log.d("emp_id", emp_id+ "$$$$$$$$$$$$$$$");
+                            Log.d("current_date_value", current_date_value+ " $$$$$$$$$$$$$$$");
+                            Log.d("notice", notice+ "$$$$$$$$$$$$$$$");
+                            Log.d("selected_location_id", selected_location_id+ "$$$$$$$$$$$$$$$");
+                            Log.d("barcode_dep_id", barcode_dep_id+ "$$$$$$$$$$$$$$$");
+                            Log.d("emp_dep_id", emp_dep_id+ "$$$$$$$$$$$$$$$");
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
+
+                    Intent intent= new Intent(mContext, CheckReleaseRequestList.class );
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //커스텀 토스트 설정 ...
+                    LayoutInflater inflater= getLayoutInflater();
+                    View layout= inflater.inflate(R.layout.custom_toast_cancel2, (ViewGroup)findViewById(R.id.custum_toast_layout));
+                    TextView tv_custom_toast= layout.findViewById(R.id.tv_custom_toast);
+                    tv_custom_toast.setText("신청이 취소되었습니다.");
+                    final Toast toast = new Toast(getApplicationContext());
+                    toast.setGravity(Gravity.BOTTOM, 0,80);
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.setView(layout);
+                    toast.show();
+                }
+            });
+            AlertDialog alertDialog= builder.create();
+            alertDialog.show();
+        }
+        
+
     }
 
 
-    public class booking_status extends AsyncTask<Call, Void, List<TestAllVO>>{
 
-        @Override
-        protected List<TestAllVO> doInBackground(Call... calls) {      //스프링쪽과 통신
-            Call<List<TestAllVO>> call= calls[0];
-            try{
-                Response<List<TestAllVO>> response= call.execute();
-                return response.body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final List<TestAllVO> testAllVOS) {      // 스프링 프로젝트의 결과값을 받는 곳
-            super.onPostExecute(testAllVOS);
-
-
-        }
-    }
 
 
 

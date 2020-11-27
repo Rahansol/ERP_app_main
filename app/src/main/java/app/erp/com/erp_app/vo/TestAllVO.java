@@ -6,6 +6,10 @@ package app.erp.com.erp_app.vo;
 
 public class TestAllVO {
 
+
+
+    private String emp_dep_id;
+
     private String dep_name;   //지부명
     private String barcode_dep_id;  //  == location_id 같음..
     private String location_id;    // == barcode_dep_id 같음..
@@ -19,8 +23,106 @@ public class TestAllVO {
     private String rnum;   //번호?순번?
     private String unit_ver;    // ex; V2.0 복수하차..
     private String unit_id;   //제품번호
+    private String un_yn;      //선택해제
+    private String in_yn;
+    private String reg_date;
+    private String reg_time;
+    private String req_emp_id;
+    private String req_type;
+
+    @Override
+    public String toString() {
+        return "TestAllVO{" +
+                "emp_dep_id='" + emp_dep_id + '\'' +
+                ", dep_name='" + dep_name + '\'' +
+                ", barcode_dep_id='" + barcode_dep_id + '\'' +
+                ", location_id='" + location_id + '\'' +
+                ", dep_code='" + dep_code + '\'' +
+                ", emp_id='" + emp_id + '\'' +
+                ", unit_group='" + unit_group + '\'' +
+                ", unit_explain='" + unit_explain + '\'' +
+                ", unit_code='" + unit_code + '\'' +
+                ", rep_unit_code='" + rep_unit_code + '\'' +
+                ", unit_cnt='" + unit_cnt + '\'' +
+                ", rnum='" + rnum + '\'' +
+                ", unit_ver='" + unit_ver + '\'' +
+                ", unit_id='" + unit_id + '\'' +
+                ", un_yn='" + un_yn + '\'' +
+                ", in_yn='" + in_yn + '\'' +
+                ", reg_date='" + reg_date + '\'' +
+                ", reg_time='" + reg_time + '\'' +
+                ", req_emp_id='" + req_emp_id + '\'' +
+                ", req_type='" + req_type + '\'' +
+                ", req_location='" + req_location + '\'' +
+                '}';
+    }
+
+    private String req_location;
+
+    public String getReq_location() {
+        return req_location;
+    }
+
+    public void setReq_location(String req_location) {
+        this.req_location = req_location;
+    }
+
+    public String getEmp_dep_id() {
+        return emp_dep_id;
+    }
+
+    public void setEmp_dep_id(String emp_dep_id) {
+        this.emp_dep_id = emp_dep_id;
+    }
+
+    public String getReg_date() {
+        return reg_date;
+    }
+
+    public void setReg_date(String reg_date) {
+        this.reg_date = reg_date;
+    }
+
+    public String getReg_time() {
+        return reg_time;
+    }
+
+    public void setReg_time(String reg_time) {
+        this.reg_time = reg_time;
+    }
+
+    public String getReq_emp_id() {
+        return req_emp_id;
+    }
+
+    public void setReq_emp_id(String req_emp_id) {
+        this.req_emp_id = req_emp_id;
+    }
+
+    public String getReq_type() {
+        return req_type;
+    }
+
+    public void setReq_type(String req_type) {
+        this.req_type = req_type;
+    }
+
+    public String getIn_yn() {
+        return in_yn;
+    }
+
+    public void setIn_yn(String in_yn) {
+        this.in_yn = in_yn;
+    }
 
 
+    public String getUn_yn() {
+        return un_yn;
+    }
+
+    public void setUn_yn(String un_yn) {
+        this.un_yn = un_yn;
+    }
     // getter, setter, toString @override 하기....
 
 
@@ -126,25 +228,6 @@ public class TestAllVO {
 
     public void setLocation_id(String location_id) {
         this.location_id = location_id;
-    }
-
-    @Override
-    public String toString() {
-        return "TestAllVO{" +
-                "dep_name='" + dep_name + '\'' +
-                ", barcode_dep_id='" + barcode_dep_id + '\'' +
-                ", location_id='" + location_id + '\'' +
-                ", dep_code='" + dep_code + '\'' +
-                ", emp_id='" + emp_id + '\'' +
-                ", unit_group='" + unit_group + '\'' +
-                ", unit_explain='" + unit_explain + '\'' +
-                ", unit_code='" + unit_code + '\'' +
-                ", rep_unit_code='" + rep_unit_code + '\'' +
-                ", unit_cnt='" + unit_cnt + '\'' +
-                ", rnum='" + rnum + '\'' +
-                ", unit_ver='" + unit_ver + '\'' +
-                ", unit_id='" + unit_id + '\'' +
-                '}';
     }
 
     //    private String junk_date;
