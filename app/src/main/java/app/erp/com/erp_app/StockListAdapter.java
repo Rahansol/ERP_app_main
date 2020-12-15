@@ -116,22 +116,25 @@ public class StockListAdapter extends RecyclerView.Adapter {
                     String UnitId= items.get(getLayoutPosition()).unit_id;
                     Boolean CheckBox= items.get(getLayoutPosition()).checkbox? true : false;
 
-
                     String Un_yn= items.get(getLayoutPosition()).un_yn;
-                    final String In_yn= items.get(getLayoutPosition()).in_yn;
-                    final String Emp_id= items.get(getLayoutPosition()).emp_id;
-                    final String Unit_code= items.get(getLayoutPosition()).unit_code;
+                    String In_yn= items.get(getLayoutPosition()).in_yn;
+                    String Emp_id= items.get(getLayoutPosition()).emp_id;
+                    String Unit_code= items.get(getLayoutPosition()).unit_code;
                     String Rep_unit_code= items.get(getLayoutPosition()).rep_unit_code;
                     String Barcode_dep_id= items.get(getLayoutPosition()).barcode_dep_id;
 
+                    String Req_date= items.get(getLayoutPosition()).req_date;
+                    String Notice= items.get(getLayoutPosition()).notice;
+                    String Request_dep_id= items.get(getLayoutPosition()).request_dep_id;
+                    String Response_dep_id= items.get(getLayoutPosition()).response_dep_id;
                     StockListItems item= items.get(getLayoutPosition());    //현재 누른 아이템 항목 얻어오기
-
 
                     if(isChecked){
                         //Toast.makeText(context, UnitId+" 선택 ", Toast.LENGTH_SHORT).show();
                         items2.add(items.get(getLayoutPosition()));
                         stockListAdapter2.notifyItemInserted(items2.size()-1);
                         Log.d("선택: 바코드번호-> ", Barcode_dep_id+" test");
+                        Log.d("선택: 유닛코드-> ", Unit_code+" test");
                         Log.d("선택: 버전별 유닛코드-> ", Rep_unit_code+" test");
                         Log.d("선택: 아이디-> ", Emp_id+" test");
                         Un_yn="";
@@ -148,18 +151,17 @@ public class StockListAdapter extends RecyclerView.Adapter {
                         stockListAdapter2.notifyItemRemoved(i);
                         //stockListAdapter2.notifyItemRemoved(items2.size()-0);
 
-
                         //선택해제시 YY를 넣어라.
                         Un_yn="YY";
                     }
 
-                    //하나로 관리
+                    //하나로 관리  (예약, 업데이트, 인서트, 삭제...등)
                     ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                    Call<Void> call= erp.AppUnitBookingChk_map(Un_yn,In_yn,Unit_code,Rep_unit_code,UnitId,Barcode_dep_id,Emp_id);
+                    Call<Void> call= erp.AppUnitBookingChk_map(Emp_id, Barcode_dep_id, Un_yn, Unit_code, Rep_unit_code, UnitId, In_yn, Req_date, Notice, Request_dep_id, Response_dep_id);
                     call.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            Log.d("emp_id 확인================>>>>>>>",Emp_id+" test");
+
                         }
 
                         @Override
@@ -180,14 +182,6 @@ public class StockListAdapter extends RecyclerView.Adapter {
                     }else {
                         checkBox.setChecked(true);
                     }
-                    //checkBox.setVisibility(checkBox.GONE);
-
-                    /*int pos= getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION){
-                        if (myListener != null){
-                            myListener.myOnItemClick(v, pos);
-                        }
-                    }*/
                 }
 
             });

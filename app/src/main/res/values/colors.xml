@@ -44,6 +44,11 @@
 
     <color name="history_text_color">#ff99cc00</color>
 
+    <color name="complete">#00ac00</color>
+    <color name="schedule">#1531EA</color>
+    <color name="request_cancel">#4200AC</color>
+    <color name="out_cancel">#AC004B</color>
+
 
 
 </resources>

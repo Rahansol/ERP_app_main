@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/drawer_layout"
-    tools:context=".ReleaseRequestActivity">
+    android:id="@+id/drawer_layout">
 
 
     <RelativeLayout
@@ -56,8 +55,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/release_reqeust2"/>
+                    android:layout_height="wrap_content"/>
                <LinearLayout
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -78,7 +76,7 @@
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
                                android:layout_centerVertical="true"
-                               android:text="요청날짜 설정"
+                               android:text="2020-00-00"
                                android:textColor="#265FDA"
                                android:textStyle="bold"
                                android:textSize="18sp"/>
@@ -138,19 +136,19 @@
                            android:layout_marginLeft="17dp"
                            android:background="@drawable/btn_category1"
                            android:layout_marginTop="10dp">
+
                            <TextView
                                android:id="@+id/tv_category"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
-                               android:text="분류"
-                               android:layout_centerVertical="true"
-                               android:textColor="#265FDA"
-                               android:textStyle="bold"
                                android:gravity="center_vertical"
                                android:paddingLeft="10dp"
-                               android:paddingRight="10dp"
                                android:paddingTop="5dp"
-                               android:paddingBottom="5dp"/>
+                               android:paddingRight="10dp"
+                               android:paddingBottom="5dp"
+                               android:text="분류"
+                               android:textColor="#265FDA"
+                               android:textStyle="bold" />
                            <Spinner
                                android:id="@+id/spinner_terminal"
                                android:layout_width="800dp"

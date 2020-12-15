@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_centerVertical="true"
+    android:layout_marginBottom="5dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="@drawable/box3_1"
+    android:elevation="5dp">
+
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/tv_rnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="1"
+            android:textStyle="bold"
+            android:textColor="#4F4F51"
+            android:textSize="16sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="25dp"/>
+
+        <TextView
+            android:id="@+id/tv_detail_unit_ver"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="13sp"
+            android:text="V3.0 운전자"
+            android:textStyle="bold"
+            android:textColor="#4F4F51"
+            android:textAlignment="textStart"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/tv_rnum"/>
+        <TextView
+            android:id="@+id/tv_detail_unit_id"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="13sp"
+            android:textAlignment="textStart"
+            android:text="321600051"
+            android:textStyle="bold"
+            android:textColor="#4F4F51"
+            android:layout_weight="1"
+            android:layout_toRightOf="@id/tv_detail_unit_ver"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"/>
+        <!--<TextView
+            android:id="@+id/tv_detail_unit_code"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="13sp"
+            android:text="T1"
+            android:textAlignment="textStart"
+            android:layout_weight="1"
+            android:layout_toRightOf="@id/tv_detail_unit_id"
+            android:layout_marginRight="10dp"/>
+        <TextView
+            android:id="@+id/tv_detail_rep_unit_code"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="13sp"
+            android:text="032"
+            android:layout_weight="1"
+            android:layout_toRightOf="@id/tv_detail_unit_code"/>-->
+        <TextView
+            android:id="@+id/tv_exe_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="exe type"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:textColor="#ED1E1E"
+            android:layout_toRightOf="@id/tv_detail_unit_id"/>
+    </RelativeLayout>
+
+    <!--<View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#22000000"
+        android:layout_below="@+id/relative_layout"
+        android:layout_marginTop="2dp"/>-->
+
+
+</RelativeLayout>

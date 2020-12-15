@@ -33,6 +33,7 @@ import app.erp.com.erp_app.Barcode_garage_output_Activity;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.Gtv_Error_Install_Activity;
 import app.erp.com.erp_app.Help_Actaivity;
+import app.erp.com.erp_app.InOutStatusActivity;
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.New_Bus_Activity;
 import app.erp.com.erp_app.R;
@@ -178,6 +179,13 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             Intent i = new Intent(Call_Center_Activity.this , TestActivity.class);
             startActivity(i);
         }
+
+        //단말기 입출고 현황 액티비티로 이동
+        else if (id==R.id.inventory_in_out_status){
+            Intent i= new Intent(Call_Center_Activity.this, InOutStatusActivity.class);
+            startActivity(i);
+        }
+
 
         //출고신청 액티비티로 이동
         else if(id == R.id.release_request){

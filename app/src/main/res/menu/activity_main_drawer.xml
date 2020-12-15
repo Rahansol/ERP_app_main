@@ -55,6 +55,10 @@
     <item android:id="@+id/big_menu_2" android:title="단말기 관리">
         <menu>
             <item
+                android:id="@+id/inventory_in_out_status"
+                android:icon="@drawable/ic_smile"
+                android:title="단말기 입출고 현황"/>
+            <item
                 android:id="@+id/release_request"
                 android:icon="@drawable/custom_btn"
                 android:title="출고신청"/>

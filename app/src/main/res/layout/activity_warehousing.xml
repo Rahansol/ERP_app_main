@@ -11,22 +11,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E6F0F8">
+        android:layout_height="wrap_content">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="70dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="40dp">
                     <!-- 출고 요청일- 날짜 -->
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -43,7 +42,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:text="요청날짜 설정"
+                                android:text="2020-00-00"
                                 android:textColor="#265FDA"
                                 android:textStyle="bold"
                                 android:textSize="18sp"/>
@@ -117,7 +116,7 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"/>
                             <Spinner
-                                android:id="@+id/spinner_terminal"
+                                android:id="@+id/spinner_unit_group"
                                 android:layout_width="800dp"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@id/tv_category"
@@ -147,7 +146,7 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"/>
                             <Spinner
-                                android:id="@+id/spinner_release_location"
+                                android:id="@+id/spinner_release_location2"
                                 android:layout_width="800dp"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@id/tv_release_location"
@@ -162,10 +161,10 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="45dp"
+                        android:layout_marginTop="55dp"
                         android:gravity="center_vertical">
                         <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerview_selected"
+                            android:id="@+id/recyclerview_selected_in_unit"
                             android:tooltipText="원하는 단말기를 클릭하세요"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -235,9 +234,9 @@
                         android:layout_weight="1.5"/>
                 </LinearLayout>
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView_stock_list"
+                    android:id="@+id/recyclerView_in_list"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager">
@@ -298,9 +297,9 @@
                         android:layout_weight="1.5"/>
                 </LinearLayout>
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView_stock_list2"
+                    android:id="@+id/recyclerView_in2"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager">
@@ -315,6 +314,7 @@
                     android:orientation="vertical"
                     android:layout_margin="10dp">
                     <TextView
+                        android:id="@+id/tv_msg_notice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="특이사항"
@@ -328,6 +328,7 @@
                         android:orientation="vertical"
                         android:background="@drawable/box">
                         <EditText
+                            android:id="@+id/et_msg_notice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/editText_hint"
@@ -354,25 +355,23 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn_check"
+                android:id="@+id/btn_in_check"
                 android:layout_width="206dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/btn_cancel"
-                android:onClick="clickCheck"
-                android:text="신청목록 확인"
-                android:textColor="@android:color/white" />
+                android:text="입고대상 확인"
+                android:textColor="@android:color/white"/>
 
             <Button
-                android:id="@+id/btn_ok"
+                android:id="@+id/btn_in_ok"
                 android:layout_width="206dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/btn_ok"
-                android:layout_toRightOf="@id/btn_check"
-                android:onClick="clickOK"
-                android:text="신청예약 완료"
-                android:textColor="@android:color/white" />
+                android:layout_toRightOf="@id/btn_in_check"
+                android:text="입고요청 완료"
+                android:textColor="@android:color/white"/>
         </RelativeLayout>
 
     </RelativeLayout>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/new_background2"
+            android:gravity="center_vertical"
+            android:elevation="50dp">
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="단말기 입출고 현황 조회"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:layout_centerHorizontal="true"/>-->
+            <!--조회기간-->
+            <RelativeLayout
+                android:id="@+id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp">
+                <TextView
+                    android:id="@+id/tv_search_period"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="조회기간"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:background="@drawable/box5"
+                    android:layout_marginRight="10dp"/>
+                <TextView
+                    android:id="@+id/tv_start_date"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2020/11/30"
+                    android:textColor="#265FDA"
+                    android:padding="8dp"
+                    android:background="@drawable/box"
+                    android:layout_toRightOf="@id/tv_search_period"/>
+                <ImageView
+                    android:id="@+id/iv_start_date"
+                    android:layout_centerVertical="true"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_baseline_date_range_24_white"
+                    android:paddingRight="4dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_toRightOf="@id/tv_start_date"/>
+                <TextView
+                    android:id="@+id/tv_end_date"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2020/11/30"
+                    android:textColor="#265FDA"
+                    android:padding="8dp"
+                    android:background="@drawable/box"
+                    android:layout_toRightOf="@id/iv_start_date"/>
+                <ImageView
+                    android:id="@+id/iv_end_date"
+                    android:layout_centerVertical="true"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_baseline_date_range_24_white"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_toRightOf="@id/tv_end_date"/>
+            </RelativeLayout>
+
+            <!--조회기준-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@+id/layout1">
+                <TextView
+                    android:id="@+id/tv_search_standard"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="조회기준"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@drawable/box5"
+                    android:layout_marginRight="10dp"/>
+                <Spinner
+                    android:id="@+id/spinner_search_standard"
+                    android:layout_centerVertical="true"
+                    android:layout_width="257dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/box"
+                    android:layout_toRightOf="@id/tv_search_standard"
+                    android:padding="8dp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+
+
+
+
+        <!--입출고현황 리사이클러뷰-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="단말기"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"/>
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="입출고"
+                    android:textColor="#265FDA"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_toRightOf="@id/tv1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="현황 조회"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_toRightOf="@id/tv2"/>
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_layout_in_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@drawable/box_in_out"
+            android:gravity="center"
+            android:layout_marginTop="130dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="clickSearch">
+            <TextView
+                android:id="@+id/tv_Search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="조회"
+                android:textSize="17sp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="15dp"/>
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_baseline_search_24"
+                android:layout_toRightOf="@id/tv_Search"/>
+        </RelativeLayout>
+        <!--<Button
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="140dp"
+            android:text="조회"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:background="@drawable/box_in_out"
+            android:elevation="50dp"
+            android:onClick="clickSearch">
+        </Button>-->
+
+
+
+
+        <Button
+            android:id="@+id/btn_in"
+            android:layout_width="206dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/box"
+            android:text="입고 작업"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#265FDA"
+            android:onClick="clickIn"/>
+        <Button
+            android:id="@+id/btn_out"
+            android:layout_width="206dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_ok"
+            android:layout_toRightOf="@id/btn_in"
+            android:text="출고 작업"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:onClick="clickOut"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/ic_plus"
+        android:backgroundTint="#265FDA">
+    </android.support.design.widget.FloatingActionButton>
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

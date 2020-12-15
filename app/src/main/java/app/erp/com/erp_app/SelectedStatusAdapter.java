@@ -19,11 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectedStatusAdapter extends RecyclerView.Adapter {
-
-    private boolean isChecked=true;
-    private boolean itemClicked=true;
-    private int selectedPosition= -1;
-
     Context context;
     ArrayList<selectedStatusItems> items;
     //리사이클러뷰 외부(액티비티 or 프래그먼트)에서 아이템 클릭 이벤트 처리하기

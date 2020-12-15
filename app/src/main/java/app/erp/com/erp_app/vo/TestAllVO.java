@@ -5,9 +5,6 @@ package app.erp.com.erp_app.vo;
  */
 
 public class TestAllVO {
-
-
-
     private String emp_dep_id;
 
     private String dep_name;   //지부명
@@ -29,6 +26,11 @@ public class TestAllVO {
     private String reg_time;
     private String req_emp_id;
     private String req_type;
+    private String res_name;
+    private String req_name;
+    private String res_date;
+    private String schedule_cnt;
+    private String req_date;
 
     @Override
     public String toString() {
@@ -53,9 +55,116 @@ public class TestAllVO {
                 ", reg_time='" + reg_time + '\'' +
                 ", req_emp_id='" + req_emp_id + '\'' +
                 ", req_type='" + req_type + '\'' +
+                ", res_name='" + res_name + '\'' +
+                ", req_name='" + req_name + '\'' +
+                ", res_date='" + res_date + '\'' +
+                ", schedule_cnt='" + schedule_cnt + '\'' +
+                ", req_date='" + req_date + '\'' +
+                ", notice='" + notice + '\'' +
+                ", exe_type='" + exe_type + '\'' +
+                ", request_dep_id='" + request_dep_id + '\'' +
+                ", response_dep_id='" + response_dep_id + '\'' +
+                ", receipt_cnt='" + receipt_cnt + '\'' +
+                ", unrequest_cnt='" + unrequest_cnt + '\'' +
+                ", cancel_cnt='" + cancel_cnt + '\'' +
                 ", req_location='" + req_location + '\'' +
                 '}';
     }
+
+    private String notice;
+
+    public String getExe_type() {
+        return exe_type;
+    }
+
+    public void setExe_type(String exe_type) {
+        this.exe_type = exe_type;
+    }
+
+    private String exe_type;
+
+    private String request_dep_id;
+    private String response_dep_id;
+
+    public String getRequest_dep_id() {
+        return request_dep_id;
+    }
+
+    public void setRequest_dep_id(String request_dep_id) {
+        this.request_dep_id = request_dep_id;
+    }
+
+    public String getResponse_dep_id() {
+        return response_dep_id;
+    }
+
+    public void setResponse_dep_id(String response_dep_id) {
+        this.response_dep_id = response_dep_id;
+    }
+
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
+
+
+
+    public TestAllVO() {
+    }
+
+    private String receipt_cnt;
+
+    public TestAllVO(String emp_dep_id, String dep_name, String barcode_dep_id, String location_id, String dep_code, String emp_id, String unit_group, String unit_explain, String unit_code, String rep_unit_code, String unit_cnt, String rnum, String unit_ver, String unit_id, String un_yn, String in_yn, String reg_date, String reg_time, String req_emp_id, String req_type, String res_name, String req_name, String res_date, String schedule_cnt, String receipt_cnt, String req_date, String unrequest_cnt, String cancel_cnt, String req_location) {
+        this.emp_dep_id = emp_dep_id;
+        this.dep_name = dep_name;
+        this.barcode_dep_id = barcode_dep_id;
+        this.location_id = location_id;
+        this.dep_code = dep_code;
+        this.emp_id = emp_id;
+        this.unit_group = unit_group;
+        this.unit_explain = unit_explain;
+        this.unit_code = unit_code;
+        this.rep_unit_code = rep_unit_code;
+        this.unit_cnt = unit_cnt;
+        this.rnum = rnum;
+        this.unit_ver = unit_ver;
+        this.unit_id = unit_id;
+        this.un_yn = un_yn;
+        this.in_yn = in_yn;
+        this.reg_date = reg_date;
+        this.reg_time = reg_time;
+        this.req_emp_id = req_emp_id;
+        this.req_type = req_type;
+        this.res_name = res_name;
+        this.req_name = req_name;
+        this.res_date = res_date;
+        this.schedule_cnt = schedule_cnt;
+        this.receipt_cnt = receipt_cnt;
+        this.req_date = req_date;
+        this.unrequest_cnt = unrequest_cnt;
+        this.cancel_cnt = cancel_cnt;
+        this.req_location = req_location;
+    }
+
+
+
+    public String getReq_date() {
+        return req_date;
+    }
+
+    public void setReq_date(String req_date) {
+        this.req_date = req_date;
+    }
+
+
+
+
+    private String unrequest_cnt;
+    private String cancel_cnt;
 
     private String req_location;
 
@@ -228,6 +337,62 @@ public class TestAllVO {
 
     public void setLocation_id(String location_id) {
         this.location_id = location_id;
+    }
+
+    public String getRes_name() {
+        return res_name;
+    }
+
+    public void setRes_name(String res_name) {
+        this.res_name = res_name;
+    }
+
+    public String getReq_name() {
+        return req_name;
+    }
+
+    public void setReq_name(String req_name) {
+        this.req_name = req_name;
+    }
+
+    public String getRes_date() {
+        return res_date;
+    }
+
+    public void setRes_date(String res_date) {
+        this.res_date = res_date;
+    }
+
+    public String getSchedule_cnt() {
+        return schedule_cnt;
+    }
+
+    public void setSchedule_cnt(String schedule_cnt) {
+        this.schedule_cnt = schedule_cnt;
+    }
+
+    public String getReceipt_cnt() {
+        return receipt_cnt;
+    }
+
+    public void setReceipt_cnt(String receipt_cnt) {
+        this.receipt_cnt = receipt_cnt;
+    }
+
+    public String getUnrequest_cnt() {
+        return unrequest_cnt;
+    }
+
+    public void setUnrequest_cnt(String unrequest_cnt) {
+        this.unrequest_cnt = unrequest_cnt;
+    }
+
+    public String getCancel_cnt() {
+        return cancel_cnt;
+    }
+
+    public void setCancel_cnt(String cancel_cnt) {
+        this.cancel_cnt = cancel_cnt;
     }
 
     //    private String junk_date;
