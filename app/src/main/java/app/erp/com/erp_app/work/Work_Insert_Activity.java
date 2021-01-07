@@ -2,16 +2,13 @@ package app.erp.com.erp_app.work;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -23,7 +20,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.Work_Report_Activity;
 
 public class Work_Insert_Activity extends AppCompatActivity {
 

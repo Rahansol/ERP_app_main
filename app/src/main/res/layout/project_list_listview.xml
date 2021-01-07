@@ -69,7 +69,18 @@
                 android:text="등록"
                 android:layout_centerInParent="true"/>
 
+
         </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/myButtonInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My 등록"/>
+
+
+
 
     </LinearLayout>
 

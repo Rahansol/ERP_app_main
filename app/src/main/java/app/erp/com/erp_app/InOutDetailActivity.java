@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +21,6 @@ import java.util.List;
 
 import app.erp.com.erp_app.vo.TestAllVO;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InOutDetailActivity extends AppCompatActivity {
@@ -139,7 +135,7 @@ public class InOutDetailActivity extends AppCompatActivity {
         if (req_type.equals("출고")){
             tv_req_type_value.setTextColor(Color.parseColor("#ffffff"));
             tv_req_type_value.setBackground(this.getResources().getDrawable(R.drawable.box_border_thin_green));
-        }else{
+        }else{  //입고
             tv_req_type_value.setTextColor(Color.parseColor("#ffffff"));
             tv_req_type_value.setBackground(this.getResources().getDrawable(R.drawable.box_border_thin_blue));
         }

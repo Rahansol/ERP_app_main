@@ -2,8 +2,8 @@ package app.erp.com.erp_app.document_care;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;

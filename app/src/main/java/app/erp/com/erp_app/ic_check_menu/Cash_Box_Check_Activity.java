@@ -1,21 +1,17 @@
 package app.erp.com.erp_app.ic_check_menu;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.callcenter.Fragment_trobule_care_insert;
-import app.erp.com.erp_app.callcenter.Fragment_trouble_insert;
-import app.erp.com.erp_app.callcenter.Fragment_trouble_list;
 
 public class Cash_Box_Check_Activity  extends AppCompatActivity implements View.OnClickListener{
 

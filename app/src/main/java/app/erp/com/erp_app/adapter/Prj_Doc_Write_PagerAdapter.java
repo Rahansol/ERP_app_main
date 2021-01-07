@@ -1,21 +1,15 @@
 package app.erp.com.erp_app.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import app.erp.com.erp_app.document_care.Fragment_Project_Doc_Write_3;
-import app.erp.com.erp_app.document_care.Fragment_Project_Work_Insert_1;
-import app.erp.com.erp_app.document_care.Fragment_Project_Work_Insert_2;
-import app.erp.com.erp_app.document_care.Fragment_Project_Work_Insert_3;
 import app.erp.com.erp_app.vo.Prj_Item_VO;
-import app.erp.com.erp_app.vo.ProJectVO;
 
 public class Prj_Doc_Write_PagerAdapter extends FragmentPagerAdapter {
 

@@ -8,11 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,19 +24,8 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonParseException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +34,8 @@ import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.adapter.Prj_Doc_Sign_List_RecyclerAdapter;
-import app.erp.com.erp_app.adapter.Prj_Doc_Work_List_RecyclerAdapter;
 import app.erp.com.erp_app.dialog.Dialog_Year_Month;
 import app.erp.com.erp_app.vo.ProJectVO;
-import app.erp.com.erp_app.vo.Unit_InstallVO;
 import retrofit2.Call;
 import retrofit2.Response;
 

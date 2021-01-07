@@ -7,18 +7,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -30,10 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.erp.com.erp_app.adapter.ReserveScanItemAdapter;
-import app.erp.com.erp_app.callcenter.Fragment_trouble_insert_jip;
 import app.erp.com.erp_app.dialog.Dialog_Reserve_Item;
-import app.erp.com.erp_app.gtv_fragment.Fragement_Gtv_Install_Detail;
-import app.erp.com.erp_app.vo.Edu_Emp_Vo;
 import app.erp.com.erp_app.vo.Reserve_ItemVO;
 import app.erp.com.erp_app.vo.UnitList;
 import retrofit2.Call;

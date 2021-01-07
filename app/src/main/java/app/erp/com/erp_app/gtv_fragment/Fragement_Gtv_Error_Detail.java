@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -51,6 +51,9 @@ public class Fragement_Gtv_Error_Detail extends Fragment {
         Call<List<Gtv_Report_Vo>> call_gtv = erp.app_gtv_detail_error_list(args.getString("gtv_day") , args.getString("busoff_name") , args.getString("emp_name"));
         new Fragement_Gtv_Error_Detail.App_Gtv_Error_Detail_List().execute(call_gtv);
 
+        TextView tv_busoff_name= view.findViewById(R.id.tv_busoff_name);
+        tv_busoff_name.setText(args.getString("busoff_name"));
+
         return view;
     }
 
@@ -94,7 +97,7 @@ public class Fragement_Gtv_Error_Detail extends Fragment {
                 final TextView text = new TextView(context);
                 switch (j){
                     case 0:
-                        text.setText(list.get(i).getRoute_num());
+                        text.setText(list.get(i).getRoute_num());                                       //노선번호
                         TableRow.LayoutParams lp = new TableRow.LayoutParams(0 , 80,2f);
                         lp.setMargins(0,10,0,10);
                         text.setLayoutParams(lp);
@@ -104,7 +107,7 @@ public class Fragement_Gtv_Error_Detail extends Fragment {
                         tableRow.addView(text);
                         break;
                     case 1 :
-                        text.setText(list.get(i).getBus_num());
+                        text.setText(list.get(i).getBus_num());                                        //차량번호
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,3f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -112,7 +115,7 @@ public class Fragement_Gtv_Error_Detail extends Fragment {
                         tableRow.addView(text);
                         break;
                     case 2 :
-                        text.setText(list.get(i).getDrive());
+                        text.setText(list.get(i).getDoor_cnt());                                          // DOOR_CNT (도어)
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,1f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -125,7 +128,33 @@ public class Fragement_Gtv_Error_Detail extends Fragment {
                         tableRow.addView(text);
                         break;
                     case 3 :
-                        text.setText(list.get(i).getLte());
+                        text.setText(list.get(i).getSettop_yn());                                          // SETTOP_YN (셋탑설치)
+                        text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,1f));
+                        text.setGravity(Gravity.CENTER);
+                        text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                        text.setTextColor(getResources().getColor(R.color.textBlack));
+                        if(i%2 == 0){
+                            text.setBackground(getResources().getDrawable(R.drawable.table_text_boder));
+                        }else{
+                            text.setBackground(getResources().getDrawable(R.drawable.table_text_boder2));
+                        }
+                        tableRow.addView(text);
+                        break;
+                    case 4 :
+                        text.setText(list.get(i).getDrive());                                          // DRV (drive)
+                        text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,1f));
+                        text.setGravity(Gravity.CENTER);
+                        text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                        text.setTextColor(getResources().getColor(R.color.textBlack));
+                        if(i%2 == 0){
+                            text.setBackground(getResources().getDrawable(R.drawable.table_text_boder));
+                        }else{
+                            text.setBackground(getResources().getDrawable(R.drawable.table_text_boder2));
+                        }
+                        tableRow.addView(text);
+                        break;
+                    /*case 3 :
+                        text.setText(list.get(i).getLte());                                           // LTE
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,1f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -138,7 +167,7 @@ public class Fragement_Gtv_Error_Detail extends Fragment {
                         }
                         tableRow.addView(text);
                         break;
-                    case 4 :
+                    case 4 :                                                                        //  MST (Master)
                         text.setText(list.get(i).getMaster());
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,1f));
                         text.setGravity(Gravity.CENTER);
@@ -150,9 +179,9 @@ public class Fragement_Gtv_Error_Detail extends Fragment {
                             text.setBackground(getResources().getDrawable(R.drawable.table_text_boder2));
                         }
                         tableRow.addView(text);
-                        break;
+                        break;*/
                     case 5 :
-                        text.setText(list.get(i).getSlave());
+                        text.setText(list.get(i).getSlave());                                       // SLV (Slave)
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,1f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);

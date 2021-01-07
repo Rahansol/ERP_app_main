@@ -9,15 +9,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
-import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -56,7 +55,6 @@ import java.util.Map;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.dialog.Dialog_Bus_find;
-import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.Image_Path_VO;
 import app.erp.com.erp_app.vo.ProJectVO;
 import retrofit2.Call;
@@ -670,6 +668,13 @@ public class Fragment_Project_Work_Insert_1 extends Fragment {
             }
         }
     }
+
+
+
+
+
+
+
 
     void make_project_item_view (List<ProJectVO> list){
         if(null !=list){

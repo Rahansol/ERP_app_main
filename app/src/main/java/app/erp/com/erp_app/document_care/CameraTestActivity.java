@@ -1,32 +1,22 @@
 package app.erp.com.erp_app.document_care;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.telephony.PhoneNumberFormattingTextWatcher;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,15 +24,10 @@ import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.jsonparser.JSONParser;
 
 public class CameraTestActivity extends AppCompatActivity {
 

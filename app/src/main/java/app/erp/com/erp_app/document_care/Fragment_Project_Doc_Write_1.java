@@ -1,52 +1,24 @@
 package app.erp.com.erp_app.document_care;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.ActionBar;
-import android.util.Log;
+
+import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.ActionBar;
+
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -55,14 +27,10 @@ import java.util.Set;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.vo.Image_Path_VO;
 import app.erp.com.erp_app.vo.ProJectVO;
 import app.erp.com.erp_app.vo.Unit_InstallVO;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static android.app.Activity.RESULT_OK;
-import static app.erp.com.erp_app.document_care.CameraTestActivity.REQUEST_IMAGE_CAPTURE;
 
 public class Fragment_Project_Doc_Write_1 extends Fragment {
 

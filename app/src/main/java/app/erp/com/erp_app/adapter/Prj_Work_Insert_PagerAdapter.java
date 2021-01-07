@@ -1,10 +1,8 @@
 package app.erp.com.erp_app.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +64,7 @@ public class Prj_Work_Insert_PagerAdapter extends FragmentPagerAdapter {
     }
 
     public Map<String,Object> return_all_request_map (){
-        Fragment_Project_Work_Insert_1 f1 = (Fragment_Project_Work_Insert_1) mFragmentList.get(0);
+        Fragment_Project_Work_Insert_1 f1 = (Fragment_Project_Work_Insert_1) mFragmentList.get(0);   //첫번째 페이지(프래그먼트)= 스피너...선택,촬영,미리보기 버튼 등
         Fragment_Project_Work_Insert_2 f2 = (Fragment_Project_Work_Insert_2) mFragmentList.get(1);
         Fragment_Project_Work_Insert_3 f3 = (Fragment_Project_Work_Insert_3) mFragmentList.get(2);
         Map<String, Object> return_all_map = new HashMap<>();

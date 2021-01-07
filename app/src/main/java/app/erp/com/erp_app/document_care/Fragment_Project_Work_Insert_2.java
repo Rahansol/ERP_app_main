@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -40,11 +39,8 @@ import java.util.Map;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.Image_Path_VO;
 import app.erp.com.erp_app.vo.ProJectVO;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static app.erp.com.erp_app.document_care.CameraTestActivity.REQUEST_IMAGE_CAPTURE;
 

@@ -12,7 +12,7 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.PowerManager;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -47,6 +47,8 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
         createNotification(title, body);
+
+        Log.d("받아온 title와 body : ",title +" + " +body );
     }
 
     public void createNotification(String aMessage , String body) {

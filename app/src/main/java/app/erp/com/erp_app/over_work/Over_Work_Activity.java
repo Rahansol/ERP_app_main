@@ -1,32 +1,23 @@
 package app.erp.com.erp_app.over_work;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.TextView;
-
-import java.util.Calendar;
-import java.util.Date;
 
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.callcenter.Call_Center_Activity;
-import app.erp.com.erp_app.callcenter.Fragment_trouble_list;
-import app.erp.com.erp_app.document_care.ProJectMainActivity;
 
 public class Over_Work_Activity extends AppCompatActivity {
 

@@ -75,6 +75,19 @@
                 android:textColor="@android:color/white"
                 android:textSize="14dp" />
 
+            <!--<TextView
+                android:id="@+id/transp_bizr_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="transp_bizr_id"/>
+
+            <TextView
+                android:id="@+id/bus_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bus_id"/>-->
+
+
             <TextView
                 android:id="@+id/error_office"
                 android:layout_width="wrap_content"
@@ -186,6 +199,21 @@
                     android:textStyle="bold"
                     android:padding="0dp"/>
 
+
+                <Button
+                    android:id="@+id/btn_error_event_num"
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textSize="10dp"
+                    android:padding="0dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/btn_error_event_num"
+                    android:background="@drawable/erp_btn_orange"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+
                 <Button
                     android:id="@+id/btn_1"
                     android:layout_width="55dp"
@@ -194,11 +222,63 @@
                     android:textSize="10dp"
                     android:padding="0dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@id/btn_1"
+                    android:layout_toRightOf="@id/btn_error_event_num"
                     android:background="@drawable/erp_btn"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    />
+                    android:layout_marginLeft="5dp"/>
+
+                <!--
+                <RelativeLayout
+                    android:id="@+id/btn_error_event_num"
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:background="@drawable/erp_btn_orange"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/btn_1"
+                    android:layout_marginLeft="5dp">
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="최근"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_error_event_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/tv1"
+                        android:text="0"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"/>
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="건"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_toRightOf="@id/tv_error_event_num"/>
+                </RelativeLayout>-->
+
+                <!--<Button
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:text="6개월"
+                    android:textSize="10sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/btn_1"
+                    android:background="@drawable/erp_btn"
+                    android:layout_marginLeft="5dp"/>-->
 
                 <Button
                     android:id="@+id/move_btn"

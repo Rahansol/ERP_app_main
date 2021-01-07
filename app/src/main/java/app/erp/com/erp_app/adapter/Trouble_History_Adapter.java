@@ -2,27 +2,20 @@ package app.erp.com.erp_app.adapter;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import java.util.ArrayList;
 
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.vo.ProJectVO;
-import app.erp.com.erp_app.vo.Trouble_CodeVo;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 
 

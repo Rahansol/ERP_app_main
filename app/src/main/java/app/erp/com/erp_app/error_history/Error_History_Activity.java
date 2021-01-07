@@ -9,12 +9,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -42,24 +41,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import app.erp.com.erp_app.Barcode_input_list_Activity;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.adapter.Trouble_History_Adapter;
-import app.erp.com.erp_app.callcenter.Fragment_trouble_insert_bus;
 import app.erp.com.erp_app.dialog.Dialog_Office_find;
 import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Error_History_Activity extends AppCompatActivity {
 

@@ -9,9 +9,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -28,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -39,6 +42,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,6 +58,7 @@ import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.Edu_Emp_Vo;
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
+import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,8 +70,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class Fragment_trouble_insert_bus extends Fragment {
+    /*최근 장애건수 확인버튼 및 리사이클러뷰 다이얼로그*/
+    static String bus_id_value, bus_id_value2, transp_bizr_id_value;
+    public static RecentErrorListAdapter recentErrorListAdapter;
+    public static RecyclerView recyclerView_recentError;
+    public static ArrayList<RecentErrorListItems> recentErrorListItems;
 
-    Button bus_num_find , bus_num_barcode_find,error_insert_btn ,insert_bus_info,edit_care_emp_list;
+    Button  error_insert_btn ,edit_care_emp_list, btn_error_event_num;
+    LinearLayout bus_num_barcode_find, insert_bus_info;
+    ImageView bus_num_find;
     Context context;
 
     private Retrofit retrofit;
@@ -78,9 +90,9 @@ public class Fragment_trouble_insert_bus extends Fragment {
     SharedPreferences pref, barcode_type_pref;
     SharedPreferences.Editor editor;
 
-    LinearLayout care_layout , old_new_layout , old_select , old_barcode
-            , new_old_layout , new_selcet ,new_barcode, unit_before_camera
-            ,unit_after_camera, bus_num_9999 , bus_num_nomal;
+    LinearLayout care_layout , old_new_layout , old_barcode
+            , new_old_layout ,new_barcode , bus_num_9999 , bus_num_nomal, new_selcet, old_select;
+    ImageView unit_before_camera, unit_after_camera;
 
     CheckBox bs_yn;
 
@@ -115,9 +127,12 @@ public class Fragment_trouble_insert_bus extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_trouble_insert_bus, container ,false);
+        final View view = inflater.inflate(R.layout.fragment_trouble_insert_bus_new, container ,false);
+
         topview =view;
         context = getActivity();
+
+        btn_error_event_num= (Button) view.findViewById(R.id.btn_error_event_num);
 
         main_container = (ScrollView) view.findViewById(R.id.main_container);
 
@@ -153,6 +168,9 @@ public class Fragment_trouble_insert_bus extends Fragment {
         bus_num_9999 = (LinearLayout)view.findViewById(R.id.bus_num_9999);
         bus_num_9999.setVisibility(View.GONE);
         bus_num_nomal = (LinearLayout)view.findViewById(R.id.bus_num_nomal);
+
+        //최근 장애건수 불러올때 필요한 파라미터
+        String emp_id2 = pref.getString("emp_id","inter");
 
         // 사원리스트 가져옴
         String emp_id = pref.getString("emp_id",null);
@@ -310,7 +328,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
         new get_app_history_office_group().execute();
 
         //버스 번호 바코드 스캔
-        bus_num_barcode_find = (Button)view.findViewById(R.id.bus_num_barcode_find);
+        bus_num_barcode_find = (LinearLayout) view.findViewById(R.id.bus_num_barcode_find);
         bus_num_barcode_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -321,7 +339,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
             }
         });
 
-        insert_bus_info = (Button)view.findViewById(R.id.insert_bus_info);
+        insert_bus_info = (LinearLayout) view.findViewById(R.id.insert_bus_info);
         insert_bus_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -331,7 +349,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
         });
 
         //기존 바코드 스캔
-        unit_before_camera = (LinearLayout)view.findViewById(R.id.unit_before_camera);
+        unit_before_camera = (ImageView)view.findViewById(R.id.unit_before_camera);
         unit_before_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -342,7 +360,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
             }
         });
         //교체 후 바코드 스캔
-        unit_after_camera = (LinearLayout)view.findViewById(R.id.unit_after_camera);
+        unit_after_camera = (ImageView) view.findViewById(R.id.unit_after_camera);
         unit_after_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,7 +371,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
             }
         });
 //      버스번호 텍스트 검색
-        bus_num_find = (Button)view.findViewById(R.id.bus_num_find);
+        bus_num_find = (ImageView) view.findViewById(R.id.bus_num_find);
         bus_num_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,7 +415,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
         old_select = (LinearLayout)view.findViewById(R.id.old_select);
         old_barcode = (LinearLayout)view.findViewById(R.id.old_barcode);
         new_old_layout = (LinearLayout)view.findViewById(R.id.new_old_layout);
-        new_selcet = (LinearLayout)view.findViewById(R.id.new_selcet);
+        new_selcet = (LinearLayout) view.findViewById(R.id.new_selcet);
         new_barcode = (LinearLayout)view.findViewById(R.id.new_barcode);
 
         care_layout.setVisibility(View.GONE);
@@ -623,6 +641,11 @@ public class Fragment_trouble_insert_bus extends Fragment {
                                             filed_error_map.put("transp_bizr_id",list.get(i).getTransp_bizr_id());
                                             bus_area_name.setText(list.get(i).getOffice_group());
                                             bus_office_name.setText(list.get(i).getBusoff_name());
+
+                                            transp_bizr_id_value= list.get(i).getTransp_bizr_id();
+                                            Log.d("transp_bizr_id_value",  transp_bizr_id_value);
+                                            bus_id_value= list.get(i).getBus_id();
+                                            Log.d("bus_id_value",  bus_id_value);
                                         }
                                         filed_error_map.put("bus_id",list.get(i).getBus_id());
                                         break;
@@ -632,7 +655,19 @@ public class Fragment_trouble_insert_bus extends Fragment {
 //                                field_error_route.requestFocus();
 //                                upKeyboard(field_error_route);
                                 field_trouble_error_type_list.setBackground(getResources().getDrawable(R.drawable.spinner_select_background));
-                                new getfield_trouble_error_type().execute();
+                                new getfield_trouble_error_type().execute();     //장비 스피너 실행시키는 메소드
+
+
+
+                                if("999999999".equals(transp_bizr_id_value) || "998999999".equals(transp_bizr_id_value) || "997999999".equals(transp_bizr_id_value) ) {
+
+                                }else {
+                                    /*최근 장애건수 텍스트 버튼 불러오기*/
+                                    ERP_Spring_Controller erp = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                                    Call<List<Trouble_HistoryListVO>> call1 = erp.app_fieldError_6Month_Cnt(transp_bizr_id_value, bus_id_value);   //?????
+                                    new getError_event_num().execute(call1);
+
+                                }
                             }
                         }
 
@@ -722,6 +757,118 @@ public class Fragment_trouble_insert_bus extends Fragment {
             return null;
         }
     }
+
+
+
+    // 최근 장애건수 가져옴
+    private class getError_event_num extends AsyncTask<Call, Void, List<Trouble_HistoryListVO>>{
+
+        @Override
+        protected List<Trouble_HistoryListVO> doInBackground(Call... calls) {
+            Call<List<Trouble_HistoryListVO>> call= calls[0];
+            try {
+                Response<List<Trouble_HistoryListVO>> response= call.execute();
+                return response.body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Trouble_HistoryListVO> trouble_historyListVOS) {
+            super.onPostExecute(trouble_historyListVOS);
+
+            Log.d("transp_bizr_id_value chk", transp_bizr_id_value+"" );   //왜 두번나옴??
+            Log.d("bus_id_value chk", bus_id_value+"" );                   //왜 두번나옴 ??
+
+
+            if (trouble_historyListVOS != null){
+                btn_error_event_num.setText("발생 : "+trouble_historyListVOS.get(0).getBef_err_cnt()+" 건");
+            }
+
+            btn_error_event_num.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (trouble_historyListVOS.get(0).getBef_err_cnt().equals('0')){
+                        Toast.makeText(context, "확인할 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(context, "장애 발생건수 확인하기", Toast.LENGTH_SHORT).show();
+                        ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                        Call<List<Trouble_HistoryListVO>> call= erp.app_fieldError_not_care_history(transp_bizr_id_value, bus_id_value);
+                        new app_fieldError_not_care_history_dialog().execute(call);
+                    }
+
+                }
+            });
+        }
+    }//getError_event_num
+
+
+    private class app_fieldError_not_care_history_dialog extends AsyncTask<Call, Void, List<Trouble_HistoryListVO>>{
+
+        @Override
+        protected List<Trouble_HistoryListVO> doInBackground(Call... calls) {
+            Call<List<Trouble_HistoryListVO>> call= calls[0];
+            try {
+                Response<List<Trouble_HistoryListVO>> response= call.execute();
+                return response.body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Trouble_HistoryListVO> trouble_historyListVOS) {
+            super.onPostExecute(trouble_historyListVOS);
+
+            if (trouble_historyListVOS.size() < 1){    //???
+                Toast.makeText(context, "불러올 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+            }else {
+               // Toast.makeText(context, "데이터를 확인합니다.", Toast.LENGTH_SHORT).show();
+                Log.d("장애건수 사이즈 ::::: ", trouble_historyListVOS.size()+"");
+
+                View view_dialog= getLayoutInflater().inflate(R.layout.recent_error_list_dialog_layout, null);
+                recentErrorListItems= new ArrayList<>();
+                for (int i=0; i<trouble_historyListVOS.size(); i++){
+                    recentErrorListItems.add(new RecentErrorListItems(trouble_historyListVOS.get(i).getReg_date()
+                                                                     ,trouble_historyListVOS.get(i).getReg_emp_name()
+                                                                     ,trouble_historyListVOS.get(i).getUnit_before_id()
+                                                                     ,trouble_historyListVOS.get(i).getCare_date()
+                                                                     ,trouble_historyListVOS.get(i).getCare_emp_name()
+                                                                     ,trouble_historyListVOS.get(i).getUnit_after_id()
+                                                                     ,trouble_historyListVOS.get(i).getBusoff_name()
+                                                                     ,trouble_historyListVOS.get(i).getGarage_id()
+                                                                     ,trouble_historyListVOS.get(i).getRoute_num()
+                                                                     ,trouble_historyListVOS.get(i).getUnit_name()
+                                                                     ,trouble_historyListVOS.get(i).getTrouble_high_name()
+                                                                     ,trouble_historyListVOS.get(i).getTrouble_low_name()
+                                                                     ,trouble_historyListVOS.get(i).getTrouble_care_name()
+                                                                     ,trouble_historyListVOS.get(i).getNotice()));
+                }
+                recyclerView_recentError= view_dialog.findViewById(R.id.recent_error_recyclerview_dialog);
+                recentErrorListAdapter= new RecentErrorListAdapter(context, recentErrorListItems);
+                recyclerView_recentError.setAdapter(recentErrorListAdapter);
+
+                AlertDialog.Builder recentDialog= new AlertDialog.Builder(context);
+                recentDialog.setView(view_dialog);
+                recentDialog.setIcon(R.drawable.ic_error);
+                recentDialog.setTitle("최근 6개월 장애건수");
+                recentDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "장애건수를 확인하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                recentDialog.show();
+            }
+        }
+    }
+
+
+
+
 
     //장애 대분류 리스트 가져옴
     private class getfield_trouble_high_code extends AsyncTask<String , Integer , Long>{

@@ -14,11 +14,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,9 +28,6 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +36,6 @@ import java.util.Date;
 import java.util.List;
 
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.jsonparser.JSONParser;
 
 public class CameraTest2Activity extends AppCompatActivity implements View.OnClickListener {
 

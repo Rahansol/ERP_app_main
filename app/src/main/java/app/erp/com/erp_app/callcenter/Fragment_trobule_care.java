@@ -9,10 +9,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AlertDialog;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +58,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Fragment_trobule_care extends Fragment {
 
-    Button bus_num_find , bus_num_barcode_find, update_history ,edit_care_emp_list;
+    Button bus_num_find , bus_num_barcode_find ,edit_care_emp_list;
+    RelativeLayout update_history;
     Context context;
 
     private Retrofit retrofit;
@@ -64,8 +67,12 @@ public class Fragment_trobule_care extends Fragment {
 
     String click_type ,bus_barcode, area_code, emp_id, page_info;
     TextView insert_start_day , insert_start_time, insert_reg_emp_id, insert_unit_code , insert_bus_num, insert_phone_num, insert_area_code,
-            insert_office_code, insert_garage, insert_route_code, insert_ars_unit_code, insert_ars_trouble_high_code,insert_ars_trouble_low_code
+            insert_office_code, insert_ars_unit_code, insert_ars_trouble_high_code,insert_ars_trouble_low_code
             ,trouble_care_list;
+
+
+    EditText insert_garage, insert_route_code;
+
 
     SharedPreferences pref ,page_check_info;
     SharedPreferences.Editor editor;
@@ -96,7 +103,7 @@ public class Fragment_trobule_care extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_trobule_care, container ,false);
+        final View view = inflater.inflate(R.layout.fragment_trouble_care, container ,false);
         context = getActivity();
 
         update_trouble_history_map = new HashMap<>();
@@ -118,7 +125,7 @@ public class Fragment_trobule_care extends Fragment {
             equel_layout.setVisibility(View.GONE);
         }
 
-        LinearLayout after_before_unit = (LinearLayout)view.findViewById(R.id.after_before_unit);
+        RelativeLayout after_before_unit = (RelativeLayout)view.findViewById(R.id.after_before_unit);
         after_before_unit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,7 +136,7 @@ public class Fragment_trobule_care extends Fragment {
             }
         });
 
-        LinearLayout after_care_unit = (LinearLayout)view.findViewById(R.id.after_care_unit);
+        RelativeLayout after_care_unit = (RelativeLayout)view.findViewById(R.id.after_care_unit);
         after_care_unit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,8 +160,10 @@ public class Fragment_trobule_care extends Fragment {
         insert_phone_num = (TextView)view.findViewById(R.id.insert_phone_num);
         insert_area_code = (TextView)view.findViewById(R.id.insert_area_code);
         insert_office_code = (TextView)view.findViewById(R.id.insert_office_code);
-        insert_garage = (TextView)view.findViewById(R.id.insert_garage);
-        insert_route_code = (TextView)view.findViewById(R.id.insert_route_code);
+
+        insert_garage = (EditText) view.findViewById(R.id.insert_garage);
+        insert_route_code = (EditText) view.findViewById(R.id.insert_route_code);
+
         insert_ars_unit_code = (TextView)view.findViewById(R.id.insert_ars_unit_code);
         insert_ars_trouble_high_code = (TextView)view.findViewById(R.id.insert_ars_trouble_high_code);
         insert_ars_trouble_low_code = (TextView)view.findViewById(R.id.insert_ars_trouble_low_code);
@@ -208,7 +217,7 @@ public class Fragment_trobule_care extends Fragment {
             }
         });
 
-        update_history = (Button)view.findViewById(R.id.update_history);
+        update_history = view.findViewById(R.id.update_history);
         update_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="#ffffff">
+    android:background="@drawable/new_background3_1">
 
     <ScrollView
         android:layout_weight="1"
@@ -12,11 +11,201 @@
         android:layout_height="0dp">
 
         <LinearLayout
-            android:id="@+id/project_item_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="20dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="※ 케이블 설치목록"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:textSize="20sp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--운수회사명-->
+                <RelativeLayout
+                    android:id="@+id/bus_company_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_dot_layout_purple"
+                    android:backgroundTint="#88ffffff">
+                    <TextView
+                        android:id="@+id/bus_company_name"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="운수회사명"
+                        android:textColor="#5A3CC6"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:layout_centerVertical="true"
+                        android:text="전 단계 정보고정"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        android:layout_toRightOf="@id/bus_company_name"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                </RelativeLayout>
+
+                <!--운수회사 고정번호 -->
+                <RelativeLayout
+                    android:id="@+id/bus_company_num_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_dot_layout_purple"
+                    android:backgroundTint="#88ffffff">
+                    <TextView
+                        android:id="@+id/bus_company_num"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="운수회사 고정번호"
+                        android:textStyle="bold"
+                        android:textColor="#5A3CC6"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="전 단계 정보고정"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:layout_toRightOf="@id/bus_company_num"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                </RelativeLayout>
+
+
+                <!--운수사 구분 -->
+                <RelativeLayout
+                    android:id="@+id/bus_company_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_dot_layout_purple"
+                    android:backgroundTint="#88ffffff">
+                    <TextView
+                        android:id="@+id/bus_company"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="운수사 구분"
+                        android:textStyle="bold"
+                        android:textColor="#5A3CC6"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="전 단계 정보고정"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:layout_toRightOf="@id/bus_company"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                </RelativeLayout>
+
+
+                <!--설치 구분 -->
+                <RelativeLayout
+                    android:id="@+id/installation_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_dot_layout_purple"
+                    android:backgroundTint="#88ffffff">
+                    <TextView
+                        android:id="@+id/installation"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="설치 구분"
+                        android:textStyle="bold"
+                        android:textColor="#5A3CC6"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="전 단계 정보고정"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:layout_toRightOf="@id/installation"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                </RelativeLayout>
+
+
+
+                <!-- 버전 -->
+                <RelativeLayout
+                    android:id="@+id/version_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/rectangle_dot_layout_purple">
+                    <TextView
+                        android:id="@+id/version"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="버전"
+                        android:textColor="#5A3CC6"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:gravity="center"
+                        android:layout_toRightOf="@id/version"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/project_item_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="40dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="40dp"
+                android:background="@drawable/box_white_bottom_round">
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

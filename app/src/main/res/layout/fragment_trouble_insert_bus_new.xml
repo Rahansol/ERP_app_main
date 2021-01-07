@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="#EBE0F6">
+
+    <ScrollView
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="245dp"
+                android:orientation="vertical"
+                android:background="@drawable/new_background3_1">
+
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="215dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rectangle_layout_purple"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp">
+                    <LinearLayout
+                        android:id="@+id/search_box"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:background="@drawable/search_box_grey"
+                        android:padding="3dp">
+                        <EditText
+                            android:id="@+id/find_bus_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="차량번호를 입력하세요"
+                            android:textSize="14sp"
+                            android:layout_marginLeft="60dp"/>
+                        <ImageView
+                            android:id="@+id/bus_num_find"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_baseline_search_24_grey"
+                            android:layout_marginLeft="30dp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="※ 차량검색, 바코드 검색, 차량등록"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp"
+                        android:padding="10dp"/>
+
+
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp">
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:id="@+id/bus_num_barcode_find"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/purple_box"
+                            android:padding="5dp"
+                            android:layout_marginRight="5dp">
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_search_white_40dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="바코드 검색"
+                                android:textStyle="bold"
+                                android:textColor="#ffffff"
+                                android:layout_marginTop="5dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:id="@+id/insert_bus_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/purple_box"
+                            android:padding="5dp"
+                            android:layout_marginLeft="5dp">
+
+                            <ImageView
+                                android:layout_width="55dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_insert" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="차량등록"
+                                android:textStyle="bold"
+                                android:textColor="#ffffff"
+                                android:layout_marginTop="5dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--차량-->
+                    <LinearLayout
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="3dp"
+                        android:background="@drawable/box_in_out3"
+                        android:layout_marginLeft="5dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="90dp"
+                                android:layout_height="30dp"
+                                android:gravity="center"
+                                android:text="차량"
+                                android:textStyle="bold"
+                                android:textColor="#7B65FB"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:background="@drawable/box_in_out4"/>
+                            <Spinner
+                                android:id="@+id/bus_num_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_marginRight="5dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="차량"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:id="@+id/bus_num_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </LinearLayout>-->
+
+
+
+            <!--조합, 운수사 11111-->
+            <LinearLayout
+                android:id="@+id/bus_num_nomal"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="185dp"
+                    android:layout_height="75dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white"
+                    android:layout_margin="3dp"
+                    android:padding="3dp">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="조합"
+                        android:textStyle="bold"
+                        android:textColor="#7b65fb"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <TextView
+                        android:id="@+id/bus_area_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="185dp"
+                    android:layout_height="75dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white"
+                    android:layout_margin="3dp"
+                    android:padding="3dp">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="운수사"
+                        android:textStyle="bold"
+                        android:textColor="#7b65fb"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <TextView
+                        android:id="@+id/bus_office_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!--조합, 운수사 2222-->
+            <LinearLayout
+                android:id="@+id/bus_num_9999"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="185dp"
+                    android:layout_height="75dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white"
+                    android:layout_margin="3dp"
+                    android:padding="3dp">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:text="조합"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:id="@+id/bus_area_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="185dp"
+                    android:layout_height="75dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white"
+                    android:layout_margin="3dp"
+                    android:padding="3dp">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:text="운수사"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:id="@+id/bus_office_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="185dp"
+                    android:layout_height="75dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white"
+                    android:layout_margin="3dp"
+                    android:padding="3dp">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:text="노선"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <EditText
+                        android:id="@+id/field_error_route"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="185dp"
+                    android:layout_height="75dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white"
+                    android:layout_margin="3dp"
+                    android:padding="3dp">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:text="영업소"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <EditText
+                        android:id="@+id/field_error_garage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center_vertical"
+                        android:text="공동 작업자"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <TextView
+                        android:id="@+id/trouble_care_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="현재 대상자 0명"
+                        android:layout_marginLeft="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/edit_care_emp_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:text="추가/수정"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        android:background="@drawable/rectangle_layout_purple_thick"
+                        android:layout_marginLeft="30dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="장애 발생"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="장애 발생 건 수 "
+                        android:layout_marginLeft="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_error_event_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:text="발생: ? 건수"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        android:background="@drawable/box_in_out2_orange"
+                        android:layout_marginLeft="30dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="장비"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:id="@+id/field_trouble_error_type_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="장애 대분류"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:id="@+id/field_trouble_high_code_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="장애 소분류"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:id="@+id/field_trouble_low_code_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/care_layout"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="조치"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:id="@+id/field_trouble_care_code_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/rectangle_white">
+
+                <!--기존 시리얼-->
+                <LinearLayout
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="90dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_gravity="left"
+                            android:text="기존 시리얼"
+                            android:textColor="#7B65FB"
+                            android:textStyle="bold"
+                            android:background="@drawable/box_in_out4"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:layout_marginBottom="5dp"/>
+                        <EditText
+                            android:id="@+id/unit_before_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:hint="바코드를 스캔하세요"
+                            android:layout_marginBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:layout_marginTop="15dp"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/unit_before_camera"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_menu_camera"/>
+                </LinearLayout>
+
+                <!--신형/구형-->
+                <LinearLayout
+                    android:id="@+id/old_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="@string/new_old"
+                        android:textColor="#7B65FB"
+                        android:textStyle="bold"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        style="@style/spinner_style2"
+                        android:entries="@array/new_old"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+            <!--두번째-->
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp"
+                android:background="@drawable/rectangle_white">
+
+
+                <LinearLayout
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="90dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_gravity="left"
+                            android:text="교체 시리얼"
+                            android:textColor="#7b65fb"
+                            android:textStyle="bold"
+                            android:background="@drawable/box_in_out4"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:layout_marginBottom="5dp"/>
+                        <EditText
+                            android:id="@+id/unit_after_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:hint="바코드를 스캔하세요"
+                            android:layout_marginBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:layout_marginTop="15dp"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/unit_after_camera"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_menu_camera"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/new_selcet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="@string/new_old"
+                        android:textColor="#7b65fb"
+                        android:textStyle="bold"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        style="@style/spinner_style2"
+                        android:entries="@array/new_old"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+            <!--////////////////////////////////////////////////////////////////////////////-->
+            <!--<LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/rectangle_white"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="3dp">
+                &lt;!&ndash;기존시리얼 &ndash;&gt;
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="기존 시리얼"
+                            android:textColor="#7b65fb"
+                            android:textStyle="bold"
+                            android:background="@drawable/box_in_out4"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"/>
+                        <LinearLayout
+                            android:id="@+id/old_select1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/new_old"
+                                android:textColor="#7b65fb"
+                                android:textStyle="bold"
+                                android:background="@drawable/box_in_out4"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"/>
+                            <Spinner
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/spinner_style2"
+                                android:entries="@array/new_old"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:weightSum="3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="바코드를 스캔하세요"
+                            android:textSize="12sp"/>
+                        <ImageView
+                            android:layout_weight="2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="right"
+                            android:src="@drawable/ic_menu_camera"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                &lt;!&ndash;교체시리얼&ndash;&gt;
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="교체 시리얼"
+                            android:textColor="#7b65fb"
+                            android:textStyle="bold"
+                            android:background="@drawable/box_in_out4"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"/>
+                        <LinearLayout
+                            android:id="@+id/new_selcet1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/new_old"
+                                android:textColor="#7b65fb"
+                                android:textStyle="bold"
+                                android:background="@drawable/box_in_out4"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"/>
+                            <Spinner
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/spinner_style2"
+                                android:entries="@array/new_old"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:weightSum="3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:layout_weight="2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="바코드를 스캔하세요"
+                            android:textSize="12sp"/>
+                        <ImageView
+                            android:layout_weight="1"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_menu_camera"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>-->
+            <!--////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+            <!--기사연락처-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="기사 연락처"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <EditText
+                        android:id="@+id/field_error_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:hint="연락처를 입력하세요"
+                        android:maxLength="20"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--특이사항-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="특이사항"
+                        android:textStyle="bold"
+                        android:textColor="#7B65FB"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/box_in_out4"/>
+                    <EditText
+                        android:id="@+id/field_error_notice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:hint="특이사항을 입력하세요"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+                <CheckBox
+                    android:id="@+id/bs_yn"
+                    android:layout_weight="1"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:text="BS"
+                    android:layout_marginLeft="35dp"/>
+                <RadioGroup
+                    android:id="@+id/today_group"
+                    android:layout_weight="2"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <RadioButton
+                        android:id="@+id/today_y"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="당일 처리"/>
+
+                    <RadioButton
+                        android:id="@+id/today_n"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="당일 미처리"/>
+                </RadioGroup>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+                <Button
+                    android:id="@+id/error_insert_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="등록 하기"
+                    android:textStyle="bold"
+                    android:background="@drawable/box_in_out2"
+                    android:textColor="@color/white"
+                    android:layout_margin="5dp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+    <!--차량검색, 바코드 검색, 차량등록-->
+   <!-- <RelativeLayout
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rectangle_dot_layout_purple"
+        android:padding="20dp">
+        <LinearLayout
+            android:id="@+id/search_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/search_box_grey"
+            android:padding="3dp">
+            <EditText
+                android:id="@+id/find_bus_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="차량번호를 입력하세요"
+                android:textSize="14sp"
+                android:layout_marginLeft="60dp"/>
+            <ImageView
+                android:id="@+id/bus_num_find"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_search_24_grey"
+                android:layout_marginLeft="60dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/search_box"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:layout_weight="1"
+                android:id="@+id/bus_num_barcode_find"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/purple_box"
+                android:padding="10dp"
+                android:layout_margin="5dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_search_white_40dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="바코드 검색"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:id="@+id/insert_bus_info"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/purple_box"
+                android:padding="10dp"
+                android:layout_margin="5dp">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_insert" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="차량등록"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>-->
+
+</RelativeLayout>

@@ -7,54 +7,34 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.adapter.Prj_Work_Insert_PagerAdapter;
 import app.erp.com.erp_app.jsonparser.JSONParser;
-import app.erp.com.erp_app.vo.Over_Work_List_VO;
 import app.erp.com.erp_app.vo.ProJectVO;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static app.erp.com.erp_app.document_care.CameraTestActivity.REQUEST_IMAGE_CAPTURE;
 
+//작업 [등록] 버튼을 누르면 나오는 화면 -> 등록화면
 public class ProJect_Work_Insert_Activity extends AppCompatActivity {
 
     private ViewPager insert_view_pager;
@@ -222,7 +202,6 @@ public class ProJect_Work_Insert_Activity extends AppCompatActivity {
             progressDialog.setMessage("이미지 업로드 중...");
             progressDialog.setCancelable(false);
             progressDialog.show();
-
         }
 
         @Override

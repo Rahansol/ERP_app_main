@@ -7,13 +7,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -32,8 +30,6 @@ import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.adapter.ProJectList_Adapter;
 import app.erp.com.erp_app.dialog.Dialog_ProJect_Detail;
-import app.erp.com.erp_app.over_work.Over_Work_Activity;
-import app.erp.com.erp_app.over_work.Over_Work_Insert_Activity;
 import app.erp.com.erp_app.vo.ProJectVO;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -53,7 +49,7 @@ public class Fragment_ProJect_List extends Fragment {
         cjad = new ProJectList_Adapter("Y");
         prj_list_view = (ListView)view.findViewById(R.id.project_list);
 
-        final Button project_serch_btn = (Button)view.findViewById(R.id.project_serch_btn);
+        final Button project_serch_btn = (Button)view.findViewById(R.id.project_serch_btn);     //전체 프로젝트 버튼
         project_serch_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,12 +105,23 @@ public class Fragment_ProJect_List extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(mcontext, ProJect_Work_Insert_Activity.class);
+                Intent i = new Intent(mcontext, ProJect_Work_Insert_Activity.class);      //등록버튼을 누르면 등록화면으로 이동..여기서 내가 만든 화면으로 바꿔주기.
                 ProJectVO select_item = (ProJectVO) cjad.getItem((Integer) view.getTag());
                 i.putExtra("pvo",select_item);
                 startActivity(i);
             }
         });
+
+        /* myButtonInsert 등록 test */
+        cjad.mysetDetail_btn_listener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(mcontext, MyProject_Work_Insert_Activity.class);
+                startActivity(i);
+            }
+        });
+
+
 
         //작업 조회 버튼
         cjad.setProject_work_serch_btn_listener(new View.OnClickListener() {

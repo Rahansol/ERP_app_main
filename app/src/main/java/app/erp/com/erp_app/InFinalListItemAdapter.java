@@ -1,8 +1,8 @@
 package app.erp.com.erp_app;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import app.erp.com.erp_app.vo.TestAllVO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

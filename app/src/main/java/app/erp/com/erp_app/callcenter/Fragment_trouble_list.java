@@ -1,5 +1,6 @@
 package app.erp.com.erp_app.callcenter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,9 +10,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,14 +27,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,9 +44,6 @@ import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.adapter.My_Error_Adapter;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.dialog.Dialog_ErrorNotice;
-import app.erp.com.erp_app.dialog.Dialog_ProJect_Detail;
-import app.erp.com.erp_app.gtv_fragment.Fragement_Gtv_Emp_List;
-import app.erp.com.erp_app.vo.Gtv_Report_Vo;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,6 +67,11 @@ public class Fragment_trouble_list extends Fragment {
 
     TextView nomal_count , bus_count, nms_count,chager_count , bit_count;
 
+    /*최근 6개월 장애건수 다이얼로그*/
+    public static RecentErrorListAdapter recentAdapter1;
+    public static RecyclerView recycler_RecentError;
+    public static ArrayList<RecentErrorListItems> recentErrorListItems;
+
     private Retrofit retrofit;
     SharedPreferences pref,page_check_info;
     SharedPreferences.Editor editor;
@@ -80,6 +87,7 @@ public class Fragment_trouble_list extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_trouble_list, container ,false);
+
         context = getActivity();
         pref = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         ((Call_Center_Activity)getActivity()).switchFragment("care");
@@ -215,6 +223,35 @@ public class Fragment_trouble_list extends Fragment {
 
             }
         });
+
+
+        /*최근 3~6개월 장애목록*/
+        adapter.setErrorEventBtnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "최근 6개월간 장애목록 불러오기..", Toast.LENGTH_SHORT).show();
+
+                int pos= (int)v.getTag();
+                final Trouble_HistoryListVO thlvo= adapter.resultItem(pos);
+                deleteVo= adapter.resultItem(pos);
+                ArrayList<Trouble_HistoryListVO> list= adapter.resultList();
+                final HashMap<String, Object> map= new HashMap<>();
+                map.put("transp_bizr_id", thlvo.getTransp_bizr_id());
+                map.put("bus_id", thlvo.getBus_id());
+                String sp_transp_bizr_id= thlvo.getTransp_bizr_id();
+                String sp_bus_id= thlvo.getBus_id();
+
+                Log.d("transp_bizr_id 확인 ===== > ", sp_transp_bizr_id+"");
+                Log.d("bus_id 확인 ==== > ", sp_bus_id+"");
+
+                ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                Call<List<Trouble_HistoryListVO>> call= erp.app_fieldError_not_care_history(sp_transp_bizr_id, sp_bus_id);  //My_Error_Adapter 에서 bundle 로 받아온 데이터 전달하기..
+                new app_fieldError_not_care_history().execute(call);
+            }
+        });
+
+
+
 
         adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
             @Override
@@ -395,6 +432,77 @@ public class Fragment_trouble_list extends Fragment {
 
         return view;
     }
+
+
+    /*최근 장애건수 버튼을 누르면 실행되는 메소드*/
+    private class app_fieldError_not_care_history extends AsyncTask<Call, Void, List<Trouble_HistoryListVO>>{
+
+        @Override
+        protected List<Trouble_HistoryListVO> doInBackground(Call... calls) {
+            Call<List<Trouble_HistoryListVO>> call= calls[0];
+            try {
+                Response<List<Trouble_HistoryListVO>> response= call.execute();
+                return response.body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Trouble_HistoryListVO> trouble_historyListVOS) {
+            super.onPostExecute(trouble_historyListVOS);
+
+            if (trouble_historyListVOS == null){
+                Toast.makeText(context, "불러올 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+            }else {
+                //Toast.makeText(context, "데이터를 확인합니다.", Toast.LENGTH_SHORT).show();
+            }
+
+            View view1= getLayoutInflater().inflate(R.layout.recent_error_list_dialog_layout, null);
+
+            Log.d("List Size :::::: ", trouble_historyListVOS.size()+"");
+            Log.d("List String :::::: ", trouble_historyListVOS+"");
+
+            recentErrorListItems= new ArrayList<>();
+            for (int i=0; i<trouble_historyListVOS.size(); i++){
+                recentErrorListItems.add(new RecentErrorListItems(trouble_historyListVOS.get(i).getReg_date()
+                                                                 ,trouble_historyListVOS.get(i).getReg_emp_name()
+                                                                 ,trouble_historyListVOS.get(i).getUnit_before_id()
+                                                                 ,trouble_historyListVOS.get(i).getCare_date()
+                                                                 ,trouble_historyListVOS.get(i).getCare_emp_name()
+                                                                 ,trouble_historyListVOS.get(i).getUnit_after_id()
+                                                                 ,trouble_historyListVOS.get(i).getBusoff_name()
+                                                                 ,trouble_historyListVOS.get(i).getGarage_id()
+                                                                 ,trouble_historyListVOS.get(i).getRoute_num()
+                                                                 ,trouble_historyListVOS.get(i).getUnit_name()
+                                                                 ,trouble_historyListVOS.get(i).getTrouble_high_name()
+                                                                 ,trouble_historyListVOS.get(i).getTrouble_low_name()
+                                                                 ,trouble_historyListVOS.get(i).getTrouble_care_name()
+                                                                 ,trouble_historyListVOS.get(i).getNotice()));
+
+            }
+            recycler_RecentError= (RecyclerView) view1.findViewById(R.id.recent_error_recyclerview_dialog);
+            recentAdapter1= new RecentErrorListAdapter(context, recentErrorListItems);
+            recycler_RecentError.setAdapter(recentAdapter1);
+
+            AlertDialog.Builder recentDialog= new AlertDialog.Builder(context);
+            recentDialog.setView(view1);
+            recentDialog.setIcon(R.drawable.ic_error);
+            recentDialog.setTitle("최근 6개월 장애건수");
+            recentDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(context, "데이터를 확인하셨습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            recentDialog.show();
+
+        }
+    }
+
+
+
 
     private class Filed_MyErrorList extends AsyncTask<String , Integer , Long>{
         @Override

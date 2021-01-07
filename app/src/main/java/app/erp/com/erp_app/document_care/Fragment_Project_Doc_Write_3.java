@@ -3,7 +3,9 @@ package app.erp.com.erp_app.document_care;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
@@ -150,6 +153,18 @@ public class Fragment_Project_Doc_Write_3 extends Fragment {
 
     private RequestListener requestListener = new RequestListener() {
         @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+            return false;
+        }
+
+
+        /*28버전 한솔씨 코드*/
+       /* @Override
         public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) {
             Log.d("img e ", ""+e);
             return false;
@@ -158,6 +173,6 @@ public class Fragment_Project_Doc_Write_3 extends Fragment {
         @Override
         public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) {
             return false;
-        }
+        }*/
     };
 }

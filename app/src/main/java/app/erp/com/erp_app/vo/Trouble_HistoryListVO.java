@@ -75,6 +75,7 @@ public class Trouble_HistoryListVO implements Serializable {
     private String move_emp_id;
     private String move_emp_name;
     private String first_yn;
+    private String bef_err_cnt;
 
     private String trouble_high_name;
     private String emp_name;
@@ -158,7 +159,19 @@ public class Trouble_HistoryListVO implements Serializable {
                 ", first_yn='" + first_yn + '\'' +
                 ", trouble_high_name='" + trouble_high_name + '\'' +
                 ", emp_name='" + emp_name + '\'' +
+                ", bef_err_cnt='" + bef_err_cnt + '\'' +
                 '}';
+    }
+
+
+
+
+    public String getBef_err_cnt() {
+        return bef_err_cnt;
+    }
+
+    public void setBef_err_cnt(String bef_err_cnt) {
+        this.bef_err_cnt = bef_err_cnt;
     }
 
     public String getReg_date() {

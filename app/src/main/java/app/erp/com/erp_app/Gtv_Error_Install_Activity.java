@@ -5,13 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -82,7 +81,7 @@ public class Gtv_Error_Install_Activity extends AppCompatActivity implements Vie
     public void onClick(View v) {
         Fragment fr = null;
         switch (v.getId()){
-            case R.id.all_data_serch :
+            case R.id.all_data_serch :      //전체조회 버튼
                 String all_gtv_day = (String) gtv_day.getText();
                 fr = new Fragement_Gtv_Total_List();
                 Bundle args_all = new Bundle();
@@ -90,7 +89,7 @@ public class Gtv_Error_Install_Activity extends AppCompatActivity implements Vie
                 args_all.putString("gtv_day",all_gtv_day.replaceAll("-",""));
                 fr.setArguments(args_all);
                 break;
-            case R.id.emp_data_serch :
+            case R.id.emp_data_serch :      //담당지역 버튼
                 String emp_gtv_day = (String) gtv_day.getText();
                 fr = new Fragement_Gtv_Emp_List();
 

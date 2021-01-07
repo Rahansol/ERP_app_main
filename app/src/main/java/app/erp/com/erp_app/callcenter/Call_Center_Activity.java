@@ -6,16 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -41,7 +42,9 @@ import app.erp.com.erp_app.ReleaseRequestActivity;
 import app.erp.com.erp_app.ReserveItemRepairActivity;
 import app.erp.com.erp_app.WarehousingActivity;
 import app.erp.com.erp_app.Work_Report_Activity;
+import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
 import app.erp.com.erp_app.document_care.ProJectMainActivity;
+import app.erp.com.erp_app.document_care.myfragments.MyPageFragment1;
 import app.erp.com.erp_app.error_history.Error_History_Activity;
 import app.erp.com.erp_app.over_work.Over_Work_Activity;
 import app.erp.com.erp_app.over_work.Over_Work_Approval_Activity;
@@ -60,14 +63,18 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_call_center);
+
+        //FirebaseApp.initializeApp(this);  // firebase 초기화 해주기
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         pref = getSharedPreferences("user_info" , MODE_PRIVATE);
         String token_dep_code = pref.getString("dep_code","");
         String emp_id = pref.getString("emp_id","");
+
         String token = FirebaseInstanceId.getInstance().getToken();
         message_group(token_dep_code);
 
@@ -157,8 +164,14 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             Intent i = new Intent(Call_Center_Activity.this , Work_Report_Activity.class);
             startActivity(i);
         }
+        /*프로젝트 업무 수행*/
         else if(id == R.id.project_work_btn){
             Intent i = new Intent(Call_Center_Activity.this , ProJectMainActivity.class);
+            startActivity(i);
+        }
+        /*설치 확인서*/
+        else if (id == R.id.installation_confirm){
+            Intent i= new Intent(Call_Center_Activity.this, MyProject_Work_Insert_Activity.class);     //MyProject_Work_Insert_Activity <- Viewpager로 연결되어있는 액티비티
             startActivity(i);
         }
         else if(id == R.id.trouble_serch_btn){
@@ -181,7 +194,7 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         }
 
         //단말기 입출고 현황 액티비티로 이동
-        else if (id==R.id.inventory_in_out_status){
+        else if (id==R.id.inventory_in_out_status2){
             Intent i= new Intent(Call_Center_Activity.this, InOutStatusActivity.class);
             startActivity(i);
         }
@@ -198,6 +211,8 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             Intent i= new Intent(Call_Center_Activity.this, WarehousingActivity.class);
             startActivity(i);
         }
+
+
 
 
 
@@ -226,9 +241,9 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
                 trouble_care.setBackground(null);
                 trouble_clear.setBackground(null);
 
-                trouble_insert.setTextColor(getResources().getColor(R.color.green_text_color));
-                trouble_clear.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_care.setTextColor(getResources().getColor(R.color.origin_color));
+                trouble_insert.setTextColor(getResources().getColor(R.color.white));
+                trouble_clear.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_care.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
                 break;
             case R.id.trouble_care :
                 page_check = "list";
@@ -238,9 +253,9 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
                 trouble_care.setBackground(getResources().getDrawable(R.drawable.text_btn));
                 trouble_clear.setBackground(null);
 
-                trouble_insert.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_clear.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_care.setTextColor(getResources().getColor(R.color.green_text_color));
+                trouble_insert.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_clear.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_care.setTextColor(getResources().getColor(R.color.white));
                 break;
             case R.id.trouble_clear:
                 page_check = "care";
@@ -249,9 +264,9 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
                 trouble_care.setBackground(null);
                 trouble_clear.setBackground(getResources().getDrawable(R.drawable.text_btn));
 
-                trouble_insert.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_care.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_clear.setTextColor(getResources().getColor(R.color.green_text_color));
+                trouble_insert.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_care.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_clear.setTextColor(getResources().getColor(R.color.white));
                 break;
         }
         if(fragment != null){
@@ -271,27 +286,27 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
                 trouble_care.setBackground(null);
                 trouble_clear.setBackground(null);
 
-                trouble_insert.setTextColor(getResources().getColor(R.color.green_text_color));
-                trouble_clear.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_care.setTextColor(getResources().getColor(R.color.origin_color));
+                trouble_insert.setTextColor(getResources().getColor(R.color.white));
+                trouble_clear.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_care.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
                 break;
             case "care":
                 trouble_insert.setBackground(null);
                 trouble_care.setBackground(getResources().getDrawable(R.drawable.text_btn));
                 trouble_clear.setBackground(null);
 
-                trouble_insert.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_clear.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_care.setTextColor(getResources().getColor(R.color.green_text_color));
+                trouble_insert.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_clear.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_care.setTextColor(getResources().getColor(R.color.white));
                 break;
             case "claer":
                 trouble_insert.setBackground(null);
                 trouble_care.setBackground(null);
                 trouble_clear.setBackground(getResources().getDrawable(R.drawable.text_btn));
 
-                trouble_insert.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_care.setTextColor(getResources().getColor(R.color.origin_color));
-                trouble_clear.setTextColor(getResources().getColor(R.color.green_text_color));
+                trouble_insert.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_care.setTextColor(getResources().getColor(R.color.tab_bar_text_unclick));
+                trouble_clear.setTextColor(getResources().getColor(R.color.white));
                 break;
         }
     }

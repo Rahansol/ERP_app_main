@@ -66,12 +66,12 @@
         android:background="#22000000"
         android:layout_marginTop="3dp"
         android:layout_below="@+id/layout_title"/>
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_final_list_dialog_in"
         android:layout_width="wrap_content"
         android:layout_height="220dp"
         android:orientation="vertical"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="15dp"/>

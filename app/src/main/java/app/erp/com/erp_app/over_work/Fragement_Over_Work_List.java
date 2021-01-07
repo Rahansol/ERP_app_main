@@ -6,20 +6,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -31,7 +30,6 @@ import java.util.List;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.adapter.Over_Work_List_Adapter;
 import app.erp.com.erp_app.adapter.Over_Work_Process_List_Adapter;
 import app.erp.com.erp_app.vo.Over_Work_List_VO;
 import retrofit2.Call;

@@ -4,17 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <TextView
+        android:id="@+id/tv_busoff_name"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/detail_info_boder"
-        android:text="DRV : 운전자  MST : 마스터  SLV : 슬레이브 "
+        android:text="DRV : 운전자   SLV : 슬레이브"
         android:gravity="left|center"
         android:textColor="@color/textBlack"
         android:textSize="@dimen/nomal2_font_size"
         android:textStyle="bold"
-        android:paddingLeft="20dp"
-        />
+        android:paddingLeft="20dp"/>
+
 
     <TableLayout
         android:layout_width="match_parent"
@@ -49,8 +52,20 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 style="@style/gtv_table_text_style"
-                android:text="DRV"/>
+                android:text="도어"/>
             <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/gtv_table_text_style"
+                android:text="셋탑"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/gtv_table_text_style"
+                android:text="DRV"/>
+            <!--<TextView
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -61,7 +76,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 style="@style/gtv_table_text_style"
-                android:text="MST"/>
+                android:text="MST"/>-->
             <TextView
                 android:layout_weight="1"
                 android:layout_width="0dp"

@@ -4,9 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -166,7 +166,7 @@ public class Fragement_Gtv_Total_List extends Fragment {
                         tableRow.addView(text);
                         break;
                     case 1 :
-                        text.setText(list.get(i).getEmp_name());
+                        text.setText(list.get(i).getEmp_name());                                                                   // 담당자 이름???
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,2f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -174,7 +174,7 @@ public class Fragement_Gtv_Total_List extends Fragment {
                         tableRow.addView(text);
                         break;
                     case 2 :
-                        text.setText(list.get(i).getBusoff_name());
+                        text.setText(list.get(i).getBusoff_name());                                                               // 운수사명??
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,3f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -182,10 +182,10 @@ public class Fragement_Gtv_Total_List extends Fragment {
                         tableRow.addView(text);
                         break;
                     case 3 :
-                        String tag = list.get(i).getEmp_name()+","+list.get(i).getBusoff_name()+","+list.get(i).getRoute_num();
+                        String tag = list.get(i).getEmp_name()+","+list.get(i).getBusoff_name()+","+list.get(i).getRoute_num();  //설치차량수 ???
                         text.setTag(tag);
 
-                        text.setText(list.get(i).getTot_cnt());
+                        text.setText(list.get(i).getTot_cnt());     // total 설치차량수
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,2f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -197,8 +197,8 @@ public class Fragement_Gtv_Total_List extends Fragment {
                                 public void onClick(View v) {
 
                                     String emp_office_split [] = v.getTag().toString().split(",");
-                                    Fragment fr = new Fragement_Gtv_Install_Detail();
-                                    Bundle bundle = new Bundle();
+                                    Fragment fr = new Fragement_Gtv_Error_Detail();                      //설치차량수를 클릭하면 노선, 차량번호, 등록 상태가 나오는데.. 이것 바꿔주기.
+                                    Bundle bundle = new Bundle();                                           //Fragement_Gtv_Install_Detail() 를 ===>   Fragement_Gtv_Install_Detail() 로...
 
                                     bundle.putString("gtv_day",gtv_day);
                                     bundle.putString("emp_name",emp_office_split[0]);
@@ -220,7 +220,7 @@ public class Fragement_Gtv_Total_List extends Fragment {
                         String tag_4 = list.get(i).getEmp_name()+","+list.get(i).getBusoff_name();
                         text.setTag(tag_4);
 
-                        text.setText(list.get(i).getErr_cnt());
+                        text.setText(list.get(i).getErr_cnt());                                          //점검대상???
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,2f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -232,7 +232,7 @@ public class Fragement_Gtv_Total_List extends Fragment {
                                 public void onClick(View v) {
 
                                     String emp_office_split [] = v.getTag().toString().split(",");
-                                    Fragment fr = new Fragement_Gtv_Error_Detail();
+                                    Fragment fr = new Fragement_Gtv_Error_Detail();                       // [노선, 차량번호, DRV, LTE, MST, SLV 프래그먼트]로 이동....
                                     Bundle bundle = new Bundle();
 
                                     bundle.putString("gtv_day",gtv_day);

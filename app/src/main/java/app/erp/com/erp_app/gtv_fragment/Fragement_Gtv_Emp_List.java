@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -100,7 +100,7 @@ public class Fragement_Gtv_Emp_List extends Fragment {
                 final TextView text = new TextView(context);
                 switch (j){
                     case 0:
-                        text.setText(list.get(i).getBusoff_name());
+                        text.setText(list.get(i).getBusoff_name());                                          // 운수사명  --> 다음 페이지로 텍스트 보내기
                         TableRow.LayoutParams lp = new TableRow.LayoutParams(0 , 80,3f);
                         lp.setMargins(0,10,0,10);
                         text.setLayoutParams(lp);
@@ -111,7 +111,7 @@ public class Fragement_Gtv_Emp_List extends Fragment {
                         break;
                     case 1 :
                         text.setTag(list.get(i).getBusoff_name());
-                        text.setText(list.get(i).getTot_cnt());
+                        text.setText(list.get(i).getTot_cnt());                                               // 운수사 [총 대수]
                         text.setLayoutParams(new TableRow.LayoutParams(0 , TableRow.LayoutParams.MATCH_PARENT,2f));
                         text.setGravity(Gravity.CENTER);
                         text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -122,7 +122,7 @@ public class Fragement_Gtv_Emp_List extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     String busoff_name = v.getTag().toString();
-                                    Fragment fr = new Fragement_Gtv_Install_Detail();
+                                    Fragment fr = new Fragement_Gtv_Error_Detail();    //install을 error_detail 로 바꾸기
                                     Bundle bundle = new Bundle();
 
                                     bundle.putString("gtv_day",gtv_day);

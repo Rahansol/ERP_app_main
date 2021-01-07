@@ -7,13 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.LocaleData;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -21,23 +20,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import app.erp.com.erp_app.vo.TestAllVO;
 import retrofit2.Call;
@@ -149,7 +143,7 @@ public class InOutStatusActivity extends AppCompatActivity implements DatePicker
 
         /*날짜 선택*/
         /*시작일*/
-        iv_start_date= findViewById(R.id.iv_start_date);   //얘는 잘돼요
+        iv_start_date= findViewById(R.id.iv_start_date);
         iv_start_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +154,7 @@ public class InOutStatusActivity extends AppCompatActivity implements DatePicker
         });
 
 
-        /*종료일*/   /*종료일도 시작일때 햇ㅆ던것처럼 그 방버ㅓㅂ으로 못할까요? */
+        /*종료일*/
         iv_end_date= findViewById(R.id.iv_end_date);
         iv_end_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,9 +236,7 @@ public class InOutStatusActivity extends AppCompatActivity implements DatePicker
         Locale.setDefault(Locale.KOREAN);
 
 
-        DatePickerDialog dialog= new DatePickerDialog(this, callbackMethod, year, month, day);  //이것도 맘에 안들어요 선택값이 이미 이렇게 나오는거니까
-        // 이거는 오늘날짜 or 오늘날짜 + 2~3일 로 값을 줘버려요
-        // 네 그런데 얘는 왜 두번눌러야 나와요? 음 잠시만요
+        DatePickerDialog dialog= new DatePickerDialog(this, callbackMethod, year, month, day);
         dialog.show();
 
     }

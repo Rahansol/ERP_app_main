@@ -30,7 +30,7 @@
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="origin_color">#808080</color>
+
 
     <color name="app_blue">#045CB1</color>
 
@@ -41,6 +41,10 @@
     <color name="green_btn">#13ac13</color>
     <color name="btn_gray">#808080</color>
     <color name="red_btn">#800000</color>
+
+    <color name="origin_color">#808080</color>
+    <color name="tab_bar_text_unclick">#6E52D1</color>
+    <color name="tab_bar_text_click">#ffffff</color>
 
     <color name="history_text_color">#ff99cc00</color>
 

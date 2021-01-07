@@ -1,8 +1,7 @@
 package app.erp.com.erp_app.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.v4.view.ViewPager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,13 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 
 import app.erp.com.erp_app.AdapterViewHolder;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.callcenter.Fragment_trouble_list;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 
 
@@ -26,6 +28,7 @@ import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 public class My_Error_Adapter extends BaseAdapter {
 
     private ArrayList<Trouble_HistoryListVO> listViewItem = new ArrayList<Trouble_HistoryListVO>();
+    private View.OnClickListener ErrorEventBtnClickListener;  //최근 3-6개월 장래목록 클릭리스너
     private View.OnClickListener defaultRequestBtnClickListener;
     private View.OnClickListener equal_bus_btn;
     private View.OnClickListener equal_trouble_btn;
@@ -53,6 +56,9 @@ public class My_Error_Adapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.my_error_list_layout, parent, false);
             viewHolder = new ViewHolder();
+            /*최근 3~6개월 장애*/
+            viewHolder.btn_error_event_num= (Button) convertView.findViewById(R.id.btn_error_event_num);
+
             viewHolder.btn_1 = (Button)convertView.findViewById(R.id.btn_1);
             viewHolder.btn_2 = (Button)convertView.findViewById(R.id.btn_2);
             viewHolder.move_btn = (Button)convertView.findViewById(R.id.move_btn);
@@ -81,6 +87,10 @@ public class My_Error_Adapter extends BaseAdapter {
 
         viewHolder.reg_emp_name.setText("등록자 : " + trouble_historylistvo.getReg_emp_name());
 
+        /*최근 3~6개월 장애건수*/
+        viewHolder.btn_error_event_num.setTag(position);
+        viewHolder.btn_error_event_num.setOnClickListener(ErrorEventBtnClickListener);
+
         viewHolder.btn_1.setTag(position);
         viewHolder.btn_1.setOnClickListener(defaultRequestBtnClickListener);
 
@@ -106,10 +116,30 @@ public class My_Error_Adapter extends BaseAdapter {
 
         viewHolder.error_office.setText(trouble_historylistvo.getBusoff_name());
         if(trouble_historylistvo.getRoute_id() == null){
-            viewHolder.error_route.setText("노선 : ");
+            viewHolder.error_route.setText("노선 : 정보 없음 ");
         }else{
             viewHolder.error_route.setText("노선 : "+trouble_historylistvo.getRoute_id());
         }
+
+        /*최근 3개월 장애건수*/
+        viewHolder.btn_error_event_num.setText(trouble_historylistvo.getBef_err_cnt());
+        if(trouble_historylistvo.getBef_err_cnt().equals('0')){
+            viewHolder.btn_error_event_num.setText("");
+        }else{
+            viewHolder.btn_error_event_num.setText("발생 : "+trouble_historylistvo.getBef_err_cnt()+"건");
+        }
+
+
+        Bundle bundle= new Bundle();
+        bundle.putString("transp_bizr_id",trouble_historylistvo.getTransp_bizr_id());
+        bundle.putString("bus_id",trouble_historylistvo.getBus_id());
+
+
+        Log.d("bundle  ==================>  ", bundle.toString()+"");
+        Fragment fr= new Fragment_trouble_list();
+        fr.setArguments(bundle);
+
+
 
         viewHolder.error_bus_num.setText(trouble_historylistvo.getBus_num());
         viewHolder.reg_date.setText(substr_date(trouble_historylistvo.getReg_date()) + " "  + substr_time(trouble_historylistvo.getReg_time()));
@@ -146,6 +176,11 @@ public class My_Error_Adapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    /*최근 3~-6개월 장애목록*/
+    public void setErrorEventBtnClickListener(View.OnClickListener ErrorEventBtnClickListener){
+        this.ErrorEventBtnClickListener = ErrorEventBtnClickListener;
     }
 
     public View.OnClickListener getDefaultRequestBtnClickListener() {
@@ -227,6 +262,7 @@ public class My_Error_Adapter extends BaseAdapter {
 
     // View lookup cache
     private static class ViewHolder {
+        Button btn_error_event_num;     /*최근 3~6개월 장애건*/
         Button btn_1;
         Button btn_2;
         Button move_btn;

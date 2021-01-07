@@ -168,7 +168,9 @@ public class My_Error_care_Adapter extends BaseAdapter {
         TextView error_unit;
         TextView error_high_code;
         TextView error_low_code;
-        TextView error_office_group;
+        TextView
+
+                error_office_group;
         TextView error_reg_date;
     }
 

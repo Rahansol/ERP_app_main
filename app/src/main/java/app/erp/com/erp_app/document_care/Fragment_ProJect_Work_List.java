@@ -4,12 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -29,10 +27,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,19 +36,12 @@ import java.util.Map;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.adapter.ProJectItem_Adapter;
-import app.erp.com.erp_app.callcenter.Call_Center_Activity;
 import app.erp.com.erp_app.dialog.DialogPrj_ItemView;
 import app.erp.com.erp_app.dialog.Dialog_Year_Month;
-import app.erp.com.erp_app.jsonparser.JSONParser;
-import app.erp.com.erp_app.over_work.Over_Work_Approval_Activity;
 import app.erp.com.erp_app.vo.ProJectSelectBoxVO;
 import app.erp.com.erp_app.vo.ProJectVO;
-import app.erp.com.erp_app.work.Work_Insert_Activity;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
 
 public class Fragment_ProJect_Work_List extends Fragment {
     Context mcontext;

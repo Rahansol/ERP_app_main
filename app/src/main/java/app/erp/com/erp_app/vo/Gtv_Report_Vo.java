@@ -1,6 +1,60 @@
 package app.erp.com.erp_app.vo;
 
 public class Gtv_Report_Vo {
+    private String door_cnt;
+
+    @Override
+    public String toString() {
+        return "Gtv_Report_Vo{" +
+                "door_cnt='" + door_cnt + '\'' +
+                ", settop_yn='" + settop_yn + '\'' +
+                ", rnum='" + rnum + '\'' +
+                ", emp_name='" + emp_name + '\'' +
+                ", busoff_name='" + busoff_name + '\'' +
+                ", tot_cnt='" + tot_cnt + '\'' +
+                ", err_cnt='" + err_cnt + '\'' +
+                ", err_rate='" + err_rate + '\'' +
+                ", route_num='" + route_num + '\'' +
+                ", bus_num='" + bus_num + '\'' +
+                ", psp_num='" + psp_num + '\'' +
+                ", door='" + door + '\'' +
+                ", last_stat='" + last_stat + '\'' +
+                ", cuesheet='" + cuesheet + '\'' +
+                ", chk_drive='" + chk_drive + '\'' +
+                ", chk_lte='" + chk_lte + '\'' +
+                ", chk_master='" + chk_master + '\'' +
+                ", chk_f_pw='" + chk_f_pw + '\'' +
+                ", chk_f_lcd='" + chk_f_lcd + '\'' +
+                ", chk_slave='" + chk_slave + '\'' +
+                ", chk_r_pw='" + chk_r_pw + '\'' +
+                ", chk_r_lcd='" + chk_r_lcd + '\'' +
+                ", transp_bizr_id='" + transp_bizr_id + '\'' +
+                ", bus_id='" + bus_id + '\'' +
+                ", reg_dtti='" + reg_dtti + '\'' +
+                ", bef_stat='" + bef_stat + '\'' +
+                ", aft_stat='" + aft_stat + '\'' +
+                ", drive='" + drive + '\'' +
+                ", lte='" + lte + '\'' +
+                ", master='" + master + '\'' +
+                ", slave='" + slave + '\'' +
+                ", drive_rate='" + drive_rate + '\'' +
+                ", lte_rate='" + lte_rate + '\'' +
+                ", st_id1='" + st_id1 + '\'' +
+                ", settop1_rate='" + settop1_rate + '\'' +
+                ", f_pw='" + f_pw + '\'' +
+                ", f_pw_rate='" + f_pw_rate + '\'' +
+                ", f_lcd='" + f_lcd + '\'' +
+                ", f_lcd_rate='" + f_lcd_rate + '\'' +
+                ", st_id2='" + st_id2 + '\'' +
+                ", settop2_rate='" + settop2_rate + '\'' +
+                ", r_pw='" + r_pw + '\'' +
+                ", r_pw_rate='" + r_pw_rate + '\'' +
+                ", r_lcd='" + r_lcd + '\'' +
+                ", r_lcd_rate='" + r_lcd_rate + '\'' +
+                '}';
+    }
+
+    private String settop_yn;
 
     private String rnum;
     private String emp_name;
@@ -53,54 +107,22 @@ public class Gtv_Report_Vo {
     public Gtv_Report_Vo() {
     }
 
-    @Override
-    public String toString() {
-        return "Gtv_Report_Vo{" +
-                "rnum='" + rnum + '\'' +
-                ", emp_name='" + emp_name + '\'' +
-                ", busoff_name='" + busoff_name + '\'' +
-                ", tot_cnt='" + tot_cnt + '\'' +
-                ", err_cnt='" + err_cnt + '\'' +
-                ", err_rate='" + err_rate + '\'' +
-                ", route_num='" + route_num + '\'' +
-                ", bus_num='" + bus_num + '\'' +
-                ", psp_num='" + psp_num + '\'' +
-                ", door='" + door + '\'' +
-                ", last_stat='" + last_stat + '\'' +
-                ", cuesheet='" + cuesheet + '\'' +
-                ", chk_drive='" + chk_drive + '\'' +
-                ", chk_lte='" + chk_lte + '\'' +
-                ", chk_master='" + chk_master + '\'' +
-                ", chk_f_pw='" + chk_f_pw + '\'' +
-                ", chk_f_lcd='" + chk_f_lcd + '\'' +
-                ", chk_slave='" + chk_slave + '\'' +
-                ", chk_r_pw='" + chk_r_pw + '\'' +
-                ", chk_r_lcd='" + chk_r_lcd + '\'' +
-                ", transp_bizr_id='" + transp_bizr_id + '\'' +
-                ", bus_id='" + bus_id + '\'' +
-                ", reg_dtti='" + reg_dtti + '\'' +
-                ", bef_stat='" + bef_stat + '\'' +
-                ", aft_stat='" + aft_stat + '\'' +
-                ", drive='" + drive + '\'' +
-                ", lte='" + lte + '\'' +
-                ", master='" + master + '\'' +
-                ", slave='" + slave + '\'' +
-                ", drive_rate='" + drive_rate + '\'' +
-                ", lte_rate='" + lte_rate + '\'' +
-                ", st_id1='" + st_id1 + '\'' +
-                ", settop1_rate='" + settop1_rate + '\'' +
-                ", f_pw='" + f_pw + '\'' +
-                ", f_pw_rate='" + f_pw_rate + '\'' +
-                ", f_lcd='" + f_lcd + '\'' +
-                ", f_lcd_rate='" + f_lcd_rate + '\'' +
-                ", st_id2='" + st_id2 + '\'' +
-                ", settop2_rate='" + settop2_rate + '\'' +
-                ", r_pw='" + r_pw + '\'' +
-                ", r_pw_rate='" + r_pw_rate + '\'' +
-                ", r_lcd='" + r_lcd + '\'' +
-                ", r_lcd_rate='" + r_lcd_rate + '\'' +
-                '}';
+    public String getDoor_cnt() {
+        return door_cnt;
     }
+
+    public void setDoor_cnt(String door_cnt) {
+        this.door_cnt = door_cnt;
+    }
+
+    public String getSettop_yn() {
+        return settop_yn;
+    }
+
+    public void setSettop_yn(String settop_yn) {
+        this.settop_yn = settop_yn;
+    }
+
 
     public String getRnum() {
         return rnum;

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="#ffffff">
+        android:background="#9784DC">
 
         <TextView
             android:id="@+id/trouble_insert"
@@ -22,8 +22,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="장애등록"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="@dimen/table_font_heder">
@@ -36,11 +36,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="장애처리"
-            android:layout_marginRight="35dp"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:textStyle="bold"
             android:background="@drawable/text_btn"
-            android:textColor="#00ac00"
+            android:textColor="#ffffff"
             android:textSize="@dimen/table_font_heder">
 
         </TextView>
@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="완료등록"
-            android:layout_marginRight="35dp"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="@dimen/table_font_heder">
@@ -60,10 +60,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
-        android:background="@color/titleBadgeText"/>
+        android:background="@color/titleBadgeText"/>-->
 
     <FrameLayout
         android:id="@+id/frage_change"

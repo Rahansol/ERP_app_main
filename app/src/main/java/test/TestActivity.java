@@ -1,9 +1,8 @@
 package test;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,9 +11,7 @@ import java.util.List;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.callcenter.Fragment_trouble_insert_bus_call_center;
 import app.erp.com.erp_app.vo.Bus_infoVo;
-import app.erp.com.erp_app.vo.Edu_Emp_Vo;
 import retrofit2.Call;
 import retrofit2.Response;
 

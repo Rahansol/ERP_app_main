@@ -3,13 +3,12 @@ package app.erp.com.erp_app.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.TextView;
 
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.vo.ProJectVO;
 
 public class Dialog_ErrorNotice extends Dialog {
 

@@ -128,7 +128,7 @@
                     android:layout_height="match_parent"
                     android:button="@null"
                     android:background="@drawable/radio_button"
-                    android:text="BIT "
+                    android:text="DTG/BIT"
                     android:textSize="@dimen/middle_font_size"
                     android:textAlignment="center"/>
 

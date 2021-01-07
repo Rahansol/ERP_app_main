@@ -278,12 +278,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_weight="0.6"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -294,7 +292,7 @@
 
                 <TextView
                     android:id="@+id/trouble_care_list"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:text="현재 대상자 0명"
                     android:gravity="center_vertical"
@@ -304,20 +302,36 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="0.4"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
 
                 <Button
                     android:id="@+id/edit_care_emp_list"
-                    android:text="추가/수정하기"
-                    android:layout_width="115dp"
+                    android:text="추가/수정"
+                    android:layout_width="110dp"
                     android:layout_height="35dp"
                     android:background="@drawable/blue_btn"
-                    android:textColor="@color/white"
-                    />
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
+
+                <Button
+                    android:id="@+id/btn_error_event_num"
+                    android:text="장애건수버튼"
+                    android:layout_width="110dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/erp_btn_orange"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
 
@@ -486,7 +500,6 @@
                     android:layout_height="40dp"
                     style="@style/spinner_style"
                     android:entries="@array/new_old">
-
                 </Spinner>
 
             </LinearLayout>
@@ -674,8 +687,7 @@
                 android:layout_weight="1"
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
-                android:text="BS"
-                />
+                android:text="BS" />
 
             <RadioGroup
                 android:id="@+id/today_group"

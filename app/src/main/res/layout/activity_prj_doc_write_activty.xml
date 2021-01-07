@@ -101,7 +101,7 @@
 
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:layout_weight="1"
         android:id="@+id/doc_viewpager"
         android:layout_width="match_parent"

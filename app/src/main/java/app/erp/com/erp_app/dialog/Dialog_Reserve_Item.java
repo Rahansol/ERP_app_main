@@ -3,7 +3,7 @@ package app.erp.com.erp_app.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +11,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.util.HashMap;
 
 import app.erp.com.erp_app.R;
 

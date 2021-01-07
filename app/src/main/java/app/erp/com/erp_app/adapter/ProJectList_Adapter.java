@@ -24,12 +24,21 @@ import app.erp.com.erp_app.vo.ProJectVO;
 public class ProJectList_Adapter extends BaseAdapter {
 
     private ArrayList<ProJectVO> listViewItem = new ArrayList<ProJectVO>();
+    /* myButtonInsert 등록 test */
+    private View.OnClickListener mysetDetail_btn_listener;
     private View.OnClickListener detail_btn_listener;
     private View.OnClickListener work_insert_btn_listener;
     private View.OnClickListener project_work_serch_btn_listener;
     private View.OnClickListener prj_doc_insert_listener;
     private View.OnClickListener prj_doc_view_btn_listener;
     private String display_check;
+
+
+    /* myButtonInsert 등록 test */
+    public void mysetDetail_btn_listener(View.OnClickListener myDetail_btn_listener){
+        this.mysetDetail_btn_listener= myDetail_btn_listener;
+    }
+
 
     public void setDetail_btn_listener(View.OnClickListener detail_btn_listener) {
         this.detail_btn_listener = detail_btn_listener;
@@ -70,6 +79,9 @@ public class ProJectList_Adapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.project_list_listview ,parent ,false);
             viewHolder = new ViewHolder();
 
+            /*my 등록버튼*/
+            viewHolder.myButtonInsert= (Button) convertView.findViewById(R.id.myButtonInsert);
+
             viewHolder.project_name = (TextView) convertView.findViewById(R.id.project_name);
             viewHolder.project_detail_btn = (Button)convertView.findViewById(R.id.project_detail_btn);
             viewHolder.project_work_insert_btn = (Button)convertView.findViewById(R.id.project_work_insert_btn);
@@ -105,6 +117,10 @@ public class ProJectList_Adapter extends BaseAdapter {
         viewHolder.project_work_insert_btn.setTag(position);
         viewHolder.project_work_insert_btn.setOnClickListener(work_insert_btn_listener);
 
+        /*my 등록버튼*/
+        viewHolder.myButtonInsert.setTag(position);
+        viewHolder.myButtonInsert.setOnClickListener(mysetDetail_btn_listener);
+
         viewHolder.project_work_serch_btn.setTag(position);
         viewHolder.project_work_serch_btn.setOnClickListener(project_work_serch_btn_listener);
 
@@ -130,6 +146,10 @@ public class ProJectList_Adapter extends BaseAdapter {
     }
     // View lookup cache
     private static class ViewHolder {
+
+        /*my 등록버튼*/
+        Button myButtonInsert;
+
         TextView project_name;
         Button project_detail_btn;
         Button project_work_insert_btn;

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.Cash_Work_VO;
 import app.erp.com.erp_app.vo.Edu_Emp_Vo;
@@ -100,11 +101,14 @@ public interface ERP_Spring_Controller {
     @GET("barcode/field_trouble_carecode")
     Call<List<Trouble_CodeVo>> getfield_trouble_carecode (@Query("service_id") String service_id, @Query("infra_code") String infra_code, @Query("unit_code") String unit_code , @Query("tb_highcd")String tb_highcd, @Query("tb_lowcd") String tb_lowcd);
 
-//    @GET("barcode/field_my_error_list")
-//    Call<List<Trouble_HistoryListVO>> getfield_my_error_list (@Query("emp_id") String emp_id);
-
     @GET("barcode/app_fieldError_not_care")
     Call<List<Trouble_HistoryListVO>> getfield_my_error_list (@Query("emp_id") String emp_id , @Query("service_id") String service_id);
+
+    @GET("barcode/app_fieldError_not_care")
+    Call<List<Trouble_HistoryListVO>> app_fieldError_6Month_Cnt (@Query("transp_bizr_id") String transp_bizr_id, @Query("bus_id") String bus_id);
+
+    @GET("barcode/app_fieldError_not_care_history")
+    Call<List<Trouble_HistoryListVO>> app_fieldError_not_care_history (@Query("transp_bizr_id") String transp_bizr_id, @Query("bus_id") String bus_id);
 
     @GET("barcode/insert_filed_error_test")
     Call<Boolean> insert_filed_error_test (@QueryMap Map<String,Object> test);
@@ -367,6 +371,32 @@ public interface ERP_Spring_Controller {
 
 
 
+
+
+    /*설치 확인서 [조합목록] 호출*/
+    @GET("AndroidRegister/OfficeGroupSpinner")
+    Call<List<Bus_OfficeVO>> OfficeGroupSpinner();
+
+    /*설치 확인서 [운수사] 호출*/
+    @GET("AndroidRegister/BusOffName")
+    Call<List<Bus_OfficeVO>> BusOffName(@Query("office_group") String office_group);
+
+    /*설치 확인서 [영업소] 호출*/
+    @GET("AndroidRegister/GarageSpinner")
+    Call<List<Bus_OfficeVO>> GarageSpinner(@Query("transp_bizr_id") String transp_bizr_id);
+
+    /*설치 확인서 [노선번호] 호출*/
+    @GET("AndroidRegister/BusRouteSpinner")
+    Call<List<Bus_OfficeVO>> BusRouteSpinner(@Query("transp_bizr_id") String transp_bizr_id);
+
+    /*설치 확인서 [버전] 호출*/
+    @GET("AndroidRegister/UnitCode_VersionSpinner")
+    Call<List<Bus_OfficeVO>> UnitCode_VersionSpinner();
+
+
+
+
+
     //테스트 목적
     // Retrofit Service
     @GET("test/app_busoffice_test")
@@ -437,27 +467,6 @@ public interface ERP_Spring_Controller {
                                     ,@Query("response_dep_id") String response_dep_id);
 
 
-
-
-
-
-    /*//예약 업데이트....
-    @GET("test/UpdateUnitBookingChk")
-    Call<List<TestAllVO>> UpdateUnitBookingChk(
-             @Query("un_yn") String un_yn
-            ,@Query("unit_code") String unit_code
-            ,@Query("rep_unit_code") String rep_unit_code
-            ,@Query("unit_id") String unit_id
-            ,@Query("barcode_dep_id") String barcode_dep_id);
-
-    //예약 인서트....
-    @GET("test/InsertUnitRequestListDetail")
-    Call<List<TestAllVO>> InsertUnitRequestListDetail(
-             @Query("in_yn") String in_yn
-            ,@Query("emp_id") String emp_id
-            ,@Query("unit_code") String unit_code
-            ,@Query("rep_unit_code") String rep_unit_code
-            ,@Query("unit_id") String unit_id);*/
 
 
     //최종목록 확인하기
@@ -602,7 +611,7 @@ public interface ERP_Spring_Controller {
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.0.122:8180/controller/")
-//            .baseUrl("http://ierp.interpass.co.kr/controller/")
+            /*.baseUrl("http://ierp.interpass.co.kr/controller/")*/
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build();

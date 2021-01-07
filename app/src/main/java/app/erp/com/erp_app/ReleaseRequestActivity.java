@@ -8,14 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import androidx.fragment.app.DialogFragment;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -161,8 +161,6 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
         ERP_Spring_Controller erp1= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
         emp_id= pref.getString("emp_id",""); // 저장된 emp_id  가져오기
         emp_dep_id= pref.getString("emp_dep_id","");
-        Log.d("emp_id 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", emp_id+"tt");          //나옴
-        Log.d("emp_dep_id 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", emp_dep_id+"dd");   //나옴
 
         Call<List<TestAllVO>> Call1= erp1.DepNameList(emp_id, emp_dep_id); // <- 이걸 로그인한 사람의 아이디로 변경해야하는거죠..아하 어떻게 변경해요? 지금은 그냥 String타입 "emp_id" 이걸 던지죠 ? 네 저걸 그 네 이거에 저정된 id를 불러와서
         // 저기에 넣어주면 되는거에여. 그 아이디가 이미 저장이 되어있나요? 로그인할때 저장하는 부분이 있어요

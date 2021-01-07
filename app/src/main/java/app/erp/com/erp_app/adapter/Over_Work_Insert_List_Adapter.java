@@ -1,12 +1,11 @@
 package app.erp.com.erp_app.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.Map;
 
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.vo.Over_Work_List_VO;
-import app.erp.com.erp_app.vo.Over_Work_VO;
 
 
 /**

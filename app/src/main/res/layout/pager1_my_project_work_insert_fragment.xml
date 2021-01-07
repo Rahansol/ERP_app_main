@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <!--스피너들..-->
+            <RelativeLayout
+                android:id="@+id/spinner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="275dp"
+                android:layout_gravity="center"
+                android:background="@drawable/new_background3_1"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
+
+
+                <!--작업 스피너-->
+                <RelativeLayout
+                    android:id="@+id/infra_job_spinner_layout"
+                    android:layout_width="368dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rectangle_transparent">
+
+                    <TextView
+                        android:id="@+id/infra_job_spinner_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="작업"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/infra_job_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_toRightOf="@+id/infra_job_spinner_title" />
+                </RelativeLayout>
+
+
+                <!--조합-->
+                <RelativeLayout
+                    android:id="@+id/project_office_group_layout"
+                    android:layout_width="180dp"
+                    android:layout_height="55dp"
+                    android:gravity="center"
+                    android:layout_below="@+id/infra_job_spinner_layout"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rectangle_transparent">
+
+                    <TextView
+                        android:id="@+id/project_office_group_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="조합"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/project_office_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/project_office_group_title" />
+                </RelativeLayout>
+
+
+                <!--영업소-->
+                <RelativeLayout
+                    android:id="@+id/project_garage_spinner_layout"
+                    android:layout_width="180dp"
+                    android:layout_height="55dp"
+                    android:layout_below="@+id/project_office_group_layout"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rectangle_transparent">
+
+                    <TextView
+                        android:id="@+id/project_garage_spinner_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="영업소"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/project_garage_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/project_garage_spinner_title"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center" />
+                </RelativeLayout>
+
+
+                <!--운수사-->
+                <RelativeLayout
+                    android:id="@+id/project_transp_layout"
+                    android:layout_width="180dp"
+                    android:layout_height="55dp"
+                    android:layout_below="@+id/infra_job_spinner_layout"
+                    android:layout_margin="4dp"
+                    android:layout_toRightOf="@+id/project_office_group_layout"
+                    android:background="@drawable/rectangle_transparent"
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/project_transp_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="운수사"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/project_transp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/project_transp_title"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center" />
+                </RelativeLayout>
+
+
+                <!--노선번호-->
+                <RelativeLayout
+                    android:id="@+id/project_route_list_layout"
+                    android:layout_width="180dp"
+                    android:layout_height="55dp"
+                    android:layout_below="@+id/project_transp_layout"
+                    android:layout_margin="4dp"
+                    android:layout_toRightOf="@+id/project_office_group_layout"
+                    android:background="@drawable/rectangle_transparent">
+
+                    <TextView
+                        android:id="@+id/project_route_list_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="노선번호"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/project_route_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/project_route_list_title"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+
+                <!--차량번호-->
+                <RelativeLayout
+                    android:id="@+id/project_bus_list_layout"
+                    android:layout_width="180dp"
+                    android:layout_height="55dp"
+                    android:layout_below="@+id/project_garage_spinner_layout"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rectangle_transparent"
+                    android:backgroundTint="#88ffffff">
+
+                    <TextView
+                        android:id="@+id/project_bus_list_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="차량번호"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/project_bus_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/project_bus_list_title"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:hint="입력"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+
+                <!--버전-->
+                <RelativeLayout
+                    android:id="@+id/project_bus_ver_layout"
+                    android:layout_width="180dp"
+                    android:layout_height="55dp"
+                    android:layout_below="@+id/project_route_list_layout"
+                    android:layout_margin="4dp"
+                    android:layout_toRightOf="@+id/project_bus_list_layout"
+                    android:background="@drawable/rectangle_transparent">
+
+                    <TextView
+                        android:id="@+id/project_bus_ver_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="버전"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/project_bus_ver"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/project_bus_ver_title"
+                        android:gravity="center" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+
+
+
+            <!---->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_job_text"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="30dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_pager1"
+                    android:layout_margin="30dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_pager2"
+                    android:layout_margin="30dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_pager3"
+                    android:layout_margin="30dp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

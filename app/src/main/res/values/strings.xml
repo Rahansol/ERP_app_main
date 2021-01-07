@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="test_url">http://192.168.0.122:8180/controller/</string>
-    <!--    <string name="test_url">http://ierp.interpass.co.kr/controller/</string>-->
+    <!--<string name="test_url">http://ierp.interpass.co.kr/controller/</string>-->
 
     <string name="action_settings">Settings</string>
 
@@ -23,7 +23,7 @@
     <string name="bus_num_string">※ 차량</string>
     <string name="unit_string">※ 장비</string>
     <string name="care_name">※ 조치</string>
-    <string name="new_old">※ 신형 / 구형</string>
+    <string name="new_old">※ 신형/구형</string>
     <string name="original_barcode">※ 기존시리얼</string>
     <string name="new_barcode">※ 교체시리얼</string>
     <string name="trouble_high_code">※ 장애대분류</string>

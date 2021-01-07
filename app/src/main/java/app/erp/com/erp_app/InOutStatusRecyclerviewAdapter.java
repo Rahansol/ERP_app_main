@@ -4,14 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -65,7 +64,7 @@ public class InOutStatusRecyclerviewAdapter extends RecyclerView.Adapter {
         if (item.req_type.equals("출고")){
             vh.tvReqType.setTextColor(Color.parseColor("#ffffff"));         //글씨색 변경
             vh.tvReqType.setBackground(context.getResources().getDrawable(R.drawable.box_border_thin_green));   //배경색 변경
-        }else {
+        }else {   //입고
             vh.tvReqType.setTextColor(Color.parseColor("#ffffff"));
             vh.tvReqType.setBackground(context.getResources().getDrawable(R.drawable.box_border_thin_blue));
         }
