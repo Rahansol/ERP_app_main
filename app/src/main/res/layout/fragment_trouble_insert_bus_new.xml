@@ -17,13 +17,13 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="245dp"
+                android:layout_height="220dp"
                 android:orientation="vertical"
                 android:background="@drawable/new_background3_1">
 
                 <LinearLayout
                     android:layout_width="350dp"
-                    android:layout_height="215dp"
+                    android:layout_height="190dp"
                     android:layout_gravity="center"
                     android:background="@drawable/rectangle_layout_purple"
                     android:orientation="vertical"
@@ -49,25 +49,15 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:hint="차량번호를 입력하세요"
-                            android:textSize="14sp"
-                            android:layout_marginLeft="60dp"/>
-                        <ImageView
-                            android:id="@+id/bus_num_find"
+                            android:textSize="14sp"/>
+                        <!--<ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_baseline_search_24_grey"
-                            android:layout_marginLeft="30dp"/>
+                            android:layout_marginLeft="30dp"/>-->
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="※ 차량검색, 바코드 검색, 차량등록"
-                        android:textColor="#ffffff"
-                        android:textSize="12sp"
-                        android:padding="10dp"/>
 
 
                     <LinearLayout
@@ -75,12 +65,13 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="10dp">
                         <LinearLayout
+                            android:id="@+id/bus_num_find"
                             android:layout_weight="1"
-                            android:id="@+id/bus_num_barcode_find"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -97,7 +88,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="바코드 검색"
+                                android:text="버스검색"
                                 android:textStyle="bold"
                                 android:textColor="#ffffff"
                                 android:layout_marginTop="5dp"/>

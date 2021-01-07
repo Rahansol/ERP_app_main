@@ -113,14 +113,14 @@ public class Fragment_ProJect_List extends Fragment {
         });
 
         /* myButtonInsert 등록 test */
-        cjad.mysetDetail_btn_listener(new View.OnClickListener() {
+        /*cjad.mysetDetail_btn_listener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i= new Intent(mcontext, MyProject_Work_Insert_Activity.class);
                 startActivity(i);
             }
         });
-
+*/
 
 
         //작업 조회 버튼

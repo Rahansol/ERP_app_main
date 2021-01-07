@@ -36,7 +36,9 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 import java.io.IOException;
 import java.security.spec.ECParameterSpec;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
@@ -90,12 +92,12 @@ public class MyPageFragment1 extends Fragment {
         /*이미지 갤러리, 사진촬영을 위한 리사이클러뷰*/
         jobTextItems= new ArrayList<>();
         jobTextItems.add(new JobTextItems("차량전면1", "","사진","미리보기"));
-        jobTextItems.add(new JobTextItems("차량전면1", "","사진","미리보기"));
-        jobTextItems.add(new JobTextItems("차량전면1", "","사진","미리보기"));
-        jobTextItems.add(new JobTextItems("차량전면1", "","사진","미리보기"));
-        jobTextItems.add(new JobTextItems("차량전면1", "","사진","미리보기"));
-        jobTextItems.add(new JobTextItems("차량전면1", "","사진","미리보기"));
-        jobTextItems.add(new JobTextItems("차량전면1", "","사진","미리보기"));
+        jobTextItems.add(new JobTextItems("차량전면2", "","사진","미리보기"));
+        jobTextItems.add(new JobTextItems("차량전면3", "","사진","미리보기"));
+        jobTextItems.add(new JobTextItems("차량전면4", "","사진","미리보기"));
+        jobTextItems.add(new JobTextItems("차량전면5", "","사진","미리보기"));
+        jobTextItems.add(new JobTextItems("차량전면6", "","사진","미리보기"));
+        jobTextItems.add(new JobTextItems("차량전면7", "","사진","미리보기"));
 
         //recyclerView= recyclerView.findViewById(R.id.recyclerview_job_text);
         recyclerView= (RecyclerView) rootView.findViewById(R.id.recyclerview_job_text);   // fragment 에서는 rootView로 찾아주기
@@ -117,12 +119,14 @@ public class MyPageFragment1 extends Fragment {
                             startActivityForResult(intent, 20);*/
 
                             /*외장 메모리(SD card) 절대경로 알아내기*/
-                            String sdCardPath= null;
+                            /*String sdCardPath= null;
                             String sdCardState= Environment.getExternalStorageState();
                             if (sdCardState.equals(Environment.MEDIA_MOUNTED)){
                                  sdCardPath= Environment.getExternalStorageDirectory().getAbsolutePath();
                             }
-                            Log.d("외장메모리 경로:::::: ", sdCardPath+"");    ///storage/emulated/0 ???
+                            Log.d("외장메모리 경로:::::: ", sdCardPath+""); */   ///storage/emulated/0 ???
+
+                            //captureCamera
 
 
                         }
@@ -145,17 +149,26 @@ public class MyPageFragment1 extends Fragment {
 
 
 
-    private void captureCamera(String cameraType, int intentType){
-        String sdCardPathState= Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(sdCardPathState)){
+    /*private void captureCamera(String cameraType, int intentType){
+        String state= Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)){
             Intent takePicIntent= new Intent(cameraType);
             if (takePicIntent.resolveActivity(mContext.getPackageManager()) != null){
                 File file= null;
+                try {
+                    file= createImageFile(intentType);
+                }catch (IOException ex){
+
+                }
             }
         }
-    }
+    }//captureCamera
 
 
+    public File createImageFile(int intentType) throws IOException{
+        String timeStamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+    }*/
 
 
 

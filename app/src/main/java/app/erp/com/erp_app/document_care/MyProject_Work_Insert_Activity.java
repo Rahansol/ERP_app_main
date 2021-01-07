@@ -50,9 +50,6 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity {
         pagerAdapter= new MySlidePagerAdapter(getSupportFragmentManager(), list);
         pager.setAdapter(pagerAdapter);
 
-
-
-
     }
 
 

@@ -77,8 +77,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
     public static ArrayList<RecentErrorListItems> recentErrorListItems;
 
     Button  error_insert_btn ,edit_care_emp_list, btn_error_event_num;
-    LinearLayout bus_num_barcode_find, insert_bus_info;
-    ImageView bus_num_find;
+    LinearLayout bus_num_barcode_find, insert_bus_info, bus_num_find;
     Context context;
 
     private Retrofit retrofit;
@@ -328,8 +327,8 @@ public class Fragment_trouble_insert_bus extends Fragment {
         new get_app_history_office_group().execute();
 
         //버스 번호 바코드 스캔
-        bus_num_barcode_find = (LinearLayout) view.findViewById(R.id.bus_num_barcode_find);
-        bus_num_barcode_find.setOnClickListener(new View.OnClickListener() {
+        //bus_num_barcode_find = (LinearLayout) view.findViewById(R.id.bus_num_barcode_find);
+        /*bus_num_barcode_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 click_type = "scan";
@@ -337,7 +336,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
                 editor.commit();
                 IntentIntegrator.forSupportFragment(Fragment_trouble_insert_bus.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
             }
-        });
+        });*/
 
         insert_bus_info = (LinearLayout) view.findViewById(R.id.insert_bus_info);
         insert_bus_info.setOnClickListener(new View.OnClickListener() {
@@ -371,7 +370,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
             }
         });
 //      버스번호 텍스트 검색
-        bus_num_find = (ImageView) view.findViewById(R.id.bus_num_find);
+        bus_num_find = (LinearLayout) view.findViewById(R.id.bus_num_find);
         bus_num_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

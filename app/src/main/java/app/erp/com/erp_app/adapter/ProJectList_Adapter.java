@@ -35,9 +35,9 @@ public class ProJectList_Adapter extends BaseAdapter {
 
 
     /* myButtonInsert 등록 test */
-    public void mysetDetail_btn_listener(View.OnClickListener myDetail_btn_listener){
+    /*public void mysetDetail_btn_listener(View.OnClickListener myDetail_btn_listener){
         this.mysetDetail_btn_listener= myDetail_btn_listener;
-    }
+    }*/
 
 
     public void setDetail_btn_listener(View.OnClickListener detail_btn_listener) {
@@ -80,7 +80,7 @@ public class ProJectList_Adapter extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             /*my 등록버튼*/
-            viewHolder.myButtonInsert= (Button) convertView.findViewById(R.id.myButtonInsert);
+            //viewHolder.myButtonInsert= (Button) convertView.findViewById(R.id.myButtonInsert);
 
             viewHolder.project_name = (TextView) convertView.findViewById(R.id.project_name);
             viewHolder.project_detail_btn = (Button)convertView.findViewById(R.id.project_detail_btn);
@@ -117,9 +117,9 @@ public class ProJectList_Adapter extends BaseAdapter {
         viewHolder.project_work_insert_btn.setTag(position);
         viewHolder.project_work_insert_btn.setOnClickListener(work_insert_btn_listener);
 
-        /*my 등록버튼*/
-        viewHolder.myButtonInsert.setTag(position);
-        viewHolder.myButtonInsert.setOnClickListener(mysetDetail_btn_listener);
+        /*my 등록버튼*//*viewHolder.myButtonInsert.setTag(position);
+        viewHolder.myButtonInsert.setOnClickListener(mysetDetail_btn_listener);*/
+
 
         viewHolder.project_work_serch_btn.setTag(position);
         viewHolder.project_work_serch_btn.setOnClickListener(project_work_serch_btn_listener);
