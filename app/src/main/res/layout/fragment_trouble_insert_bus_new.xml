@@ -48,6 +48,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:inputType="number"
                             android:hint="차량번호를 입력하세요"
                             android:textSize="14sp"/>
                         <!--<ImageView
@@ -215,9 +216,10 @@
                     android:padding="3dp">
                     <TextView
                         android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="조합"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7b65fb"
                         android:paddingLeft="10dp"
@@ -242,9 +244,10 @@
                     android:padding="3dp">
                     <TextView
                         android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="운수사"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7b65fb"
                         android:paddingLeft="10dp"
@@ -281,8 +284,9 @@
                     android:padding="3dp">
                     <TextView
                         android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:text="조합"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:gravity="center"
@@ -306,8 +310,9 @@
                     android:padding="3dp">
                     <TextView
                         android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:text="운수사"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:gravity="center"
@@ -333,15 +338,16 @@
                 <LinearLayout
                     android:layout_weight="1"
                     android:layout_width="185dp"
-                    android:layout_height="75dp"
+                    android:layout_height="80dp"
                     android:orientation="vertical"
                     android:background="@drawable/rectangle_white"
                     android:layout_margin="3dp"
                     android:padding="3dp">
                     <TextView
                         android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:text="노선"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:gravity="center"
@@ -353,22 +359,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:textSize="14sp" />
+                        android:textSize="12sp"
+                        android:padding="8dp"/>
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_weight="1"
                     android:layout_width="185dp"
-                    android:layout_height="75dp"
+                    android:layout_height="80dp"
                     android:orientation="vertical"
                     android:background="@drawable/rectangle_white"
                     android:layout_margin="3dp"
                     android:padding="3dp">
                     <TextView
                         android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:text="영업소"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:gravity="center"
@@ -380,7 +388,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:textSize="14sp"/>
+                        android:textSize="12sp"
+                        android:padding="8dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -404,10 +413,11 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
-                        android:gravity="center_vertical"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
                         android:text="공동 작업자"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"
@@ -430,7 +440,7 @@
                     <Button
                         android:id="@+id/edit_care_emp_list"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:text="추가/수정"
@@ -462,10 +472,11 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="장애 발생"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"
@@ -487,7 +498,7 @@
                     <Button
                         android:id="@+id/btn_error_event_num"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:text="발생: ? 건수"
@@ -517,10 +528,11 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="장비"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"
@@ -556,10 +568,11 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="장애 대분류"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"
@@ -593,10 +606,11 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="장애 소분류"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"
@@ -633,10 +647,11 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="조치"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"
@@ -657,7 +672,7 @@
             <LinearLayout
                 android:weightSum="3"
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
+                android:layout_height="90dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
@@ -676,27 +691,26 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
                             android:gravity="center"
                             android:layout_gravity="left"
                             android:text="기존 시리얼"
+                            android:textSize="11sp"
                             android:textColor="#7B65FB"
                             android:textStyle="bold"
                             android:background="@drawable/box_in_out4"
                             android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:layout_marginBottom="5dp"/>
+                            android:paddingRight="10dp"/>
                         <EditText
                             android:id="@+id/unit_before_id"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
+                            android:inputType="number"
                             android:hint="바코드를 스캔하세요"
-                            android:layout_marginBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:layout_marginTop="15dp"/>
+                            android:layout_marginTop="3dp"/>
                     </LinearLayout>
 
                     <ImageView
@@ -715,9 +729,10 @@
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="100dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="@string/new_old"
+                        android:textSize="11sp"
                         android:textColor="#7B65FB"
                         android:textStyle="bold"
                         android:paddingLeft="10dp"
@@ -739,7 +754,7 @@
             <LinearLayout
                 android:weightSum="3"
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
+                android:layout_height="90dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
@@ -758,27 +773,26 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
                             android:gravity="center"
                             android:layout_gravity="left"
                             android:text="교체 시리얼"
+                            android:textSize="11sp"
                             android:textColor="#7b65fb"
                             android:textStyle="bold"
                             android:background="@drawable/box_in_out4"
                             android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:layout_marginBottom="5dp"/>
+                            android:paddingRight="10dp"/>
                         <EditText
                             android:id="@+id/unit_after_id"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
+                            android:inputType="number"
                             android:hint="바코드를 스캔하세요"
-                            android:layout_marginBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:layout_marginTop="15dp"/>
+                            android:layout_marginTop="3dp"/>
                     </LinearLayout>
 
                     <ImageView
@@ -797,9 +811,10 @@
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="100dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:text="@string/new_old"
+                        android:textSize="11sp"
                         android:textColor="#7b65fb"
                         android:textStyle="bold"
                         android:paddingLeft="10dp"
@@ -978,10 +993,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:text="기사 연락처"
+                        android:textSize="10sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"
@@ -993,6 +1010,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textSize="14sp"
+                        android:inputType="number"
                         android:hint="연락처를 입력하세요"
                         android:maxLength="20"
                         android:layout_marginLeft="10dp"/>
@@ -1015,10 +1033,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:text="특이사항"
+                        android:textSize="10sp"
                         android:textStyle="bold"
                         android:textColor="#7B65FB"
                         android:paddingLeft="10dp"

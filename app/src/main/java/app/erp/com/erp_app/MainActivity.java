@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.add(R.id.frage_change , new Fragment_barcode_bus());
+
         fragmentTransaction.commit();
 
     }

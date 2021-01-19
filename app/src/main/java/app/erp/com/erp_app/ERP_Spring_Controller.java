@@ -372,6 +372,9 @@ public interface ERP_Spring_Controller {
 
 
 
+    /*설치 확인서 [작업] 호출*/
+    @GET("AndroidRegister/JobNameSpinner")
+    Call<List<Bus_OfficeVO>> JobNameSpinner();
 
     /*설치 확인서 [조합목록] 호출*/
     @GET("AndroidRegister/OfficeGroupSpinner")
@@ -380,6 +383,10 @@ public interface ERP_Spring_Controller {
     /*설치 확인서 [운수사] 호출*/
     @GET("AndroidRegister/BusOffName")
     Call<List<Bus_OfficeVO>> BusOffName(@Query("office_group") String office_group);
+
+    /*설치 확인서 리사이클러뷰: 카메라 앨범/ 촬영기능 etc 호출..*/
+    @GET("AndroidRegister/BusOffRecyclerviewMedia")
+    Call<List<Bus_OfficeVO>> BusOffRecyclerviewMedia(@Query("office_group") String office_group);
 
     /*설치 확인서 [영업소] 호출*/
     @GET("AndroidRegister/GarageSpinner")
@@ -394,6 +401,15 @@ public interface ERP_Spring_Controller {
     Call<List<Bus_OfficeVO>> UnitCode_VersionSpinner();
 
 
+    /*두번째 fragment*/
+    /*품목 스피너*/
+    @GET("AndroidRegister/ItemGroupNameSpinner")
+    Call<List<Bus_OfficeVO>> ItemGroupNameSpinner(@Query("office_group") String office_group);
+
+
+    /*상세품목 스피너*/
+    @GET("AndroidRegister/ItemEachNameSpinner")
+    Call<List<Bus_OfficeVO>> ItemEachNameSpinner(@Query("item_code") String item_code);
 
 
 
@@ -599,6 +615,7 @@ public interface ERP_Spring_Controller {
 
 
 
+
 //String CallListname 은요? CallListName <- 이것도 그냥 변수명이니까 바꾸셔도 상관없습닏
 
 
@@ -610,8 +627,8 @@ public interface ERP_Spring_Controller {
             .build();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            /*.baseUrl("http://192.168.0.122:8180/controller/")*/
-            .baseUrl("http://ierp.interpass.co.kr/controller/")
+            .baseUrl("http://192.168.0.122:8180/controller/")
+            /*.baseUrl("http://ierp.interpass.co.kr/controller/")*/
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build();

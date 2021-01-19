@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +88,7 @@ public class Fragment_trobule_care extends Fragment {
 
     ProgressDialog progressDialog;
 
-    LinearLayout equel_layout;
+    RelativeLayout equel_layout;
 
     List<Edu_Emp_Vo> edu_list;
     List<Edu_Emp_Vo> gblist = new ArrayList<>();
@@ -103,7 +102,7 @@ public class Fragment_trobule_care extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_trouble_care, container ,false);
+        final View view = inflater.inflate(R.layout.fragment_trouble_care_new, container ,false);
         context = getActivity();
 
         update_trouble_history_map = new HashMap<>();
@@ -120,7 +119,9 @@ public class Fragment_trobule_care extends Fragment {
         SharedPreferences barcode_pre = context.getSharedPreferences("barcode_type", Context.MODE_PRIVATE);
         editor = barcode_pre.edit();
         // layout
-        equel_layout = (LinearLayout)view.findViewById(R.id.equel_layout);
+
+
+        equel_layout = (RelativeLayout)view.findViewById(R.id.equel_layout);
         if("care_insert".equals(page_info)){
             equel_layout.setVisibility(View.GONE);
         }

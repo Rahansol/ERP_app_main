@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal">
+
+
+
+
+            <LinearLayout
+                android:id="@+id/big_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/new_background3_1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="※ 접수내역"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"/>
+
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+                    &lt;!&ndash;장애 대분류&ndash;&gt;
+                    <RelativeLayout
+                        android:id="@+id/box_layout1"
+                        android:layout_width="120dp"
+                        android:layout_height="90dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp">
+                        <RelativeLayout
+                            android:id="@+id/box_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@drawable/box_in_out5">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="장애 대분류"
+                                android:textColor="#ffffff"/>
+                        </RelativeLayout>
+
+
+                        &lt;!&ndash;장애 대분류&ndash;&gt;
+                        <RelativeLayout
+                            android:id="@+id/insert_ars_trouble_high_code_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/box_title1"
+                            android:background="@drawable/box_rectangle_white"
+                            android:backgroundTint="#88ffffff">
+                            <TextView
+                                android:id="@+id/insert_ars_trouble_high_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="카드처리 불량?"
+                                android:textStyle="bold"
+                                android:textColor="#5A3CC6"
+                                android:layout_centerInParent="true"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+
+                    &lt;!&ndash;장애 소분류&ndash;&gt;
+                    <RelativeLayout
+                        android:id="@+id/box_layout2"
+                        android:layout_width="120dp"
+                        android:layout_height="90dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp">
+                        <RelativeLayout
+                            android:id="@+id/box_title2"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@drawable/box_in_out5">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="장애 소분류"
+                                android:textColor="#ffffff"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/insert_ars_trouble_low_code_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/box_title2"
+                            android:background="@drawable/box_rectangle_white"
+                            android:backgroundTint="#88ffffff">
+                            <TextView
+                                android:id="@+id/insert_ars_trouble_low_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="미승인 카드 발생?"
+                                android:textStyle="bold"
+                                android:textColor="#5A3CC6"
+                                android:layout_centerInParent="true"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    &lt;!&ndash;장비&ndash;&gt;
+                    <RelativeLayout
+                        android:id="@+id/box_layout3"
+                        android:layout_width="120dp"
+                        android:layout_height="90dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp">
+                        <RelativeLayout
+                            android:id="@+id/box_title3"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@drawable/box_in_out5">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="장비"
+                                android:textColor="#ffffff"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/insert_ars_unit_code_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/box_title3"
+                            android:background="@drawable/box_rectangle_white"
+                            android:backgroundTint="#88ffffff">
+
+                            <TextView
+                                android:id="@+id/insert_ars_unit_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="승차 단말기?"
+                                android:textStyle="bold"
+                                android:textColor="#5A3CC6"
+                                android:layout_centerInParent="true"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </LinearLayout>-->
+
+
+
+
+
+                <RelativeLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+                    <!--장애 발생일-->
+                    <RelativeLayout
+                        android:id="@+id/insert_start_day_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_marginLeft="18dp"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_start_day_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="장애 발생일"
+                            android:textSize="12sp"
+                            android:textColor="#ffffff"/>
+
+                        <TextView
+                            android:id="@+id/insert_start_day"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_start_day_title"
+                            android:text="2020-00-00"
+                            android:textColor="#B4A4EF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:padding="3dp"/>
+                    </RelativeLayout>
+
+
+                    <!--장애 발생시간-->
+                    <RelativeLayout
+                        android:id="@+id/insert_start_time_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_toRightOf="@id/insert_start_day_layout"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_start_time_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="장애 발생시간"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/insert_start_time"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_start_time_title"
+                            android:text="084752"
+                            android:textColor="#B4A4EF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:padding="3dp"/>
+                    </RelativeLayout>
+
+
+                    <!--등록자-->
+                    <RelativeLayout
+                        android:id="@+id/insert_reg_emp_id_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_below="@id/insert_start_day_layout"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_reg_emp_id_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="등록자"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/insert_reg_emp_id"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_reg_emp_id_title"
+                            android:text="박윤석"
+                            android:padding="3dp"
+                            android:textColor="#B4A4EF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                    <!--장애타입-->
+                    <RelativeLayout
+                        android:id="@+id/insert_unit_code_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_below="@+id/insert_start_time_layout"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/insert_reg_emp_id_layout"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_unit_code_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="장애 타입"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/insert_unit_code"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_unit_code_title"
+                            android:text="승차 단말기"
+                            android:padding="3dp"
+                            android:textColor="#B4A4EF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                    <!--차량-->
+                    <RelativeLayout
+                        android:id="@+id/insert_bus_num_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_below="@+id/insert_reg_emp_id_layout"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_bus_num_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="차량"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/insert_bus_num"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_bus_num_title"
+                            android:text="경기74사8203"
+                            android:padding="3dp"
+                            android:textColor="#B4A4EF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                    <!--기사 연락처-->
+                    <RelativeLayout
+                        android:id="@+id/insert_phone_num_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_below="@+id/insert_unit_code_layout"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/insert_bus_num_layout"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_phone_num_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="기사 연락처"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/insert_phone_num"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_phone_num_title"
+                            android:text="010-123-4567"
+                            android:padding="3dp"
+                            android:textColor="#B4A4EF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                    <!--조합-->
+                    <RelativeLayout
+                        android:id="@+id/insert_area_code_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_below="@+id/insert_bus_num_layout"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_area_code_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="조합"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/insert_area_code"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_area_code_title"
+                            android:text="경기마을"
+                            android:textColor="#B4A4EF"
+                            android:padding="3dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                    <!--운수사-->
+                    <RelativeLayout
+                        android:id="@+id/insert_office_code_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_below="@+id/insert_phone_num_layout"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/insert_area_code_layout"
+                        android:background="@drawable/box_rectangle_purple"
+                        android:padding="15dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:id="@+id/insert_office_code_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="운수사"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/insert_office_code"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_below="@id/insert_office_code_title"
+                            android:text="구일교통"
+                            android:padding="3dp"
+                            android:textColor="#B4A4EF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+
+
+
+
+                    <!--영업소-->
+                    <RelativeLayout
+                        android:id="@+id/insert_garage_layout_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="75dp"
+                        android:layout_marginLeft="17dp"
+                        android:layout_marginRight="17dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/box_rectangle_white2"
+                        android:backgroundTint="#88ffffff"
+                        android:padding="15dp"
+                        android:paddingTop="5dp"
+                        android:layout_below="@+id/insert_area_code_layout">
+
+                        <RelativeLayout
+                            android:id="@+id/insert_garage_layout"
+                            android:layout_width="170dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="20dp">
+
+                            <TextView
+                                android:id="@+id/insert_garage_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="5dp"
+                                android:text="영업소"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/insert_garage"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toRightOf="@+id/insert_garage_title"
+                                android:gravity="center_horizontal"
+                                android:hint=""
+                                android:textSize="16sp" />
+                        </RelativeLayout>
+
+
+                        <!--노선-->
+                        <RelativeLayout
+                            android:layout_width="160dp"
+                            android:layout_height="70dp"
+                            android:layout_toRightOf="@+id/insert_garage_layout">
+                            <TextView
+                                android:id="@+id/insert_route_code_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="5dp"
+                                android:text="노선"
+                                android:textSize="14sp"/>
+
+                            <EditText
+                                android:id="@+id/insert_route_code"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:hint=""
+                                android:layout_toRightOf="@+id/insert_route_code_title"
+                                android:layout_marginLeft="10dp"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:layout_below="@+id/insert_garage_layout_total"
+                        android:layout_marginTop="10dp">
+                        <!--장애 대분류-->
+                        <RelativeLayout
+                            android:id="@+id/box_layout1"
+                            android:layout_width="120dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="5dp">
+                            <RelativeLayout
+                                android:id="@+id/box_title1"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:background="@drawable/box_in_out5">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="장비"
+                                    android:textSize="12sp"
+                                    android:textColor="#ffffff"/>
+                            </RelativeLayout>
+
+
+                            <!--장비-->
+                            <RelativeLayout
+                                android:id="@+id/insert_ars_unit_code_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/box_title1"
+                                android:background="@drawable/box_rectangle_white3"
+                                android:backgroundTint="#88ffffff">
+                                <TextView
+                                    android:id="@+id/insert_ars_unit_code"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="승차 단말기?"
+                                    android:padding="8dp"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#5A3CC6"
+                                    android:layout_centerInParent="true"/>
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+
+                        <!--장애 대분류-->
+                        <RelativeLayout
+                            android:id="@+id/box_layout2"
+                            android:layout_width="120dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="5dp">
+                            <RelativeLayout
+                                android:id="@+id/box_title2"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:background="@drawable/box_in_out5">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="장애 대분류"
+                                    android:textSize="12sp"
+                                    android:textColor="#ffffff"/>
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:id="@+id/insert_ars_trouble_high_code_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/box_title2"
+                                android:background="@drawable/box_rectangle_white3"
+                                android:backgroundTint="#88ffffff">
+                                <TextView
+                                    android:id="@+id/insert_ars_trouble_high_code"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="카드처리 불량?"
+                                    android:textSize="12sp"
+                                    android:padding="8dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#5A3CC6"
+                                    android:layout_centerInParent="true"/>
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+                        <!--장비-->
+                        <RelativeLayout
+                            android:id="@+id/box_layout3"
+                            android:layout_width="120dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="5dp">
+                            <RelativeLayout
+                                android:id="@+id/box_title3"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:background="@drawable/box_in_out5">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="장애 소분류"
+                                    android:textSize="12sp"
+                                    android:textColor="#ffffff"/>
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:id="@+id/insert_ars_trouble_low_code_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/box_title3"
+                                android:background="@drawable/box_rectangle_white3"
+                                android:backgroundTint="#88ffffff">
+
+                                <TextView
+                                    android:id="@+id/insert_ars_trouble_low_code"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="미승인 카드 발생?"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    android:padding="8dp"
+                                    android:textStyle="bold"
+                                    android:textColor="#5A3CC6"
+                                    android:layout_centerInParent="true"/>
+                            </RelativeLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+                </RelativeLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+            <!--처리내역-->
+            <TextView
+                android:id="@+id/tv_title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="※ 처리내역"
+                android:textColor="#5A3CC6"
+                android:paddingLeft="20dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/big_layout"/>
+
+
+
+
+
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp">
+
+
+                <!--장비-->
+                <RelativeLayout
+                    android:id="@+id/insert_process_unit_code_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/box_in_out4_rectangle">
+                    <TextView
+                        android:id="@+id/insert_process_unit_code_title"
+                        android:layout_width="84dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_centerVertical="true"
+                        android:text="장비"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="#7B65FB"
+                        android:background="@drawable/box_in_out3_border"/>
+                    <Spinner
+                        android:id="@+id/insert_process_unit_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toRightOf="@+id/insert_process_unit_code_title"/>
+                </RelativeLayout>
+
+                <!--장애 대분류-->
+                <RelativeLayout
+                    android:id="@+id/insert_process_trouble_high_code_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/box_in_out4_rectangle"
+                    android:layout_below="@+id/insert_process_unit_code_layout"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/insert_process_trouble_high_code_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="장애 대분류"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="#7B65FB"
+                        android:background="@drawable/box_in_out3_border"/>
+                    <Spinner
+                        android:id="@+id/insert_process_trouble_high_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toRightOf="@+id/insert_process_trouble_high_code_title"/>
+                </RelativeLayout>
+
+
+                <!--장애 소분류-->
+                <RelativeLayout
+                    android:id="@+id/insert_process_trouble_low_code_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/box_in_out4_rectangle"
+                    android:layout_below="@+id/insert_process_trouble_high_code_layout">
+                    <TextView
+                        android:id="@+id/insert_process_trouble_low_code_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="장애 소분류"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="#7B65FB"
+                        android:background="@drawable/box_in_out3_border"/>
+                    <Spinner
+                        android:id="@+id/insert_process_trouble_low_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toRightOf="@+id/insert_process_trouble_low_code_title"/>
+                </RelativeLayout>
+
+                <!--조치-->
+                <RelativeLayout
+                    android:id="@+id/insert_process_trouble_care_code_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/box_in_out4_rectangle"
+                    android:layout_below="@+id/insert_process_trouble_low_code_layout"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/insert_process_trouble_care_code_title"
+                        android:layout_width="84dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_centerVertical="true"
+                        android:text="조치"
+                        android:paddingTop="4dp"
+                        android:layout_marginLeft="10dp"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="#7B65FB"
+                        android:background="@drawable/box_in_out3_border"/>
+                    <Spinner
+                        android:id="@+id/insert_process_trouble_care_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="30dp"
+                        android:layout_toRightOf="@+id/insert_process_trouble_care_code_title"/>
+                </RelativeLayout>
+
+
+                <!--공동 작업자-->
+                <RelativeLayout
+                    android:id="@+id/trouble_care_list_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_below="@+id/insert_process_trouble_care_code_layout"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/box_in_out4_rectangle"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp">
+                    <RelativeLayout
+                        android:id="@+id/equel_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="8dp">
+                        <TextView
+                            android:id="@+id/trouble_care_list_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_centerVertical="true"
+                            android:text="공동 작업자"
+                            android:textColor="#7B65FB"
+                            android:background="@drawable/box_in_out3_border"
+                            android:layout_marginLeft="4dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:layout_marginTop="5dp"/>
+                        <TextView
+                            android:id="@+id/trouble_care_list"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/trouble_care_list_title"
+                            android:text="현재 대상자 0명"
+                            android:textSize="16sp"
+                            android:textColor="#000000"
+                            android:layout_marginLeft="30dp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="4dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="8dp"/>
+
+                        <Button
+                            android:id="@+id/edit_care_emp_list"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="42dp"
+                            android:layout_toRightOf="@+id/trouble_care_list"
+                            android:background="@drawable/box_in_out2"
+                            android:gravity="center"
+                            android:text="수정"
+                            android:textColor="#ffffff" />
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/insert_care_unit_before_layout_total"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_below="@+id/trouble_care_list_layout">
+
+                    <!--기존 시리얼-->
+                    <RelativeLayout
+                        android:id="@+id/insert_care_unit_before_layout"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/box_in_out4_rectangle"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp">
+                        <EditText
+                            android:id="@+id/insert_care_unit_before"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:hint="     기존 시리얼     "
+                            android:textSize="16sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"/>
+                        <RelativeLayout
+                            android:id="@+id/after_before_unit"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/ic_menu_camera"
+                            android:layout_below="@id/insert_care_unit_before"
+                            android:layout_marginBottom="10dp"/>
+                    </RelativeLayout>
+
+
+                    <!--교체 시리얼-->
+                    <RelativeLayout
+                        android:id="@+id/insert_care_unit_after_layout"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/box_in_out4_rectangle"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginLeft="12dp">
+                        <EditText
+                            android:id="@+id/insert_care_unit_after"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:hint="     교체 시리얼     "
+                            android:textSize="16sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"/>
+                        <RelativeLayout
+                            android:id="@+id/after_care_unit"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/ic_menu_camera"
+                            android:layout_below="@id/insert_care_unit_after"
+                            android:layout_marginBottom="10dp"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+
+
+
+
+
+                <RelativeLayout
+                    android:id="@+id/insert_care_notice_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@+id/insert_care_unit_before_layout_total"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:background="@drawable/box_in_out4_rectangle"
+                    android:padding="10dp">
+                    <TextView
+                        android:id="@+id/insert_care_notice_title"
+                        android:layout_width="84dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="특이사항"
+                        android:textColor="#7B65FB"
+                        android:background="@drawable/box_in_out3_border"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:layout_marginTop="5dp"/>
+                    <EditText
+                        android:id="@+id/insert_care_notice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:hint="특이사항을 입력하세요."
+                        android:textSize="14sp"
+                        android:layout_below="@id/insert_care_notice_title"/>
+                </RelativeLayout>
+
+
+
+
+
+                <RelativeLayout
+                    android:id="@+id/update_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/insert_care_notice_layout"
+                    android:layout_margin="30dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="등록하기"
+                        android:textColor="#ffffff"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="60dp"
+                        android:paddingRight="60dp"
+                        android:background="@drawable/box_in_out2_1"/>
+                </RelativeLayout>
+
+
+
+            </RelativeLayout>
+
+
+
+
+<!--            등록하기 버튼-->
+            <!--<RelativeLayout
+                android:id="@+id/update_history"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/box_in_out2"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="200dp"
+                android:padding="100dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="등록하기"
+                    android:textColor="#ffffff"/>
+            </RelativeLayout>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package app.erp.com.erp_app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+
+import app.erp.com.erp_app.document_care.myfragments.MyPageFragment1;
 
 /**
  * Created by samsung on 2017-08-28.
@@ -56,6 +59,7 @@ public class CustomScannerActivity extends Activity implements DecoratedBarcodeV
         capture = new CaptureManager(this, barcodeScannerView);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         capture.decode();
+
     }
 
     @Override

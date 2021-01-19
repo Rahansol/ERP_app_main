@@ -189,6 +189,7 @@ public class ReserveItemRepairActivity extends AppCompatActivity {
         }
 
         String scan_type = pref.getString("scan_type","stop");
+        
         if("stop".equals(scan_type)){
             editor.clear();
             editor.commit();

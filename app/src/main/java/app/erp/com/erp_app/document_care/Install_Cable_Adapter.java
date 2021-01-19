@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,50 +43,18 @@ public class Install_Cable_Adapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         VH vh= (VH) holder;
         InstallCableItems item= items.get(position);
-        vh.tvNum.setText(item.num);
-        vh.spItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        vh.tv_item_group_name.setText(item.item);
+        vh.tv_item_each_name.setText(item.item_detail);
+        vh.tv_quantity_recycler.setText(item.tv_quantity_recycler);
+        vh.btn_delete.setText(item.btn_delete);
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        vh.spItemDetail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        vh.spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        vh.ivMinus.setOnClickListener(new View.OnClickListener() {
+        /*삭제버튼 클릭- 리사이클러뷰 아이템 한줄씩 삭제*/
+        vh.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-        vh.ivPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+                Toast.makeText(context, position+1+"번 선택항목을 삭제합니다.", Toast.LENGTH_SHORT).show();
+                items.remove(item);
+                notifyItemRemoved(position);
             }
         });
     }
@@ -98,23 +67,18 @@ public class Install_Cable_Adapter extends RecyclerView.Adapter {
 
 
     class VH extends RecyclerView.ViewHolder{
-        TextView tvNum;
-        Spinner spItem;
-        Spinner spItemDetail;
-        Spinner spQuantity;
-        ImageView ivMinus;
-        ImageView ivPlus;
-
+        TextView tv_item_group_name;
+        TextView tv_item_each_name;
+        TextView tv_quantity_recycler;
+        TextView btn_delete;
 
         public VH(@NonNull View itemView) {
             super(itemView);
 
-            this.tvNum= itemView.findViewById(R.id.num);
-            this.spItem= itemView.findViewById(R.id.item);
-            this.spItemDetail= itemView.findViewById(R.id.item_detail);
-            this.spQuantity= itemView.findViewById(R.id.quantity);
-            this.ivMinus= itemView.findViewById(R.id.minus);
-            this.ivPlus= itemView.findViewById(R.id.plus);
+            this.tv_item_group_name= itemView.findViewById(R.id.item_group_name);
+            this.tv_item_each_name= itemView.findViewById(R.id.item_each_name);
+            this.tv_quantity_recycler= itemView.findViewById(R.id.tv_quantity_recycler);
+            this.btn_delete= itemView.findViewById(R.id.btn_delete);
         }
     }
 }

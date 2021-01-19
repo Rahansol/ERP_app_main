@@ -6,6 +6,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,6 +29,7 @@
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity
             android:name=".document_care.MyProject_Work_Insert_Activity"
+            android:configChanges="orientation|screenSize"
             android:label="차량별 설치입력" />
         <activity
             android:name=".InOutDetailActivity"
@@ -185,9 +187,13 @@
             android:label="문서 조회" />
         <activity android:name="test.TestActivity" />
 
+        <activity android:name=".document_care.myfragments.CaptureAct"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="app.erp.com.erp_app"
+            android:authorities="app.erp.com.erp_app.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

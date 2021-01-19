@@ -1036,7 +1036,7 @@ public class Fragment_Project_Work_Insert_1 extends Fragment {
     private String galleryAddPic(){
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         // 해당 경로에 있는 파일을 객체화(새로 파일을 만든다는 것으로 이해하면 안 됨)
-        File f = new File(mCurrentPhotoPath);
+        File f = new File(mCurrentPhotoPath); // 지금 전역변수로 파일을 만들죠 ?네 그럼 저 전역변수가
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         mcontext.sendBroadcast(mediaScanIntent);

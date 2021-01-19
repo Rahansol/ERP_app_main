@@ -209,14 +209,15 @@ public class Barcode_bus_Activity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         String barcode = result.getContents();
-        if(click_type.equals("stop")){
-        }else if(click_type.equals("unit")){
+        if (click_type.equals("stop")) {
+        } else if (click_type.equals("unit")) {
             progressDialog.setMessage("검색중..");
             progressDialog.show();
             make_unit_info(barcode);
-        }else if(click_type.equals("scan")){
+        } else if (click_type.equals("scan")) {
             progressDialog.setMessage("검색중..");
             progressDialog.show();
             new Bus_num_info().execute(barcode);

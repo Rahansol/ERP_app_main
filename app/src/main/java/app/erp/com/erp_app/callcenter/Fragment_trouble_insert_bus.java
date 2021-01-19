@@ -148,7 +148,6 @@ public class Fragment_trouble_insert_bus extends Fragment {
                 boolean handled =false;
                 if (actionId == EditorInfo.IME_ACTION_DONE){
                     new Fragment_trouble_insert_bus.getfield_error_busnum().execute(find_bus_num.getText().toString());
-
                     handled =true;
                     downKeyboard(find_bus_num);
                     find_bus_num.clearFocus();
@@ -577,6 +576,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Log.d("result ++++++ ", result+"    tt");
         String barcode = result.getContents();
         if(click_type.equals("stop")){
         }else if(click_type.equals("scan")){
@@ -613,7 +613,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
                         Toast.makeText(context,"검색결과가 없습니다 다른 버스번호로 다시 검색해보세요",Toast.LENGTH_SHORT).show();
                     }
                     final List<String> spinner_list = new ArrayList<>();
-                    spinner_list.add("버스번호를 선택해주세요.");
+                    spinner_list.add("버스 선택");
                     for(Bus_infoVo i : list){
                         spinner_list.add(i.getBusoff_bus());
                     }
