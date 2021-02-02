@@ -142,7 +142,8 @@ public class DialogPrj_ItemView extends Dialog  {
                         vb_params.weight =5f;
                         image_layout.addView(image_title);
 
-                        String image_url = "http://ierp.interpass.co.kr/" + "" + list.get(i).getContents() + "" ;
+                        //String image_url = "http://ierp.interpass.co.kr/" + "" + list.get(i).getContents() + "" ;
+                        String image_url = "192.168.0.122/" + "" + list.get(i).getContents() + "" ;
                         if(null == list.get(i).getContents()){
                             TextView no_image_text = new TextView(mContext);
                             no_image_text.setText("사진 없음");
@@ -178,7 +179,8 @@ public class DialogPrj_ItemView extends Dialog  {
                         LinearLayout.LayoutParams vv_params = new LinearLayout.LayoutParams(vvwidth, vvheight);
                         vv_params.weight =5f;
 
-                        String video_url = "http://ierp.interpass.co.kr/" +  list.get(i).getContents() + "" ;
+                        //String video_url = "http://ierp.interpass.co.kr/" +  list.get(i).getContents() + "" ;
+                        String video_url = "192.168.0.122/" +  list.get(i).getContents() + "" ;
 //                        String url = "http://sites.google.com/site/ubiaccessmobile/sample_video.mp4";
 
                         ImageView videoView = new ImageView(mContext);

@@ -171,7 +171,7 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         }
         /*설치 확인서*/
         else if (id == R.id.installation_confirm){
-            Intent i= new Intent(Call_Center_Activity.this, MyProject_Work_Insert_Activity.class);     //MyProject_Work_Insert_Activity <- Viewpager로 연결되어있는 액티비티
+            Intent i= new Intent(Call_Center_Activity.this, MyProject_Work_Insert_Activity.class);
             startActivity(i);
         }
         else if(id == R.id.trouble_serch_btn){

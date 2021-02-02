@@ -141,6 +141,8 @@ public class ProJect_Doc_Write_Activity extends AppCompatActivity {
                 real_path = (String)sign_map.get("real_path");
 
                 Log.d("real_path::",""+ sign_path_check+"1111" + real_path);
+
+
                 String sign_man_text = (String)sign_map.get("sign_man");
                 String sign_man_tel  = (String)sign_map.get("sign_tel");
 
@@ -166,6 +168,8 @@ public class ProJect_Doc_Write_Activity extends AppCompatActivity {
                 String replace  = sign_save_path.replaceAll("/","%");
 //                String real_path = (String)sign_map.get("real_path");
                 sign_map.put("sign",real_path+"&"+replace);
+
+               // System.out.println("sign_map==========================>>>>>>>>>>>>>>>"+sign_map+"");
 
                 request_map.putAll(sign_map);
                 String db_path = "project_img/" + prj_code + "/" +path_reg_date+ "/" + prj_code+"_"+path_reg_date+"_"+trans_bizr_id+"_"+"sign"+".jpg";

@@ -1,7 +1,7 @@
 package app.erp.com.erp_app.document_care.myfragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,9 +20,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +34,14 @@ import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.document_care.InstallCableItems;
 import app.erp.com.erp_app.document_care.Install_Cable_Adapter;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
+import app.erp.com.erp_app.vo.Bus_infoVo;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPageFragment2 extends Fragment {
-    Context mContext;
+public class MyPageFragment2 extends Fragment implements View.OnClickListener {
+
+    Context mContext= getActivity();
     static String st_office_group;
     static Spinner spinner_item_group_name;
     static Spinner spinner_item_each_name;
@@ -51,103 +58,257 @@ public class MyPageFragment2 extends Fragment {
     private ArrayList<InstallCableItems> installCableItems;
     private Install_Cable_Adapter install_cable_adapter;
 
+
+    /*CABLE INSERT RECYCLERVIEW*/
+    private RecyclerView recyclerView_cable;
+    private ArrayList<CableInsertItems> cableInsertItems;
+    private CableInsertAdapter cableInsertAdapter;
+    static String cable_quantity;
+
     ImageView iv_plus;
     ImageView iv_minus;
     TextView tv_quantity_value;
     Button btn_add;
     static String st_quantity_value;
-
     int cnt=1;
 
+    Button btn_cable, btnSave;
+    FrameLayout cable_fragment;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Bundle args= this.getArguments();
-        if (args != null){
-            /*String stOfficeGroup= args.getString("st_office_group_value", st_office_group_value);
-            String stJobName= args.getString("st_job_name_value", "");
-            TextView office_group= rootView.findViewById(R.id.office_group);
-            office_group.setText(stOfficeGroup);*/
-            String stJobName= getArguments().getString("st_job_name_value");
-            TextView office_group= getView().findViewById(R.id.office_group);
-            office_group.setText(stJobName);
-            Log.d("office_group==========================================>", office_group+"");
-        }
-    }
+    private final static String TAG_FRAGMENT= "TAG_FRAGMENT";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.pager2_my_project_work_insert_fragment, container, false);
 
+        Log.d("prj_name :  ", G.prjName+"");
+        Log.d("transpBizrId :  ", G.transpBizrId+"");
+        Log.d("busoffName :  ", G.busoffName+"");
+        Log.d("TempBusId :  ", G.TempBusId+"");
+        Log.d("TempBusNum :  ", G.TempBusNum+"");
+        Log.d("regEmpId :  ", G.regEmpId+"");
+        Log.d("garageId :  ", G.garageId+"");
+        Log.d("garageName :  ", G.garageName+"");
+        Log.d("routeId :  ", G.routeId+"");
+        Log.d("routeNum :  ", G.routeNum+"");
+        Log.d("vehicleNum :  ", G.vehicleNum+"");
+        Log.d("jopType :  ", G.jopType+"");
+        Log.d("Last_seq :  ", G.Last_seq+"");
 
-        /*품목 스피너*/
-        spinner_item_group_name= rootView.findViewById(R.id.spinner_item_group_name);
-        ERP_Spring_Controller erp_item_group_name= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-        Call<List<Bus_OfficeVO>> call_item_group_name= erp_item_group_name.ItemGroupNameSpinner("경기마을");  //st_office_group_value
-        new ItemGroupNameSpinner().execute(call_item_group_name);
+        //민혁 - 변수 초기화 추가
+        for(int i=0; i < Garray.value2.length;i++) {
+            Garray.value2[i]="";
+        }
 
-        /*상세품목 스피너*/
-        spinner_item_each_name= rootView.findViewById(R.id.spinner_item_each_name);
-        ERP_Spring_Controller erp_item_each_name= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-        Call<List<Bus_OfficeVO>> call_item_each_name= erp_item_each_name.ItemEachNameSpinner("0100203");
-        new ItemEachNameSpinner().execute(call_item_each_name);
 
-        installCableItems= new ArrayList<>();
-        install_cable_adapter= new Install_Cable_Adapter(getContext(), installCableItems);
-        recyclerView= (RecyclerView) rootView.findViewById(R.id.recyclerview_spinner);
+        if (getArguments() != null){
+            String result= getArguments().getString("fromfragment1");
+            Log.d("전달받은 데이터: ", result);
 
-        tv_quantity_value= rootView.findViewById(R.id.tv_quantity_value);
-        iv_minus= rootView.findViewById(R.id.iv_minus);
-        iv_minus.setOnClickListener(new View.OnClickListener() {
+            ERP_Spring_Controller erp_cable= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+            Call<List<Bus_OfficeVO>> call_cable= erp_cable.cableItemLists(result);
+            new cableItemLists().execute(call_cable);
+        }else {
+            Toast.makeText(getContext(), "데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        Button go_back= rootView.findViewById(R.id.go_back);
+        go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cnt <=1) cnt=1;
-                else cnt--;
-                tv_quantity_value.setText(""+cnt);
-                st_quantity_value= cnt+"";
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, new MyPageFragment1())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
-        iv_plus= rootView.findViewById(R.id.iv_plus);
-        iv_plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv_quantity_value.setText(++cnt+"");
-                //st_quantity_value = cnt+"";
-            }
-        });
-        btn_add= rootView.findViewById(R.id.btn_add);
-        /*추가버튼을 클릭- 선택한 상세목록 확인 리스트 실행*/
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //1) "선택"이면 추가해주지 않게 조건문 처리
-                if (st_item_group_name.equals("선택")){
-                    Toast.makeText(getContext(), "품목과 상세품목을 선택하세요.", Toast.LENGTH_SHORT).show();
-                }else if (st_item_each_name.equals("선택")){
-                    Toast.makeText(getContext(), "품목과 상세품목을 선택하세요.", Toast.LENGTH_SHORT).show();
-                }else {
-                    installCableItems.add(new InstallCableItems(st_item_group_name_value, st_item_each_name_value, /*(st_quantity_value == null ? "1" : st_quantity_value)*/ cnt+"", "삭제"));
-                    recyclerView.setAdapter(install_cable_adapter);
-                    install_cable_adapter.notifyDataSetChanged();
 
-                    //2) 추가버튼을 클릭하면 품목, 상세품목, 수량 초기화
-                    spinner_item_group_name.setSelection(0);
-                    spinner_item_each_name.setSelection(0);
-                    tv_quantity_value.setText(1+"");
-                   /* st_quantity_value=1+"";*/
-                    cnt=1;
-                }
+        recyclerView_cable= rootView.findViewById(R.id.recyclerview_cable);
 
 
-
-            }
-        });
+        btnSave= rootView.findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(this);
 
         return  rootView;
     }//onCreateView
+
+
+
+
+
+    public class cableItemLists extends AsyncTask<Call, Void, List<Bus_OfficeVO>>{
+        @Override
+        protected List<Bus_OfficeVO> doInBackground(Call... calls) {
+            Call<List<Bus_OfficeVO>> call= calls[0];
+            try {
+                Response<List<Bus_OfficeVO>> response= call.execute();
+                return response.body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Bus_OfficeVO> bus_officeVOS) {
+            super.onPostExecute(bus_officeVOS);
+
+            if (bus_officeVOS != null){
+                cableInsertItems= new ArrayList<>();
+                for (int i=0; i<bus_officeVOS.size(); i++){
+                    cableInsertItems.add(new CableInsertItems(bus_officeVOS.get(i).getItem_each_seq(), bus_officeVOS.get(i).getItem_group_name(), "0"));
+                }
+                cableInsertAdapter= new CableInsertAdapter(mContext, cableInsertItems);
+                recyclerView_cable.setAdapter(cableInsertAdapter);
+
+                //item.quantity.notify();
+                //cableInsertAdapter.notifyItemChanged(2);
+
+               // cableInsertAdapter.notifyDataSetChanged();
+
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_save:
+                Toast.makeText(getContext(), "저장!", Toast.LENGTH_SHORT).show();
+                for(int i=0 ; i < Garray.value2.length ; i++) {
+                    Log.d(" Garray.value2[", i+"]="+Garray.value2[i]  );
+                }
+                ArrayList<String> getarrval = cableInsertAdapter.getarr();
+
+
+                // 수량 업데이트
+                ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                Call<String> call= erp.update_prj_def_val2(G.prjName+""
+                        ,G.dtti+""
+                        ,G.regEmpId+""
+                        ,G.transpBizrId+""
+                        ,G.busoffName+""
+                        ,G.garageId+""
+                        ,G.garageName+""
+                        ,G.routeId+""
+                        ,G.routeNum+""
+                        ,G.TempBusId+""
+                        ,G.TempBusNum+""
+                        ,G.vehicleNum+""
+                        ,G.jopType+""
+                        ,Garray.value2[0]+""
+                        ,Garray.value2[1]+""
+                        ,Garray.value2[2]+""
+                        ,Garray.value2[3]+""
+                        ,Garray.value2[4]+""
+                        ,Garray.value2[5]+""
+                        ,Garray.value2[6]+""
+                        ,Garray.value2[7]+""
+                        ,Garray.value2[8]+""
+                        ,Garray.value2[9]+""
+                        ,Garray.value2[10]+""
+                        ,Garray.value2[11]+""
+                        ,Garray.value2[12]+""
+                        ,Garray.value2[13]+""
+                        ,Garray.value2[14]+""
+                        ,Garray.value2[15]+""
+                        ,Garray.value2[16]+""
+                        ,Garray.value2[17]+""
+                        ,Garray.value2[18]+""
+                        ,Garray.value2[19]+""
+                        ,Garray.value2[20]+""
+                        ,Garray.value2[21]+""
+                        ,Garray.value2[22]+""
+                        ,Garray.value2[23]+""
+                        ,Garray.value2[24]+""
+                        ,Garray.value2[25]+""
+                        ,Garray.value2[26]+""
+                        ,Garray.value2[27]+""
+                        ,Garray.value2[28]+""
+                        ,Garray.value2[29]+""
+                        ,Garray.value2[30]+""
+                        ,Garray.value2[31]+""
+                        ,Garray.value2[32]+""
+                        ,Garray.value2[33]+""
+                        ,Garray.value2[34]+""
+                        ,Garray.value2[35]+""
+                        ,Garray.value2[36]+""
+                        ,Garray.value2[37]+""
+                        ,Garray.value2[38]+""
+                        ,Garray.value2[39]+""
+                        ,Garray.value2[40]+""
+                        ,Garray.value2[41]+""
+                        ,Garray.value2[42]+""
+                        ,Garray.value2[43]+""
+                        ,Garray.value2[44]+""
+                        ,Garray.value2[45]+""
+                        ,Garray.value2[46]+""
+                        ,Garray.value2[47]+""
+                        ,Garray.value2[48]+""
+                        ,Garray.value2[49]+""
+                        ,Garray.value2[50]+""
+                        ,Garray.value2[61]+""
+                        ,Garray.value2[62]+""
+                        ,Garray.value2[63]+""
+                        ,Garray.value2[64]+""
+                        ,Garray.value2[65]+""
+                        ,Garray.value2[66]+""
+                        ,Garray.value2[67]+""
+                        ,Garray.value2[68]+""
+                        ,Garray.value2[69]+""
+                        ,Garray.value2[70]+""
+                        ,Garray.value2[71]+""
+                        ,Garray.value2[72]+""
+                        ,Garray.value2[73]+""
+                        ,Garray.value2[74]+""
+                        ,Garray.value2[75]+""
+                        ,Garray.value2[76]+""
+                        ,Garray.value2[77]+""
+                        ,Garray.value2[78]+""
+                        ,Garray.value2[79]+""
+                        ,Garray.value2[80]+""
+                        ,Garray.value2[81]+""
+                        ,Garray.value2[82]+""
+                        ,Garray.value2[83]+""
+                        ,Garray.value2[84]+""
+                        ,Garray.value2[85]+""
+                        ,Garray.value2[86]+""
+                        ,Garray.value2[87]+""
+                        ,Garray.value2[88]+""
+                        ,Garray.value2[89]+""
+                        ,Garray.value2[90]+""
+                        ,Garray.value2[91]+""
+                        ,Garray.value2[92]+""
+                        ,Garray.value2[93]+""
+                        ,Garray.value2[94]+""
+                        ,Garray.value2[95]+""
+                        ,Garray.value2[96]+""
+                        ,Garray.value2[97]+""
+                        ,Garray.value2[98]+""
+                        ,Garray.value2[99]+"");
+
+
+                //민혁 - 수량 add하는곳 수정 후 tomcat mapper에서 수량 확인 됨
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d("cable_quantity 수량 응답 확인===> ", cable_quantity+"");
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
+        }
+    }
+
 
 
     /*품목 스피너*/
@@ -201,7 +362,7 @@ public class MyPageFragment2 extends Fragment {
         }
     }
 
-
+    //상세품목 스피너
     public class ItemEachNameSpinner extends AsyncTask<Call, Void, List<Bus_OfficeVO>>{
 
         @Override

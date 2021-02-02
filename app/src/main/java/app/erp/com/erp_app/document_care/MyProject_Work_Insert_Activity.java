@@ -6,8 +6,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -35,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 
 import app.erp.com.erp_app.ActivityResultEvent;
 import app.erp.com.erp_app.LoginActivity;
@@ -46,18 +50,33 @@ import app.erp.com.erp_app.document_care.myfragments.MyPageFragment3;
 
 // Fragment_ProJect_List.java 문서에서 등록버튼을 눌렀을 때 이 화면으로 이동시키기
 // [등록화면]
-public class MyProject_Work_Insert_Activity extends AppCompatActivity {
+public class MyProject_Work_Insert_Activity extends AppCompatActivity{
 
-    private ViewPager pager;
-    private PagerAdapter pagerAdapter;
+    public static Stack<Fragment> fragmentStack;
+    public static FragmentManager manager;
 
-    private ImageView iv;
+    public static MyPageFragment1 myPageFragment1;
+    public static MyPageFragment2 myPageFragment2;
+
+    final static int FIRST_FRAGMENT= 1001;
+    final static int SECOND_FRAGMENT= 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_project_work_insert);
 
+        myPageFragment1= new MyPageFragment1();
+        myPageFragment2= new MyPageFragment2();
+        fragmentStack= new Stack<>();
+        manager= getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.frameLayout, myPageFragment1).commit();
+
+
+        /*getSupportFragmentManager().beginTransaction()
+                .add(new MyPageFragment1())
+                .add(R.id.container_b, new MyPageFragment2())
+                .commit();*/
 
         /*Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,6 +90,7 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity {
         nav.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);*/
 
 
+
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
             int permissionOnResult=checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if(permissionOnResult== PackageManager.PERMISSION_DENIED){
@@ -79,37 +99,38 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity {
             }
         }
 
-
-        List<Fragment> list= new ArrayList<>();
+        /*List<Fragment> list= new ArrayList<>();
         list.add(new MyPageFragment1());
         list.add(new MyPageFragment2());
-        list.add(new MyPageFragment3());
-
+        //list.add(new MyPageFragment3());
 
         pager= findViewById(R.id.pager);
         pagerAdapter= new MySlidePagerAdapter(getSupportFragmentManager(), list);
         pager.setAdapter(pagerAdapter);
+        pager.setOffscreenPageLimit(list.size());   //초기화를 방지하기 위해서 viewPager에 setOffscreenPageLimit를 fragments들의 사이즈대로 붙여줌.*/
     }//onCreaet()....
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode){
-            case 100:
-                if(grantResults[0]== PackageManager.PERMISSION_GRANTED)
-                    Toast.makeText(this, "사진저장가능", Toast.LENGTH_SHORT).show();
-                else Toast.makeText(this, "촬영된 사진저장 불가", Toast.LENGTH_SHORT).show();
+    public static void changeFragment(int index){
+        switch (index){
+            case FIRST_FRAGMENT:
+                manager.beginTransaction().replace(R.id.frameLayout, myPageFragment2).commit();
+                break;
+            case SECOND_FRAGMENT:
+                manager.beginTransaction().replace(R.id.frameLayout, myPageFragment1).commit();
                 break;
         }
     }
 
-
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        if (!fragmentStack.isEmpty()){
+            Fragment nextFragment= fragmentStack.pop();
+            manager.beginTransaction().replace(R.id.frameLayout, nextFragment).commit();
+            System.out.println("[testing>>]"+fragmentStack.size());
+        }else {
+            super.onBackPressed();
+        }
+    }//onBackPressed..
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -123,10 +144,8 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()){
             case R.id.logout_btn:
                 new AlertDialog.Builder(this)
@@ -152,4 +171,5 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

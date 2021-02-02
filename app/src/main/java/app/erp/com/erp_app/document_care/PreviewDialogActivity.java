@@ -29,9 +29,13 @@ public class PreviewDialogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_dialog);
 
-        SharedPreferences pref= getSharedPreferences("imgUri_data", MODE_PRIVATE);
+        /*SharedPreferences pref= getSharedPreferences("imgUri_data", MODE_PRIVATE);
         String st_imgUri= pref.getString("imgUri", null);
-        Uri imgUri= Uri.parse(st_imgUri);
+        Uri imgUri= Uri.parse(st_imgUri);*/
+
+
+        Uri imgUri= getIntent().getParcelableExtra("imgUri");
+
         if (imgUri != null){
             preview_dialog= findViewById(R.id.preview_dialog);
             //preview_dialog.setImageURI(imgUri);

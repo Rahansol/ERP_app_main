@@ -6,14 +6,13 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
 
     <application
         android:allowBackup="true"
@@ -26,7 +25,7 @@
         <activity
             android:name=".document_care.PreviewDialogActivity"
             android:label="등록할 사진을 확인하세요"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
         <activity
             android:name=".document_care.MyProject_Work_Insert_Activity"
             android:configChanges="orientation|screenSize"
@@ -186,10 +185,10 @@
             android:configChanges="orientation|screenSize"
             android:label="문서 조회" />
         <activity android:name="test.TestActivity" />
-
-        <activity android:name=".document_care.myfragments.CaptureAct"
+        <activity
+            android:name=".document_care.myfragments.CaptureAct"
             android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

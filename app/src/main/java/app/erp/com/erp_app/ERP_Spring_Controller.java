@@ -376,9 +376,15 @@ public interface ERP_Spring_Controller {
     @GET("AndroidRegister/JobNameSpinner")
     Call<List<Bus_OfficeVO>> JobNameSpinner();
 
+    /*설치 확인서 [작업-2] 호출- 버전스피너 아래있는 작업스피너..*/
+    @GET("AndroidRegister/PrjBaseInfraJobSpinner")
+    Call<List<Bus_OfficeVO>> PrjBaseInfraJobSpinner();
+
     /*설치 확인서 [조합목록] 호출*/
     @GET("AndroidRegister/OfficeGroupSpinner")
     Call<List<Bus_OfficeVO>> OfficeGroupSpinner();
+
+
 
     /*설치 확인서 [운수사] 호출*/
     @GET("AndroidRegister/BusOffName")
@@ -386,7 +392,7 @@ public interface ERP_Spring_Controller {
 
     /*설치 확인서 리사이클러뷰: 카메라 앨범/ 촬영기능 etc 호출..*/
     @GET("AndroidRegister/BusOffRecyclerviewMedia")
-    Call<List<Bus_OfficeVO>> BusOffRecyclerviewMedia(@Query("office_group") String office_group);
+    Call<List<Bus_OfficeVO>> BusOffRecyclerviewMedia(@Query("office_group") String office_group, @Query("version") String version);
 
     /*설치 확인서 [영업소] 호출*/
     @GET("AndroidRegister/GarageSpinner")
@@ -410,6 +416,183 @@ public interface ERP_Spring_Controller {
     /*상세품목 스피너*/
     @GET("AndroidRegister/ItemEachNameSpinner")
     Call<List<Bus_OfficeVO>> ItemEachNameSpinner(@Query("item_code") String item_code);
+
+    /*품목, 상세품목 대신... 케이블 설치 입력 테이블*/
+    @GET("AndroidRegister/cableItemLists")
+    Call<List<Bus_OfficeVO>> cableItemLists(@Query("doc_version") String doc_version);
+
+    /*설치확인서 : 기본정보 + 사진경로 & 시리얼번호*/
+    @GET("AndroidRegister/insert_prj_def_val")
+    Call<String> insert_prj_def_val(@Query("prj_name") String prj_name
+                             ,@Query("reg_dtti") String reg_dtti
+                             ,@Query("reg_emp_id") String reg_emp_id
+                             ,@Query("transp_bizr_id") String transp_bizr_id
+                             ,@Query("busoff_name") String busoff_name
+                             ,@Query("garage_id") String garage_id
+                             ,@Query("garage_name") String garage_name
+                             ,@Query("route_id") String route_id
+                             ,@Query("route_num") String route_num
+                             ,@Query("bus_id") String bus_id
+                             ,@Query("bus_num") String bus_num
+                             ,@Query("vehicle_num") String vehicle_num
+                             ,@Query("job_type") String job_type
+                            ,@Query("item_1") String item_1
+                            ,@Query("item_2") String item_2
+                            ,@Query("item_3") String item_3
+                            ,@Query("item_4") String item_4
+                            ,@Query("item_5") String item_5
+                            ,@Query("item_6") String item_6
+                            ,@Query("item_7") String item_7
+                            ,@Query("item_8") String item_8
+                            ,@Query("item_9") String item_9
+                            ,@Query("item_10") String item_10
+                            ,@Query("item_11") String item_11
+                            ,@Query("item_12") String item_12
+                            ,@Query("item_13") String item_13
+                            ,@Query("item_14") String item_14
+                            ,@Query("item_15") String item_15
+                            ,@Query("item_16") String item_16
+                            ,@Query("item_17") String item_17
+                            ,@Query("item_18") String item_18
+                            ,@Query("item_19") String item_19
+                            ,@Query("item_20") String item_20
+                            ,@Query("item_21") String item_21
+                            ,@Query("item_22") String item_22
+                            ,@Query("item_23") String item_23
+                            ,@Query("item_24") String item_24
+                            ,@Query("item_25") String item_25
+                            ,@Query("item_26") String item_26
+                            ,@Query("item_27") String item_27
+                            ,@Query("item_28") String item_28
+                            ,@Query("item_29") String item_29
+                            ,@Query("item_30") String item_30
+                            ,@Query("item_31") String item_31
+                            ,@Query("item_32") String item_32
+                            ,@Query("item_33") String item_33
+                            ,@Query("item_34") String item_34
+                            ,@Query("item_35") String item_35
+                            ,@Query("item_36") String item_36
+                            ,@Query("item_37") String item_37
+                            ,@Query("item_38") String item_38
+                            ,@Query("item_39") String item_39
+                            ,@Query("item_40") String item_40
+                            ,@Query("item_41") String item_41
+                            ,@Query("item_42") String item_42
+                            ,@Query("item_43") String item_43
+                            ,@Query("item_44") String item_44
+                            ,@Query("item_45") String item_45
+                            ,@Query("item_46") String item_46
+                            ,@Query("item_47") String item_47
+                            ,@Query("item_48") String item_48
+                            ,@Query("item_49") String item_49
+                            ,@Query("item_50") String item_50 );
+
+
+    /*뒷페이지*/
+    @GET("AndroidRegister/update_prj_def_val2")
+    Call<String> update_prj_def_val2(@Query("prj_name") String prj_name
+            ,@Query("reg_dtti") String reg_dtti
+            ,@Query("reg_emp_id") String reg_emp_id
+            ,@Query("transp_bizr_id") String transp_bizr_id
+            ,@Query("busoff_name") String busoff_name
+            ,@Query("garage_id") String garage_id
+            ,@Query("garage_name") String garage_name
+            ,@Query("route_id") String route_id
+            ,@Query("route_num") String route_num
+            ,@Query("bus_id") String bus_id
+            ,@Query("bus_num") String bus_num
+            ,@Query("vehicle_num") String vehicle_num
+            ,@Query("job_type") String job_type
+            ,@Query("item_1") String item_1
+            ,@Query("item_2") String item_2
+            ,@Query("item_3") String item_3
+            ,@Query("item_4") String item_4
+            ,@Query("item_5") String item_5
+            ,@Query("item_6") String item_6
+            ,@Query("item_7") String item_7
+            ,@Query("item_8") String item_8
+            ,@Query("item_9") String item_9
+            ,@Query("item_10") String item_10
+            ,@Query("item_11") String item_11
+            ,@Query("item_12") String item_12
+            ,@Query("item_13") String item_13
+            ,@Query("item_14") String item_14
+            ,@Query("item_15") String item_15
+            ,@Query("item_16") String item_16
+            ,@Query("item_17") String item_17
+            ,@Query("item_18") String item_18
+            ,@Query("item_19") String item_19
+            ,@Query("item_20") String item_20
+            ,@Query("item_21") String item_21
+            ,@Query("item_22") String item_22
+            ,@Query("item_23") String item_23
+            ,@Query("item_24") String item_24
+            ,@Query("item_25") String item_25
+            ,@Query("item_26") String item_26
+            ,@Query("item_27") String item_27
+            ,@Query("item_28") String item_28
+            ,@Query("item_29") String item_29
+            ,@Query("item_30") String item_30
+            ,@Query("item_31") String item_31
+            ,@Query("item_32") String item_32
+            ,@Query("item_33") String item_33
+            ,@Query("item_34") String item_34
+            ,@Query("item_35") String item_35
+            ,@Query("item_36") String item_36
+            ,@Query("item_37") String item_37
+            ,@Query("item_38") String item_38
+            ,@Query("item_39") String item_39
+            ,@Query("item_40") String item_40
+            ,@Query("item_41") String item_41
+            ,@Query("item_42") String item_42
+            ,@Query("item_43") String item_43
+            ,@Query("item_44") String item_44
+            ,@Query("item_45") String item_45
+            ,@Query("item_46") String item_46
+            ,@Query("item_47") String item_47
+            ,@Query("item_48") String item_48
+            ,@Query("item_49") String item_49
+            ,@Query("item_50") String item_50
+            ,@Query("item_61") String item_61
+            ,@Query("item_62") String item_62
+            ,@Query("item_63") String item_63
+            ,@Query("item_64") String item_64
+            ,@Query("item_65") String item_65
+            ,@Query("item_66") String item_66
+            ,@Query("item_67") String item_67
+            ,@Query("item_68") String item_68
+            ,@Query("item_69") String item_69
+            ,@Query("item_70") String item_70
+            ,@Query("item_71") String item_71
+            ,@Query("item_72") String item_72
+            ,@Query("item_73") String item_73
+            ,@Query("item_74") String item_74
+            ,@Query("item_75") String item_75
+            ,@Query("item_76") String item_76
+            ,@Query("item_77") String item_77
+            ,@Query("item_78") String item_78
+            ,@Query("item_79") String item_79
+            ,@Query("item_80") String item_80
+            ,@Query("item_81") String item_81
+            ,@Query("item_82") String item_82
+            ,@Query("item_83") String item_83
+            ,@Query("item_84") String item_84
+            ,@Query("item_85") String item_85
+            ,@Query("item_86") String item_86
+            ,@Query("item_87") String item_87
+            ,@Query("item_88") String item_88
+            ,@Query("item_89") String item_89
+            ,@Query("item_90") String item_90
+            ,@Query("item_91") String item_91
+            ,@Query("item_92") String item_92
+            ,@Query("item_93") String item_93
+            ,@Query("item_94") String item_94
+            ,@Query("item_95") String item_95
+            ,@Query("item_96") String item_96
+            ,@Query("item_97") String item_97
+            ,@Query("item_98") String item_98
+            ,@Query("item_99") String item_99
+            ,@Query("item_100") String item_100);
 
 
 
@@ -560,16 +743,6 @@ public interface ERP_Spring_Controller {
                                     ,@Query("rep_unit_code") String rep_unit_code
                                     ,@Query("in_yn") String in_yn
     );
-
-
-    /*입고리스트 리사이클러뷰 예약, 업데이트, 삭제..등*/    /*하나로 관리*/
-/*
-    @GET("test/AppSelectInUnitList")
-    Call<List<TestAllVO>> AppInUnitList(@Query("barcode_dep_id") String barcode_dep_id
-                            ,@Query("unit_code") String unit_code
-                            ,@Query("rep_unit_code") String rep_unit_code
-                            ,@Query("in_yn") String in_yn);
-*/
 
 
 

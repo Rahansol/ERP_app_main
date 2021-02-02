@@ -423,9 +423,6 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
             items_selected = new ArrayList<>();                       //선택현황 리사이클러뷰 아이템 array
             for(int i=0; i < testAllVOS.size(); i++){                 // testAllVOS <- 결과 list 를 for 문 돌려서 리사이클러 뷰 item 생성
                 items_selected.add(new selectedStatusItems( testAllVOS.get(i).getUnit_explain(), testAllVOS.get(i).getUnit_cnt(), testAllVOS.get(i).getUnit_code(), testAllVOS.get(i).getRep_unit_code()));
-
-                //그럼 여기서 unit_code 변수를 만들어서 어뎁터에 전달해서 어뎁터에서 클릭 이벤트 발생할때 재고 리스트를 뿌리는거 라고 저는 생각하는데 ㅇ떻게 생각하시나요.
-                //Log.d("지부 선택값",barcode_dep_id);
             }
             // array 어뎁터에 던짐
             adapter_selected= new SelectedStatusAdapter(mContext, items_selected);

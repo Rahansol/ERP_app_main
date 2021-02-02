@@ -1126,6 +1126,7 @@ public class Fragment_Project_Work_Insert_1 extends Fragment {
         }
         File imageFile = null;
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/IERP");
+        Log.d("storageDir===================",storageDir+"");
 
         if (!storageDir.exists()) {
             Log.i("mCurrentPhotoPath1", storageDir.toString());

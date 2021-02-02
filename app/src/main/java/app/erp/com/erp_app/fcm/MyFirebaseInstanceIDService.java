@@ -61,7 +61,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         //request
         Request request = new Request.Builder()
-//                .url("http://192.168.113.4:8080/BCS_Spring/app_token_update.do")
+//                .url("http://192.168.0.122:8080/BCS_Spring/app_token_update.do")
                 .url("http://interpass.co.kr/BCS_Spring/app_token_update.do")
                 .post(body)
                 .build();

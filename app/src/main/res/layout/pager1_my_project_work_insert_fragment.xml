@@ -20,7 +20,7 @@
             <RelativeLayout
                 android:id="@+id/spinner_layout"
                 android:layout_width="match_parent"
-                android:layout_height="285dp"
+                android:layout_height="335dp"
                 android:layout_gravity="center"
                 android:background="@drawable/new_background3_1"
                 android:gravity="center"
@@ -29,12 +29,15 @@
 
 
                 <!--작업 스피너-->
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/infra_job_spinner_layout"
-                    android:layout_width="368dp"
-                    android:layout_height="50dp"
+                    android:layout_width="270dp"
+                    android:layout_height="60dp"
                     android:layout_margin="4dp"
-                    android:background="@drawable/rectangle_transparent">
+                    android:background="@drawable/rectangle_transparent"
+                    android:backgroundTint="#88ffffff"
+                    android:orientation="vertical">
+
 
                     <TextView
                         android:id="@+id/infra_job_spinner_title"
@@ -49,7 +52,7 @@
                         android:paddingTop="2dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="2dp"
-                        android:text="작업"
+                        android:text="프로젝트"
                         android:textColor="#5A3CC6"
                         android:textSize="10sp"
                         android:textStyle="bold" />
@@ -58,11 +61,47 @@
                         android:id="@+id/infra_job_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_toRightOf="@+id/infra_job_spinner_title" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"/>
+                </LinearLayout>
+
+
+                <!--버전-->
+                <RelativeLayout
+                    android:layout_width="90dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rectangle_transparent"
+                    android:backgroundTint="#88ffffff"
+                    android:layout_toRightOf="@+id/infra_job_spinner_layout">
+                    <TextView
+                        android:id="@+id/project_bus_ver_title"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/box_in_out3_border_grey"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp"
+                        android:text="버전"
+                        android:textColor="#5A3CC6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_version"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/project_bus_ver_title"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="25dp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"/>
                 </RelativeLayout>
+
 
 
                 <!--조합-->
@@ -73,7 +112,8 @@
                     android:gravity="center"
                     android:layout_below="@+id/infra_job_spinner_layout"
                     android:layout_margin="4dp"
-                    android:background="@drawable/rectangle_transparent">
+                    android:background="@drawable/rectangle_transparent"
+                    android:backgroundTint="#88ffffff">
 
                     <TextView
                         android:id="@+id/project_office_group_title"
@@ -92,7 +132,7 @@
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
-                    <Spinner
+                    <!--<Spinner
                         android:id="@+id/project_office_group"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -100,7 +140,16 @@
                         android:textAlignment="center"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_below="@+id/project_office_group_title" />
+                        android:layout_below="@+id/project_office_group_title" />-->
+                    <TextView
+                        android:id="@+id/tv_office_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:paddingLeft="15dp"
+                        android:layout_below="@+id/project_office_group_title"/>
                 </RelativeLayout>
 
 
@@ -111,7 +160,8 @@
                     android:layout_height="65dp"
                     android:layout_below="@+id/project_office_group_layout"
                     android:layout_margin="4dp"
-                    android:background="@drawable/rectangle_transparent">
+                    android:background="@drawable/rectangle_transparent"
+                    android:backgroundTint="#88ffffff">
 
                     <TextView
                         android:id="@+id/project_garage_spinner_title"
@@ -149,7 +199,8 @@
                     android:layout_margin="4dp"
                     android:layout_toRightOf="@+id/project_office_group_layout"
                     android:background="@drawable/rectangle_transparent"
-                    android:gravity="right">
+                    android:gravity="right"
+                    android:backgroundTint="#88ffffff">
 
                     <TextView
                         android:id="@+id/project_transp_title"
@@ -187,7 +238,8 @@
                     android:layout_below="@+id/project_transp_layout"
                     android:layout_margin="4dp"
                     android:layout_toRightOf="@+id/project_office_group_layout"
-                    android:background="@drawable/rectangle_transparent">
+                    android:background="@drawable/rectangle_transparent"
+                    android:backgroundTint="#88ffffff">
 
                     <TextView
                         android:id="@+id/project_route_list_title"
@@ -242,32 +294,115 @@
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/project_bus_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/project_bus_list_title"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center"
-                        android:hint="입력"/>
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:maxLength="12"
+                        android:hint="입력하세요."/>
                 </RelativeLayout>
 
 
-                <!--버전-->
-                <RelativeLayout
-                    android:id="@+id/project_bus_ver_layout"
-                    android:layout_width="180dp"
-                    android:layout_height="65dp"
-                    android:layout_below="@+id/project_route_list_layout"
-                    android:layout_margin="4dp"
+                <LinearLayout
+                    android:id="@+id/linear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_toRightOf="@+id/project_bus_list_layout"
-                    android:background="@drawable/rectangle_transparent">
+                    android:layout_below="@+id/project_route_list_layout">
+                    <!--버전-->
+                    <!--<RelativeLayout
+                        android:id="@+id/project_bus_ver_layout"
+                        android:layout_width="85dp"
+                        android:layout_height="65dp"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/rectangle_transparent"
+                        android:backgroundTint="#88ffffff">
+                        <TextView
+                            android:id="@+id/project_bus_ver_title"
+                            android:layout_width="65dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/box_in_out3_border_grey"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="2dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="2dp"
+                            android:text="버전"
+                            android:textColor="#5A3CC6"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_version"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/project_bus_ver_title"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="25dp"
+                            android:textColor="#000000"
+                            android:textSize="15sp"/>
+                    </RelativeLayout>-->
+
+
+                    <!--작업 스피너 2-->
+                    <RelativeLayout
+                        android:layout_width="180dp"
+                        android:layout_height="65dp"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/rectangle_transparent"
+                        android:backgroundTint="#88ffffff">
+                        <TextView
+                            android:id="@+id/prj_base_infra_job_title"
+                            android:layout_width="65dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/box_in_out3_border_grey"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="2dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="2dp"
+                            android:text="작업"
+                            android:textColor="#5A3CC6"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/prj_base_infra_job"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/prj_base_infra_job_title"
+                            android:gravity="center_vertical"
+                            android:textColor="#000000"
+                            android:textSize="15sp"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+
+
+
+                <!--작업스피너 2-->
+                <!--<RelativeLayout
+                    android:layout_width="368dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rectangle_transparent"
+                    android:backgroundTint="#88ffffff"
+                    android:layout_below="@+id/project_bus_list_layout">
 
                     <TextView
-                        android:id="@+id/project_bus_ver_title"
+                        android:id="@+id/prj_base_infra_job_title"
                         android:layout_width="65dp"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/box_in_out3_border_grey"
@@ -276,19 +411,20 @@
                         android:paddingTop="2dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="2dp"
-                        android:text="버전"
+                        android:text="작업"
                         android:textColor="#5A3CC6"
                         android:textSize="10sp"
                         android:textStyle="bold" />
 
                     <Spinner
-                        android:id="@+id/project_bus_ver"
+                        android:id="@+id/prj_base_infra_job"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/project_bus_ver_title"
-                        android:textAlignment="center"
-                        android:gravity="center" />
-                </RelativeLayout>
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_toRightOf="@+id/prj_base_infra_job_title" />
+                </RelativeLayout>-->
 
             </RelativeLayout>
 
@@ -297,59 +433,41 @@
 
 
             <!---->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_job_text"
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
+                android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
             </androidx.recyclerview.widget.RecyclerView>
 
 
-            <!--<TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="미리보기"
-                android:textColor="#000000"
-                android:textStyle="bold"/>-->
-            <ImageView
-                android:id="@+id/iv_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
-
-
-
-
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="3">
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/ic_pager1"
-                    android:layout_margin="30dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pager2"
-                    android:layout_margin="30dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pager3"
-                    android:layout_margin="30dp"/>
-            </LinearLayout>-->
+            <Button
+                android:id="@+id/btn_insert"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:text="다음"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:background="@drawable/erp_btn_orange"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="20dp"/>
 
 
         </LinearLayout>
 
+
+
+
     </ScrollView>
+
+
 
 </LinearLayout>

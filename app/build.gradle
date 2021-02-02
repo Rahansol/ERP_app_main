@@ -19,6 +19,9 @@ apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
 android {
     // ...
+    dataBinding{
+        enabled= true
+    }
 }
 
 android {
@@ -26,6 +29,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
     }
     defaultConfig {
         applicationId "app.erp.com.erp_app"
@@ -74,6 +78,7 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 
     implementation 'gun0912.ted:tedpermission:2.2.3'
@@ -102,10 +107,9 @@ dependencies {
 /*    implementation 'com.google.firebase:firebase-messaging'*/
 /*    implementation 'com.google.firebase:firebase-database:19.2.1'*/
     implementation 'com.google.firebase:firebase-database:19.6.0'
-    implementation "gun0912.ted:tedpermission:2.1.0"
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
 
 
 }

@@ -27,6 +27,16 @@ public class Bus_OfficeVO {
     private String doc_seq;
     private String item_code;
     private String item_detail_code;
+    private String c_item_seq;
+    private String prj_name;
+
+    public String getTable_name() {
+        return table_name;
+    }
+
+    public void setTable_name(String table_name) {
+        this.table_name = table_name;
+    }
 
     @Override
     public String toString() {
@@ -47,18 +57,73 @@ public class Bus_OfficeVO {
                 ", job_type='" + job_type + '\'' +
                 ", item_name='" + item_name + '\'' +
                 ", item_type='" + item_type + '\'' +
-                ", item_seq='" + item_seq + '\'' +
                 ", media_name='" + media_name + '\'' +
                 ", item_group_name='" + item_group_name + '\'' +
+                ", item_seq='" + item_seq + '\'' +
                 ", item_each_name='" + item_each_name + '\'' +
                 ", area_code='" + area_code + '\'' +
                 ", sub_area_code='" + sub_area_code + '\'' +
                 ", doc_seq='" + doc_seq + '\'' +
                 ", item_code='" + item_code + '\'' +
                 ", item_detail_code='" + item_detail_code + '\'' +
+                ", c_item_seq='" + c_item_seq + '\'' +
+                ", prj_name='" + prj_name + '\'' +
+                ", table_name='" + table_name + '\'' +
+                ", item_each_seq='" + item_each_seq + '\'' +
+                ", version='" + version + '\'' +
+                ", p_item_seq='" + p_item_seq + '\'' +
                 '}';
     }
 
+    private String table_name;
+
+    private String item_each_seq;
+
+    public String getItem_each_seq() {
+        return item_each_seq;
+    }
+
+    public void setItem_each_seq(String item_each_seq) {
+        this.item_each_seq = item_each_seq;
+    }
+
+
+    private String version;
+
+    public String getPrj_name() {
+        return prj_name;
+    }
+
+    public void setPrj_name(String prj_name) {
+        this.prj_name = prj_name;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+
+    private String p_item_seq;
+
+    public String getC_item_seq() {
+        return c_item_seq;
+    }
+
+    public void setC_item_seq(String c_item_seq) {
+        this.c_item_seq = c_item_seq;
+    }
+
+    public String getP_item_seq() {
+        return p_item_seq;
+    }
+
+    public void setP_item_seq(String p_item_seq) {
+        this.p_item_seq = p_item_seq;
+    }
 
 
     public String getItem_group_name() {

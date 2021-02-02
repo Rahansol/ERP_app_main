@@ -114,7 +114,8 @@ public class Fragment_Project_Doc_Write_3 extends Fragment {
 
             sign_input_btn.setVisibility(View.GONE);
 //            sign_img.setVisibility(View.VISIBLE);
-            String image_url = "http://ierp.interpass.co.kr/"+(String)request_map.get("sign_img_path");
+            //String image_url = "http://ierp.interpass.co.kr/"+(String)request_map.get("sign_img_path");
+            String image_url = "192.168.0.122/"+(String)request_map.get("sign_img_path");
             Glide.with(mcontext).load(image_url)
                     .listener(requestListener)
                     .into(sign_img);

@@ -10,22 +10,27 @@ import java.io.File;
 public class JobTextItems {
     String jobText;
     String busNum;
-    Uri takePic;
-    String tv;  //미리보기 -> X 로 텍스트값 변경...
+    Uri preview_uri;
+    String tv;
+    String tv_p;
     String preview;
+
+
 
 
     public JobTextItems() {
     }
 
-    public JobTextItems(String jobText, String busNum, Uri takePic, String tv, String preview) {
+
+    public JobTextItems(String jobText, String busNum, Uri takePic, String tv, String tv_p, String preview) {
         this.jobText = jobText;
         this.busNum = busNum;
-        this.takePic = takePic;
+        this.preview_uri = takePic;
         this.tv = tv;
+        this.tv_p = tv_p;
         this.preview = preview;
     }
-
-
-
 }
+
+
+

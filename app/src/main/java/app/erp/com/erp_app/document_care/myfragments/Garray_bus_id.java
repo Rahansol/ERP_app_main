@@ -1,0 +1,59 @@
+package app.erp.com.erp_app.document_care.myfragments;
+
+public class Garray_bus_id {
+    public static String[] busId = new String[50];
+    {
+        busId[0]="";
+        busId[1]="";
+        busId[2]="";
+        busId[3]="";
+        busId[4]="";
+        busId[5]="";
+        busId[6]="";
+        busId[7]="";
+        busId[8]="";
+        busId[9]="";
+        busId[10]="";
+        busId[11]="";
+        busId[12]="";
+        busId[13]="";
+        busId[14]="";
+        busId[15]="";
+        busId[16]="";
+        busId[17]="";
+        busId[18]="";
+        busId[19]="";
+        busId[20]="";
+        busId[21]="";
+        busId[22]="";
+        busId[23]="";
+        busId[24]="";
+        busId[25]="";
+        busId[26]="";
+        busId[27]="";
+        busId[28]="";
+        busId[29]="";
+        busId[30]="";
+        busId[31]="";
+        busId[32]="";
+        busId[33]="";
+        busId[34]="";
+        busId[35]="";
+        busId[36]="";
+        busId[37]="";
+        busId[38]="";
+        busId[39]="";
+        busId[40]="";
+        busId[41]="";
+        busId[42]="";
+        busId[43]="";
+        busId[44]="";
+        busId[45]="";
+        busId[46]="";
+        busId[47]="";
+        busId[48]="";
+        busId[49]="";
+        busId[50]="";
+
+    }
+}

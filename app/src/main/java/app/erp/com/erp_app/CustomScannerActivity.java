@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -41,7 +42,10 @@ public class CustomScannerActivity extends Activity implements DecoratedBarcodeV
             zxing_status_view.setText("단말기 바코드를 \n 스캔해주세요.");
         }else if(camera_type.equals("office")){
             zxing_status_view.setText("영업소 바코드를 \n 스캔해주세요.");
-        }else{
+        }else if (camera_type.equals("bus_num")){
+            zxing_status_view.setText("바코드를 \n 스캔해주세요.");
+        }
+        else{
             zxing_status_view.setText("바코드를 \n 스캔해주세요.");
         }
 
@@ -58,8 +62,8 @@ public class CustomScannerActivity extends Activity implements DecoratedBarcodeV
         barcodeScannerView.setTorchListener(this);
         capture = new CaptureManager(this, barcodeScannerView);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
+        Log.d("savedInstanceState:=====>  ", savedInstanceState+""); //null
         capture.decode();
-
     }
 
     @Override

@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
@@ -27,12 +27,13 @@
                 android:textColor="#ffffff"
                 android:textSize="20sp"/>
 
-            <LinearLayout
+
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginBottom="15dp">
-                <!--작업-->
+                &lt;!&ndash;작업&ndash;&gt;
                 <RelativeLayout
                     android:id="@+id/infra_job_spinner_layout"
                     android:layout_width="match_parent"
@@ -61,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_centerVertical="true"
-                        android:text="전 단계 정보고정"
+                        android:text=""
                         android:textSize="13sp"
                         android:textColor="#ffffff"
                         android:textStyle="bold"
@@ -70,7 +71,7 @@
                         android:layout_margin="5dp"/>
                 </RelativeLayout>
 
-                <!--운수사 구분 -->
+                &lt;!&ndash;운수사 구분 &ndash;&gt;
                 <RelativeLayout
                     android:id="@+id/office_group_layout"
                     android:layout_width="match_parent"
@@ -97,7 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="전 단계 정보고정"
+                        android:text=""
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="#ffffff"
@@ -107,7 +108,7 @@
                 </RelativeLayout>
 
 
-                <!--운수회사 명  -->
+                &lt;!&ndash;운수회사 명  &ndash;&gt;
                 <RelativeLayout
                     android:id="@+id/busoff_name_layout"
                     android:layout_width="match_parent"
@@ -134,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="전 단계 정보고정"
+                        android:text=""
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="#ffffff"
@@ -144,7 +145,7 @@
                 </RelativeLayout>
 
 
-                <!--운수회사 고정번호 -->
+                &lt;!&ndash;운수회사 고정번호 &ndash;&gt;
                 <RelativeLayout
                     android:id="@+id/transp_bizr_id_layou"
                     android:layout_width="match_parent"
@@ -171,7 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="전 단계 정보고정"
+                        android:text=""
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="#ffffff"
@@ -181,9 +182,8 @@
                 </RelativeLayout>
 
 
-
             </LinearLayout>
-
+-->
 
             <LinearLayout
                 android:id="@+id/project_item_layout"
@@ -198,14 +198,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="※ 요청한 품목/ 상세품목/ 수량을 선택하세요"
+                    android:text="※ 요청한 상세품목과 수량을 선택하세요."
                     android:textSize="13sp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="20dp"/>
 
 
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:orientation="horizontal"
@@ -273,7 +273,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <!--수량 버튼-->
+                        &lt;!&ndash;수량 버튼&ndash;&gt;
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -318,20 +318,99 @@
                             android:background="@drawable/erp_btn_orange"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
+                </LinearLayout>-->
 
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="5dp">
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/box111">
+                        <TableRow>
+                            <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text=""
+                                android:textStyle="bold"
+                                android:textColor="#7B65FB"
+                                android:padding="5dp"/>
+                            <TextView
+                                android:layout_width="220dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="상세품목"
+                                android:textStyle="bold"
+                                android:textColor="#7B65FB"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"/>
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="수량"
+                                android:textStyle="bold"
+                                android:textColor="#7B65FB"
+                                android:paddingRight="20dp"/>
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_cable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp">
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+                    <Button
+                        android:id="@+id/go_back"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="left"
+                        android:text="이전"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:background="@drawable/erp_btn"
+                        android:textColor="#ffffff"/>
+                    <Button
+                        android:id="@+id/btn_save"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="right"
+                        android:text="저장"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="#ffffff"
+                        android:background="@drawable/erp_btn_orange"
+                        android:layout_marginLeft="210dp"/>
                 </LinearLayout>
 
 
 
-                <!--<View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="#555555"
-                    android:layout_marginTop="30dp"/>-->
 
-                <TextView
+
+
+                <!-- 선택한 상세목록 확인  리사이클러뷰-->
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="선택한 상세목록 확인"
@@ -348,7 +427,7 @@
                     android:layout_height="500dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:paddingTop="15dp">
-                </androidx.recyclerview.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>-->
 
 
 

@@ -31,10 +31,10 @@ public class JSONParser {
      * You will find this file in php_upload folder in this project
      * You can copy that folder and paste in your htdocs folder...
      */
-    private static final String URL_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/barcode/app_ftp_upload.do";
-
-//    private static final String URL_SIGN_UPLOAD_IMAGE = "http://192.168.1.13:8180/controller/erp_project/app_sign_ftp_upload.do";
-    private static final String URL_SIGN_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/erp_project/app_sign_ftp_upload.do";
+  //  private static final String URL_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/barcode/app_ftp_upload.do";
+    private static final String URL_UPLOAD_IMAGE = "http://192.168.0.122:8180/controller/erp_project/app_sign_ftp_upload.do";
+    private static final String URL_SIGN_UPLOAD_IMAGE = "http://192.168.0.122:8180/controller/erp_project/app_sign_ftp_upload.do";
+    //private static final String URL_SIGN_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/erp_project/app_sign_ftp_upload.do";
 
     private static File sourceFile;
     /**
