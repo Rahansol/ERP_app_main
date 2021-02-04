@@ -265,12 +265,11 @@ public class ProJect_Doc_Write_Activity extends AppCompatActivity {
                 Toast.makeText(mcontext,"이미지 업로드 완료" ,Toast.LENGTH_SHORT).show();
                 Call<Boolean> call = erp.prj_doc_write(request_map,seq_list);
 
-                String delete_file = (String)sign_map.get("real_path");
+                String delete_file = (String)sign_map.get("real_path");    //이부분은 왜 파일을 삭제하는지?? 파일을 다시 지우고 생성하나???
                 File f = new File(delete_file);
                 if(f.delete()){
                     Log.d("sign_image","ok" );
                 }
-
                 new ProJect_Doc_Write_Activity.prj_doc_write().execute(call);
             }else{
                 Toast.makeText(mcontext,"이미지 업로드 오류 발생" ,Toast.LENGTH_SHORT).show();

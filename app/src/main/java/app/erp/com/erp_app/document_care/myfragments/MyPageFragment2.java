@@ -1,6 +1,8 @@
 package app.erp.com.erp_app.document_care.myfragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,11 +44,8 @@ import retrofit2.Response;
 public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
     Context mContext= getActivity();
-    static String st_office_group;
     static Spinner spinner_item_group_name;
     static Spinner spinner_item_each_name;
-    static String st_office_group_name;
-    static String st_office_group_value;
 
     static String st_item_group_name;
     static String st_item_group_name_value;
@@ -63,19 +62,10 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView_cable;
     private ArrayList<CableInsertItems> cableInsertItems;
     private CableInsertAdapter cableInsertAdapter;
-    static String cable_quantity;
 
-    ImageView iv_plus;
-    ImageView iv_minus;
-    TextView tv_quantity_value;
-    Button btn_add;
-    static String st_quantity_value;
-    int cnt=1;
 
-    Button btn_cable, btnSave;
-    FrameLayout cable_fragment;
+    Button btnSave;
 
-    private final static String TAG_FRAGMENT= "TAG_FRAGMENT";
 
     @Nullable
     @Override
@@ -176,136 +166,157 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
 
 
+    //btnSave [저장]버튼
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_save:
-                Toast.makeText(getContext(), "저장!", Toast.LENGTH_SHORT).show();
-                for(int i=0 ; i < Garray.value2.length ; i++) {
-                    Log.d(" Garray.value2[", i+"]="+Garray.value2[i]  );
-                }
-                ArrayList<String> getarrval = cableInsertAdapter.getarr();
-
-
-                // 수량 업데이트
-                ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                Call<String> call= erp.update_prj_def_val2(G.prjName+""
-                        ,G.dtti+""
-                        ,G.regEmpId+""
-                        ,G.transpBizrId+""
-                        ,G.busoffName+""
-                        ,G.garageId+""
-                        ,G.garageName+""
-                        ,G.routeId+""
-                        ,G.routeNum+""
-                        ,G.TempBusId+""
-                        ,G.TempBusNum+""
-                        ,G.vehicleNum+""
-                        ,G.jopType+""
-                        ,Garray.value2[0]+""
-                        ,Garray.value2[1]+""
-                        ,Garray.value2[2]+""
-                        ,Garray.value2[3]+""
-                        ,Garray.value2[4]+""
-                        ,Garray.value2[5]+""
-                        ,Garray.value2[6]+""
-                        ,Garray.value2[7]+""
-                        ,Garray.value2[8]+""
-                        ,Garray.value2[9]+""
-                        ,Garray.value2[10]+""
-                        ,Garray.value2[11]+""
-                        ,Garray.value2[12]+""
-                        ,Garray.value2[13]+""
-                        ,Garray.value2[14]+""
-                        ,Garray.value2[15]+""
-                        ,Garray.value2[16]+""
-                        ,Garray.value2[17]+""
-                        ,Garray.value2[18]+""
-                        ,Garray.value2[19]+""
-                        ,Garray.value2[20]+""
-                        ,Garray.value2[21]+""
-                        ,Garray.value2[22]+""
-                        ,Garray.value2[23]+""
-                        ,Garray.value2[24]+""
-                        ,Garray.value2[25]+""
-                        ,Garray.value2[26]+""
-                        ,Garray.value2[27]+""
-                        ,Garray.value2[28]+""
-                        ,Garray.value2[29]+""
-                        ,Garray.value2[30]+""
-                        ,Garray.value2[31]+""
-                        ,Garray.value2[32]+""
-                        ,Garray.value2[33]+""
-                        ,Garray.value2[34]+""
-                        ,Garray.value2[35]+""
-                        ,Garray.value2[36]+""
-                        ,Garray.value2[37]+""
-                        ,Garray.value2[38]+""
-                        ,Garray.value2[39]+""
-                        ,Garray.value2[40]+""
-                        ,Garray.value2[41]+""
-                        ,Garray.value2[42]+""
-                        ,Garray.value2[43]+""
-                        ,Garray.value2[44]+""
-                        ,Garray.value2[45]+""
-                        ,Garray.value2[46]+""
-                        ,Garray.value2[47]+""
-                        ,Garray.value2[48]+""
-                        ,Garray.value2[49]+""
-                        ,Garray.value2[50]+""
-                        ,Garray.value2[61]+""
-                        ,Garray.value2[62]+""
-                        ,Garray.value2[63]+""
-                        ,Garray.value2[64]+""
-                        ,Garray.value2[65]+""
-                        ,Garray.value2[66]+""
-                        ,Garray.value2[67]+""
-                        ,Garray.value2[68]+""
-                        ,Garray.value2[69]+""
-                        ,Garray.value2[70]+""
-                        ,Garray.value2[71]+""
-                        ,Garray.value2[72]+""
-                        ,Garray.value2[73]+""
-                        ,Garray.value2[74]+""
-                        ,Garray.value2[75]+""
-                        ,Garray.value2[76]+""
-                        ,Garray.value2[77]+""
-                        ,Garray.value2[78]+""
-                        ,Garray.value2[79]+""
-                        ,Garray.value2[80]+""
-                        ,Garray.value2[81]+""
-                        ,Garray.value2[82]+""
-                        ,Garray.value2[83]+""
-                        ,Garray.value2[84]+""
-                        ,Garray.value2[85]+""
-                        ,Garray.value2[86]+""
-                        ,Garray.value2[87]+""
-                        ,Garray.value2[88]+""
-                        ,Garray.value2[89]+""
-                        ,Garray.value2[90]+""
-                        ,Garray.value2[91]+""
-                        ,Garray.value2[92]+""
-                        ,Garray.value2[93]+""
-                        ,Garray.value2[94]+""
-                        ,Garray.value2[95]+""
-                        ,Garray.value2[96]+""
-                        ,Garray.value2[97]+""
-                        ,Garray.value2[98]+""
-                        ,Garray.value2[99]+"");
-
-
-                //민혁 - 수량 add하는곳 수정 후 tomcat mapper에서 수량 확인 됨
-                call.enqueue(new Callback<String>() {
+                AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
+                builder.setTitle("요청한 상세품목과 수량을 등록 하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("cable_quantity 수량 응답 확인===> ", cable_quantity+"");
-                    }
+                    public void onClick(DialogInterface dialog, int which) {
+                        for(int i=0 ; i < Garray.value2.length ; i++) {
+                            Log.d(" Garray.value2[", i+"]="+Garray.value2[i]  );
+                        }
+                        // 수량 업데이트
+                        ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                        Call<String> call= erp.update_prj_def_val2(G.prjName+""
+                                ,G.dtti+""
+                                ,G.regEmpId+""
+                                ,G.transpBizrId+""
+                                ,G.busoffName+""
+                                ,G.garageId+""
+                                ,G.garageName+""
+                                ,G.routeId+""
+                                ,G.routeNum+""
+                                ,G.TempBusId+""
+                                ,G.TempBusNum+""
+                                ,G.vehicleNum+""
+                                ,G.jopType+""
+                                ,Garray.value2[0]+""
+                                ,Garray.value2[1]+""
+                                ,Garray.value2[2]+""
+                                ,Garray.value2[3]+""
+                                ,Garray.value2[4]+""
+                                ,Garray.value2[5]+""
+                                ,Garray.value2[6]+""
+                                ,Garray.value2[7]+""
+                                ,Garray.value2[8]+""
+                                ,Garray.value2[9]+""
+                                ,Garray.value2[10]+""
+                                ,Garray.value2[11]+""
+                                ,Garray.value2[12]+""
+                                ,Garray.value2[13]+""
+                                ,Garray.value2[14]+""
+                                ,Garray.value2[15]+""
+                                ,Garray.value2[16]+""
+                                ,Garray.value2[17]+""
+                                ,Garray.value2[18]+""
+                                ,Garray.value2[19]+""
+                                ,Garray.value2[20]+""
+                                ,Garray.value2[21]+""
+                                ,Garray.value2[22]+""
+                                ,Garray.value2[23]+""
+                                ,Garray.value2[24]+""
+                                ,Garray.value2[25]+""
+                                ,Garray.value2[26]+""
+                                ,Garray.value2[27]+""
+                                ,Garray.value2[28]+""
+                                ,Garray.value2[29]+""
+                                ,Garray.value2[30]+""
+                                ,Garray.value2[31]+""
+                                ,Garray.value2[32]+""
+                                ,Garray.value2[33]+""
+                                ,Garray.value2[34]+""
+                                ,Garray.value2[35]+""
+                                ,Garray.value2[36]+""
+                                ,Garray.value2[37]+""
+                                ,Garray.value2[38]+""
+                                ,Garray.value2[39]+""
+                                ,Garray.value2[40]+""
+                                ,Garray.value2[41]+""
+                                ,Garray.value2[42]+""
+                                ,Garray.value2[43]+""
+                                ,Garray.value2[44]+""
+                                ,Garray.value2[45]+""
+                                ,Garray.value2[46]+""
+                                ,Garray.value2[47]+""
+                                ,Garray.value2[48]+""
+                                ,Garray.value2[49]+""
+                                ,Garray.value2[50]+""
+                                ,Garray.value2[61]+""
+                                ,Garray.value2[62]+""
+                                ,Garray.value2[63]+""
+                                ,Garray.value2[64]+""
+                                ,Garray.value2[65]+""
+                                ,Garray.value2[66]+""
+                                ,Garray.value2[67]+""
+                                ,Garray.value2[68]+""
+                                ,Garray.value2[69]+""
+                                ,Garray.value2[70]+""
+                                ,Garray.value2[71]+""
+                                ,Garray.value2[72]+""
+                                ,Garray.value2[73]+""
+                                ,Garray.value2[74]+""
+                                ,Garray.value2[75]+""
+                                ,Garray.value2[76]+""
+                                ,Garray.value2[77]+""
+                                ,Garray.value2[78]+""
+                                ,Garray.value2[79]+""
+                                ,Garray.value2[80]+""
+                                ,Garray.value2[81]+""
+                                ,Garray.value2[82]+""
+                                ,Garray.value2[83]+""
+                                ,Garray.value2[84]+""
+                                ,Garray.value2[85]+""
+                                ,Garray.value2[86]+""
+                                ,Garray.value2[87]+""
+                                ,Garray.value2[88]+""
+                                ,Garray.value2[89]+""
+                                ,Garray.value2[90]+""
+                                ,Garray.value2[91]+""
+                                ,Garray.value2[92]+""
+                                ,Garray.value2[93]+""
+                                ,Garray.value2[94]+""
+                                ,Garray.value2[95]+""
+                                ,Garray.value2[96]+""
+                                ,Garray.value2[97]+""
+                                ,Garray.value2[98]+""
+                                ,Garray.value2[99]+"");
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
+                        //민혁 - 수량 add하는곳 수정 후 tomcat mapper에서 수량 확인 됨
+                        call.enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                            }
 
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+
+                            }
+                        });
+                        /*FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
+                        MyPageFragment1 myPageFragment1= new MyPageFragment1();
+                        transaction.replace(R.id.frameLayout, myPageFragment1, null).addToBackStack(null).commit();*/
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frameLayout, new MyPageFragment1())
+                                .addToBackStack(null)
+                                .commit();
                     }
                 });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.create();
+                builder.show();
+
+
+
         }
     }
 

@@ -1,5 +1,8 @@
 package app.erp.com.erp_app.document_care.myfragments;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Garray {
 
     public static String[] value = new String[50];
@@ -27,4 +30,8 @@ public class Garray {
             }
         }
     }
+
+
+
+
 }

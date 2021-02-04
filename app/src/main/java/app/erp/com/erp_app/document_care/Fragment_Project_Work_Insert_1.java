@@ -406,6 +406,7 @@ public class Fragment_Project_Work_Insert_1 extends Fragment {
                         // 선택한 이미지에서 비트맵 생성
                         InputStream in = mcontext.getContentResolver().openInputStream(data.getData());
                         Uri selectedImage = data.getData();
+                        Log.d("selected Image :::::::::::: >>>>>>>>> ", selectedImage+"");
                         Bitmap img = BitmapFactory.decodeStream(in);
 
                         int column_index=0;
@@ -415,6 +416,7 @@ public class Fragment_Project_Work_Insert_1 extends Fragment {
                             column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                         }
                         String gallery_path =  cursor.getString(column_index);
+                        Log.d("gallery_path ::::::::::::: >>>>>>>>>>> ", gallery_path+"");
                         in.close();
                         // 이미지뷰에 세팅
                         p_index  = p_btn_tag.substring(5,p_btn_tag.length());

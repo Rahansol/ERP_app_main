@@ -10,11 +10,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -56,8 +60,12 @@ import com.google.zxing.integration.android.IntentResult;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.json.JSONArray;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Array;
 import java.sql.Struct;
 import java.text.SimpleDateFormat;
@@ -79,6 +87,10 @@ import app.erp.com.erp_app.document_care.ProJect_Work_Insert_Activity;
 import app.erp.com.erp_app.jsonparser.JSONParser;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -117,7 +129,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     private Map<String, Object> mRequest_map = new HashMap<>();
     private Map<String, Object> image_path_map = new HashMap<>();
 
-    /*private Map<String,Object> sign_map = new HashMap<>();*/
+    private ArrayList<String> path_list= new ArrayList<String>();
+
     static String mPath,DB_Path, GarryValue, st_temp_bus_id, area_code, unitNum, GLOBAL, DTTI, REG_EMP_ID, TRANSP_BIZR_ID, BUSOFF_NAME, GARAGE_ID, GARAGE_NAME, ROUTE_ID, ROUTE_NUM, BUS_ID, TempBusId, TempBusId_Value, BUS_NUM, VEHICLE_NUM, JOB_TYPE, TABLE_NAME; //파일명 바꿀때/ 파라미터 필요
 
     public MyPageFragment1() {
@@ -192,7 +205,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 final EditText et = new EditText(getContext());
                 builder.setIcon(R.drawable.ic_insert);
-                builder.setTitle("차량번호 입력").setMessage("차량번호를 입력하세요.");
+                builder.setTitle("차량번호를 입력하세요.");
                 builder.setView(et);
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
@@ -235,6 +248,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                             }
                         }
                     }//onClick..
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
@@ -683,9 +702,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             case 2:
                 if (resultCode == RESULT_OK) {
                     Log.d("사진촬영::::: ", "결과를 가져온 intent case :20");   //실행
-                    // Intent(Data)를 전달받지 못해서 Adapter(보낸쪽)에서 촬영한 사진 uri를 SharedPreference를 통해 전달받기
-                    //pref= getContext().getSharedPreferences("img_pref", Context.MODE_PRIVATE);
-                    //String test = pref.getString("camera_type","test");
 
                     Uri contentUri = Uri.parse(test);
 
@@ -717,8 +733,73 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             case 3:
                 if (resultCode == RESULT_OK) {
 
+                    try {
+                        InputStream in = getContext().getContentResolver().openInputStream(data.getData());
+                        Uri selectedImage = data.getData();
+                        Log.d("selected Image :::::::::::: >>>>>>>>> ", selectedImage+"");
+                        Bitmap img = BitmapFactory.decodeStream(in);
+
+                        int column_index=0;
+                        String[] proj = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContext().getContentResolver().query(selectedImage, proj, null, null, null);
+                        if(cursor.moveToFirst()){
+                            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        }
+                        String gallery_path =  cursor.getString(column_index);
+                        Log.d("gallery_path ::::::::::::: >>>>>>>>>>> 2222222222222 ", gallery_path+"");   ///storage/emulated/0/IERP/JPEG_20210121_0208.jpg
+                        in.close();
+
+                        //REG_DTTI (현재날짜)
+                        long now = System.currentTimeMillis();
+                        Date date = new Date(now);
+                        //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                        DTTI = sdf.format(date);
+                        G.dtti = DTTI;
+                        TempBusId_Value = G.TempBusId+"";
+                        TRANSP_BIZR_ID = G.transpBizrId + "";
+                        Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI + "/" + TABLE_NAME + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
+                        GarryValue = Garray.PositionInfo[G.position][1] + "";
+
+
+                        //Log.d("chk1 ==== > ",Math.floorMod(requestCode,100) + "/"+ requestCode );
+                        JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 100));
+                        //Log.d("tt->>>", jobTextItems.get(Math.floorMod(requestCode,100))+"///"+ jobTextItems.get(Math.floorMod(requestCode,100)) );
+
+                        item.preview_uri = Uri.parse(gallery_path);
+                        job_text_adapter_p_c.notifyDataSetChanged();
+
+                        DB_Path = Garray.value[G.position];
+
+
+                        // 1) ArrayList
+                        //ArrayList<String> path_list= new ArrayList<String>();
+                        path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI + "/" + TABLE_NAME + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + GarryValue + ".jpg").replaceAll("/","%"));
+
+                        int cnt = 0;
+                        for (String str : path_list){
+                            cnt++;
+                            System.out.println(cnt+" :  "+str);
+                            sign_map.put("sign"+cnt, str);
+                        }
+                        Log.d("sign_map **************** ", sign_map.size()+"");
+                        Log.d("sign_map **************** ", sign_map+"");
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+
+
+
+                    /*  //////////////// 예전코드/////////////// */
                     //REG_DTTI (현재날짜)
-                    long now = System.currentTimeMillis();
+                   /* long now = System.currentTimeMillis();
                     Date date = new Date(now);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
                     DTTI = sdf.format(date);
@@ -731,6 +812,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                     //Log.d("사진앨범::  ", "결과를 가져온 intent case:30");   //실행
                     uri = data.getData();
+                    Log.d("uri ************** ", uri+"");   // content://com.google.android.apps.photos.contentprovider/-1/1/content%3A%2F%2Fmedia%2Fexternal%2Fimages%2Fmedia%2F124/ORIGINAL/NONE/image%2Fjpeg/1098871152
                     if (data != null) {
 
                         // 전역변수 G 클래스에 저장된
@@ -748,7 +830,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                         imageFile = new File(storageDir, imageFileName);
                         System.out.println("imageFile 파일:::::::::::  "+imageFile);
-                        mCurrentPhotoPath = imageFile.getAbsolutePath();
+                        //mCurrentPhotoPath = imageFile.getAbsolutePath();
+                        mCurrentPhotoPath = imageFile.getPath();
 
                         //Log.d("chk1 ==== > ",Math.floorMod(requestCode,100) + "/"+ requestCode );
                         JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 100));
@@ -762,16 +845,15 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         GarryValue = Garray.PositionInfo[G.position][1] + "";
                         mPath= "nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI + "/" + TABLE_NAME + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + GarryValue + ".jpg";
                         DB_Path = Garray.value[G.position];
-                        mRequest_map.put("sign", DB_Path+"&"+mPath.replaceAll("/","%"));
+                        //mRequest_map.put("sign", DB_Path+"&"+mPath.replaceAll("/","%"));
+                        //sign_map.put("sign", DB_Path+"&"+mPath.replaceAll("/","%"));
                         //Log.d("chk_map11111 :", mRequest_map+"");
-
+                        sign_map.put("sign",  mCurrentPhotoPath+".jpg" +"&"+ mPath.replaceAll("/","%"));
+                        mRequest_map.putAll(sign_map);
+                        mRequest_map.put("sign_path", DB_Path);
 
                         Log.d("chk_map :", mRequest_map+"");
-
-                        /*Intent intent = new Intent(getContext(), PreviewDialogActivity.class);
-                        intent.putExtra("imgUri", uri);
-                        startActivity(intent);*/
-                    }
+                    }*/
                 }
                 break;
             case 6:
@@ -813,7 +895,13 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         }// Switch문..
 
 }
-
+    private static HashMap<String, Object> convertArrayListToHashMap(ArrayList<String> mPath_list){
+        HashMap<String, Object> hashMap= new HashMap<>();
+        for (String str : mPath_list){
+            hashMap.put(str, str);
+        }
+        return hashMap;
+    }
 
 
     //[다음]버튼
@@ -840,7 +928,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                     long now = System.currentTimeMillis();
                     Date date = new Date(now);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                     DTTI = sdf.format(date);
                     G.dtti = DTTI;//민혁 - 전역변수 할당 추가
                     //TRANSP_BIZR_ID  (선택된 운수사 고정번호)
@@ -898,6 +986,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     }
 
                     AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
+                    builder.setTitle("프로젝트 업무 등록");
                     builder.setMessage("작성하신 업무내역을 등록 하시겠습니까?");
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
@@ -970,9 +1059,14 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                             call.enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
-                                    Toast.makeText(getContext(), "ttttt" + response.body(), Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getContext(),"이미지 업로드 완료" ,Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getContext(),"이미지 업로드 시작..." ,Toast.LENGTH_SHORT).show();
+
                                     new ImageUploadJson().execute();
+
+                                    //이미지 업로드 완료 다이얼로그 띄우기
+                                    Intent i= new Intent(getContext(), ImageUploadDialog.class);
+                                    startActivity(i);
+
                                 }
                                 @Override
                                 public void onFailure(Call<String> call, Throwable t) {
@@ -986,39 +1080,22 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                             MyPageFragment2 myPageFragment2 = new MyPageFragment2();
                             myPageFragment2.setArguments(bundle);
                             transaction.replace(R.id.frameLayout, myPageFragment2, null).addToBackStack(null).commit();
+                            //[다음]버튼 누르고 MyPageFragment2 페이지로 이동
+                            //프로젝트 스피너 초기화해주기...
+                            ERP_Spring_Controller erp_job_name = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                            Call<List<Bus_OfficeVO>> call_job_name = erp_job_name.JobNameSpinner();
+                            new JobNameList().execute(call_job_name);
+
                         }
                     });
                     builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            Toast.makeText(getContext(), "업무내역 등록을 취소하셨습니다.", Toast.LENGTH_SHORT).show();
                         }
                     });
                     builder.setCancelable(false);
                     builder.show();
-
-
-
-                    //이미지 로컬PC로 업로드
-                    /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("프로젝트 업무 등록");
-                    builder.setMessage("작성하신 업무 내역을 등록 하시겠습니까? ");
-                    builder.setPositiveButton("확인",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Uri mUri= uri;
-                                    Log.d("dddd ",uri+"");
-                                }
-                            });
-                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getContext(), "취소하였습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    builder.setCancelable(false);
-                    builder.show();*/
                 }//else..
         }
 
@@ -1039,6 +1116,9 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
+                int sign_map_size= sign_map.size();
+                Log.d("sign_map_size 2222=====> ", sign_map_size+"");
+                Log.d("sign_map 2222222======>  ",  sign_map+"");
                 Boolean jsonObject= JSONParser.uploadImage(sign_map);
                 if (jsonObject != null)
 //                    Log.d(" result ::" , "" + jsonObject.getString("result").equals("success"));
@@ -1054,15 +1134,17 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             if (progressDialog != null)
                 progressDialog.dismiss();
             if (aBoolean){
-                ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                //ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                 //Call<Boolean> insert_call = erp.insert_project_work_data(sign_map);
                 //new insert_project_work_data().execute(insert_call);
                 Toast.makeText(getContext(),"이미지 업로드 완료" ,Toast.LENGTH_SHORT).show();
+
             }else {
                 Toast.makeText(getContext(),"이미지 업로드 오류 발생" ,Toast.LENGTH_SHORT).show();
             }
         }
     }//ImageUploadJson()...
+
 
 
 

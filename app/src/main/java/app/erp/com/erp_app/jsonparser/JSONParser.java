@@ -31,10 +31,10 @@ public class JSONParser {
      * You will find this file in php_upload folder in this project
      * You can copy that folder and paste in your htdocs folder...
      */
-  //  private static final String URL_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/barcode/app_ftp_upload.do";
-    private static final String URL_UPLOAD_IMAGE = "http://192.168.0.122:8180/controller/erp_project/app_sign_ftp_upload.do";
-    private static final String URL_SIGN_UPLOAD_IMAGE = "http://192.168.0.122:8180/controller/erp_project/app_sign_ftp_upload.do";
-    //private static final String URL_SIGN_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/erp_project/app_sign_ftp_upload.do";
+    private static final String URL_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/barcode/app_ftp_upload.do";
+   // private static final String URL_UPLOAD_IMAGE = "http://192.168.0.122:8180/controller/erp_project/app_sign_ftp_upload.do";
+   // private static final String URL_SIGN_UPLOAD_IMAGE = "http://192.168.0.122:8180/controller/erp_project/app_sign_ftp_upload.do";
+    private static final String URL_SIGN_UPLOAD_IMAGE = "http://ierp.interpass.co.kr/controller/erp_project/app_sign_ftp_upload.do";
 
     private static File sourceFile;
     /**
@@ -49,7 +49,7 @@ public class JSONParser {
         Log.d("sourceImageFile",""+sourceImageFile.size());
 
         try {
-
+            Log.d("Image Map :::::: >>> ", sourceImageFile.toString());
             StringBuilder sb = new StringBuilder();
             Set<?> set = sourceImageFile.keySet();
             Iterator<?> it = set.iterator();
@@ -60,7 +60,9 @@ public class JSONParser {
                 if(key != null){
 
                     String file_name_and_path = (String)sourceImageFile.get(key);
+                    Log.d("file_name_and_path===> ", file_name_and_path+"");
                     String[] name_path_arry = file_name_and_path.split("&");
+                    Log.d("name_path_arry====> ",name_path_arry+"");
                     sourceFile = new File(name_path_arry[0]);
                     filename = name_path_arry[1];
 //                    filename = (String)((String) sourceImageFile.get(key)).substring(sourceImageFile.lastIndexOf("/")+1).substring();

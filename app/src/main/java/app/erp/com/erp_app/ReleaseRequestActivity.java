@@ -323,6 +323,7 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
 
 
 
+
     // 단말기 분류
     class TestList extends AsyncTask<Call, Void, List<TestAllVO>>{
 
