@@ -165,10 +165,10 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             startActivity(i);
         }
         /*프로젝트 업무 수행*/
-        else if(id == R.id.project_work_btn){
+        /*else if(id == R.id.project_work_btn){
             Intent i = new Intent(Call_Center_Activity.this , ProJectMainActivity.class);
             startActivity(i);
-        }
+        }*/
         /*설치 확인서*/
         else if (id == R.id.installation_confirm){
             Intent i= new Intent(Call_Center_Activity.this, MyProject_Work_Insert_Activity.class);
@@ -194,24 +194,24 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         }
 
         //단말기 입출고 현황 액티비티로 이동
-        else if (id==R.id.inventory_in_out_status2){
+        /*else if (id==R.id.inventory_in_out_status2){
             Intent i= new Intent(Call_Center_Activity.this, InOutStatusActivity.class);
             startActivity(i);
-        }
+        }*/
 
 
         //출고신청 액티비티로 이동
-        else if(id == R.id.release_request){
+        /*else if(id == R.id.release_request){
             Intent i = new Intent(Call_Center_Activity.this, ReleaseRequestActivity.class);
             startActivity(i);
-        }
+        }*/
 
         //입고신청 액티비티로 이동
-        else if(id == R.id.warehousing_request){
+       /* else if(id == R.id.warehousing_request){
             Intent i= new Intent(Call_Center_Activity.this, WarehousingActivity.class);
             startActivity(i);
         }
-
+*/
 
 
 

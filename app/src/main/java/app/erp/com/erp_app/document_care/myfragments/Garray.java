@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class Garray {
 
-    public static String[] value = new String[50];
+    public static String[] value = new String[51];
     {
-        for (int i=0; i < 50; i++){
+        for (int i=0; i < 51; i++){
             value[i]="";
         }
     }
@@ -19,9 +19,9 @@ public class Garray {
         }
     }
 
-    public static int[][] PositionInfo = new int[50][2];
+    public static int[][] PositionInfo = new int[51][2];
     {
-        for (int i=0; i < 50; i++){
+        for (int i=0; i < 51; i++){
             for(int j =0;i<=2;j++) {//2차원 배열 사용 i = 사진 선택하는 칸의 position
                                     // j는 C와 PC의 position을 저장
                                     // 0 : C값 저장용

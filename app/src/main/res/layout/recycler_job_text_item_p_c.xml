@@ -10,8 +10,8 @@
 
     <View
         android:layout_width="210dp"
-        android:layout_height="1dp"
-        android:background="#ffffff"/>
+        android:layout_height="4dp"
+        android:background="#9784DC"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,13 +36,15 @@
             android:layout_below="@+id/tv_job_text">
             <TextView
                 android:id="@+id/et_bus_num"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
                 android:layout_centerHorizontal="true"
                 android:hint="일련번호 입력"
-                android:textSize="12sp"
+                android:maxLength="9"
+                android:textColorHint="#E91E63"
+                android:textSize="14sp"
                 android:paddingLeft="8dp"
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"

@@ -14,7 +14,7 @@
         android:layout_gravity="right"
         android:gravity="bottom"
         android:text="확인"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textColor="#9784BA"
         android:paddingLeft="300dp"
         android:paddingBottom="10dp"

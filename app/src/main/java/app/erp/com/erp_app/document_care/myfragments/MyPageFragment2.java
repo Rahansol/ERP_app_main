@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
+import app.erp.com.erp_app.MainActivity;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.callcenter.Call_Center_Activity;
+import app.erp.com.erp_app.callcenter.Fragment_trouble_list;
 import app.erp.com.erp_app.document_care.InstallCableItems;
 import app.erp.com.erp_app.document_care.Install_Cable_Adapter;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
@@ -63,6 +67,9 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
     private ArrayList<CableInsertItems> cableInsertItems;
     private CableInsertAdapter cableInsertAdapter;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
 
     Button btnSave;
 
@@ -71,6 +78,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.pager2_my_project_work_insert_fragment, container, false);
+
 
         Log.d("prj_name :  ", G.prjName+"");
         Log.d("transpBizrId :  ", G.transpBizrId+"");
@@ -289,6 +297,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                         call.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
+                                Toast.makeText(getContext(), "저장완료!", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -299,11 +308,16 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                         /*FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
                         MyPageFragment1 myPageFragment1= new MyPageFragment1();
                         transaction.replace(R.id.frameLayout, myPageFragment1, null).addToBackStack(null).commit();*/
-                        getActivity().getSupportFragmentManager()
+
+                        /*getActivity().getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.frameLayout, new MyPageFragment1())
                                 .addToBackStack(null)
-                                .commit();
+                                .commit();*/
+                        //((Call_Center_Activity)getActivity()).switchFragment("care");
+                        Intent i= new Intent(getContext(), Call_Center_Activity.class);
+                        startActivity(i);
+
                     }
                 });
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {

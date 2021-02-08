@@ -4,6 +4,7 @@ public class G {
     public static int position;
 
     public static String dtti;
+    public static String dtti2;
     public static String prjName;
     public static String transpBizrId; //운수사 고정번호
     public static String busoffName; //운수사명

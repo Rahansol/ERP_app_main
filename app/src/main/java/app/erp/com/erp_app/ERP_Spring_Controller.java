@@ -787,11 +787,6 @@ public interface ERP_Spring_Controller {
 
 
 
-
-
-//String CallListname 은요? CallListName <- 이것도 그냥 변수명이니까 바꾸셔도 상관없습닏
-
-
     // Retrofit Helper
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.MINUTES)
@@ -800,8 +795,8 @@ public interface ERP_Spring_Controller {
             .build();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.0.122:8180/controller/")
-            //.baseUrl("http://ierp.interpass.co.kr/controller/")
+            //.baseUrl("http://192.168.0.122:8180/controller/")
+            .baseUrl("http://ierp.interpass.co.kr/controller/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build();

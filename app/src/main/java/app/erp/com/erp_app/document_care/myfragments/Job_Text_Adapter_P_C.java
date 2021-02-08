@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,8 +48,6 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
     Uri imgUri;  //캡쳐한 이미지 경로 Uri
     String mCurrentPhotoPath;
-
-    private int prePosition= -1;
 
 
     public Job_Text_Adapter_P_C() {
@@ -99,6 +98,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
             vh.tv.setText("미리보기");
             //일련번호 다이얼로그
             //vh.etBusNum.setText(Garray.value[G.position]);
+
             vh.etBusNum.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -118,7 +118,10 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                                 //vh.etBusNum.setTextColor(Color.parseColor("#E91E63"));
                                 notifyItemChanged(position);
                                 Garray.value[Garray.PositionInfo[position][0]]= st_unit_num;
+                                //notifyItemChanged(Integer.parseInt(st_unit_num));
                                 //notifyItemChanged(prePosition);
+                            }else {
+
                             }
                             dialog.dismiss();
                         }
@@ -168,7 +171,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //사진앨범 불러오기 실행코드..
-                            Toast.makeText(context, "P22222 ~~~~~~~~~~~~~"+position, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "P22222 ~~~~~~~~~~~~~"+position, Toast.LENGTH_SHORT).show();
                             Intent intent= new Intent(Intent.ACTION_PICK);
                             intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                             myPageFragment1.startActivityForResult(intent, 300+position );
@@ -223,22 +226,30 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 ////  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
         }else if (item.tv.equals("해당없음  (C 만)")){
             vh.tv.setText("해당없음");
+           // vh.tv.setTextColor(Color.parseColor("#000000"));
+
             //일련번호 다이얼로그
             vh.etBusNum.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder= new AlertDialog.Builder(context);
                     final EditText et= new EditText(context);
-                    builder.setTitle("일련번호 입력").setMessage("단말기 일련번호를 입력하세요.");
+                    builder.setTitle("일련번호 입력").setMessage("일련번호를 입력하세요.");
                     builder.setView(et);
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String st_unit_num= et.getText().toString();
 
-                            if (st_unit_num!=null){
-                                vh.etBusNum.setText(st_unit_num);
+                            if (et.getText().length()!=0){
+                                //et.setTextColor(Integer.parseInt("#E91E63"));  // 텍스트 색 변경
+                                item.busNum= et.getText().toString();
+                                vh.etBusNum.setText(item.busNum);
+                                //int color= context.getColor(Integer.parseInt("#E91E63"));
+                                //vh.etBusNum.setTextColor(Color.parseColor("#E91E63"));
+                                notifyItemChanged(position);
                                 Garray.value[Garray.PositionInfo[position][0]]= st_unit_num;
+                               // notifyItemChanged(Integer.parseInt(st_unit_num));
                             }
                             dialog.dismiss();
                         }
@@ -250,11 +261,13 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
             //vh.tv.setTextColor(Color.parseColor("#000000"));
            // vh.bc.setBackgroundColor(Color.parseColor("#000000"));
+            vh.ivTakePic.setText("해당없음");
+            //vh.ivTakePic.setTextColor(Color.parseColor("#000000"));
             vh.ivTakePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     G.position= position;
-                    Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
                     Toast.makeText(context, "해당없음", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -274,9 +287,9 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
         }else{
             vh.tv.setText("미리보기");
 
-            //vh.etBusNum.isSuggestionsEnabled();   //// 어떻게 EditText 못하게 설정함???
-            //vh.etBusNum.setVisibility(View.GONE);
             vh.etBusNum.setFocusableInTouchMode(false);
+            //vh.etBusNum.setTextColor(Color.parseColor("#000000"));
+            //notifyItemChanged(position);
             //vh.iv_barcode.setVisibility(View.INVISIBLE);
             vh.ivTakePic.setOnClickListener(new View.OnClickListener() {
                 @Override

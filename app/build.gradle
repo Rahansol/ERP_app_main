@@ -25,7 +25,7 @@ android {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 29    //29버전(안드로이드 10 타켓팅)
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -34,9 +34,9 @@ android {
     defaultConfig {
         applicationId "app.erp.com.erp_app"
         minSdkVersion 29
-        targetSdkVersion 29
-        versionCode 58
-        versionName "6.2.2"
+        targetSdkVersion 29    //29버전(안드로이드 10 타켓팅)
+        versionCode 59         //58 -> 59
+        versionName "6.3"      //6.2.2 -> 6.3
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     lintOptions {

@@ -131,7 +131,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
     private ArrayList<String> path_list= new ArrayList<String>();
 
-    static String mPath,DB_Path, GarryValue, st_temp_bus_id, area_code, unitNum, GLOBAL, DTTI, REG_EMP_ID, TRANSP_BIZR_ID, BUSOFF_NAME, GARAGE_ID, GARAGE_NAME, ROUTE_ID, ROUTE_NUM, BUS_ID, TempBusId, TempBusId_Value, BUS_NUM, VEHICLE_NUM, JOB_TYPE, TABLE_NAME; //파일명 바꿀때/ 파라미터 필요
+    static String mPath,DB_Path, GarryValue, st_temp_bus_id, area_code, unitNum, GLOBAL, DTTI, DTTI2, REG_EMP_ID, TRANSP_BIZR_ID, BUSOFF_NAME, GARAGE_ID, GARAGE_NAME, ROUTE_ID, ROUTE_NUM, BUS_ID, TempBusId, TempBusId_Value, BUS_NUM, VEHICLE_NUM, JOB_TYPE, TABLE_NAME; //파일명 바꿀때/ 파라미터 필요
 
     public MyPageFragment1() {
 
@@ -570,7 +570,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         protected void onPostExecute(List<Bus_OfficeVO> bus_officeVOS) {
             super.onPostExecute(bus_officeVOS);
 
-
             if (bus_officeVOS != null) {
                 List<String> spinner_array = new ArrayList<>();
 
@@ -596,7 +595,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                     mRequest_map.put("jobType", st_job_type);
                                 }
                             }
-
                             /*리사이클러뷰 카매라 앨범/ 촬영 데이터 넘기기*/
                             ERP_Spring_Controller erp_media = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                             Call<List<Bus_OfficeVO>> call_media = erp_media.BusOffRecyclerviewMedia(st_office_group_value, st_version_value);
@@ -733,6 +731,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             case 3:
                 if (resultCode == RESULT_OK) {
 
+                    Toast.makeText(getContext(), "이미지 불러오기", Toast.LENGTH_SHORT).show();
+
                     try {
                         InputStream in = getContext().getContentResolver().openInputStream(data.getData());
                         Uri selectedImage = data.getData();
@@ -752,13 +752,15 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         //REG_DTTI (현재날짜)
                         long now = System.currentTimeMillis();
                         Date date = new Date(now);
-                        //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
                         DTTI = sdf.format(date);
+                        DTTI2 = sdf2.format(date);
                         G.dtti = DTTI;
+                        G.dtti2 = DTTI2;
                         TempBusId_Value = G.TempBusId+"";
                         TRANSP_BIZR_ID = G.transpBizrId + "";
-                        Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI + "/" + TABLE_NAME + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
+                        Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
                         GarryValue = Garray.PositionInfo[G.position][1] + "";
 
 
@@ -766,7 +768,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 100));
                         //Log.d("tt->>>", jobTextItems.get(Math.floorMod(requestCode,100))+"///"+ jobTextItems.get(Math.floorMod(requestCode,100)) );
 
-                        item.preview_uri = Uri.parse(gallery_path);
+                        //item.preview_uri = Uri.parse(gallery_path);
+                        item.preview_uri= selectedImage;
                         job_text_adapter_p_c.notifyDataSetChanged();
 
                         DB_Path = Garray.value[G.position];
@@ -774,7 +777,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                         // 1) ArrayList
                         //ArrayList<String> path_list= new ArrayList<String>();
-                        path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI + "/" + TABLE_NAME + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + GarryValue + ".jpg").replaceAll("/","%"));
+                        path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + GarryValue + ".jpg").replaceAll("/","%"));
 
                         int cnt = 0;
                         for (String str : path_list){
@@ -928,9 +931,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                     long now = System.currentTimeMillis();
                     Date date = new Date(now);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
                     DTTI = sdf.format(date);
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+                    DTTI2= sdf2.format(date);
                     G.dtti = DTTI;//민혁 - 전역변수 할당 추가
+                    G.dtti2 = DTTI2;//민혁 - 전역변수 할당 추가
                     //TRANSP_BIZR_ID  (선택된 운수사 고정번호)
                     TRANSP_BIZR_ID = G.transpBizrId;
                     System.out.println(" ### TRANSP_BIZR_ID 운수사 고정번호: " + TRANSP_BIZR_ID);
@@ -1005,7 +1011,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                     , st_temp_bus_id
                                     , VEHICLE_NUM
                                     , JOB_TYPE
-                                    , Garray.value[0] + ""
                                     , Garray.value[1] + ""
                                     , Garray.value[2] + ""
                                     , Garray.value[3] + ""
@@ -1055,6 +1060,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                     , Garray.value[47] + ""
                                     , Garray.value[48] + ""
                                     , Garray.value[49] + ""
+                                    , Garray.value[50] + ""
                             );
                             call.enqueue(new Callback<String>() {
                                 @Override
@@ -1063,14 +1069,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                                     new ImageUploadJson().execute();
 
-                                    //이미지 업로드 완료 다이얼로그 띄우기
-                                    Intent i= new Intent(getContext(), ImageUploadDialog.class);
-                                    startActivity(i);
-
                                 }
                                 @Override
                                 public void onFailure(Call<String> call, Throwable t) {
                                     Toast.makeText(getContext(),"이미지 업로드 오류 발생" ,Toast.LENGTH_SHORT).show();
+                                    Log.d("이미지 업로드 오류 이유::: ",t+" : ");
                                 }
                             });
 
@@ -1134,13 +1137,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             if (progressDialog != null)
                 progressDialog.dismiss();
             if (aBoolean){
-                //ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                //Call<Boolean> insert_call = erp.insert_project_work_data(sign_map);
-                //new insert_project_work_data().execute(insert_call);
+
                 Toast.makeText(getContext(),"이미지 업로드 완료" ,Toast.LENGTH_SHORT).show();
 
             }else {
-                Toast.makeText(getContext(),"이미지 업로드 오류 발생" ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"이미지 업로드 오류 발생 !!" ,Toast.LENGTH_SHORT).show();
+                //Log.d("")
             }
         }
     }//ImageUploadJson()...
