@@ -594,6 +594,46 @@ public interface ERP_Spring_Controller {
             ,@Query("item_99") String item_99
             ,@Query("item_100") String item_100);
 
+    @GET("AndroidRegister/BusOffNameSpinner")
+    Call<List<Bus_OfficeVO>> BusOffNameSpinner( @Query("table_name") String table_name
+                                                , @Query("st_date") String st_date
+                                                , @Query("ed_date") String ed_date
+                                                , @Query("job_type") String jop_type);
+
+    /*설치 확인조회 리사이클러뷰: 차량리스트*/
+    @GET("AndroidRegister/Transp_Bizr_List")
+    Call<List<Bus_OfficeVO>> Transp_Bizr_List(@Query("table_name") String table_name
+                                                    , @Query("st_date") String st_date
+                                                    , @Query("ed_date") String ed_date
+                                                    , @Query("transp_bizr_id") String transp_bizr_id
+                                                    , @Query("job_type") String job_type);
+
+
+    /*step3 상단*/
+    @GET("AndroidRegister/Transp_Bizr_List_Info_Item")
+    Call<List<Bus_OfficeVO>> Transp_Bizr_List_Info_Item(@Query("table_name") String table_name
+                                                        , @Query("reg_dtti") String reg_dtti
+                                                        , @Query("transp_bizr_id") String transp_bizr_id
+                                                        , @Query("bus_id") String bus_id
+                                                        , @Query("job_type") String job_type);
+
+
+
+    @GET("AndroidRegister/Transp_Bizr_List_Info_Item2")
+    Call<List<Bus_OfficeVO>> Transp_Bizr_List_Info_Item2(@Query("table_name") String table_name
+                                                        , @Query("reg_dtti") String reg_dtti
+                                                        , @Query("transp_bizr_id") String transp_bizr_id
+                                                        , @Query("bus_id") String bus_id
+                                                        , @Query("job_type") String job_type);
+
+
+
+
+
+
+
+
+
 
 
     //테스트 목적
@@ -795,8 +835,8 @@ public interface ERP_Spring_Controller {
             .build();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
-            //.baseUrl("http://192.168.0.122:8180/controller/")
-            .baseUrl("http://ierp.interpass.co.kr/controller/")
+            .baseUrl("http://192.168.0.122:8180/controller/")
+            //.baseUrl("http://ierp.interpass.co.kr/controller/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build();

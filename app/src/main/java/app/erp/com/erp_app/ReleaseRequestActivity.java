@@ -512,13 +512,11 @@ public class ReleaseRequestActivity extends AppCompatActivity implements Adapter
     // 결과는 onPostExecute ㅇ여기서 받는걸로 설명드렸져 ?네
     // 그럼 doInBackground 에서 execute 를 Call<List<TestAllVO>> call = calls[0]; 이걸 하는건데
     // 결국엔 이게 스프링쪽이겠져 ?네
-    // 그럼 위에 파라미터 5개는 어디서 받을까요 스프링이요
-    // 네 맞습니다
-    //요기서 파라미터를 받는게 아니고
+    // 그럼 위에 파라미터 5개는 어디서 받을까요 스프링이요 // 네 맞습니다
+    // 요기서 파라미터를 받는게 아니고
     // onPostExecute 여기는 스프링 프로젝트의 결과 값을 받는건데
     // 여기서 결과값 은 무엇이냐
    public class select_stock_list extends AsyncTask<Call, Void, List<TestAllVO>>{   //여기요
-
         // 여기서 execute 해서 결과를 Response<List<TestAllVO>> 이걸로 받죠 ? 네
         // 그래서 return response.body(); 이렇게 하는데 이게 무슨뜻이냐면
         // onPostExecute(response.body();)  이거라고 보시면됩니다 네네

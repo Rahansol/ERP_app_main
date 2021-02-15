@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    tools:context=".document_care.myfragments.Installation_List_Signature_Activity">
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:orientation="vertical"
+        android:background="@drawable/new_background3"
+        android:paddingTop="20dp">
+
+        <!--프로젝트 스피너-->
+        <RelativeLayout
+            android:id="@+id/prj_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_in_out3"
+            android:padding="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp">
+            <TextView
+                android:id="@+id/project_title"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="프로젝트"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/box_in_out2"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginRight="4dp"/>
+            <Spinner
+                android:id="@+id/project_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/project_title"/>
+        </RelativeLayout>
+
+
+
+
+
+
+
+        <!--조회기간-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_in_out3"
+            android:padding="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp">
+            <TextView
+                android:id="@+id/tv_period_title"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="조회기간"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/box_in_out2"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginRight="10dp"/>
+            <RelativeLayout
+                android:id="@+id/iv_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_period_title"
+                android:background="@drawable/box_in_out4"
+                android:layout_marginRight="12dp">
+                <TextView
+                    android:id="@+id/tv_start_date"
+                    android:layout_width="125dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="20201010"
+                    android:textColor="#7B65FB"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/iv_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_start_date"
+                android:background="@drawable/box_in_out4">
+                <TextView
+                    android:id="@+id/tv_end_date"
+                    android:layout_width="125dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="20201030"
+                    android:textColor="#7B65FB"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/layout_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/relative_layout2"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/box_in_out3"
+                android:padding="3dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+                <TextView
+                    android:id="@+id/jobType_spinner_title"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="작업"
+                    android:textSize="12sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/box_in_out2"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_marginRight="4dp"/>
+                <Spinner
+                    android:id="@+id/jobType_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@id/jobType_spinner_title"/>
+            </RelativeLayout>
+
+
+
+            <Button
+                android:id="@+id/searchBtn"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="조회"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@drawable/box_in_out"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/relative_layout2"
+                android:onClick="clickSearchBtn"/>
+        </RelativeLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/busoff_name_layout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/box_in_out3"
+        android:padding="3dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="205dp"
+        android:visibility="invisible">
+        <TextView
+            android:id="@+id/busoff_name_title"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="운수사"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/box_in_out2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginRight="4dp"/>
+        <Spinner
+            android:id="@+id/busoff_name_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/busoff_name_title"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnSearch2"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_gravity="right"
+        android:text="조회"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/box_in_out_sky_blue"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@+id/busoff_name_layout"
+        android:layout_marginTop="210dp"
+        android:visibility="invisible"
+        android:onClick="clickSearch2"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/busoff_name_layout"
+        android:padding="10dp"
+        android:layout_marginBottom="65dp">
+        <TableLayout
+            android:id="@+id/table_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:visibility="invisible">
+            <!--타이틀-->
+            <TableRow
+                android:background="@drawable/box_in_out_top_round_dark_blue">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="선택"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    android:padding="3dp"/>
+                <TextView
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
+                    android:text=" 작업"
+                    android:textSize="13sp"
+                    android:textColor="#ffffff"
+                    android:padding="3dp"/>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:padding="3dp"
+                    android:textSize="13sp"
+                    android:textColor="#ffffff"
+                    android:text="운수사" />
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="30dp"
+                    android:text="영업소"
+                    android:textSize="13sp"
+                    android:textColor="#ffffff"
+                    android:padding="3dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="노선"
+                    android:textSize="13sp"
+                    android:textColor="#ffffff"
+                    android:padding="3dp"
+                    android:layout_marginRight="15dp"/>
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:text="차량번호"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    android:paddingTop="3dp"
+                    android:paddingLeft="8dp"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="3dp"/>
+
+                <TextView
+                    android:layout_width="56dp"
+                    android:layout_height="30dp"
+                    android:padding="3dp"
+                    android:text="확인서"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
+            </TableRow>
+        </TableLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_transp_bizr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"/>
+
+
+    </LinearLayout>
+
+
+
+
+    <Button
+        android:id="@+id/btnWrite"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:text="확인서 작성하기"
+        android:textColor="@color/white"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@drawable/box_in_out2_1"/>
+
+</RelativeLayout>

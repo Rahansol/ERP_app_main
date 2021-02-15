@@ -27,16 +27,19 @@ public class Bus_OfficeVO {
     private String doc_seq;
     private String item_code;
     private String item_detail_code;
+    private String version;
+    private String table_name;
+    private String item_each_seq;
     private String c_item_seq;
+    private String p_item_seq;
     private String prj_name;
-
-    public String getTable_name() {
-        return table_name;
-    }
-
-    public void setTable_name(String table_name) {
-        this.table_name = table_name;
-    }
+    private String prj_base_infra_job;
+    private String reg_dtti;
+    private String bus_num;
+    private String vehicle_num;
+    private String doc_dtti;
+    private String doc_emp_name;
+    private String sqltext;
 
     @Override
     public String toString() {
@@ -66,18 +69,104 @@ public class Bus_OfficeVO {
                 ", doc_seq='" + doc_seq + '\'' +
                 ", item_code='" + item_code + '\'' +
                 ", item_detail_code='" + item_detail_code + '\'' +
-                ", c_item_seq='" + c_item_seq + '\'' +
-                ", prj_name='" + prj_name + '\'' +
+                ", version='" + version + '\'' +
                 ", table_name='" + table_name + '\'' +
                 ", item_each_seq='" + item_each_seq + '\'' +
-                ", version='" + version + '\'' +
+                ", c_item_seq='" + c_item_seq + '\'' +
                 ", p_item_seq='" + p_item_seq + '\'' +
+                ", prj_name='" + prj_name + '\'' +
+                ", prj_base_infra_job='" + prj_base_infra_job + '\'' +
+                ", reg_dtti='" + reg_dtti + '\'' +
+                ", bus_num='" + bus_num + '\'' +
+                ", vehicle_num='" + vehicle_num + '\'' +
+                ", doc_dtti='" + doc_dtti + '\'' +
+                ", doc_emp_name='" + doc_emp_name + '\'' +
+                ", sqltext='" + sqltext + '\'' +
+                ", bus_id='" + bus_id + '\'' +
                 '}';
     }
 
-    private String table_name;
 
-    private String item_each_seq;
+
+    public String getSqltext() {
+        return sqltext;
+    }
+
+    public void setSqltext(String sqltext) {
+        this.sqltext = sqltext;
+    }
+
+
+    public String getVehicle_num() {
+        return vehicle_num;
+    }
+
+    public void setVehicle_num(String vehicle_num) {
+        this.vehicle_num = vehicle_num;
+    }
+
+    public String getDoc_dtti() {
+        return doc_dtti;
+    }
+
+    public void setDoc_dtti(String doc_dtti) {
+        this.doc_dtti = doc_dtti;
+    }
+
+    public String getDoc_emp_name() {
+        return doc_emp_name;
+    }
+
+    public void setDoc_emp_name(String doc_emp_name) {
+        this.doc_emp_name = doc_emp_name;
+    }
+
+
+
+    public String getBus_id() {
+        return bus_id;
+    }
+
+    public void setBus_id(String bus_id) {
+        this.bus_id = bus_id;
+    }
+
+    private String bus_id;
+
+
+    public String getBus_num() {
+        return bus_num;
+    }
+
+    public void setBus_num(String bus_num) {
+        this.bus_num = bus_num;
+    }
+
+
+    public String getReg_dtti() {
+        return reg_dtti;
+    }
+
+    public void setReg_dtti(String reg_dtti) {
+        this.reg_dtti = reg_dtti;
+    }
+
+
+    public String getPrj_base_infra_job() {
+        return prj_base_infra_job;
+    }
+
+    public void setPrj_base_infra_job(String prj_base_infra_job) {
+        this.prj_base_infra_job = prj_base_infra_job;
+    }
+
+    public String getTable_name() {
+        return table_name;
+    }
+
+    public void setTable_name(String table_name) {
+        this.table_name = table_name;
+    }
 
     public String getItem_each_seq() {
         return item_each_seq;
@@ -86,9 +175,6 @@ public class Bus_OfficeVO {
     public void setItem_each_seq(String item_each_seq) {
         this.item_each_seq = item_each_seq;
     }
-
-
-    private String version;
 
     public String getPrj_name() {
         return prj_name;
@@ -106,9 +192,6 @@ public class Bus_OfficeVO {
         this.version = version;
     }
 
-
-    private String p_item_seq;
-
     public String getC_item_seq() {
         return c_item_seq;
     }
@@ -124,7 +207,6 @@ public class Bus_OfficeVO {
     public void setP_item_seq(String p_item_seq) {
         this.p_item_seq = p_item_seq;
     }
-
 
     public String getItem_group_name() {
         return item_group_name;
@@ -182,9 +264,6 @@ public class Bus_OfficeVO {
         this.item_detail_code = item_detail_code;
     }
 
-
-
-
     public String getItem_name() {
         return item_name;
     }
@@ -217,8 +296,6 @@ public class Bus_OfficeVO {
         this.media_name = media_name;
     }
 
-
-
     public String getJob_name() {
         return job_name;
     }
@@ -234,7 +311,6 @@ public class Bus_OfficeVO {
     public void setJob_type(String job_type) {
         this.job_type = job_type;
     }
-
 
     public String getUnit_ver() {
         return unit_ver;
@@ -261,7 +337,6 @@ public class Bus_OfficeVO {
         this.route_num = route_num;
     }
 
-
     public String getGarage_name() {
         return garage_name;
     }
@@ -277,7 +352,6 @@ public class Bus_OfficeVO {
     public void setGarage_id(String garage_id) {
         this.garage_id = garage_id;
     }
-
 
 
     public String getOffice_group() {

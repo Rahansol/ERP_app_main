@@ -18,16 +18,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ierp_app_img"
         android:label="@string/app_name"
-
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ierp_app_img_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true">
-
-        <activity android:name=".document_care.myfragments.ImageUploadDialog"
+        android:theme="@style/AppTheme">
+        <activity android:name=".document_care.myfragments.Installation_List_Sginature_Activity2"></activity>
+        <activity android:name=".document_care.myfragments.Installation_List_Signature_Activity" />
+        <activity
+            android:name=".document_care.myfragments.ImageUploadDialog"
             android:label="이미지 업로드 성공!"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
         <activity
             android:name=".document_care.PreviewDialogActivity"
             android:label="등록할 사진을 확인하세요"
@@ -36,17 +37,20 @@
             android:name=".document_care.MyProject_Work_Insert_Activity"
             android:configChanges="orientation|screenSize"
             android:label="차량별 설치입력" />
-        <!--<activity
+        <!--
+ <activity
             android:name=".InOutDetailActivity"
             android:label="입출고 현황 상세페이지" />
         <activity
             android:name=".DialogFinalCheckInActivity"
             android:label="   입고대상 목록을 최종 확인하세요"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+        -->
         <activity
             android:name=".InOutStatusActivity"
             android:label="단말기 입출고 현황" />
-        <activity
+        <!--
+<activity
             android:name=".DialogFinalRequestListActivity"
             android:label="   출고신청 목록을 최종 확인하세요"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
@@ -56,7 +60,8 @@
             android:label="출고 신청" />
         <activity
             android:name=".WarehousingActivity"
-            android:label="입고 신청" />-->
+            android:label="입고 신청" />
+        -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
@@ -146,10 +151,12 @@
             android:name=".document_care.CameraTest2Activity"
             android:configChanges="orientation|screenSize"
             android:label="카메라 테스트" />
-       <!-- <activity
+        <!--
+ <activity
             android:name=".document_care.ProJectMainActivity"
             android:configChanges="orientation|screenSize"
-            android:label="프로젝트 업무 수행" />-->
+            android:label="프로젝트 업무 수행" />
+        -->
         <activity
             android:name=".error_history.Error_History_Activity"
             android:configChanges="orientation|screenSize"

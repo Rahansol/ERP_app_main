@@ -71,6 +71,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.0.0'
     implementation 'com.google.firebase:firebase-core:18.0.0'
     implementation files('C:\\Users\\Interpass\\Downloads\\google-services.json')
+    implementation 'com.squareup.picasso:picasso:2.71828'   //glide 대신에 picasso
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

@@ -1,6 +1,7 @@
 package app.erp.com.erp_app.callcenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.document_care.CameraTestActivity;
 import retrofit2.Retrofit;
 
 /**
@@ -25,7 +27,7 @@ import retrofit2.Retrofit;
 
 public class Fragment_trouble_insert extends Fragment {
 
-    Button error_bus_btn , error_nms_btn, error_charger_btn, error_bit_btn, error_nomalWork_btn, education_btn, call_bus_btn;
+    Button error_bus_btn , error_nms_btn, error_charger_btn, error_bit_btn, error_nomalWork_btn, education_btn, call_bus_btn, btn_sign_test;
     Context context;
 
     private Retrofit retrofit;
@@ -79,6 +81,9 @@ public class Fragment_trouble_insert extends Fragment {
                 Fragment fragment = null;
                 String title = "";
                 switch (v.getId()){
+                    case R.id.btn_sign_test:
+                        Intent i= new Intent(getContext(), CameraTestActivity.class);
+                        startActivity(i);
                     case R.id.error_bus_btn :
                         fragment = new Fragment_trouble_insert_bus();
                         title = "장애등록 (버스)";
@@ -126,6 +131,7 @@ public class Fragment_trouble_insert extends Fragment {
         error_nomalWork_btn = (Button)view.findViewById(R.id.error_nomalWork_btn);
         education_btn = (Button)view.findViewById(R.id.education_btn);
         call_bus_btn = (Button)view.findViewById(R.id.call_bus_insert);
+        btn_sign_test= (Button)view.findViewById(R.id.btn_sign_test);
 
         error_bus_btn.setOnClickListener(onClickListener);
         error_nms_btn.setOnClickListener(onClickListener);
@@ -134,6 +140,7 @@ public class Fragment_trouble_insert extends Fragment {
         error_nomalWork_btn.setOnClickListener(onClickListener);
         education_btn.setOnClickListener(onClickListener);
         call_bus_btn.setOnClickListener(onClickListener);
+        btn_sign_test.setOnClickListener(onClickListener);
 
         return view;
     }
