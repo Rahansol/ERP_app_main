@@ -1,8 +1,9 @@
 package app.erp.com.erp_app.document_care.myfragments;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -11,6 +12,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,24 +37,31 @@ import java.util.Locale;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
+import app.erp.com.erp_app.document_care.myfragments.Installation_List_Sginature_Activity2;
+import app.erp.com.erp_app.document_care.myfragments.TranspBizrAdapter;
+import app.erp.com.erp_app.document_care.myfragments.TranspBizrItems;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class Installation_List_Signature_Activity extends AppCompatActivity {
 
+    public static Activity AActivity;
+
     private Context mContext;
-    private Spinner projectSpinner, jobTypeSpinner, busoffNameSpinner;
-    static String st_prj, st_prj_value,startDateValue, endDateValue, st_table_name_value, st_jobName, st_jobType_value, st_busoffName, st_busoffName_value, busId, transp_bizr_id, st_reg_dtti;
-    private RelativeLayout startDate, endDate, busoffNameLayout;
+    private Spinner projectSpinner, jobTypeSpinner, busoffNameSpinner, garage_name_spinner;
+    static  String stTableName, docDttiSign, BusNums, Item_reg_dtti, Item_bus_id, st_garage_name, st_garage_id, st_garage_name_value, garageName, st_prj, st_prj_value,startDateValue, endDateValue, st_table_name_value, st_jobName, st_jobType_value, st_busoffName, st_busoffName_value, busId, transp_bizr_id, st_reg_dtti;
+    private RelativeLayout startDate, endDate, busoffNameLayout, garage_name_layout;
     private TextView tvStartDate, tvEndDate;
-    private DatePickerDialog.OnDateSetListener callbackMethod, callbackMethod2;
-    private Button btnSearch2, btnWrite;
+    private DatePickerDialog.OnDateSetListener callbackMethod;
+    private Button btnSearch3;
     private TableLayout table_layout;
+    private RelativeLayout click_sign, click_write;
 
     private RecyclerView recyclerTranspBizr;
-    private ArrayList<TranspBizrItems> transpBizrItems;
+    public ArrayList<TranspBizrItems> transpBizrItems= new ArrayList<>();
     private TranspBizrAdapter transpBizrAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,41 +70,20 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("설치확인서 목록");
 
+        AActivity= Installation_List_Signature_Activity.this;
+
         mContext= this;
         projectSpinner= findViewById(R.id.project_spinner);
         jobTypeSpinner= findViewById(R.id.jobType_spinner);
         busoffNameSpinner= findViewById(R.id.busoff_name_spinner);
+        garage_name_spinner= findViewById(R.id.garage_name_spinner);
         startDate= findViewById(R.id.iv_start_date);
         tvStartDate= findViewById(R.id.tv_start_date);
         tvEndDate= findViewById(R.id.tv_end_date);
         endDate= findViewById(R.id.iv_end_date);
         busoffNameLayout= findViewById(R.id.busoff_name_layout);
-        table_layout= findViewById(R.id.table_layout);
-        btnSearch2= findViewById(R.id.btnSearch2);
-        btnWrite= findViewById(R.id.btnWrite);
-        btnWrite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder= new AlertDialog.Builder(mContext);
-                builder.setTitle("확인서 작성하기 화면으로 이동하시겠습니까?");
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        /*Intent i= new Intent(mContext, MyProject_Work_Insert_Activity.class);
-                        startActivity(i);*/
-                    }
-                });
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(mContext, "취소하였습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.create();
-                builder.show();
-
-            }
-        });
+        garage_name_layout= findViewById(R.id.garage_name_layout);
+        btnSearch3= findViewById(R.id.btnSearch3);
 
 
         /*먼저 현재날짜 지정*/
@@ -114,10 +104,10 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!st_prj.equals("선택") && !st_jobName.equals("선택")){
+                if (!st_prj.equals("선택")){
                     OnClickHandlerStartDate(v);
                 }else {
-                    Toast.makeText(mContext, "프로젝트와 작업을 선택하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "프로젝트를 선택하세요.", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -126,29 +116,135 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!st_prj.equals("선택") && !st_jobName.equals("선택")){
+                if (!st_prj.equals("선택")){
                     OnClickHandlerEndDate(v);
                 }else {
-                    Toast.makeText(mContext, "프로젝트와 작업을 선택하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "프로젝트를 선택하세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
 
 
+        //작성하기 아이콘
+        click_write= findViewById(R.id.click_write);
+        click_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(mContext);
+                builder.setTitle("설치확인서 [작성화면]으로 이동하시겠습니까?");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i= new Intent(Installation_List_Signature_Activity.this, MyProject_Work_Insert_Activity.class);
+                        startActivity(i);
+                    }
+                });
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-        /*차량리스트 리사이클러뷰 테스트..*/
-        /*transpBizrItems= new ArrayList<>();
-        transpBizrItems.add(new TranspBizrItems(true, "대폐차", "경기고속", "경기고속(감곡)", "20-10", "경기10아1234", "DOC_DTTI"));
-        transpBizrItems.add(new TranspBizrItems(true, "대폐차", "경기고속", "경기고속(감곡)", "20-10", "경기10아1234", "DOC_DTTI"));
-        transpBizrItems.add(new TranspBizrItems(true, "대폐차", "경기고속", "경기고속(감곡)", "20-10", "경기10아1234", "DOC_DTTI"));
-        transpBizrItems.add(new TranspBizrItems(true, "대폐차", "경기고속", "경기고속(감곡)", "20-10", "경기10아1234", "DOC_DTTI"));
-        transpBizrItems.add(new TranspBizrItems(true, "대폐차", "경기고속", "경기고속(감곡)", "20-10", "경기10아1234", "DOC_DTTI"));
-        transpBizrAdapter= new TranspBizrAdapter(Installation_List_Signature_Activity.this, transpBizrItems);
-        recyclerTranspBizr= findViewById(R.id.recyclerview_transp_bizr);
-        recyclerTranspBizr.setAdapter(transpBizrAdapter);*/
+                    }
+                });
+                builder.create();
+                builder.show();
+            }
+        });
+
+        //서명하기 아이콘
+        click_sign= findViewById(R.id.click_sign);
+        click_sign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int tmp =0 ;
+                int CheckCnt=0;
+                int RunCnt=1;
+                BusNums="";
+
+
+                for(int i=0;i<transpBizrItems.size();i++) {
+                    TranspBizrItems Item= transpBizrItems.get(i);
+                    if( Item.check == true ) {
+                        CheckCnt++;
+                    }
+                }
+
+                for(int i=0;i<transpBizrItems.size();i++){
+                    TranspBizrItems Item= transpBizrItems.get(i);
+                    Item_reg_dtti= Item.tv_reg_dtti;
+                    Item_bus_id= Item.busId;
+
+                    if( Item.check == true ){
+
+                        BusNums = BusNums + "(REG_DTTI  = '"+Item_reg_dtti+"' AND BUS_ID = '"+ Item_bus_id +"')";    //파라미터로 쓸 값들...
+                        if(RunCnt<CheckCnt) {
+                            RunCnt++;
+                            BusNums = BusNums + " OR ";
+                        }
+
+                        tmp++;
+                    }
+                    //Log.d("Item["+i+"] ::::::::", "["+tmp+"]["+Item.check+"]["+Item.check.booleanValue()+"]");
+                }
+
+                Log.d("BusNums ::::::::", BusNums);
+
+                if (tmp!=0){
+                    // Toast.makeText(mContext, tmp+"/"+transpBizrItems.size()+" 대를 선택했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, tmp+" 대의 차량을 선택했습니다.", Toast.LENGTH_SHORT).show();
+
+                    AlertDialog.Builder builder= new AlertDialog.Builder(mContext);
+                    builder.setTitle("설치확인서 [서명화면]으로 이동하시겠습니까?");
+                    builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i= new Intent(Installation_List_Signature_Activity.this, InstallationSignActivity.class);
+                            i.putExtra("prj", st_prj_value);   //프로젝트명
+                            i.putExtra("table_name", st_table_name_value);
+                            i.putExtra("busoffName", st_busoffName); //운수사명
+                            i.putExtra("transp_bizr_id", transp_bizr_id); //운수사ID
+                            i.putExtra("garageName", garageName);   //영업소명
+                            i.putExtra("garageId", st_garage_id);   //영업소ID
+                            i.putExtra("job_name", st_jobName);   //작업
+                            i.putExtra("job_type", st_jobType_value); //작업타입
+                            i.putExtra("reg_dtti", st_reg_dtti);  //날짜 (for bus_num)
+                            i.putExtra("bus_id_reg_dtti", Item_reg_dtti);
+                            i.putExtra("bus_id", Item_bus_id);
+                            i.putExtra("bus_num", BusNums);
+
+                            startActivity(i);
+                        }
+                    });
+                    builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.create();
+                    builder.show();
+                }else{
+                    //Toast.makeText(mContext, tmp+" 대를 선택했습니다.", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder= new AlertDialog.Builder(mContext);
+                    builder.setTitle("차량을 선택하세요.")
+                            .setMessage("설치 확인서를 작성할 차량을 선택하셔야 합니다.")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                tmp =0 ;
+            }
+        });
+
 
     }//onCreate...
+
 
 
 
@@ -188,10 +284,8 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
                             for (int j=0; j<bus_officeVOS.size(); j++){
                                 if (st_prj == bus_officeVOS.get(j).getPrj_name()){
                                     st_prj_value= bus_officeVOS.get(j).getPrj_name();   //프로젝트 선택값
-                                    st_table_name_value= bus_officeVOS.get(j).getTable_name(); //??
-
-                                    Log.d("st_prj=> ", st_prj+"");
-                                    Log.d("st_prj_value=> ", st_prj_value+"");
+                                    st_table_name_value= bus_officeVOS.get(j).getTable_name();
+                                    G.PRJ_NAME= st_prj_value;
                                 }
                             }
 
@@ -232,7 +326,7 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
             if (bus_officeVOS != null){
                 List<String> spinner_array= new ArrayList<>();
 
-                spinner_array.add("전체");
+                spinner_array.add("선택");
 
                 for (int i=0; i<bus_officeVOS.size(); i++){
                     spinner_array.add(bus_officeVOS.get(i).getJob_name());
@@ -242,11 +336,27 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         st_jobName= jobTypeSpinner.getSelectedItem().toString();
-                        if (!st_jobName.equals("전체")){
+                        if (!st_jobName.equals("선택")){
                             for (int j=0; j<bus_officeVOS.size(); j++){
                                 if (st_jobName == bus_officeVOS.get(j).getJob_name()){
                                     st_jobType_value= bus_officeVOS.get(j).getJob_type();
+
                                 }
+                            }
+
+                            if (st_table_name_value==null){
+                                Toast.makeText(mContext, "프로젝트를 선택하세요.", Toast.LENGTH_SHORT).show();
+                            }else if (st_jobType_value==null){
+                                Toast.makeText(mContext, "작업을 선택하세요.", Toast.LENGTH_SHORT).show();
+                            }else{
+                                // click 되면 운수사 스피너 보이게하기
+                                busoffNameLayout.setVisibility(view.getVisibility());
+                                //btnSearch2.setVisibility(view.getVisibility());
+                                ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                                Call<List<Bus_OfficeVO>> call= erp.BusOffNameSpinner(st_table_name_value, startDateValue, endDateValue, st_jobType_value);
+                                Log.d(" Prams ::::::  ", "["+st_table_name_value+"]["+startDateValue+"]["+endDateValue+"]["+st_jobType_value+"]");
+                                new BusOffName().execute(call);
+
                             }
                         }
 
@@ -303,23 +413,6 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
     }
 
 
-    /*조회버튼 클릭*/
-    public void clickSearchBtn(View view) {
-        if (st_table_name_value==null){
-            Toast.makeText(mContext, "프로젝트를 선택하세요.", Toast.LENGTH_SHORT).show();
-        }else if (st_jobType_value==null){
-            Toast.makeText(mContext, "작업을 선택하세요.", Toast.LENGTH_SHORT).show();
-        }else{
-            busoffNameLayout.setVisibility(view.getVisibility());  //click 되면 운수사 스피너 보이게하기
-            btnSearch2.setVisibility(view.getVisibility());
-            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-            Call<List<Bus_OfficeVO>> call= erp.BusOffNameSpinner(st_table_name_value, startDateValue, endDateValue, st_jobType_value);
-            Log.d(" Prams ::::::  ", "["+st_table_name_value+"]["+startDateValue+"]["+endDateValue+"]["+st_jobType_value+"]");
-            new BusOffName().execute(call);
-        }
-    }
-
-
 
     public class BusOffName extends AsyncTask<Call, Void, List<Bus_OfficeVO>>{
 
@@ -358,10 +451,77 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
                                 if (st_busoffName == bus_officeVOS.get(j).getBusoff_name()){
                                     st_busoffName_value= bus_officeVOS.get(j).getBusoff_name();
                                     transp_bizr_id= bus_officeVOS.get(j).getTransp_bizr_id();
-                                    String garageName= bus_officeVOS.get(j).getGarage_name();
-                                    String busNum= bus_officeVOS.get(j).getBus_num();
+                                    garageName= bus_officeVOS.get(j).getGarage_name();
+                                }
+                            }
 
-                                    Log.d("dd::   ","["+st_busoffName_value+"]["+ transp_bizr_id+"]["+garageName+"]["+busNum+"]");
+                            if (st_busoffName != "선택"){  //운수사 스피너가 "선택"이 아니면
+                                garage_name_layout.setVisibility(view.getVisibility());
+                                btnSearch3.setVisibility(view.getVisibility());              //click 되면 영업소 스피너 보이게하기
+                                ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                                Call<List<Bus_OfficeVO>> call= erp.GarageNameSpinner(st_table_name_value, transp_bizr_id);
+                                new GarageNameSpinner().execute(call);
+
+                                // 리사이클러뷰 Call...
+                                //table_layout.setVisibility(view.getVisibility());
+                                /*ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                                Call<List<Bus_OfficeVO>> call= erp.Transp_Bizr_List(st_table_name_value, startDateValue, endDateValue, transp_bizr_id, st_jobType_value);
+                                new Recycler_Transp_Bizr_List().execute(call);*/
+                            }else {
+                                Toast.makeText(mContext, "운수사를 선택하세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+        }
+    }
+
+
+    /*영업소 스피너*/
+    public class GarageNameSpinner extends AsyncTask<Call, Void, List<Bus_OfficeVO>>{
+
+        @Override
+        protected List<Bus_OfficeVO> doInBackground(Call... calls) {
+            Call<List<Bus_OfficeVO>> call= calls[0];
+            try {
+                Response<List<Bus_OfficeVO>> response= call.execute();
+                Log.d("response====> ", response.body()+"");
+                return response.body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("예외처리..=====> ", e+"");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Bus_OfficeVO> bus_officeVOS) {
+            super.onPostExecute(bus_officeVOS);
+
+            Log.d("busoff_vo 사이즈 확인..===> ", bus_officeVOS.size()+"");
+            if (bus_officeVOS != null){
+                List<String> spinner_array= new ArrayList<>();
+                spinner_array.add("선택");
+                for (int i=0; i<bus_officeVOS.size(); i++){
+                    spinner_array.add(bus_officeVOS.get(i).getGarage_name());
+                }
+                garage_name_spinner.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line, spinner_array));
+                garage_name_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        st_garage_name= garage_name_spinner.getSelectedItem().toString();
+                        if (st_garage_name != "선택"){
+                            for (int j=0; j<bus_officeVOS.size(); j++){
+                                if (st_garage_name == bus_officeVOS.get(j).getGarage_name()){
+                                    st_garage_name_value= bus_officeVOS.get(j).getGarage_name();  //영업소 선택값
+                                    st_garage_id= bus_officeVOS.get(j).getGarage_id();
+
+                                    Log.d("st_garage_id=====================> ",st_garage_id+"");
                                 }
                             }
                         }
@@ -376,19 +536,40 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
     }
 
 
-    /*운수사 조회버튼2*/
-    public void clickSearch2(View view) {
-        if (st_busoffName != "선택"){
-            // 리사이클러뷰 Call...
-            table_layout.setVisibility(view.getVisibility());
-            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-            Call<List<Bus_OfficeVO>> call= erp.Transp_Bizr_List(st_table_name_value, startDateValue, endDateValue, transp_bizr_id, st_jobType_value);
-            new Recycler_Transp_Bizr_List().execute(call);
-        }else {
-            Toast.makeText(mContext, "운수사를 선택하세요.", Toast.LENGTH_SHORT).show();
-        }
 
+
+    public void clickSearch3(View view) {
+        if (st_prj.equals("선택")){
+            Toast.makeText(mContext, "프로젝트를 선택하세요.", Toast.LENGTH_SHORT).show();
+        }else if (st_jobName.equals("선택")){
+            Toast.makeText(mContext, "작업을 선택하세요.", Toast.LENGTH_SHORT).show();
+        }else if (st_busoffName.equals("선택")){
+            Toast.makeText(mContext, "운수사를 선택하세요.", Toast.LENGTH_SHORT).show();
+        }else if (st_garage_name.equals("선택")){
+            Toast.makeText(mContext, "영업소를 선택하세요.", Toast.LENGTH_SHORT).show();
+        }else {
+            transpBizrItems.clear();   //아이템을 지워줘야 다른 영업소가 add 되지 않고 새로는 영업소 목록이 나옴.
+
+            //차량리스트 리사이클러뷰 보이기
+            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+            Call<List<Bus_OfficeVO>> call= erp.Transp_Bizr_List2(st_table_name_value, startDateValue, endDateValue, st_garage_name_value, transp_bizr_id, st_jobType_value);
+            new Recycler_Transp_Bizr_List().execute(call);
+            Log.d("값 ===> ", st_table_name_value+",  "+ startDateValue+",  "+ endDateValue+",  "+ st_garage_name_value+",  "+ transp_bizr_id+",  "+ st_jobType_value);
+
+            // [조회] 버튼 누르는 순간...
+            // ############### 프로젝트 데이터 Installation_List_Signature_Activity2.java 로 보내기..
+            // 테이블명, 등록시간, 운수사ID, 버스ID, job 타입
+            G.TABLE_NAME= st_table_name_value;
+            G.TRANSP_BIZR_ID= transp_bizr_id;
+            G.BUS_NUM= busId;  //null...
+            G.JOB_TYPE= st_jobType_value;
+
+
+        }
     }
+
+
+
 
 
     public class Recycler_Transp_Bizr_List extends AsyncTask<Call, Void, List<Bus_OfficeVO>>{
@@ -413,47 +594,29 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
                 Toast.makeText(mContext, "불러올 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
             }
 
-            transpBizrItems= new ArrayList<>();
+            //transpBizrItems= new ArrayList<>();
             for (int i=0; i<bus_officeVOS.size(); i++){
                 transpBizrItems.add(new TranspBizrItems(false
                                                        ,st_jobName
                                                        ,st_busoffName_value
-                                                       ,bus_officeVOS.get(i).getGarage_name()
+                                                       ,garageName= bus_officeVOS.get(i).getGarage_name()
                                                        ,bus_officeVOS.get(i).getRoute_num()
                                                        ,bus_officeVOS.get(i).getBus_num()
-                                                        ,""   //   "○"
+                                                        ,docDttiSign= bus_officeVOS.get(i).getDoc_dtti()  //확인서: "완료"
                                                         ,st_reg_dtti= bus_officeVOS.get(i).getReg_dtti()
-                                                        ,busId= bus_officeVOS.get(i).getBus_id()));
-                Log.d("reg_dtti=======>  ", bus_officeVOS.get(i).getReg_dtti());
+                                                        ,busId= bus_officeVOS.get(i).getBus_id()
+                                                        ,stTableName= bus_officeVOS.get(i).getTable_name()));
 
+                Log.d("차대번호?=>   ", bus_officeVOS.get(i).getBus_id()+"");  //null
+                Log.d("등록시간?=>   ", st_reg_dtti+"");
+                Log.d("버스ID?=>   ", busId+"");
             }
-
+            Log.d("등록시간?=>   ", st_reg_dtti+"");
+            Log.d("버스ID?=>   ", busId+"");
             transpBizrAdapter= new TranspBizrAdapter(mContext, transpBizrItems);
             recyclerTranspBizr= findViewById(R.id.recyclerview_transp_bizr);
             recyclerTranspBizr.setAdapter(transpBizrAdapter);
             transpBizrAdapter.notifyDataSetChanged();
-
-
-            transpBizrAdapter.setMyListener(new TranspBizrAdapter.MyOnItemClickListener() {
-                @Override
-                public void myOnItemClick(View v, int pos) {
-                    //아이템을 클릭하면 선택 체크박스도 선택되게하기
-
-                    //파라미터값 intent로 다음화면(step3)으로 전달 및 이동..
-                    Intent i= new Intent(mContext, Installation_List_Sginature_Activity2.class);
-                    i.putExtra("prj", st_prj_value);
-                    i.putExtra("table_name", st_table_name_value);
-                    i.putExtra("reg_dtti", st_reg_dtti);
-                    i.putExtra("transp_bizr_id", transp_bizr_id);
-                    i.putExtra("bus_id", busId);
-                    i.putExtra("job_type", st_jobType_value);
-                    i.putExtra("job_name",st_jobName );
-
-                    Log.d("prj=> ", st_prj_value+"");
-
-                    startActivity(i);
-                }
-            });
         }
     }
 }

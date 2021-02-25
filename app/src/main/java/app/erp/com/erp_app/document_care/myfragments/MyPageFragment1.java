@@ -100,7 +100,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
-
     DrawerLayout drawer;
     Context mContext;
     Spinner infra_job_spinner, spinner_prj_base_infra_job, spinner_office_group, spinner_project_transp, spinner_project_garage, spinner_project_route_list;
@@ -149,6 +148,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.pager1_my_project_work_insert_fragment, container, false);
+
+
         st_job_name = "";
         st_job_name_value = "";
         st_office_group_value = "";
@@ -210,8 +211,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (et.getText().length()>12){
-                            Toast.makeText(getContext(), "차량번호를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        if (      et.getText().toString().replace(" ", "").length()<9
+                                ||et.getText().toString().replace(" ", "").length()>9
+                                ||et.getText().toString().length()>9
+                                ||et.getText().toString().length()<9){
+                            Toast.makeText(getContext(), "차량번호를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();   //????????????
                         }else {
                             if (et.getText().toString().contains("경기") || et.getText().toString().contains("인천")){
                                 if (et.getText().toString().contains("아") || et.getText().toString().contains("바") || et.getText().toString().contains("사") || et.getText().toString().contains("자")){
@@ -219,6 +223,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                                     G.TempBusNum = st_temp_bus_id;
                                     Log.d("et_value :::: ", st_temp_bus_id + "");
+                                    Log.d(" 입력한 차량번호 사이즈==>   ", st_temp_bus_id.length()+"");  //경기10아1234 - 사이즈: 9
 
                                     if (st_temp_bus_id.length() != 0) {
                                         switch (st_temp_bus_id.substring(0, 2)) {
@@ -694,7 +699,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         String test = pref.getString("camera_type", "test");
         //Log.d("camera_type", "pref:result:  "+test);
 
-
         //받아온 uri 타입 string에서 uri로 바꿔주기
         switch (Math.floorDiv(requestCode, 100)) {
             case 2:
@@ -731,7 +735,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             case 3:
                 if (resultCode == RESULT_OK) {
 
-                    Toast.makeText(getContext(), "이미지 불러오기", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "이미지 불러오기", Toast.LENGTH_SHORT).show();
 
                     try {
                         InputStream in = getContext().getContentResolver().openInputStream(data.getData());
@@ -775,11 +779,13 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         DB_Path = Garray.value[G.position];
 
 
+
                         // 1) ArrayList
                         //ArrayList<String> path_list= new ArrayList<String>();
                         path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + GarryValue + ".jpg").replaceAll("/","%"));
-
+                        Log.d("path_list===========> ", path_list+"");    //[/storage/emulated/0/DCIM/Camera/IMG_20210222_001322.jpg&nas_image%image%IERP%PRJ_BUS_01004%20210222%PRJ_BUS_01004_20210222_4100200_141101234_1.jpg]
                         int cnt = 0;
+
                         for (String str : path_list){
                             cnt++;
                             System.out.println(cnt+" :  "+str);
@@ -922,7 +928,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     Toast.makeText(getContext(), "노선번호를 선택하세요.", Toast.LENGTH_SHORT).show();
                 } else if (etProject_bus_list.getText().length() == 0) {
                     Toast.makeText(getContext(), "차량지역 번호를 확인 하세요.", Toast.LENGTH_SHORT).show();
-                } else {
+                } /*else if (etProject_bus_list.getText().length()>12 || etProject_bus_list.getText().length()<12){
+
+                }*/
+                else {
                     //REG_EMP_ID
                     pref = getContext().getSharedPreferences("user_info", Context.MODE_PRIVATE);
                     REG_EMP_ID = pref.getString("emp_id", "");  //이렇게??
@@ -1085,6 +1094,14 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                             transaction.replace(R.id.frameLayout, myPageFragment2, null).addToBackStack(null).commit();
                             //[다음]버튼 누르고 MyPageFragment2 페이지로 이동
                             //프로젝트 스피너 초기화해주기...
+                            st_job_name = "";
+                            st_job_name_value = "";
+                            st_office_group_value = "";
+                            st_version_value = "";
+                            TABLE_NAME = "";
+                            st_job_name = "";
+                            sign_map.isEmpty();
+                            path_list.clear();
                             ERP_Spring_Controller erp_job_name = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                             Call<List<Bus_OfficeVO>> call_job_name = erp_job_name.JobNameSpinner();
                             new JobNameList().execute(call_job_name);

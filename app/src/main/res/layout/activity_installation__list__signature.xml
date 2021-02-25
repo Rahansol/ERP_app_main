@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    tools:context=".document_care.myfragments.Installation_List_Signature_Activity">
+    tools:context=".document_care.myfragments.Installation_List_Signature_Activity"
+    android:background="#E8E8F3">
 
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="match_parent"
-        android:layout_height="275dp"
+        android:layout_height="255dp"
         android:orientation="vertical"
         android:background="@drawable/new_background3"
-        android:paddingTop="20dp">
+        android:paddingTop="10dp">
 
         <!--프로젝트 스피너-->
         <RelativeLayout
@@ -24,11 +25,11 @@
             android:padding="3dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="6dp">
             <TextView
                 android:id="@+id/project_title"
                 android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:gravity="center"
                 android:text="프로젝트"
                 android:textSize="12sp"
@@ -40,7 +41,7 @@
             <Spinner
                 android:id="@+id/project_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_toRightOf="@id/project_title"/>
         </RelativeLayout>
 
@@ -58,11 +59,11 @@
             android:padding="3dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="6dp">
             <TextView
                 android:id="@+id/tv_period_title"
                 android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:gravity="center"
                 android:text="조회기간"
                 android:textSize="12sp"
@@ -76,12 +77,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_period_title"
-                android:background="@drawable/box_in_out4"
+                android:background="@drawable/transparent_circle_grey_outline"
                 android:layout_marginRight="12dp">
                 <TextView
                     android:id="@+id/tv_start_date"
                     android:layout_width="125dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:gravity="center"
                     android:text="20201010"
                     android:textColor="#7B65FB"
@@ -93,11 +94,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/iv_start_date"
-                android:background="@drawable/box_in_out4">
+                android:background="@drawable/transparent_circle_grey_outline">
                 <TextView
                     android:id="@+id/tv_end_date"
                     android:layout_width="125dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:gravity="center"
                     android:text="20201030"
                     android:textColor="#7B65FB"
@@ -115,7 +116,7 @@
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:id="@+id/relative_layout2"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/box_in_out3"
                 android:padding="3dp"
@@ -124,7 +125,7 @@
                 <TextView
                     android:id="@+id/jobType_spinner_title"
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:gravity="center"
                     android:text="작업"
                     android:textSize="12sp"
@@ -136,13 +137,13 @@
                 <Spinner
                     android:id="@+id/jobType_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_toRightOf="@id/jobType_spinner_title"/>
             </RelativeLayout>
 
 
 
-            <Button
+           <!-- <Button
                 android:id="@+id/searchBtn"
                 android:layout_width="80dp"
                 android:layout_height="35dp"
@@ -155,7 +156,7 @@
                 android:background="@drawable/box_in_out"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/relative_layout2"
-                android:onClick="clickSearchBtn"/>
+                android:onClick="clickSearchBtn"/>-->
         </RelativeLayout>
 
 
@@ -181,19 +182,19 @@
 
     <RelativeLayout
         android:id="@+id/busoff_name_layout"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/box_in_out3"
         android:padding="3dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="205dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="150dp"
         android:visibility="invisible">
         <TextView
             android:id="@+id/busoff_name_title"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:gravity="center"
             android:text="운수사"
             android:textSize="12sp"
@@ -205,11 +206,11 @@
         <Spinner
             android:id="@+id/busoff_name_spinner"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_toRightOf="@id/busoff_name_title"/>
     </RelativeLayout>
 
-    <Button
+   <!-- <Button
         android:id="@+id/btnSearch2"
         android:layout_width="80dp"
         android:layout_height="35dp"
@@ -221,9 +222,59 @@
         android:background="@drawable/box_in_out_sky_blue"
         android:layout_marginRight="20dp"
         android:layout_toRightOf="@+id/busoff_name_layout"
-        android:layout_marginTop="210dp"
+        android:layout_marginTop="153dp"
         android:visibility="invisible"
-        android:onClick="clickSearch2"/>
+        android:onClick="clickSearch2"/>-->
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/garage_name_layout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/busoff_name_layout"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:padding="3dp"
+        android:background="@drawable/box_in_out3"
+        android:visibility="invisible">
+        <TextView
+            android:id="@+id/garage_name_title"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:text="영업소"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/box_in_out2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+        <Spinner
+            android:id="@+id/garage_name_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@+id/garage_name_title"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnSearch3"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_gravity="right"
+        android:text="조회"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/box_in_out_sky_blue"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@+id/garage_name_layout"
+        android:layout_marginTop="198dp"
+        android:visibility="invisible"
+        android:onClick="clickSearch3"/>
 
 
 
@@ -255,78 +306,14 @@
         android:orientation="vertical"
         android:layout_below="@+id/busoff_name_layout"
         android:padding="10dp"
-        android:layout_marginBottom="65dp">
-        <TableLayout
-            android:id="@+id/table_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:visibility="invisible">
-            <!--타이틀-->
-            <TableRow
-                android:background="@drawable/box_in_out_top_round_dark_blue">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="선택"
-                    android:textColor="#ffffff"
-                    android:textSize="13sp"
-                    android:padding="3dp"/>
-                <TextView
-                    android:layout_width="45dp"
-                    android:layout_height="30dp"
-                    android:text=" 작업"
-                    android:textSize="13sp"
-                    android:textColor="#ffffff"
-                    android:padding="3dp"/>
-
-                <TextView
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:padding="3dp"
-                    android:textSize="13sp"
-                    android:textColor="#ffffff"
-                    android:text="운수사" />
-                <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="30dp"
-                    android:text="영업소"
-                    android:textSize="13sp"
-                    android:textColor="#ffffff"
-                    android:padding="3dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="노선"
-                    android:textSize="13sp"
-                    android:textColor="#ffffff"
-                    android:padding="3dp"
-                    android:layout_marginRight="15dp"/>
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:text="차량번호"
-                    android:textColor="#ffffff"
-                    android:textSize="13sp"
-                    android:paddingTop="3dp"
-                    android:paddingLeft="8dp"
-                    android:paddingBottom="3dp"
-                    android:paddingRight="3dp"/>
-
-                <TextView
-                    android:layout_width="56dp"
-                    android:layout_height="30dp"
-                    android:padding="3dp"
-                    android:text="확인서"
-                    android:textColor="#ffffff"
-                    android:textSize="13sp" />
-            </TableRow>
-        </TableLayout>
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="45dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_transp_bizr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"/>
 
@@ -336,7 +323,7 @@
 
 
 
-    <Button
+   <!-- <Button
         android:id="@+id/btnWrite"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
@@ -347,6 +334,60 @@
         android:layout_marginBottom="20dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:background="@drawable/box_in_out2_1"/>
+        android:background="@drawable/box_in_out2_1"/>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#9784DC"
+        android:padding="5dp"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:id="@+id/click_write"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/click_sign">
+            <ImageView
+                android:id="@+id/iv_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_signature"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="작성하기"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/iv_sign"
+                android:paddingTop="3dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/click_sign"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="220dp">
+            <ImageView
+                android:id="@+id/iv_write"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_signature"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="서명하기"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/iv_write"
+                android:paddingTop="3dp"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

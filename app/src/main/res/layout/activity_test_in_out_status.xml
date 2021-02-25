@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_period_title"
-                android:background="@drawable/box_in_out4"
+                android:background="@drawable/transparent_circle_grey_outline"
                 android:layout_marginRight="12dp">
                 <TextView
                     android:id="@+id/tv_start_date"
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/iv_start_date"
-                android:background="@drawable/box_in_out4">
+                android:background="@drawable/transparent_circle_grey_outline">
                 <TextView
                     android:id="@+id/tv_end_date"
                     android:layout_width="125dp"

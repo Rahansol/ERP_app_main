@@ -1,9 +1,5 @@
 package app.erp.com.erp_app.document_care.myfragments;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,23 +10,26 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
-import app.erp.com.erp_app.callcenter.Call_Center_Activity;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
+public class Installation_List_Sginature_Activity2_1 extends AppCompatActivity {
 
     private Context mContext;
     private Button btnOk;
     private TextView tvPrj, tvBusoffName, tvBusNum, tvRouteNum, tvGarageName, tvVehicleNum, tvDocEmpName,tvRegEmpName, tvRegDtti, tvDocDtti, tvJobName, tvCableTitle, tvPhotoTitle;
-    static String item_bus_id, item_reg_dtti, table_name,transp_bizr_id, prj_name,bus_id,job_type, st_reg_dtti, st_jobName, st_busoff_name, st_bus_num, st_route_num, st_garage_name, st_vehicle_num , st_doc_dtti, st_reg_emp_name, st_doc_emp_name;
+    static String garage_name, emp_name, doc_name, item_bus_id, item_reg_dtti, table_name,transp_bizr_id,route_num, prj_name,bus_id,job_type, reg_dtti, st_reg_dtti, bus_num, busoff_name, job_name, st_busoff_name, st_bus_num, st_route_num, st_garage_name, st_vehicle_num , st_doc_dtti, st_reg_emp_name, st_doc_emp_name;
 
     /*단말기 업로드 사진 리사이클러뷰*/
     private ArrayList<InstallPhotoItems> installPhotoItems;
@@ -53,25 +52,17 @@ public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
 
         Intent i= getIntent();
         prj_name= i.getStringExtra("prj");
-        table_name= i.getStringExtra("table_name");
-        Log.d("table name ::::::::::::::::: >>>>> ", table_name+"");
-        st_reg_dtti= i.getStringExtra("reg_dtti");  //등록시간
+        job_name= i.getStringExtra("job_name");
+        job_type= i.getStringExtra("job_type");
         transp_bizr_id= i.getStringExtra("transp_bizr_id");
+        busoff_name= i.getStringExtra("busoffName");
+        garage_name= i.getStringExtra("garage_name");
+        reg_dtti= i.getStringExtra("reg_dtti");
+
+        table_name= i.getStringExtra("table_name");
         bus_id= i.getStringExtra("bus_id");
         job_type= i.getStringExtra("job_type");
-        st_jobName= i.getStringExtra("job_name");
 
-
-        // TranspBizrAdapter(차량리스트 리사이클러뷰) 로부터 전달받은 데이터..
-        String item_job_name= i.getStringExtra("item_job_name");
-        String item_busoff_name= i.getStringExtra("item_busoff_name");
-        String item_garage_name= i.getStringExtra("item_garage_name");
-        String item_bus_num= i.getStringExtra("item_bus_num");
-        item_bus_id= i.getStringExtra("item_bus_id");
-        String item_sign= i.getStringExtra("item_sign");
-        item_reg_dtti= i.getStringExtra("item_reg_dtti");
-        String item_route_num= i.getStringExtra("item_route_num");
-        table_name= i.getStringExtra("item_table_name");
 
 
         //프로젝트 명
@@ -79,55 +70,51 @@ public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
         tvPrj.setText(G.PRJ_NAME);
 
         tvJobName= findViewById(R.id.tv_job_name);
-        tvJobName.setText(item_job_name);
-
-        //등록시간
-        tvRegDtti= findViewById(R.id.tv_reg_dtti);
-        tvRegDtti.setText(item_reg_dtti);
-        //tvRegDtti.setText(st_reg_dtti.substring(0,8)+"  "+st_reg_dtti.substring(8,10)+":"+st_reg_dtti.substring(10,12)+":"+st_reg_dtti.substring(12,14));
-        //tvRegDtti.setText(st_reg_dtti);
+        tvJobName.setText(job_name);
 
         //운수사명
         tvBusoffName= findViewById(R.id.tv_busoff_name);
-        tvBusoffName.setText(item_busoff_name);
-
-        //차량번호
-        tvBusNum= findViewById(R.id.tv_bus_num);
-        tvBusNum.setText(item_bus_num);
-
-        //노선
-        tvRouteNum= findViewById(R.id.tv_route_num);
-        tvRouteNum.setText(item_route_num);
+        tvBusoffName.setText(busoff_name);
 
         //영업소명
         tvGarageName= findViewById(R.id.tv_garage_name);
-        tvGarageName.setText(item_garage_name);
+        tvGarageName.setText(garage_name);
 
-        //차대번호
+        //차량번호
+        tvBusNum= findViewById(R.id.tv_bus_num);
+
+
+        //차대번호    ??????
         tvVehicleNum= findViewById(R.id.tv_vehicle_num);
 
+        //등록시간
+        tvRegDtti= findViewById(R.id.tv_reg_dtti);
+        tvRegDtti.setText(reg_dtti);
 
         //사인시간
         tvDocDtti= findViewById(R.id.tv_doc_dtti);
 
-        //등록자
-        tvDocEmpName= findViewById(R.id.tv_doc_emp_name);
+        //노선
+        tvRouteNum= findViewById(R.id.tv_route_num);
+
 
         //확인자
+        tvDocEmpName= findViewById(R.id.tv_doc_emp_name);
+
+        //등록자
         tvRegEmpName= findViewById(R.id.tv_reg_emp_name);
 
 
-        Log.d("LOG=====================>    ",G.TABLE_NAME+", "+ item_reg_dtti+", "+ G.TRANSP_BIZR_ID+", "+item_bus_id+ ", "+G.JOB_TYPE);
+        Log.d("LOG=====================>    ",table_name+", "+ reg_dtti+", "+ transp_bizr_id+", "+bus_id+ ", "+job_type);
 
         /*상단 정보*/
         ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-        Call<List<Bus_OfficeVO>> call= erp.Transp_Bizr_List_Info_Item(G.TABLE_NAME, item_reg_dtti, G.TRANSP_BIZR_ID, item_bus_id, G.JOB_TYPE);  //null...
+        Call<List<Bus_OfficeVO>> call= erp.Transp_Bizr_List_Info_Item(table_name, reg_dtti,transp_bizr_id, bus_id, job_type);  //null...
         new Transp_Bizr_List_Info().execute(call);
 
 
         tvCableTitle= findViewById(R.id.tv_cable_title);
         tvPhotoTitle= findViewById(R.id.tv_photo_title);
-
 
 
         btnOk= findViewById(R.id.btn_ok);
@@ -177,20 +164,19 @@ public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
                     st_doc_emp_name= bus_officeVOS.get(i).getDoc_emp_name();  //확인자
 
                 }
-
-                //tvPrj.setText(tvPrj.getText().toString().replace("설치/철수/증대/폐차"," ") + tvJobName.getText().toString()+" 확인서");  //전 화면에서 인텐트로 받아온 값 넣어주기..
-                //tvRegDtti.setText(st_reg_dtti.substring(0,8)+"  "+st_reg_dtti.substring(8,10)+":"+st_reg_dtti.substring(10,12)+":"+st_reg_dtti.substring(12,14)); //등록시간
-                tvRegDtti.setText(item_reg_dtti);
-                tvDocDtti.setText(st_doc_dtti);
-                tvVehicleNum.setText(st_vehicle_num);
-                tvRegEmpName.setText(st_reg_emp_name);  //등록자
+                tvRegEmpName.setText(st_reg_emp_name);  //등록자  //null
                 tvDocEmpName.setText(st_doc_emp_name);  //확인자
+                tvDocDtti.setText(st_doc_dtti);         //사인시간
+                tvRouteNum.setText(st_route_num);       //노선번호
+                tvBusNum.setText(st_bus_num);           //차량번호
+                tvVehicleNum.setText(st_vehicle_num);   //차대번호
 
                 Log.d("등록자 =>  ", st_reg_emp_name+"");
 
+
                 /*하단 리사이클러뷰*/
                 ERP_Spring_Controller erp2= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                Call<List<Bus_OfficeVO>> call1= erp2.Transp_Bizr_List_Info_Item2(G.TABLE_NAME, item_reg_dtti, G.TRANSP_BIZR_ID, item_bus_id, G.JOB_TYPE);
+                Call<List<Bus_OfficeVO>> call1= erp2.Transp_Bizr_List_Info_Item2(table_name, reg_dtti, transp_bizr_id, bus_id, job_type);
                 new Transp_Bizr_List_Info_Item2().execute(call1);
 
 
@@ -248,9 +234,6 @@ public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
                     }
 
 
-                    Log.d("item_name: ", bus_officeVOS.get(i).getItem_name());
-                    Log.d("sqlText: ", bus_officeVOS.get(i).getSqltext());
-                    Log.d("item_type: ", bus_officeVOS.get(i).getItem_type());
                 }
 
                 recyclerInstallPhoto= findViewById(R.id.recycler_install_photo);

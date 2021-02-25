@@ -115,4 +115,10 @@
     <string name="permission_1">[설정] > [권한]에서 권한을 허용할 수 있습니다.</string>
     <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
 
+
+    <string name="client_check1">1. 상기 내용과 같이 차량별 단말기 설치 및 점검결과 이상 없음을 확인 합니다.</string>
+    <string name="client_check2">2. 단말기 점검내용 : 승차, 하차 단말기 카드 처리 및 무선 송수신, 운전자 단말기 BMS 및 기본 기능.</string>
+    <string name="client_check3">3. 상기 품목을 정히 인수하였음을 확인 합니다.</string>
+    <string name="client_check4">4. 상기 물품을 분실하거나 파손시 변상하겠습니다.</string>
+
 </resources>

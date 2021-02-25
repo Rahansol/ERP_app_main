@@ -109,7 +109,7 @@ public class CameraTestActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }//onCreate..
 
     public File getAlbumStorageDir(String albumName) {
         // Get the directory for the user's public pictures directory.

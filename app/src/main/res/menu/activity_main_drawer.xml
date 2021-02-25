@@ -20,14 +20,14 @@
                 android:id="@+id/project_work_btn"
                 android:icon="@drawable/ic_menu_new_bus"
                 android:title="프로젝트 업무 수행" />-->
-           <item
+          <!-- <item
                android:id="@+id/installation_confirm"
                android:icon="@drawable/ic_menu_new_bus"
-               android:title="설치 확인서 작성"/>
+               android:title="설치 확인서 작성"/>-->
             <item
                 android:id="@+id/installation_List_signature"
                 android:icon="@drawable/ic_menu_new_bus"
-                android:title="설치 확인 조회"/>
+                android:title="프로젝트 업무"/>
 
             <item
                 android:id="@+id/work_report_btn"
@@ -63,11 +63,11 @@
 
     <item android:id="@+id/big_menu_2" android:title="단말기 관리">
         <menu>
-            <item
+            <!--<item
                 android:id="@+id/inventory_in_out_status2"
                 android:icon="@drawable/ic_menu_new_bus"
                 android:title="단말기 입출고 현황"/>
-           <!-- <item
+            <item
                 android:id="@+id/release_request"
                 android:icon="@drawable/ic_menu_new_bus"
                 android:title="출고신청"/>
@@ -88,10 +88,10 @@
                 android:id="@+id/reserve_item_repair"
                 android:icon="@drawable/ic_menu_report"
                 android:title="불량품 입고"/>
-            <item
+            <!--<item
                 android:id="@+id/test_menu"
                 android:icon="@drawable/ic_menu_report"
-                android:title="테스트메뉴"/>
+                android:title="테스트메뉴"/>-->
         </menu>
     </item>
 

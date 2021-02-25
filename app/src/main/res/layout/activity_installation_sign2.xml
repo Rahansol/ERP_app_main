@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_weight="1"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".document_care.myfragments.InstallationSignActivity2"
+    android:background="#ffffff">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:background="@drawable/box22222"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="문서"
+                        android:textSize="16sp"
+                        android:textColor="#222222"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <TextView
+                        android:id="@+id/tv_Prj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="경기시내 L2 설치 장비인수증"
+                        android:textSize="17sp"
+                        android:textColor="#5A3CC6"
+                        android:textStyle="bold"
+                        android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D8D4D4"
+                    android:layout_margin="3dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="설치일자"
+                        android:textSize="16sp"
+                        android:textColor="#222222"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <TextView
+                        android:id="@+id/tv_dtti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="20211023?"
+                        android:textSize="17sp"
+                        android:textColor="#5A3CC6"
+                        android:textStyle="bold"
+                        android:layout_marginRight="10dp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D8D4D4"
+                    android:layout_margin="3dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="운수사"
+                        android:textSize="16sp"
+                        android:textColor="#222222"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <TextView
+                        android:id="@+id/tv_busoff_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="경기고속?"
+                        android:textSize="17sp"
+                        android:textColor="#5A3CC6"
+                        android:textStyle="bold"
+                        android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D8D4D4"
+                    android:layout_margin="3dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="영업소"
+                        android:textSize="16sp"
+                        android:textColor="#222222"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <TextView
+                        android:id="@+id/tv_garage_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="경기고속(감곡TR)?"
+                        android:textSize="17sp"
+                        android:textColor="#5A3CC6"
+                        android:textStyle="bold"
+                        android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+            <!--단말기 목록-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="※ 단말기 목록 &amp; 케이블 목록 "
+                android:layout_marginTop="30dp"
+                android:textSize="18sp"
+                android:textColor="#5A3CC6"
+                android:background="#E2D7ED"
+                android:textStyle="bold"
+                android:padding="3dp"
+                android:layout_marginLeft="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_unit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DFDBDB"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="10dp"/>
+
+
+            <!--단말기 목록-->
+           <!-- <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="운전자 단말기"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#222222"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3개"
+                        android:textColor="#222222"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D9D9E1"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="MCU"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#222222"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3개"
+                        android:textColor="#222222"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D9D9E1"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="승차 단말기"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#222222"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3개"
+                        android:textColor="#222222"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D9D9E1"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="하차 단말기"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#222222"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3개"
+                        android:textColor="#222222"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D9D9E1"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="하차 단말기1"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#222222"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3개"
+                        android:textColor="#222222"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D9D9E1"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="하차 단말기2"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#222222"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3개"
+                        android:textColor="#222222"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D9D9E1"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="하차 단말기3"
+                        android:layout_marginRight="20dp"
+                        android:textColor="#222222"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3개"
+                        android:textColor="#222222"/>
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D9D9E1"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+            </LinearLayout>-->
+
+
+
+
+
+
+
+
+
+
+
+            <!--케이블 목록-->
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="※ 케이블 목록 "
+                android:layout_marginTop="30dp"
+                android:textSize="18sp"
+                android:textColor="#5A3CC6"
+                android:background="#E2D7ED"
+                android:textStyle="bold"
+                android:padding="3dp"
+                android:layout_marginLeft="10dp"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#D9D9E1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="25dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:padding="8dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="고객"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="확인"
+                        android:textColor="#222222"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="#8A898A"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:layout_marginRight="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/client_check1"
+                        android:textSize="13sp"
+                        android:textColor="#222222"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/client_check2"
+                        android:textSize="13sp"
+                        android:textColor="#222222"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/client_check3"
+                        android:textSize="13sp"
+                        android:textColor="#222222"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/client_check4"
+                        android:textSize="13sp"
+                        android:textColor="#222222"
+                        android:layout_marginBottom="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#D9D9E1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp"
+                    android:layout_marginLeft="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="※ (주)인터패스 확인 "
+                        android:textSize="18sp"
+                        android:textColor="#5A3CC6"
+                        android:background="#E2D7ED"
+                        android:textStyle="bold"
+                        android:padding="3dp"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="1dp"/>
+                </LinearLayout>
+
+                <!--사인 png-->
+                <!--<ImageView
+                    android:id="@+id/iv_interpass_sign"
+                    android:layout_width="150dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_fingerprint"/>-->
+
+            </LinearLayout>
+
+
+            <!--사인 png-->
+            <ImageView
+                android:id="@+id/iv_interpass_sign"
+                android:layout_width="280dp"
+                android:layout_height="150dp"
+                />
+                 <!--android:src="@drawable/interpass_sign"-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="연락처"
+                    android:textColor="#222222"
+                    android:textSize="15sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1833-8500"
+                    android:textStyle="bold"
+                    android:textColor="#222222"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DFDBDB"
+                android:layout_marginBottom="3dp"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="※ 운수사 확인 "
+                    android:layout_marginTop="30dp"
+                    android:textSize="18sp"
+                    android:textColor="#5A3CC6"
+                    android:background="#E2D7ED"
+                    android:textStyle="bold"
+                    android:padding="3dp"
+                    android:layout_marginBottom="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="성명"
+                        android:textSize="14sp"
+                        android:textColor="#222222"/>
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="250dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/box11111"
+                        android:hint="입력하세요."
+                        android:paddingLeft="15dp"
+                        android:inputType="text"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DFDBDB"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"/>
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:text="연락처"
+                        android:textSize="14sp"
+                        android:textColor="#222222"
+                        android:gravity="center_vertical"/>
+                    <EditText
+                        android:id="@+id/et_phone_num"
+                        android:layout_width="250dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/box11111"
+                        android:hint="입력하세요."
+                        android:paddingLeft="15dp"
+                        android:inputType="number"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DFDBDB"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"/>
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="서명"
+                        android:gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textColor="#222222"
+                        android:padding="5dp"
+                        android:layout_marginBottom="5dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+                        <Button
+                            android:id="@+id/btn_clear"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/ic_refresh"
+                            android:layout_marginRight="2dp"/>
+
+                        <!--<Button
+                            android:id="@+id/btn_save"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="저장"
+                            android:layout_marginLeft="10dp"/>-->
+                    </LinearLayout>
+                </LinearLayout>
+                <com.github.gcacace.signaturepad.views.SignaturePad
+                    android:id="@+id/signature_pad"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="#D1D1D3"/>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#D5D2D2"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"/>
+
+
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="완료"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/erp_btn_purple"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </ScrollView>
+
+
+
+</LinearLayout>

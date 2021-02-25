@@ -28,8 +28,6 @@ public class CableInsertAdapter extends RecyclerView.Adapter {
 
     ArrayList<String> gg = new ArrayList<String>();
 
-    public CableInsertAdapter() {
-    }
 
     public CableInsertAdapter(Context context, ArrayList<CableInsertItems> items) {
         this.context = context;
@@ -61,14 +59,14 @@ public class CableInsertAdapter extends RecyclerView.Adapter {
         if (item.itemEachSeq.equals("0")){
             vh.quantityLayout.setVisibility(View.INVISIBLE);
             vh.tvItemEachSeq.setVisibility(View.INVISIBLE);
-            vh.box.setBackground(context.getDrawable(R.drawable.box22222));
+            vh.box.setBackground(context.getDrawable(R.drawable.box_without_line));
             vh.tvItemGroupName.setTextSize(16);
             vh.tvItemGroupName.setTextColor(Color.parseColor("#3F51B5"));
             vh.tvItemGroupName.setText("■ "+item.itemGroupName+" ■");
         }else {
             vh.quantityLayout.setVisibility(View.VISIBLE);
             vh.tvItemEachSeq.setVisibility(View.INVISIBLE);
-            vh.box.setBackground(context.getResources().getDrawable(R.drawable.box11111));
+            vh.box.setBackground(context.getResources().getDrawable(R.drawable.box_line));
             vh.tvItemGroupName.setTextSize(13);
             vh.tvItemGroupName.setTextColor(Color.parseColor("#000000"));
             vh.tvItemGroupName.setText("▷ "+item.itemGroupName);

@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.erp.com.erp_app.callcenter.Call_Center_Activity;
+import app.erp.com.erp_app.document_care.myfragments.G;
 import app.erp.com.erp_app.vo.User_InfoVo;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -211,6 +212,8 @@ public class LoginActivity extends Activity{
                         editor.commit();
 
                         Log.d("emp_dep_id 확인+++++++++++++++++++++++++++", list.get(0).getEmp_dep_id()+" ooooooooooooooooo");
+                        Log.d("emp_id 확인+++++++++++++++++++++++++++", list.get(0).getEmp_id()+" ooooooooooooooooo");
+                        Log.d("emp_name 확인+++++++++++++++++++++++++++", list.get(0).getEmp_name()+" ooooooooooooooooo");
 
                         progressDialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, Call_Center_Activity.class);

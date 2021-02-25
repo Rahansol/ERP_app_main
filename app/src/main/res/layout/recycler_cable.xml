@@ -6,10 +6,10 @@
     <LinearLayout
         android:id="@+id/box"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="@drawable/box11111"
+        android:background="@drawable/box_line"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp">
         <TextView

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1">
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#E2E0E4"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:id="@+id/layout_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="작업일"
+            android:background="@drawable/transparent_circle_grey_outline_bold"
+            android:textColor="#222222"
+            android:padding="2dp"/>
+        <TextView
+            android:id="@+id/tv_val"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="50-21"
+            android:textColor="#222222"
+            android:layout_marginLeft="5dp"/>
+
+
+
+        <TextView
+            android:id="@+id/tv_text2"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="차량번호"
+            android:gravity="center"
+            android:background="@drawable/transparent_circle_grey_outline_bold"
+            android:textColor="#222222"
+            android:padding="2dp"/>
+        <TextView
+            android:id="@+id/tv_val2"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:text="경기10아1234"
+            android:textColor="#222222"
+            android:layout_marginLeft="5dp"/>
+
+        <ImageView
+            android:id="@+id/iv_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_open"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+
+
+    <!--<View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E0E4"/>-->
+
+
+
+
+
+
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="작업일시"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_dtti"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="202102250124"
+                    android:textSize="15sp"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="노선"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_route_num"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="52-19"
+                    android:textSize="15sp"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="MCU"
+                    android:textColor="#222222"/>
+
+                <TextView
+                    android:id="@+id/tv_unit_item1"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="1111111"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="운전자"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item3"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="1111111"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="승차"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item5"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="1111111"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="LTE"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item7"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="1111111"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="LTE"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item9"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="1111111"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="LTE"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item11"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="1111111"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="차량번호"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_bus_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="경기10아1234"
+                    android:textSize="15sp"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="작업자"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_emp_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="김수현"
+                    android:textSize="15sp"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="하차1"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1111111111"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="하차2"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22222222"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="하차3"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="33333333"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="하차4"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="444444444"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="하차4"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="444444444"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="하차4"
+                    android:textColor="#222222"/>
+                <TextView
+                    android:id="@+id/tv_unit_item12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="444444444"
+                    android:textColor="#4328A6"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_open"/>
+
+    </LinearLayout>-->
+
+
+    <!--<View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#E2E0E4"
+        android:layout_marginTop="5dp"/>-->
+
+
+
+
+</LinearLayout>

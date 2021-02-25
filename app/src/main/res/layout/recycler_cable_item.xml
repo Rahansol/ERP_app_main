@@ -7,15 +7,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:padding="3dp">
         <TextView
             android:id="@+id/tv_cableName"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:gravity="center_vertical"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:text="운전자 케이블 1.5m"
             android:textSize="16sp"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:paddingLeft="30dp"/>
         <TextView
             android:id="@+id/tv_cableQuantity"
             android:layout_width="wrap_content"
@@ -26,7 +28,7 @@
             android:textColor="#000000"/>
     </LinearLayout>
     <View
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="#D9D9E1"/>
 </LinearLayout>

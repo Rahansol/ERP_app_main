@@ -20,7 +20,9 @@ public class CableAdapter extends RecyclerView.Adapter {
     ArrayList<CableItems> items;
     ArrayList<InstallPhotoItems> photoItems;
 
-    public CableAdapter() {
+    public CableAdapter(Context context, ArrayList<CableItems> items) {
+        this.context= context;
+        this.items= items;
     }
 
     public CableAdapter(Context context, ArrayList<CableItems> items, ArrayList<InstallPhotoItems> photoItems ) {
@@ -28,6 +30,7 @@ public class CableAdapter extends RecyclerView.Adapter {
         this.items = items;
         this.photoItems= photoItems;
     }
+
 
     @NonNull
     @Override

@@ -11,12 +11,12 @@
         <TextView
             android:id="@+id/tv_unitName"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:gravity="center_vertical"
             android:text="차량전면"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:id="@+id/tv_item_type"
             android:layout_width="wrap_content"

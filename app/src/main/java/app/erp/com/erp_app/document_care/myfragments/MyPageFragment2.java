@@ -45,6 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
     Context mContext= getActivity();
@@ -79,8 +80,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.pager2_my_project_work_insert_fragment, container, false);
 
-
-        Log.d("prj_name :  ", G.prjName+"");
+       /* Log.d("prj_name :  ", G.prjName+"");
         Log.d("transpBizrId :  ", G.transpBizrId+"");
         Log.d("busoffName :  ", G.busoffName+"");
         Log.d("TempBusId :  ", G.TempBusId+"");
@@ -92,7 +92,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
         Log.d("routeNum :  ", G.routeNum+"");
         Log.d("vehicleNum :  ", G.vehicleNum+"");
         Log.d("jopType :  ", G.jopType+"");
-        Log.d("Last_seq :  ", G.Last_seq+"");
+        Log.d("Last_seq :  ", G.Last_seq+"");*/
 
         //민혁 - 변수 초기화 추가
         for(int i=0; i < Garray.value2.length;i++) {
@@ -293,7 +293,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                                 ,Garray.value2[98]+""
                                 ,Garray.value2[99]+"");
 
-                        //민혁 - 수량 add하는곳 수정 후 tomcat mapper에서 수량 확인 됨
+
                         call.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
@@ -315,6 +315,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                                 .addToBackStack(null)
                                 .commit();*/
                         //((Call_Center_Activity)getActivity()).switchFragment("care");
+
                         Intent i= new Intent(getContext(), Call_Center_Activity.class);
                         startActivity(i);
 

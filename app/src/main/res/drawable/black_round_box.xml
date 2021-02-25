@@ -2,15 +2,26 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="#c8c8c8"> <!-- Ripple Effect 색상 -->
     <!-- 배경색 -->
-    <item android:id="@android:id/background">
+    <!--<item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <solid android:color="#ffffff"/>
+            <solid android:color="#07CF09"/>
+            <corners android:radius="20dp"/>
             <padding
                 android:left="0dp"
                 android:top="0dp"
                 android:right="0dp"
                 android:bottom="0dp"/>
-            <corners android:topRightRadius="30dp"/>
+        </shape>
+    </item>-->
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="#222222"/>
+            <corners android:radius="70dp"/>
+            <padding
+                android:left="0dp"
+                android:top="0dp"
+                android:right="0dp"
+                android:bottom="0dp"/>
         </shape>
     </item>
 

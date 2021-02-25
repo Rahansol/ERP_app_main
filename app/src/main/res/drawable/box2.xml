@@ -2,24 +2,17 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="#c8c8c8"> <!-- Ripple Effect 색상 -->
     <!-- 배경색 -->
-    <item android:id="@android:id/background"
-          android:left="5dp"
-          android:right="-5dp"
-          android:top="-5dp"
-          android:bottom="-5dp">
+    <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF"/>
             <corners android:radius="10dp"/>
             <padding
                 android:left="0dp"
                 android:top="0dp"
                 android:right="0dp"
-                android:bottom="0dp"
-                />
-            <stroke
-                android:width="5dp"
-                android:color="#265FDA" />
+                android:bottom="0dp"/>
+            <solid android:color="#F3EEF6"/>
         </shape>
+
     </item>
 
 </ripple>

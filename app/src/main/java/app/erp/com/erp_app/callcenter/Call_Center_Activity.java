@@ -37,7 +37,9 @@ import app.erp.com.erp_app.InOutStatusActivity;
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.New_Bus_Activity;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.ReleaseRequestActivity;
 import app.erp.com.erp_app.ReserveItemRepairActivity;
+import app.erp.com.erp_app.WarehousingActivity;
 import app.erp.com.erp_app.Work_Report_Activity;
 import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
 import app.erp.com.erp_app.document_care.myfragments.Installation_List_Signature_Activity;
@@ -166,10 +168,10 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             startActivity(i);
         }*/
         /*설치 확인서*/
-        else if (id == R.id.installation_confirm){
+        /*else if (id == R.id.installation_confirm){
             Intent i= new Intent(Call_Center_Activity.this, MyProject_Work_Insert_Activity.class);
             startActivity(i);
-        }else if (id == R.id.installation_List_signature){
+        }*/else if (id == R.id.installation_List_signature){
             Intent i= new Intent(Call_Center_Activity.this, Installation_List_Signature_Activity.class);
             startActivity(i);
         }
@@ -187,16 +189,16 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         }
 
         //테스트
-        else if(id == R.id.test_menu){
+        /*else if(id == R.id.test_menu){
             Intent i = new Intent(Call_Center_Activity.this , TestActivity.class);
             startActivity(i);
-        }
+        }*/
 
         //단말기 입출고 현황 액티비티로 이동
-        else if (id==R.id.inventory_in_out_status2){
+        /*else if (id==R.id.inventory_in_out_status2){
             Intent i= new Intent(Call_Center_Activity.this, InOutStatusActivity.class);
             startActivity(i);
-        }
+        }*/
 
 
         //출고신청 액티비티로 이동
@@ -205,12 +207,11 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             startActivity(i);
         }*/
 
-        //입고신청 액티비티로 이동
-       /* else if(id == R.id.warehousing_request){
-            Intent i= new Intent(Call_Center_Activity.this, WarehousingActivity.class);
-            startActivity(i);
-        }
-*/
+        //입고신청 액티비티로 이동/*else if(id == R.id.warehousing_request){
+        //            Intent i= new Intent(Call_Center_Activity.this, WarehousingActivity.class);
+        //            startActivity(i);
+        //        }*/
+
 
 
 

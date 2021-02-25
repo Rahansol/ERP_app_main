@@ -38,8 +38,12 @@ public class Bus_OfficeVO {
     private String bus_num;
     private String vehicle_num;
     private String doc_dtti;
-    private String doc_emp_name;
+    private String doc_emp_name;  //확인자
+    private String reg_emp_name;  //등록자
     private String sqltext;
+    private String text;
+    private String val;
+
 
     @Override
     public String toString() {
@@ -82,10 +86,39 @@ public class Bus_OfficeVO {
                 ", doc_dtti='" + doc_dtti + '\'' +
                 ", doc_emp_name='" + doc_emp_name + '\'' +
                 ", sqltext='" + sqltext + '\'' +
+                ", text='" + text + '\'' +
+                ", val='" + val + '\'' +
+                ", reg_emp_name='" + reg_emp_name + '\'' +
                 ", bus_id='" + bus_id + '\'' +
                 '}';
     }
 
+
+
+    public String getReg_emp_name() {
+        return reg_emp_name;
+    }
+
+    public void setReg_emp_name(String reg_emp_name) {
+        this.reg_emp_name = reg_emp_name;
+    }
+
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getVal() {
+        return val;
+    }
+
+    public void setVal(String val) {
+        this.val = val;
+    }
 
 
     public String getSqltext() {

@@ -136,14 +136,14 @@
                             android:textStyle="bold">
                         </Button>
 
-                        <Button
+                        <!--<Button
                             android:id="@+id/btn_sign_test"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="서명 테스트"
                             android:textColor="#000000"
                             android:textStyle="bold"
-                            android:background="#2196F3"/>
+                            android:background="#2196F3"/>-->
 
                 </LinearLayout>
 

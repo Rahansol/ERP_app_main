@@ -594,11 +594,19 @@ public interface ERP_Spring_Controller {
             ,@Query("item_99") String item_99
             ,@Query("item_100") String item_100);
 
+    /*설치 확인조회 운수사 스피너*/
     @GET("AndroidRegister/BusOffNameSpinner")
     Call<List<Bus_OfficeVO>> BusOffNameSpinner( @Query("table_name") String table_name
                                                 , @Query("st_date") String st_date
                                                 , @Query("ed_date") String ed_date
                                                 , @Query("job_type") String jop_type);
+
+
+    /*설치 확인조회 영업소 스피너*/
+    @GET("AndroidRegister/GarageNameSpinner")
+    Call<List<Bus_OfficeVO>> GarageNameSpinner( @Query("table_name") String table_name
+                                                , @Query("transp_bizr_id") String transp_bizr_id);
+
 
     /*설치 확인조회 리사이클러뷰: 차량리스트*/
     @GET("AndroidRegister/Transp_Bizr_List")
@@ -607,6 +615,16 @@ public interface ERP_Spring_Controller {
                                                     , @Query("ed_date") String ed_date
                                                     , @Query("transp_bizr_id") String transp_bizr_id
                                                     , @Query("job_type") String job_type);
+
+    /*설치 확인조회 리사이클러뷰: 차량리스트*/
+    /*영업소 스피너 [조회버튼]을 누르면 실행*/
+    @GET("AndroidRegister/Transp_Bizr_List2")
+    Call<List<Bus_OfficeVO>> Transp_Bizr_List2(@Query("table_name") String table_name
+                                            , @Query("st_date") String st_date
+                                            , @Query("ed_date") String ed_date
+                                            , @Query("garage_id") String garage_id
+                                            , @Query("transp_bizr_id") String transp_bizr_id
+                                            , @Query("job_type") String job_type);
 
 
     /*step3 상단*/
@@ -627,10 +645,38 @@ public interface ERP_Spring_Controller {
                                                         , @Query("job_type") String job_type);
 
 
+    /*단말기 상세목록 리사이클러뷰*/
+    @GET("AndroidRegister/unitLists")
+    Call<List<Bus_OfficeVO>> unitLists_detail( @Query("table_name") String table_name
+                                                , @Query("transp_bizr_id") String transp_bizr_id
+                                                , @Query("job_type") String job_type
+                                                , @Query("bus_num") String bus_num
+                                                , @Query("garage_name") String garage_name); // 테이블명, 운수사ID,
+                                                                                             // 작업타입, BusNums, 영업소명
+
+    /*2단계 단말기, 케이블 상세목록*/
+    @GET("AndroidRegister/step2_unitList")
+    Call<List<Bus_OfficeVO>> step2_unitList(@Query("table_name") String table_name
+                                            , @Query("transp_bizr_id") String transp_bizr_id
+                                            , @Query("job_type") String job_type
+                                            , @Query("bus_num") String bus_num
+                                            , @Query("garage_name") String garage_name);
 
 
 
-
+    /*2단계 완료버튼- insert*/
+    @GET("AndroidRegister/insert_installation_lists")
+    Call<List<Bus_OfficeVO>> insert_installation_lists( @Query("table_name") String table_name
+                                                      , @Query("sign_dtti") String sign_dtti
+                                                      , @Query("transp_bizr_id") String transp_bizr_id
+                                                      , @Query("job_type") String job_type
+                                                      , @Query("reg_emp_id") String reg_emp_id
+                                                      , @Query("bus_num") String bus_num
+                                                      , @Query("bussoff_name") String bussoff_name
+                                                      , @Query("garage_name") String garage_name
+                                                      , @Query("sign_name") String sign_name
+                                                      , @Query("sign_phone_num") String sign_phone_num
+                                                      , @Query("sign_path") String sign_path);
 
 
 
