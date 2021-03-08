@@ -160,7 +160,7 @@ public class TranspBizrAdapter extends RecyclerView.Adapter {
 
                 }
             });
-        }
+        }//VH()..
 
     }
 

@@ -61,7 +61,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
 
     /*리사이클러 외부(액티비티/프래그먼트)에서 아이템 클릭 이벤트 처리하기*/
-    public interface mOnItemClickListener{      //1.커스텀 리스너 인터페이스 정의: 자식(어댑터)안에서 새로운 리스너 인터페이스 정의
+    public interface mOnItemClickListener{          //1.커스텀 리스너 인터페이스 정의: 자식(어댑터)안에서 새로운 리스너 인터페이스 정의
         void mOnItemclick(View v, int post);
     }
 
@@ -271,7 +271,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     Toast.makeText(context, "해당없음", Toast.LENGTH_SHORT).show();
                 }
             });
-           /* vh.iv_barcode.setOnClickListener(new View.OnClickListener() {
+            vh.iv_barcode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "바코드 스캔................!!!!!!!!", Toast.LENGTH_SHORT).show();
@@ -282,7 +282,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
                     //((Activity)context).startActivityForResult(integrator.createScanIntent(), 600);
                 }
-            });*/
+            });
             ////////미리보기  (P 만)  // pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
         }else{
             vh.tv.setText("미리보기");
@@ -375,7 +375,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
         TextView tv;
         TextView tv_p;
         ImageView ivPreview;
-       /* ImageView iv_barcode;*/
+        ImageView iv_barcode;
         RelativeLayout bc;
 
         public VH(@NonNull View itemView) {
@@ -387,11 +387,9 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
             this.tv= itemView.findViewById(R.id.tv);
             this.tv_p= itemView.findViewById(R.id.tv_p);
             this.ivPreview= itemView.findViewById(R.id.iv_preview);
-           /* this.iv_barcode= itemView.findViewById(R.id.iv_barcode);*/
+            this.iv_barcode= itemView.findViewById(R.id.iv_barcode);
             this.bc= itemView.findViewById(R.id.bc);
         }
-
-
     }//VH..
 
 

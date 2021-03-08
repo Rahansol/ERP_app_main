@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    tools:context=".document_care.myInstallSignFragments.MyInstallationSignActivity">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+       <com.google.android.material.appbar.AppBarLayout
+           android:id="@+id/app_bar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <androidx.appcompat.widget.Toolbar
+               android:id="@+id/tool_bar"
+               android:layout_width="match_parent"
+               android:layout_height="?attr/actionBarSize"
+               app:titleTextColor="#ffffff"/>
+           <com.google.android.material.tabs.TabLayout
+               android:id="@+id/tab_layout"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:tabIndicatorColor="#5A3CC6"
+               app:tabIndicatorHeight="4dp"
+               app:tabTextColor="#ffffff"
+               app:tabSelectedTextColor="#5A3CC6"/>
+       </com.google.android.material.appbar.AppBarLayout>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="1">
+           <androidx.viewpager.widget.ViewPager
+               android:id="@+id/pager"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
+       </RelativeLayout>
+   </LinearLayout>
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/activity_main_drawer"/>
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

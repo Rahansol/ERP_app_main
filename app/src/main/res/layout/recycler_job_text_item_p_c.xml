@@ -49,12 +49,12 @@
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"/>
-            <!--<ImageView
+            <ImageView
                 android:id="@+id/iv_barcode"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_menu_camera"/>-->
+                android:src="@drawable/ic_menu_camera"/>
         </LinearLayout>
     </RelativeLayout>
 

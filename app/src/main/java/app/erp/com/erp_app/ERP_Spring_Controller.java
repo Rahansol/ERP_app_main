@@ -626,6 +626,13 @@ public interface ERP_Spring_Controller {
                                             , @Query("transp_bizr_id") String transp_bizr_id
                                             , @Query("job_type") String job_type);
 
+    @GET("AndroidRegister/Transp_Bizr_List2")
+    Call<List<Bus_OfficeVO>> MyInstallationDetail(@Query("table_name") String table_name
+                                                    , @Query("st_date") String st_date
+                                                    , @Query("ed_date") String ed_date
+                                                    , @Query("reg_emp_id") String reg_emp_id
+                                                    , @Query("finish_yn") String finish_yn);
+
 
     /*step3 상단*/
     @GET("AndroidRegister/Transp_Bizr_List_Info_Item")
@@ -679,6 +686,8 @@ public interface ERP_Spring_Controller {
                                                       , @Query("sign_path") String sign_path);
 
 
+    @GET("AndroidRegister/bus_num_list")
+    Call<List<Bus_OfficeVO>> bus_num_list(@Query("transp_bizr_id") String transp_bizr_id);
 
 
 

@@ -251,6 +251,7 @@ public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
                     Log.d("item_name: ", bus_officeVOS.get(i).getItem_name());
                     Log.d("sqlText: ", bus_officeVOS.get(i).getSqltext());
                     Log.d("item_type: ", bus_officeVOS.get(i).getItem_type());
+                    Log.d("케이블 사이즈 =>> ", cableItems.size()+"");
                 }
 
                 recyclerInstallPhoto= findViewById(R.id.recycler_install_photo);

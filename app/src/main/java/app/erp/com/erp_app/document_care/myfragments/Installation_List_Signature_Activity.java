@@ -47,7 +47,6 @@ import retrofit2.Response;
 public class Installation_List_Signature_Activity extends AppCompatActivity {
 
     public static Activity AActivity;
-
     private Context mContext;
     private Spinner projectSpinner, jobTypeSpinner, busoffNameSpinner, garage_name_spinner;
     static  String stTableName, docDttiSign, BusNums, Item_reg_dtti, Item_bus_id, st_garage_name, st_garage_id, st_garage_name_value, garageName, st_prj, st_prj_value,startDateValue, endDateValue, st_table_name_value, st_jobName, st_jobType_value, st_busoffName, st_busoffName_value, busId, transp_bizr_id, st_reg_dtti;
@@ -57,7 +56,6 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
     private Button btnSearch3;
     private TableLayout table_layout;
     private RelativeLayout click_sign, click_write;
-
     private RecyclerView recyclerTranspBizr;
     public ArrayList<TranspBizrItems> transpBizrItems= new ArrayList<>();
     private TranspBizrAdapter transpBizrAdapter;
@@ -137,6 +135,7 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i= new Intent(Installation_List_Signature_Activity.this, MyProject_Work_Insert_Activity.class);
+                        i.putExtra("SelectedNum", 0+"");      //아이템 선택값 전달하기..-> 기본값으로
                         startActivity(i);
                     }
                 });
@@ -267,7 +266,7 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
         protected void onPostExecute(List<Bus_OfficeVO> bus_officeVOS) {
             super.onPostExecute(bus_officeVOS);
 
-            Log.d("bus_officeVOS 사이즈..====> ", bus_officeVOS.size()+"");
+            //Log.d("bus_officeVOS 사이즈..====> ", bus_officeVOS.size()+"");
 
             if (bus_officeVOS != null){
                 List<String> spinner_array= new ArrayList<>();

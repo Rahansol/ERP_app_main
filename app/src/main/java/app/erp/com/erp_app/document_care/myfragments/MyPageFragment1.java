@@ -78,6 +78,7 @@ import java.util.Map;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.MainActivity;
+import app.erp.com.erp_app.New_Bus_Activity;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.callcenter.Call_Center_Activity;
 import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
@@ -86,6 +87,7 @@ import app.erp.com.erp_app.document_care.ProJect_Doc_Write_Activity;
 import app.erp.com.erp_app.document_care.ProJect_Work_Insert_Activity;
 import app.erp.com.erp_app.jsonparser.JSONParser;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
+import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -95,6 +97,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -102,10 +105,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
     DrawerLayout drawer;
     Context mContext;
-    Spinner infra_job_spinner, spinner_prj_base_infra_job, spinner_office_group, spinner_project_transp, spinner_project_garage, spinner_project_route_list;
+    Spinner project_bus_list, bus_num_list, infra_job_spinner, spinner_prj_base_infra_job, spinner_office_group, spinner_project_transp, spinner_project_garage, spinner_project_route_list;
     TextView tvOfficeGroup, tvVersion;
-    static String st_job_name, st_job_name_value, st_prj_base_infra_job, st_prj_base_infra_job_value, st_project_transp_value, st_project_garage, st_project_garage_value, st_project_route_list, st_project_route_list_value, st_busoff_name, st_busoff_name_value, st_job_type;
-    static String st_office_group_value, st_version_value;
+    static String st_bus_list, st_job_name, st_job_name_value, st_prj_base_infra_job, st_prj_base_infra_job_value, st_project_transp_value, st_project_garage, st_project_garage_value, st_project_route_list, st_project_route_list_value, st_busoff_name, st_busoff_name_value, st_job_type;
+    static String st_bus_list_id, st_office_group_value, st_version_value;
     static SharedPreferences pref;
     static SharedPreferences.Editor editor;
     static String ItemType_C;
@@ -113,12 +116,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     static String ItemName;
     static Uri uri;
     static String imgUriPath;   //어댑터에서 sharedPreference를 통해 전달받은 imgUri 경로
+    private Button btnRegisterNewBus;
 
     /* job text 리사이클러뷰 */
     private RecyclerView recyclerView;
     private ArrayList<JobTextItems> jobTextItems;
     private Job_Text_Adapter_P_C job_text_adapter_p_c;
-    String mCurrentPhotoPath;
 
     public Button btn_insert;
     static TextView etProject_bus_list;
@@ -131,7 +134,9 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     private ArrayList<String> path_list= new ArrayList<String>();
 
     static String mPath,DB_Path, GarryValue, st_temp_bus_id, area_code, unitNum, GLOBAL, DTTI, DTTI2, REG_EMP_ID, TRANSP_BIZR_ID, BUSOFF_NAME, GARAGE_ID, GARAGE_NAME, ROUTE_ID, ROUTE_NUM, BUS_ID, TempBusId, TempBusId_Value, BUS_NUM, VEHICLE_NUM, JOB_TYPE, TABLE_NAME; //파일명 바꿀때/ 파라미터 필요
-
+    static int SelectedNum=0;
+    static String selectedNum;
+    static String selectedNum2;
     public MyPageFragment1() {
 
     }
@@ -147,7 +152,19 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.pager1_my_project_work_insert_fragment, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.pager1_my_project_work_insert_fragment_1, container, false);
+
+        //Intent i= getActivity().getIntent();
+        Bundle bundle= getActivity().getIntent().getExtras();
+        if (bundle != null){
+            selectedNum =  bundle.getString("SelectedNum");
+        }
+
+        //아이템 선택값 전달받기..
+       // SelectedNum = Integer.parseInt(getActivity().getIntent().getExtras().getString("SelectedNum"));  //선택값이 String 이니 int 형으로 바꿔줌..
+        /*if (selectedNum!=null){
+            selectedNum =  getActivity().getIntent().getExtras().getString("SelectedNum");
+        }*/
 
 
         st_job_name = "";
@@ -197,10 +214,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_job_text);
 
-        etProject_bus_list = rootView.findViewById(R.id.project_bus_list);
+        //etProject_bus_list = rootView.findViewById(R.id.project_bus_list);
 
+        //차량번호 스피너
+        project_bus_list= rootView.findViewById(R.id.project_bus_list);
 
-        etProject_bus_list.setOnClickListener(new View.OnClickListener() {
+        /*etProject_bus_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -234,7 +253,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                                 area_code = "128";
                                                 break;
                                         }
-                                        /*작업-2 스피너*/
+                                        *//*작업-2 스피너*//*
                                         ERP_Spring_Controller erp = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                                         Call<List<Bus_OfficeVO>> call = erp.PrjBaseInfraJobSpinner();
                                         new PrjBaseInfraJobSpinner().execute(call);
@@ -263,17 +282,31 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        });
+        });*/
 
 
         // st_Project_bus_list= etProject_bus_list.getText().toString();
        /*btn_search= rootView.findViewById(R.id.btn_search);
        btn_search.setOnClickListener(this);*/
 
+        bus_num_list= rootView.findViewById(R.id.bus_num_list);
+
+
 
         /* [다음]버튼 */
         btn_insert = rootView.findViewById(R.id.btn_insert);
         btn_insert.setOnClickListener(this);
+
+
+        btnRegisterNewBus= rootView.findViewById(R.id.btn_register_new_bus);
+        btnRegisterNewBus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(getContext(), New_Bus_Activity.class);   //차량 신규등록 화면으로 이동
+               // i.putExtra("busNumVal",);  //차량번호 선택값 전달
+                getContext().startActivity(i);
+            }
+        });
 
         return rootView;
     }//onCreate...
@@ -300,6 +333,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
     }
+
+
 
 
     /*운수사 스피너*/
@@ -400,40 +435,47 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     spinner_array.add(bus_officeVOS.get(i).getPrj_name());
                 }
                 infra_job_spinner.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, spinner_array));
-                infra_job_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        st_job_name = infra_job_spinner.getSelectedItem().toString();
-                        if (!st_job_name.equals("선택")) {
-                            for (int j = 0; j < bus_officeVOS.size(); j++) {
-                                if (st_job_name == bus_officeVOS.get(j).getPrj_name()) {      //작업 선택 이름
-                                    st_job_name_value = bus_officeVOS.get(j).getPrj_name();   //작업 선택 [값]
-                                    st_office_group_value = bus_officeVOS.get(j).getOffice_group();  //선택된 조합
-                                    st_version_value = bus_officeVOS.get(j).getVersion();    //선택된 버전
-                                    TABLE_NAME = bus_officeVOS.get(j).getTable_name();
+                if (selectedNum!=null){
+                    infra_job_spinner.setSelection(Integer.parseInt(selectedNum));  //전 화면에서 선택한 값 전달받기..
+                    infra_job_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                                    mRequest_map.put("officeGroup",st_office_group_value);
-                                    mRequest_map.put("version",st_version_value);
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            st_job_name = infra_job_spinner.getSelectedItem().toString();
+                            if (!st_job_name.equals("선택")) {
+                                for (int j = 0; j < bus_officeVOS.size(); j++) {
+                                    if (st_job_name == bus_officeVOS.get(j).getPrj_name()) {      //작업 선택 이름
+                                        st_job_name_value = bus_officeVOS.get(j).getPrj_name();   //작업 선택 [값]
+                                        st_office_group_value = bus_officeVOS.get(j).getOffice_group();  //선택된 조합
+                                        st_version_value = bus_officeVOS.get(j).getVersion();    //선택된 버전
+                                        TABLE_NAME = bus_officeVOS.get(j).getTable_name();
 
-                                    G.prjName = TABLE_NAME;
-                                    tvOfficeGroup.setText(st_office_group_value);
-                                    tvVersion.setText(st_version_value);
-                                    String job_type = bus_officeVOS.get(j).getJob_type();
-                                    System.out.println("job_type????-====> " + job_type);  //null
+                                        mRequest_map.put("officeGroup",st_office_group_value);
+                                        mRequest_map.put("version",st_version_value);
+
+                                        G.prjName = TABLE_NAME;
+                                        tvOfficeGroup.setText(st_office_group_value);
+                                        tvVersion.setText(st_version_value);
+                                        String job_type = bus_officeVOS.get(j).getJob_type();
+                                        System.out.println("job_type????-====> " + job_type);  //null
+                                    }
                                 }
+                                /*운수사 스피너*/
+                                ERP_Spring_Controller erp1 = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                                Call<List<Bus_OfficeVO>> call1 = erp1.BusOffName(st_office_group_value);
+                                new Transp().execute(call1);
                             }
-                            /*운수사 스피너*/
-                            ERP_Spring_Controller erp1 = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                            Call<List<Bus_OfficeVO>> call1 = erp1.BusOffName(st_office_group_value);
-                            new Transp().execute(call1);
                         }
-                    }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-                    }
-                });
+                        }
+                    });
+                }
+
+
+
             }
         }
     }//jobNameList()
@@ -536,6 +578,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                     mRequest_map.put("routeId",st_project_route_list_value);
                                 }
                             }
+                            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                            Call<List<Bus_OfficeVO>> call= erp.PrjBaseInfraJobSpinner();
+                            new PrjBaseInfraJobSpinner().execute(call);
+
 
                         }
                     }
@@ -552,12 +598,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     }//BusRouteSpinner()........
 
 
-    //검색버튼
+
+
 
 
     /*작업-2 스피너 prj_base_infra_job*/
     public class PrjBaseInfraJobSpinner extends AsyncTask<Call, Void, List<Bus_OfficeVO>> {
-
 
         @Override
         protected List<Bus_OfficeVO> doInBackground(Call... calls) {
@@ -604,6 +650,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                             ERP_Spring_Controller erp_media = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                             Call<List<Bus_OfficeVO>> call_media = erp_media.BusOffRecyclerviewMedia(st_office_group_value, st_version_value);
                             new busOffRecyclerviewMedia().execute(call_media);
+
+
+                            //차량번호 스피너
+                            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                            Call<List<Bus_OfficeVO>> call= erp.bus_num_list(G.transpBizrId);
+                            new getBusNumLists().execute(call);
                         }
                     }
 
@@ -617,6 +669,56 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         }
 
     }
+
+
+    //차량번로 스피너
+    private class getBusNumLists extends AsyncTask<Call, Void, List<Bus_OfficeVO>>{
+
+        @Override
+        protected List<Bus_OfficeVO> doInBackground(Call... calls) {
+            Call<List<Bus_OfficeVO>> call= calls[0];
+            try {
+                Response<List<Bus_OfficeVO>> response= call.execute();
+                return response.body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Bus_OfficeVO> bus_officeVOS) {
+            super.onPostExecute(bus_officeVOS);
+
+            if (bus_officeVOS != null){
+                List<String> spinner_array= new ArrayList<>();
+                spinner_array.add("차량선택");
+                for (int i=0; i<bus_officeVOS.size(); i++){
+                    spinner_array.add(bus_officeVOS.get(i).getBus_num());
+                }
+                project_bus_list.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, spinner_array));
+                project_bus_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        st_bus_list= project_bus_list.getSelectedItem().toString();
+                        if (!st_bus_list.equals("차량선택")){
+                            for (int j=0; j<bus_officeVOS.size(); j++){
+                                if (st_bus_list == bus_officeVOS.get(j).getBus_num()){
+                                    st_bus_list_id= bus_officeVOS.get(j).getBus_id();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+        }
+    }
+
 
 
 
@@ -762,9 +864,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         DTTI2 = sdf2.format(date);
                         G.dtti = DTTI;
                         G.dtti2 = DTTI2;
+                        G.TempBusId=st_bus_list_id+"";
+
                         TempBusId_Value = G.TempBusId+"";
                         TRANSP_BIZR_ID = G.transpBizrId + "";
-                        Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
+                        Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
                         GarryValue = Garray.PositionInfo[G.position][1] + "";
 
 
@@ -782,7 +886,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                         // 1) ArrayList
                         //ArrayList<String> path_list= new ArrayList<String>();
-                        path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + GarryValue + ".jpg").replaceAll("/","%"));
+                        //path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + TempBusId_Value + "_" + GarryValue + ".jpg").replaceAll("/","%"));
+                        path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + GarryValue + ".jpg").replaceAll("/","%"));
                         Log.d("path_list===========> ", path_list+"");    //[/storage/emulated/0/DCIM/Camera/IMG_20210222_001322.jpg&nas_image%image%IERP%PRJ_BUS_01004%20210222%PRJ_BUS_01004_20210222_4100200_141101234_1.jpg]
                         int cnt = 0;
 
@@ -799,9 +904,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
-
 
 
 
@@ -866,7 +968,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 }
                 break;
             case 6:
-                Toast.makeText(mContext, "바코드 결과값", Toast.LENGTH_SHORT).show();
+               /* Toast.makeText(mContext, "바코드 결과값", Toast.LENGTH_SHORT).show();
                 Log.d("바코드 결과값===> ", "바코드 결과값");
                 //바코드 스캔 결과받기..
                 if (resultCode == RESULT_OK) {
@@ -900,7 +1002,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         super.onActivityResult(requestCode, resultCode, data);
                     }
                 }
-                break;
+                break;*/
         }// Switch문..
 
 }
@@ -926,9 +1028,9 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     Toast.makeText(getContext(), "영업소를 선택하세요.", Toast.LENGTH_SHORT).show();
                 } else if (st_project_route_list.equals("선택")) {
                     Toast.makeText(getContext(), "노선번호를 선택하세요.", Toast.LENGTH_SHORT).show();
-                } else if (etProject_bus_list.getText().length() == 0) {
+                } /*else if (etProject_bus_list.getText().length() == 0) {
                     Toast.makeText(getContext(), "차량지역 번호를 확인 하세요.", Toast.LENGTH_SHORT).show();
-                } /*else if (etProject_bus_list.getText().length()>12 || etProject_bus_list.getText().length()<12){
+                }*/ /*else if (etProject_bus_list.getText().length()>12 || etProject_bus_list.getText().length()<12){
 
                 }*/
                 else {
@@ -952,8 +1054,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                     //BUSOFF_NAME
                     BUSOFF_NAME = st_busoff_name_value;
-                    G.busoffName = BUSOFF_NAME;    //이런시긍로 값을 넣으면 G클래스에 저장이 잘 되ㅓ어있더라구요
-                    // 여기는 프래그먼트 아니에요ㅗ ? 암까ㅏ는 어뎁터에서 저장하고 프래그먼트에서 불렀던거 네ㅔ 맞는데 아까 어댑터에서 저장한 리사이클러뷰의 포지션값도 저장이 되더라구요 그래서 제가 저장을 다른걸로 하지않았나 생각했어요
+                    G.busoffName = BUSOFF_NAME;
 
                     System.out.println(" ### BUSOFF_NAME 운수사 명: " + BUSOFF_NAME);
 
@@ -1007,6 +1108,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ERP_Spring_Controller erp = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
+                            Log.d("181818>>>>>>", "st_bus_list:["+st_bus_list+"]st_bus_list:["+st_bus_list+"]");
                             Call<String> call = erp.insert_prj_def_val(TABLE_NAME
                                     , DTTI
                                     , REG_EMP_ID
@@ -1016,8 +1118,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                     , GARAGE_NAME
                                     , ROUTE_ID
                                     , ROUTE_NUM
-                                    , TempBusId_Value
-                                    , st_temp_bus_id
+                                    , st_bus_list_id
+                                    , st_bus_list
                                     , VEHICLE_NUM
                                     , JOB_TYPE
                                     , Garray.value[1] + ""

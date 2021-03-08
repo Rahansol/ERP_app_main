@@ -23,8 +23,9 @@
         android:roundIcon="@mipmap/ierp_app_img_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".document_care.myfragments.InstallationSignActivity2"></activity>
-        <activity android:name=".document_care.myfragments.Installation_List_Sginature_Activity2_1"></activity>
+        <activity android:name=".document_care.myInstallSignFragments.MyInstallationSignActivity"></activity>
+        <activity android:name=".document_care.myfragments.InstallationSignActivity2" />
+        <activity android:name=".document_care.myfragments.Installation_List_Sginature_Activity2_1" />
         <activity android:name=".document_care.myfragments.InstallationSignActivity" />
         <activity android:name=".document_care.myfragments.Installation_List_Sginature_Activity2" />
         <activity android:name=".document_care.myfragments.Installation_List_Signature_Activity" />
@@ -39,8 +40,8 @@
         <activity
             android:name=".document_care.MyProject_Work_Insert_Activity"
             android:configChanges="orientation|screenSize"
-            android:label="차량별 설치입력" />
- <activity
+            android:label="차량별 설치입력"/>
+        <activity
             android:name=".InOutDetailActivity"
             android:label="입출고 현황 상세페이지" />
         <activity
@@ -50,7 +51,7 @@
         <activity
             android:name=".InOutStatusActivity"
             android:label="단말기 입출고 현황" />
-<activity
+        <activity
             android:name=".DialogFinalRequestListActivity"
             android:label="   출고신청 목록을 최종 확인하세요"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />

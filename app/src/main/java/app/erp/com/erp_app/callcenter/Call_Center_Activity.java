@@ -42,6 +42,7 @@ import app.erp.com.erp_app.ReserveItemRepairActivity;
 import app.erp.com.erp_app.WarehousingActivity;
 import app.erp.com.erp_app.Work_Report_Activity;
 import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
+import app.erp.com.erp_app.document_care.myInstallSignFragments.MyInstallationSignActivity;
 import app.erp.com.erp_app.document_care.myfragments.Installation_List_Signature_Activity;
 import app.erp.com.erp_app.error_history.Error_History_Activity;
 import app.erp.com.erp_app.over_work.Over_Work_Activity;
@@ -174,6 +175,9 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         }*/else if (id == R.id.installation_List_signature){
             Intent i= new Intent(Call_Center_Activity.this, Installation_List_Signature_Activity.class);
             startActivity(i);
+        }else if (id == R.id.my_installation_sign){
+            Intent i= new Intent(Call_Center_Activity.this, MyInstallationSignActivity.class);
+            startActivity(i);
         }
         else if(id == R.id.trouble_serch_btn){
             Intent i = new Intent(Call_Center_Activity.this , Error_History_Activity.class);
@@ -198,19 +202,20 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         /*else if (id==R.id.inventory_in_out_status2){
             Intent i= new Intent(Call_Center_Activity.this, InOutStatusActivity.class);
             startActivity(i);
-        }*/
+        }
 
 
         //출고신청 액티비티로 이동
-        /*else if(id == R.id.release_request){
+        else if(id == R.id.release_request){
             Intent i = new Intent(Call_Center_Activity.this, ReleaseRequestActivity.class);
             startActivity(i);
-        }*/
+        }
 
-        //입고신청 액티비티로 이동/*else if(id == R.id.warehousing_request){
-        //            Intent i= new Intent(Call_Center_Activity.this, WarehousingActivity.class);
-        //            startActivity(i);
-        //        }*/
+        //입고신청 액티비티로 이동
+        else if(id == R.id.warehousing_request){
+                    Intent i= new Intent(Call_Center_Activity.this, WarehousingActivity.class);
+                    startActivity(i);
+        }*/
 
 
 

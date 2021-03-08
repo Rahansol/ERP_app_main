@@ -1,13 +1,20 @@
 package app.erp.com.erp_app.document_care.myfragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.hardware.input.InputManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +59,41 @@ public class CableInsertAdapter extends RecyclerView.Adapter {
         vh.tvItemEachSeq.setText(item.itemEachSeq);
         //vh.tvItemGroupName.setText(item.itemGroupName);
         vh.tvQuantity.setText(item.quantity);
+        vh.tvQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                final EditText et= new EditText(context);
+                et.setPadding(30, 30, 30, 30);
+                et.requestFocus();
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);   //키보드 표시
+                //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY,0);
+
+                et.setInputType(InputType.TYPE_CLASS_NUMBER);         //inputType - "number"
+                builder.setTitle("수량을 입력하세요.");
+                builder.setView(et);
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String etTmp= et.getText().toString();
+                        item.quantity= etTmp+"";
+                        vh.tvQuantity.setText(item.quantity);
+                        et.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY,0);           //[확인] 클릭햇을때 키보드 숨김표시
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog dialog= builder.create();
+                dialog.show();
+            }
+        });
 
 
 
