@@ -86,7 +86,8 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
         VH vh= (VH) holder;
         JobTextItems item= items.get(position);
         vh.tvJobText.setText(item.jobText);
-        vh.etBusNum.setText(item.busNum);
+        vh.etBusNum.setText(item.busNum); //직접입력으로 입력된 번호..
+        //vh.etBusNum.setText(G.BARCODE);  //바코드스캔으로 입력된 번호..
         vh.tv.setText(item.tv);
 
        // vh.itemView.setTag(item.takePic);
@@ -207,19 +208,21 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Toast.makeText(context, "바코드 스캔................!!!!!!!!", Toast.LENGTH_SHORT).show();
 
+                    //scanCode();
+
                     IntentIntegrator integrator= new IntentIntegrator((Activity) context);
                     integrator.setOrientationLocked(false);        //가로, 세로모드 전환
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);   // ALL 타입지정
                     integrator.setPrompt("Scanning Code");
-                    barcode_type_pref= context.getSharedPreferences("barcode_type", context.MODE_PRIVATE);
-                    editor= barcode_type_pref.edit();
+                    //integrator.initiateScan();
+                    SharedPreferences barcode_type_pref = context.getSharedPreferences("barcode_type", context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = barcode_type_pref.edit();
                     editor.putString("camera_type","bus_num");
                     editor.commit();
                     integrator.setCaptureActivity(CustomScannerActivity.class).initiateScan();
-                    Toast.makeText(context, "!!!", Toast.LENGTH_SHORT).show();
-                    Log.d("dd","fffffffff");
+                    Log.d("dd", "ttttttttt");
                     myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
-                    //((Activity)context).startActivityForResult(integrator.createScanIntent(), 600);
+                    Log.d("dd"+integrator.createScanIntent(), "startActivityForResult 으로..");
 
                 }
             });*/
@@ -271,7 +274,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     Toast.makeText(context, "해당없음", Toast.LENGTH_SHORT).show();
                 }
             });
-            vh.iv_barcode.setOnClickListener(new View.OnClickListener() {
+           /* vh.iv_barcode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "바코드 스캔................!!!!!!!!", Toast.LENGTH_SHORT).show();
@@ -282,7 +285,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
                     //((Activity)context).startActivityForResult(integrator.createScanIntent(), 600);
                 }
-            });
+            });*/
             ////////미리보기  (P 만)  // pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
         }else{
             vh.tv.setText("미리보기");
@@ -387,7 +390,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
             this.tv= itemView.findViewById(R.id.tv);
             this.tv_p= itemView.findViewById(R.id.tv_p);
             this.ivPreview= itemView.findViewById(R.id.iv_preview);
-            this.iv_barcode= itemView.findViewById(R.id.iv_barcode);
+            //this.iv_barcode= itemView.findViewById(R.id.iv_barcode);
             this.bc= itemView.findViewById(R.id.bc);
         }
     }//VH..
@@ -401,7 +404,6 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
         integrator.setPrompt("Scanning Code");
         //integrator.setRequestCode(600);
         integrator.initiateScan();
-
     }
 
 

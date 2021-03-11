@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:layout_marginBottom="10dp">
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#1f2226">
+        android:background="@drawable/dailog_btn_effect_black">
         <TextView
             android:id="@+id/tv_prj_name"
             android:layout_width="match_parent"
@@ -26,4 +25,5 @@
             android:padding="10dp"
             android:layout_margin="5dp"/>
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

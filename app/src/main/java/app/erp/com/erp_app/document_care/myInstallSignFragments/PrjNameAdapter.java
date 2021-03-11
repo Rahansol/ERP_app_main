@@ -1,18 +1,24 @@
 package app.erp.com.erp_app.document_care.myInstallSignFragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+
 import java.util.ArrayList;
 
+import app.erp.com.erp_app.CustomScannerActivity;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
 
@@ -46,6 +52,7 @@ public class PrjNameAdapter extends RecyclerView.Adapter {
         PrjNameItems item= items.get(position);
 
         vh.tvPrjName.setText(item.prjName);
+
     }
 
     @Override

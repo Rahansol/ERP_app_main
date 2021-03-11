@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_weight="1"
+    android:background="#E8E8F3">
+
+    <!--작성현황-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="vertical"
+        android:background="@drawable/new_background3"
+        android:paddingTop="10dp">
+        <RelativeLayout
+            android:id="@+id/prj_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_in_out3"
+            android:padding="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp">
+            <TextView
+                android:id="@+id/prj_title"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:gravity="center"
+                android:background="@drawable/box_in_out2"
+                android:text="프로젝트"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:layout_marginRight="4dp"/>
+            <Spinner
+                android:id="@+id/prj_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_toRightOf="@+id/prj_title"/>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/layout2"
+                android:layout_width="295dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/box_in_out3"
+                android:padding="3dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="6dp">
+                <TextView
+                    android:id="@+id/tv_period_title"
+                    android:layout_width="80dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="조회기간"
+                    android:textSize="12sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/box_in_out2"
+                    android:layout_marginRight="5dp"/>
+                <RelativeLayout
+                    android:id="@+id/iv_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_period_title"
+                    android:background="@drawable/transparent_circle_grey_outline"
+                    android:layout_marginRight="5dp">
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:gravity="center"
+                        android:text="20201010"
+                        android:textColor="#7B65FB"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/iv_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/iv_start_date"
+                    android:background="@drawable/transparent_circle_grey_outline">
+                    <TextView
+                        android:id="@+id/tv_end_date"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:gravity="center"
+                        android:text="20201030"
+                        android:textColor="#7B65FB"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="조회"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:background="@drawable/box_in_out_sky_blue"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:padding="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"/>
+
+
+
+
+
+</RelativeLayout>

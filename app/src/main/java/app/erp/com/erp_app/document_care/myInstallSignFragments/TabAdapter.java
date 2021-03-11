@@ -14,9 +14,9 @@ public class TabAdapter extends FragmentPagerAdapter {
     public TabAdapter(@NonNull FragmentManager fm) {
         super(fm);
 
-        fragments[0]= new fragment1();
-        fragments[1]= new fragment2();
-        fragments[2]= new fragment3();
+        fragments[0]= new Fragment1_write();
+        fragments[1]= new Fragment2_my_status();
+        fragments[2]= new Fragment3_my_status_completed();
     }
 
 

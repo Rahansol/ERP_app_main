@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -39,6 +40,7 @@ import app.erp.com.erp_app.callcenter.Call_Center_Activity;
 import app.erp.com.erp_app.callcenter.Fragment_trouble_list;
 import app.erp.com.erp_app.document_care.InstallCableItems;
 import app.erp.com.erp_app.document_care.Install_Cable_Adapter;
+import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import app.erp.com.erp_app.vo.Bus_infoVo;
 import retrofit2.Call;
@@ -47,6 +49,9 @@ import retrofit2.Response;
 
 
 public class MyPageFragment2 extends Fragment implements View.OnClickListener {
+
+    public static MyPageFragment1 myPageFragment1;
+    public static FragmentManager fragmentManager;
 
     Context mContext= getActivity();
     static Spinner spinner_item_group_name;
@@ -93,6 +98,8 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
         Log.d("vehicleNum :  ", G.vehicleNum+"");
         Log.d("jopType :  ", G.jopType+"");
         Log.d("Last_seq :  ", G.Last_seq+"");*/
+
+        fragmentManager= ((MyProject_Work_Insert_Activity)getActivity()).getSupportFragmentManager();
 
         //민혁 - 변수 초기화 추가
         for(int i=0; i < Garray.value2.length;i++) {
@@ -187,6 +194,8 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                         for(int i=0 ; i < Garray.value2.length ; i++) {
                             Log.d(" Garray.value2[", i+"]="+Garray.value2[i]  );
                         }
+                        Log.d("차량번호 확인 : st_bus_list====>", G.st_bus_list+"");
+                        Log.d("차량번호 확인 : st_bus_list_id====>", G.st_bus_list_id+"");
                         // 수량 업데이트
                         ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                         Call<String> call= erp.update_prj_def_val2(G.prjName+""
@@ -198,8 +207,8 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                                 ,G.garageName+""
                                 ,G.routeId+""
                                 ,G.routeNum+""
-                                ,G.TempBusId+""
-                                ,G.TempBusNum+""
+                                ,G.st_bus_list_id+""
+                                ,G.st_bus_list+""
                                 ,G.vehicleNum+""
                                 ,G.jopType+""
                                 ,Garray.value2[0]+""
@@ -293,7 +302,6 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                                 ,Garray.value2[98]+""
                                 ,Garray.value2[99]+"");
 
-
                         call.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
@@ -305,19 +313,18 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
                             }
                         });
-                        /*FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
-                        MyPageFragment1 myPageFragment1= new MyPageFragment1();
-                        transaction.replace(R.id.frameLayout, myPageFragment1, null).addToBackStack(null).commit();*/
 
-                        /*getActivity().getSupportFragmentManager()
+                        /*Intent i= new Intent(getContext(), Call_Center_Activity.class);
+                        startActivity(i);*/
+
+
+                        //첫번째 fragment 화면으로 돌아감
+                        getActivity().getSupportFragmentManager()
+                                //.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)   //BackStack 에 있는 모든 fragments 들을 소멸시킴
                                 .beginTransaction()
                                 .replace(R.id.frameLayout, new MyPageFragment1())
                                 .addToBackStack(null)
-                                .commit();*/
-                        //((Call_Center_Activity)getActivity()).switchFragment("care");
-
-                        Intent i= new Intent(getContext(), Call_Center_Activity.class);
-                        startActivity(i);
+                                .commit();
 
                     }
                 });
@@ -325,6 +332,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 builder.create();

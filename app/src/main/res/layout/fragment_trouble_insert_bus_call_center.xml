@@ -24,8 +24,13 @@
             android:inputType="number"
             android:singleLine="true"
             android:maxLines="1"
+
+
+
+
             android:maxLength="4"
             android:hint="차량번호"
+
             android:imeOptions="actionDone"/>
 
         <Button

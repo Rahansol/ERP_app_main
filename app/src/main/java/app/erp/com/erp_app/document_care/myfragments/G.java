@@ -32,9 +32,24 @@ public class G {
     public static String BUS_NUM_REG_DTTI;
     public static String BUS_ID;
     public static String BUS_NUM;
+    public static String st_bus_list;  //차량넘버 ex)경기10아1234
+    public static String st_bus_list_id;  //차량아이디 ex)141...
 
     public static String EMP_ID;   //msookim
 
+
+    //차량 바코드 넘버, 일련번호
+    public static String BARCODE;
+
+
+    //프로젝트 업무
+    //차량별 설치입력
+    //myInstallSignFragments 패키지- fragments2 에서 사용
+    public static String TRANSP_BIZR_ID_VAL;
+    public static String GARAGE_NAME_VAL;
+    public static String ROUTE_NUM_VAL;
+    public static String JOB_TYPE_VAL;
+    public static String BUS_NUM_VAL;
 
 
 }

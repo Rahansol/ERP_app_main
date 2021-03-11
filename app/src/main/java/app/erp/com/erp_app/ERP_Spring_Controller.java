@@ -88,6 +88,10 @@ public interface ERP_Spring_Controller {
     @GET("barcode/field_error_busnum")
     Call<List<Bus_infoVo>> getfield_error_busnum (@Query("bus_num") String bus_num);
 
+    /*차량검색*/
+    @GET("barcode/getBusNum")
+    Call<List<Bus_infoVo>> getBusNumList (@Query("bus_num") String bus_num, @Query("office_group") String office_group);
+
     //스프링프로젝트에서 barcode 컨트롤러에 field_trouble_error_type
     @GET("barcode/field_trouble_error_type")
     Call<List<Trouble_CodeVo>> getfield_trouble_error_type (@Query("service_id") String service_id, @Query("infra_code") String infra_code);
@@ -394,13 +398,18 @@ public interface ERP_Spring_Controller {
     @GET("AndroidRegister/BusOffRecyclerviewMedia")
     Call<List<Bus_OfficeVO>> BusOffRecyclerviewMedia(@Query("office_group") String office_group, @Query("version") String version);
 
+
+    @GET("AndroidRegister/BusGarage_Route_Spinner")
+    Call<List<Bus_OfficeVO>> BusGarageRouteSpinner(@Query("transp_bizr_id") String transp_bizr_id, @Query("bus_id") String bus_id);
+
+
     /*설치 확인서 [영업소] 호출*/
     @GET("AndroidRegister/GarageSpinner")
-    Call<List<Bus_OfficeVO>> GarageSpinner(@Query("transp_bizr_id") String transp_bizr_id);
+    Call<List<Bus_OfficeVO>> GarageSpinner(@Query("transp_bizr_id") String transp_bizr_id, @Query("bus_id") String bus_id);
 
     /*설치 확인서 [노선번호] 호출*/
     @GET("AndroidRegister/BusRouteSpinner")
-    Call<List<Bus_OfficeVO>> BusRouteSpinner(@Query("transp_bizr_id") String transp_bizr_id);
+    Call<List<Bus_OfficeVO>> BusRouteSpinner(@Query("transp_bizr_id") String transp_bizr_id, @Query("bus_id") String bus_id);
 
     /*설치 확인서 [버전] 호출*/
     @GET("AndroidRegister/UnitCode_VersionSpinner")
@@ -892,6 +901,7 @@ public interface ERP_Spring_Controller {
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.0.122:8180/controller/")
             //.baseUrl("http://ierp.interpass.co.kr/controller/")
+
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build();

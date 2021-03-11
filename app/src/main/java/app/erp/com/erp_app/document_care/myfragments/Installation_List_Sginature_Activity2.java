@@ -30,7 +30,7 @@ public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
     private Context mContext;
     private Button btnOk;
     private TextView tvPrj, tvBusoffName, tvBusNum, tvRouteNum, tvGarageName, tvVehicleNum, tvDocEmpName,tvRegEmpName, tvRegDtti, tvDocDtti, tvJobName, tvCableTitle, tvPhotoTitle;
-    static String item_bus_id, item_reg_dtti, table_name,transp_bizr_id, prj_name,bus_id,job_type, st_reg_dtti, st_jobName, st_busoff_name, st_bus_num, st_route_num, st_garage_name, st_vehicle_num , st_doc_dtti, st_reg_emp_name, st_doc_emp_name;
+    static String item_sign, item_bus_id, item_reg_dtti, table_name,transp_bizr_id, prj_name,bus_id,job_type, st_reg_dtti, st_jobName, st_busoff_name, st_bus_num, st_route_num, st_garage_name, st_vehicle_num , st_doc_dtti, st_reg_emp_name, st_doc_emp_name;
 
     /*단말기 업로드 사진 리사이클러뷰*/
     private ArrayList<InstallPhotoItems> installPhotoItems;
@@ -122,12 +122,14 @@ public class Installation_List_Sginature_Activity2 extends AppCompatActivity {
         /*상단 정보*/
         ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
         Call<List<Bus_OfficeVO>> call= erp.Transp_Bizr_List_Info_Item(G.TABLE_NAME, item_reg_dtti, G.TRANSP_BIZR_ID, item_bus_id, G.JOB_TYPE);  //null...
+
+        Log.d("데이터 확인=> ",G.TABLE_NAME+", "+item_reg_dtti+", "+ G.TRANSP_BIZR_ID+", "+item_bus_id+", "+G.JOB_TYPE);
+
         new Transp_Bizr_List_Info().execute(call);
 
 
         tvCableTitle= findViewById(R.id.tv_cable_title);
         tvPhotoTitle= findViewById(R.id.tv_photo_title);
-
 
 
         btnOk= findViewById(R.id.btn_ok);

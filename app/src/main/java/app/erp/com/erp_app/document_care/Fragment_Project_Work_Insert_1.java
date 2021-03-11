@@ -519,7 +519,6 @@ public class Fragment_Project_Work_Insert_1 extends Fragment {
                             new Fragment_Project_Work_Insert_1.get_transp_bizr_select().execute(call);
                         }
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
 

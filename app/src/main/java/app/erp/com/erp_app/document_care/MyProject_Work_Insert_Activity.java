@@ -32,6 +32,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.install.model.ActivityResult;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,7 @@ import java.util.Stack;
 import app.erp.com.erp_app.ActivityResultEvent;
 import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.document_care.myfragments.G;
 import app.erp.com.erp_app.document_care.myfragments.MyPageFragment1;
 import app.erp.com.erp_app.document_care.myfragments.MyPageFragment2;
 import app.erp.com.erp_app.document_care.myfragments.MyPageFragment3;
@@ -109,6 +112,24 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity{
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(list.size());   //초기화를 방지하기 위해서 viewPager에 setOffscreenPageLimit를 fragments들의 사이즈대로 붙여줌.*/
     }//onCreaet()....
+
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult intentResult= IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        Log.d("intentResult", intentResult+"");
+        String barcode= intentResult.getContents();
+        Log.d("barcode", barcode+"");
+        Log.d("resultCode", resultCode+"");    //resultCode = -1...?
+        G.BARCODE= barcode;
+
+        switch (resultCode){
+            case 600:
+                Log.d("requestCode6", "666666666666666666666666");   //resultCode = -1...?
+        }
+    }*/
 
     public static void changeFragment(int index){
         switch (index){
