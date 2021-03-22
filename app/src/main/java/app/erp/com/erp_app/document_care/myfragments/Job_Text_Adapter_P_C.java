@@ -12,10 +12,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -60,6 +62,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
     }
 
 
+
     /*리사이클러 외부(액티비티/프래그먼트)에서 아이템 클릭 이벤트 처리하기*/
     public interface mOnItemClickListener{          //1.커스텀 리스너 인터페이스 정의: 자식(어댑터)안에서 새로운 리스너 인터페이스 정의
         void mOnItemclick(View v, int post);
@@ -87,18 +90,11 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
         JobTextItems item= items.get(position);
         vh.tvJobText.setText(item.jobText);
         vh.etBusNum.setText(item.busNum); //직접입력으로 입력된 번호..
-        //vh.etBusNum.setText(G.BARCODE);  //바코드스캔으로 입력된 번호..
         vh.tv.setText(item.tv);
-
-       // vh.itemView.setTag(item.takePic);
         vh.ivPreview.setImageURI(item.preview_uri);
-
-
-////  PCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPC
+        ////  PCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPC
         if (item.tv.equals("미리보기 (P,C 둘다)")){
             vh.tv.setText("미리보기");
-            //일련번호 다이얼로그
-            //vh.etBusNum.setText(Garray.value[G.position]);
 
             vh.etBusNum.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,20 +103,34 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     final EditText et= new EditText(context);
                     builder.setTitle("일련번호를 입력하세요.");
                     builder.setView(et);
+                    //키보드 올리기
+                    InputMethodManager imm= (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);  //키보드 올리기 안됨..
+                    imm.showSoftInput((View) et.getWindowToken(), 0);
+                    et.setRawInputType(InputType.TYPE_CLASS_NUMBER);  //키보드 타입- 숫자
+                    builder.setNeutralButton("바코드스캔", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            G.position= position;
+                            IntentIntegrator integrator= new IntentIntegrator(myPageFragment1.getActivity());
+                            integrator.forSupportFragment(myPageFragment1).initiateScan();
+                            myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
+                        }
+                    });
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String st_unit_num= et.getText().toString();
                             Log.d("다이얼로그 입력번호값 ==>   ",st_unit_num+"/"+(position));
                             if (et.getText().length()!=0){
-                                //vh.etBusNum.setText(et.getText().toString());
                                 item.busNum= et.getText().toString();
                                 vh.etBusNum.setText(item.busNum);
-                                //vh.etBusNum.setTextColor(Color.parseColor("#E91E63"));
+
+                                //입력 후 키보드 내리기
+                                InputMethodManager imm= (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+
                                 notifyItemChanged(position);
                                 Garray.value[Garray.PositionInfo[position][0]]= st_unit_num;
-                                //notifyItemChanged(Integer.parseInt(st_unit_num));
-                                //notifyItemChanged(prePosition);
                             }else {
 
                             }
@@ -131,7 +141,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     dialog.show();
                 }
             });
-
+            vh.ivTakePic.setText("사진앨범");
             vh.ivTakePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,35 +149,20 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
                     //G.position= position+1;             //전역변수 G 클래스에 포지션값 저장
                     Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
+
                     AlertDialog.Builder builder= new AlertDialog.Builder(context);
                     builder.setIcon(R.drawable.ic_menu_camera);
                     builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요");
-                    /*builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //사진촬영 불러오기 실행코드..
-                            Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            //카메라앱에에 캡쳐한 이미지를 저장하게 하려면
-                            //저장할 이미지의 파일경로 Uri를 미리 지정해야함- why? 카메라앱 촬영이 끝난 다음에 경로를 만들면 저장을 못함.!!!!
-                            //사진 저장경로 설정
-                            //galleryAddPic();
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             setImageUri();
-                            Log.d("imgUri ===========> ", mCurrentPhotoPath+"   tt");
-                            if(mCurrentPhotoPath!=null) intent.putExtra(MediaStore.EXTRA_OUTPUT,imgUri);
-                            Log.d("imgUri ===========> ", imgUri+ "  ss");
-                            Log.d("imgUri ===========> ", mCurrentPhotoPath+"   tt");
-
-                            //이미지 저장
-                            img_pref= context.getSharedPreferences("img_pref", Context.MODE_PRIVATE);
-                            editor= img_pref.edit();
-                            editor.putString("camera_type", mCurrentPhotoPath);
-                            Log.d("imgUri ===========> ", mCurrentPhotoPath+ "  ss");
-                            Log.d("imgUri ===========> ", imgUri+ "  ss");
-                            editor.apply();
-
-                            myPageFragment1.startActivityForResult(intent, 200+position);   //결과값 전달
+                            if (imgUri!=null) intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
+                            //((Activity)context).startActivityForResult(intent, 200);
+                            myPageFragment1.startActivityForResult(intent, 200);
                         }
-                    });*/
+                    });
                     builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -188,48 +183,11 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Context context = v.getContext();
 
-                    /*SharedPreferences pref= context.getSharedPreferences("imgUri_data", Context.MODE_PRIVATE);
-                    String st_imgUri= pref.getString("imgUri", null);
-                    Uri imgUri= Uri.parse(st_imgUri);*/
-
-                    /*Intent i = new Intent(context, PreviewDialogActivity.class);   //미리보기 액티비티로 이동
-                    context.startActivity(i);*/
-
-                    /*if (imgUri != null){
-                        Intent i = new Intent(context, PreviewDialogActivity.class);   //미리보기 액티비티로 이동
-                        context.startActivity(i);
-                    }else {
-                        Toast.makeText(context, "사진을 선택하세요.", Toast.LENGTH_SHORT).show();
-                    }*/
                 }
-            });   ///// 바코드 스캔
-            /*vh.iv_barcode.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "바코드 스캔................!!!!!!!!", Toast.LENGTH_SHORT).show();
-
-                    //scanCode();
-
-                    IntentIntegrator integrator= new IntentIntegrator((Activity) context);
-                    integrator.setOrientationLocked(false);        //가로, 세로모드 전환
-                    integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);   // ALL 타입지정
-                    integrator.setPrompt("Scanning Code");
-                    //integrator.initiateScan();
-                    SharedPreferences barcode_type_pref = context.getSharedPreferences("barcode_type", context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = barcode_type_pref.edit();
-                    editor.putString("camera_type","bus_num");
-                    editor.commit();
-                    integrator.setCaptureActivity(CustomScannerActivity.class).initiateScan();
-                    Log.d("dd", "ttttttttt");
-                    myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
-                    Log.d("dd"+integrator.createScanIntent(), "startActivityForResult 으로..");
-
-                }
-            });*/
+            });
 ////  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
         }else if (item.tv.equals("해당없음  (C 만)")){
             vh.tv.setText("해당없음");
-           // vh.tv.setTextColor(Color.parseColor("#000000"));
 
             //일련번호 다이얼로그
             vh.etBusNum.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +197,19 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     final EditText et= new EditText(context);
                     builder.setTitle("일련번호 입력").setMessage("일련번호를 입력하세요.");
                     builder.setView(et);
+                    //키보드 올리기
+                    InputMethodManager imm= (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);   //키보드 올리기 안됨..
+                    imm.showSoftInput((View) et.getWindowToken(), 0);
+                    et.setRawInputType(InputType.TYPE_CLASS_NUMBER);  //키보드 타입- 숫자
+                    builder.setNeutralButton("바코드스캔", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            G.position= position;
+                            IntentIntegrator integrator= new IntentIntegrator(myPageFragment1.getActivity());
+                            integrator.forSupportFragment(myPageFragment1).initiateScan();
+                            myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
+                        }
+                    });
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -248,8 +219,11 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                                 //et.setTextColor(Integer.parseInt("#E91E63"));  // 텍스트 색 변경
                                 item.busNum= et.getText().toString();
                                 vh.etBusNum.setText(item.busNum);
-                                //int color= context.getColor(Integer.parseInt("#E91E63"));
-                                //vh.etBusNum.setTextColor(Color.parseColor("#E91E63"));
+
+                                //입력 후 키보드 내리기
+                                InputMethodManager imm= (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+
                                 notifyItemChanged(position);
                                 Garray.value[Garray.PositionInfo[position][0]]= st_unit_num;
                                // notifyItemChanged(Integer.parseInt(st_unit_num));
@@ -262,10 +236,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                 }
             });
 
-            //vh.tv.setTextColor(Color.parseColor("#000000"));
-           // vh.bc.setBackgroundColor(Color.parseColor("#000000"));
             vh.ivTakePic.setText("해당없음");
-            //vh.ivTakePic.setTextColor(Color.parseColor("#000000"));
             vh.ivTakePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -274,26 +245,10 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     Toast.makeText(context, "해당없음", Toast.LENGTH_SHORT).show();
                 }
             });
-           /* vh.iv_barcode.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "바코드 스캔................!!!!!!!!", Toast.LENGTH_SHORT).show();
-
-                    IntentIntegrator integrator= new IntentIntegrator((Activity) context);
-                    //integrator.setRequestCode(600);
-                    integrator.setCaptureActivity(CustomScannerActivity.class).initiateScan();
-                    myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
-                    //((Activity)context).startActivityForResult(integrator.createScanIntent(), 600);
-                }
-            });*/
             ////////미리보기  (P 만)  // pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
         }else{
             vh.tv.setText("미리보기");
-
             vh.etBusNum.setFocusableInTouchMode(false);
-            //vh.etBusNum.setTextColor(Color.parseColor("#000000"));
-            //notifyItemChanged(position);
-            //vh.iv_barcode.setVisibility(View.INVISIBLE);
             vh.ivTakePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -301,28 +256,16 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     AlertDialog.Builder builder= new AlertDialog.Builder(context);
                     builder.setIcon(R.drawable.ic_menu_camera);
                     builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요");
-                    /*builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //사진촬영 불러오기 실행코드..
-                            Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            //카메라앱에에 캡쳐한 이미지를 저장하게 하려면
-                            //저장할 이미지의 파일경로 Uri를 미리 지정해야함- why? 카메라앱 촬영이 끝난 다음에 경로를 만들면 저장을 못함.!!!!
-                            //사진 저장경로 설정
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             setImageUri();
-                            Log.d("imgUri ===========> ", mCurrentPhotoPath+"   tt");
-                            if(imgUri!=null) intent.putExtra(MediaStore.EXTRA_OUTPUT,imgUri);
-                            Log.d("imgUri ===========> ", mCurrentPhotoPath+"   tt");
-                            Log.d("imgUri ===========> ", imgUri+"   tt");
-                            //이미지 저장..
-                            img_pref= context.getSharedPreferences("img_pref", Context.MODE_PRIVATE);
-                            editor= img_pref.edit();
-                            editor.putString("camera_type", imgUri+"");
-                            Log.d("imgUri ===========> ", mCurrentPhotoPath+ "  ss");
-                            editor.apply();
-                            myPageFragment1.startActivityForResult(intent, 200+position);   //결과값 전달
+                            if (imgUri!=null) intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
+                            //((Activity)context).startActivityForResult(intent, 200);
+                            myPageFragment1.startActivityForResult(intent, 200);
                         }
-                    });*/
+                    });
                     builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -341,27 +284,10 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
             vh.ivPreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*Context context = v.getContext();
-
-                    SharedPreferences pref= context.getSharedPreferences("imgUri_data", Context.MODE_PRIVATE);
-                    String st_imgUri= pref.getString("imgUri", null);
-                    Uri imgUri= Uri.parse(st_imgUri);
-
-
-                    if (imgUri != null){
-                        Intent i = new Intent(context, PreviewDialogActivity.class);   //미리보기 액티비티로 이동
-                        context.startActivity(i);
-                    }else {
-                        Toast.makeText(context, "사진을 선택하세요.", Toast.LENGTH_SHORT).show();
-                    }*/
 
                 }
             });
         }
-
-
-
-
     }
 
     @Override
@@ -396,116 +322,6 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
     }//VH..
 
 
-    private void scanCode(){
-        IntentIntegrator integrator= new IntentIntegrator((Activity) context);
-        integrator.setCaptureActivity(CaptureAct.class);
-        integrator.setOrientationLocked(false);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-        integrator.setPrompt("Scanning Code");
-        //integrator.setRequestCode(600);
-        integrator.initiateScan();
-    }
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 한솔씨코드
-
-    /*private void captureCamera(String cameraType , int intenType, MyPageFragment1 f1){
-        String state = Environment.getExternalStorageState();
-        // 외장 메모리 검사
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            Intent takePictureIntent = new Intent(cameraType);
-            if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile(intenType);
-                } catch (IOException ex) {
-                    Log.d("captureCamera Error", ex.toString());
-                }
-                Log.d("ininininin","xxxxxxxxxxxxxxxxx"+photoFile);
-                if (photoFile != null) {
-                    Log.d("ininininin","ininin"+photoFile);
-                    // getUriForFile의 두 번째 인자는 Manifest provier의 authorites와 일치해야 함
-                    Uri providerURI = FileProvider.getUriForFile(context, context.getPackageName(), photoFile);
-                    imgUri = providerURI;
-                    // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만!!, providerURI의 값에 카메라 데이터를 넣어 보냄
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
-                    //f1.startActivityForResult(takePictureIntent, intenType);
-                    myPageFragment1.startActivityForResult(takePictureIntent, intenType);
-                }
-            }
-        } else {
-            Toast.makeText(context, "저장공간이 접근 불가능한 기기입니다", Toast.LENGTH_SHORT).show();
-            return;
-        }
-    }*/
-
-    /*public File createImageFile(int intenType) throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "";
-        if(intenType == 1){
-            imageFileName = "JPEG_" + timeStamp + ".jpg";
-        }else{
-            imageFileName = "MP4_" + timeStamp + ".mp4";
-        }
-        File imageFile = null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/IERP");   //storageDir= 사진경로
-
-        if (!storageDir.exists()) {
-            Log.i("mCurrentPhotoPath1", storageDir.toString());
-            storageDir.mkdirs();
-        }
-
-        imageFile = new File(storageDir, imageFileName);
-
-        return imageFile;
-    }*/
-
-
-    private String galleryAddPic(){
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        // 해당 경로에 있는 파일을 객체화(새로 파일을 만든다는 것으로 이해하면 안 됨)
-        File f = new File(mCurrentPhotoPath); // 지금 전역변수로 파일을 만들죠 ?네 그럼 저 전역변수가
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        context.sendBroadcast(mediaScanIntent);
-        Toast.makeText(context, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
-        return mCurrentPhotoPath;
-    }
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 사진촬영 MY 코드
-    // 캡쳐된 이미지 uri를 정하는 메소드
-    /*public void setImageUri(){
-
-        Toast.makeText(context, "setIamgeUri 실행 토스트!!!", Toast.LENGTH_SHORT).show();
-
-        File path= Environment.getExternalStorageDirectory();
-        path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyyMMddhhmmss");
-        String fileName= "IMG_"+sdf.format(new Date())+".jpg";
-        File file= new File(path, fileName);
-
-
-        // 카메라에 전달해줄 저장 파일경로 = File 객체가 아니라 Uri 객체여야 함
-        // File -----> Uri 변환
-        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.N) imgUri= Uri.fromFile(file);
-        else {
-            imgUri= FileProvider.getUriForFile(context, "app.erp.com.erp_app.provider", file);
-        }
-        new AlertDialog.Builder(context).setMessage(imgUri.toString()).create().show();
-    }*/
-
-
-
-
 
 
 
@@ -532,7 +348,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.N)  imgUri = Uri.fromFile(imageFile);
         else {
 
-            imgUri= FileProvider.getUriForFile(context, "app.erp.com.erp_app.provider", imageFile);  // imgUri 작업 끝
+            imgUri= FileProvider.getUriForFile(context, context.getPackageName(), imageFile);  // imgUri 작업 끝
             Log.d("PATH TEST : >>>> ", "["+imgUri+"]["+imageFile+"]");
         }
         new AlertDialog.Builder(context).setMessage(imgUri.toString()).create().show();  //작업확인

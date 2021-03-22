@@ -1,5 +1,7 @@
 package app.erp.com.erp_app.document_care.myfragments;
 
+import android.graphics.Bitmap;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -605,6 +605,7 @@ public class Fragment_Project_Work_Insert_3 extends Fragment {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "";
+
         if(intenType == 1){
             imageFileName = "JPEG_" + timeStamp + ".jpg";
         }else{

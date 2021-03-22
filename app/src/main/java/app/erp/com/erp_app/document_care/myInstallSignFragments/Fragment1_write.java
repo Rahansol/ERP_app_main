@@ -1,10 +1,12 @@
 package app.erp.com.erp_app.document_care.myInstallSignFragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.document_care.CameraTest2Activity;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -27,6 +30,8 @@ public class Fragment1_write extends Fragment {
     RecyclerView recyclerView;
     PrjNameAdapter prjNameAdapter;
     ArrayList<PrjNameItems> prjNameItems= new ArrayList<>();
+
+    Button btnCameraTest;
 
     @Nullable
     @Override
@@ -43,6 +48,9 @@ public class Fragment1_write extends Fragment {
                 startActivity(i);
             }
         });*/
+
+
+
         prjNameItems.clear();
 
         ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);

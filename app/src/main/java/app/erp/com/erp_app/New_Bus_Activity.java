@@ -29,14 +29,10 @@ import retrofit2.Response;
 public class New_Bus_Activity extends AppCompatActivity implements View.OnClickListener{
 
     Button office_serch_btn, bus_info_insert_btn;
-
     EditText office_name, bus_num_edit_text;
-
     Spinner office_group_spinner;
-
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-
     String bus_num , trans_id ;
 
     @Override
@@ -62,7 +58,6 @@ public class New_Bus_Activity extends AppCompatActivity implements View.OnClickL
     }
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.office_serch_btn :
                 String busoff_name = office_name.getText().toString();
@@ -92,7 +87,6 @@ public class New_Bus_Activity extends AppCompatActivity implements View.OnClickL
             }
             return null;
         }
-
         @Override
         protected void onPostExecute(List<Bus_infoVo> bus_infoVos) {
             if(bus_infoVos.size() > 0){

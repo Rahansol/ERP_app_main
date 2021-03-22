@@ -47,6 +47,7 @@ import app.erp.com.erp_app.LoginActivity;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.document_care.myfragments.G;
 import app.erp.com.erp_app.document_care.myfragments.MyPageFragment1;
+import app.erp.com.erp_app.document_care.myfragments.MyPageFragment1_copy;
 import app.erp.com.erp_app.document_care.myfragments.MyPageFragment2;
 import app.erp.com.erp_app.document_care.myfragments.MyPageFragment3;
 
@@ -58,39 +59,22 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity{
     public static Stack<Fragment> fragmentStack;
     public static FragmentManager manager;
 
+    public static MyPageFragment1_copy myPageFragment1_copy;
     public static MyPageFragment1 myPageFragment1;
     public static MyPageFragment2 myPageFragment2;
 
-    final static int FIRST_FRAGMENT= 1001;
-    final static int SECOND_FRAGMENT= 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_project_work_insert);
 
+        //myPageFragment1_copy= new MyPageFragment1_copy();
         myPageFragment1= new MyPageFragment1();
         myPageFragment2= new MyPageFragment2();
         fragmentStack= new Stack<>();
         manager= getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.frameLayout, myPageFragment1).commit();
-
-
-        /*getSupportFragmentManager().beginTransaction()
-                .add(new MyPageFragment1())
-                .add(R.id.container_b, new MyPageFragment2())
-                .commit();*/
-
-        /*Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-*/
-       // DrawerLayout drawer(DrawerLayout) findViewById(R.id.drawer_layout);
-        /*ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();*/
-
-        /*NavigationView nav= (NavigationView) findViewById(R.id.nav_view);
-        nav.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);*/
+        manager.beginTransaction().replace(R.id.frameLayout, myPageFragment1).commit();   //첫번째 Fragment 로 이동 transition!!
 
 
 
@@ -131,16 +115,6 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity{
         }
     }*/
 
-    public static void changeFragment(int index){
-        switch (index){
-            case FIRST_FRAGMENT:
-                manager.beginTransaction().replace(R.id.frameLayout, myPageFragment2).commit();
-                break;
-            case SECOND_FRAGMENT:
-                manager.beginTransaction().replace(R.id.frameLayout, myPageFragment1).commit();
-                break;
-        }
-    }
 
     @Override
     public void onBackPressed() {

@@ -514,7 +514,7 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         st_garage_name= garage_name_spinner.getSelectedItem().toString();
-                        if (st_garage_name != "선택"){
+                        if (!st_garage_name.equals("선택")){
                             for (int j=0; j<bus_officeVOS.size(); j++){
                                 if (st_garage_name == bus_officeVOS.get(j).getGarage_name()){
                                     st_garage_name_value= bus_officeVOS.get(j).getGarage_name();  //영업소 선택값
@@ -561,6 +561,7 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
             G.TABLE_NAME= st_table_name_value;
             G.TRANSP_BIZR_ID= transp_bizr_id;
             G.BUS_NUM= busId;  //null...
+            Log.d("값", busId+"");
             G.JOB_TYPE= st_jobType_value;
 
 
@@ -618,4 +619,57 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
             transpBizrAdapter.notifyDataSetChanged();
         }
     }
+
+
+
+
+
+    /*기존코드*/
+    /*public class Recycler_Transp_Bizr_List extends AsyncTask<Call, Void, List<Bus_OfficeVO>>{
+
+        @Override
+        protected List<Bus_OfficeVO> doInBackground(Call... calls) {
+            Call<List<Bus_OfficeVO>> call= calls[0];
+            try {
+                Response<List<Bus_OfficeVO>> response= call.execute();
+                return response.body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Bus_OfficeVO> bus_officeVOS) {
+            super.onPostExecute(bus_officeVOS);
+
+            if (bus_officeVOS == null){
+                Toast.makeText(mContext, "불러올 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+
+            //transpBizrItems= new ArrayList<>();
+            for (int i=0; i<bus_officeVOS.size(); i++){
+                transpBizrItems.add(new TranspBizrItems(false
+                        ,st_jobName
+                        ,st_busoffName_value
+                        ,garageName= bus_officeVOS.get(i).getGarage_name()
+                        ,bus_officeVOS.get(i).getRoute_num()
+                        ,bus_officeVOS.get(i).getBus_num()
+                        ,docDttiSign= bus_officeVOS.get(i).getDoc_dtti()  //확인서: "완료"
+                        ,st_reg_dtti= bus_officeVOS.get(i).getReg_dtti()
+                        ,busId= bus_officeVOS.get(i).getBus_id()
+                        ,stTableName= bus_officeVOS.get(i).getTable_name()));
+
+                Log.d("차대번호?=>   ", bus_officeVOS.get(i).getBus_id()+"");  //null
+                Log.d("등록시간?=>   ", st_reg_dtti+"");
+                Log.d("버스ID?=>   ", busId+"");
+            }
+            Log.d("등록시간?=>   ", st_reg_dtti+"");
+            Log.d("버스ID?=>   ", busId+"");
+            transpBizrAdapter= new TranspBizrAdapter(mContext, transpBizrItems);
+            recyclerTranspBizr= findViewById(R.id.recyclerview_transp_bizr);
+            recyclerTranspBizr.setAdapter(transpBizrAdapter);
+            transpBizrAdapter.notifyDataSetChanged();
+        }
+    }*/
 }

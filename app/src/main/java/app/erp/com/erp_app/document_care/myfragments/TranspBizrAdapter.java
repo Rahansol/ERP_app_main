@@ -90,6 +90,8 @@ public class TranspBizrAdapter extends RecyclerView.Adapter {
     }
 
 
+
+
     class VH extends RecyclerView.ViewHolder{
         CheckBox checkBox;
         TextView tvjobName;

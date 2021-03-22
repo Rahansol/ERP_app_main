@@ -201,6 +201,7 @@ public class InstallationSignActivity2 extends AppCompatActivity {
                         result.putExtra("path", addJpgSignatureGallery(signatureBitmap));
                         setResult(RESULT_OK, result);
 
+
                         // UPDATE 문 실행..
                         ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                         Call<List<Bus_OfficeVO>> call= erp.insert_installation_lists(st_table_name
@@ -311,7 +312,12 @@ public class InstallationSignActivity2 extends AppCompatActivity {
     public String addJpgSignatureGallery(Bitmap signture){
         result_path="";
         try {
-            File photo= new File(getAlbumStorageDir("SignaturedPad"), String.format("Signature_%d.png", System.currentTimeMillis()));
+            File photo= new File(getAlbumStorageDir("SignaturePad"), String.format("Signature_%d.png", System.currentTimeMillis()));
+
+            /*if(!photo.exists())
+            {
+                photo.getParentFile().mkdirs();    // 폴더를 만든다
+            }*/
             Log.d("사인파일 이름=> ", photo+"");        //   /storage/emulated/0/Pictures/SignaturedPad/Signature_1613953381718.png
             saveBitmapToJPG(signture, photo);
             scanMediaFile(photo);
@@ -350,7 +356,6 @@ public class InstallationSignActivity2 extends AppCompatActivity {
                     dir.mkdirs();   //폴더생성
                 }
             }
-
             @Override
             public void onPermissionDenied(List<String> deniedPermissions) {
 
@@ -360,7 +365,7 @@ public class InstallationSignActivity2 extends AppCompatActivity {
         TedPermission.with(this)
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage("프로젝트 업무를 위해 권한이 필요합니다.")
-                .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있어요.")
+                .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있어요.")   //허용거부 됐을 때 메세지
                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .check();
     }

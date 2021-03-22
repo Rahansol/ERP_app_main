@@ -9,7 +9,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ierp_app_img_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".document_care.myInstallSignFragments.MyInstallationSignActivity"></activity>
+        <activity android:name=".document_care.myInstallSignFragments.MyInstallationSignActivity"
+                  android:configChanges="orientation|screenSize"/>
         <activity android:name=".document_care.myfragments.InstallationSignActivity2" />
         <activity android:name=".document_care.myfragments.Installation_List_Sginature_Activity2_1" />
         <activity android:name=".document_care.myfragments.InstallationSignActivity" />
@@ -41,6 +42,8 @@
             android:name=".document_care.MyProject_Work_Insert_Activity"
             android:configChanges="orientation|screenSize"
             android:label="차량별 설치입력"/>
+        <activity android:name=".document_care.myfragments.MyCustomScannerActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".InOutDetailActivity"
             android:label="입출고 현황 상세페이지" />
@@ -205,9 +208,10 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="app.erp.com.erp_app.provider"
+            android:authorities="app.erp.com.erp_app"
             android:exported="false"
             android:grantUriPermissions="true">
+            <!--android:authorities="app.erp.com.erp_app.provider"-->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

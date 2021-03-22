@@ -118,6 +118,9 @@ public class Fragment2_my_status extends Fragment {
                     Call<List<Bus_OfficeVO>> call= erp.MyInstallationDetail(TableName, startDateVal, endDateVal, REG_EMP_ID, "NN");
                     Log.d("값 확인==> ", TableName+", "+startDateVal+", "+endDateVal+", "+REG_EMP_ID);
                     new MyInstallationDetailLists().execute(call);
+
+                    //  리사이클러뷰에 뿌려줄 데이터를 담을 ArrayList 초기화..
+                    transpBizrItems2s= new ArrayList<>();
                 }
             }
         });

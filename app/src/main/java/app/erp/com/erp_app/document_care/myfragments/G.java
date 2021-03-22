@@ -1,5 +1,8 @@
 package app.erp.com.erp_app.document_care.myfragments;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import retrofit2.http.PUT;
 
 public class G {
@@ -51,5 +54,8 @@ public class G {
     public static String JOB_TYPE_VAL;
     public static String BUS_NUM_VAL;
 
+
+    public static Uri CAPTURED_IMAGE_URI;
+    public static Bitmap CAPTURED_IMAGE_BITMAP;
 
 }

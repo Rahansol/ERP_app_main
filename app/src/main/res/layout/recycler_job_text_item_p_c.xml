@@ -47,17 +47,17 @@
                 android:maxLength="9"
                 android:paddingLeft="8dp"
                 android:paddingTop="10dp"
-                android:paddingRight="20dp"
                 android:paddingBottom="10dp"
                 android:textColorHint="#E91E63"
                 android:textSize="14sp" />
 
             <!--<ImageView
-                android:id="@+id/iv_barcode"
+                android:id="@+id/iv__barcode"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_menu_camera" />-->
+                android:src="@drawable/ic_menu_camera"
+                android:layout_marginLeft="5dp"/>-->
         </LinearLayout>
     </RelativeLayout>
 
@@ -120,7 +120,7 @@
                 android:layout_gravity="center"
                 android:background="#9784DC"
                 android:gravity="center"
-                android:text="사진앨범"
+                android:text="사진선택"
                 android:textColor="#ffffff" />
         </LinearLayout>
     </RelativeLayout>

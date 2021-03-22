@@ -157,6 +157,7 @@ public class CameraTest2Activity extends AppCompatActivity implements View.OnCli
 
     private void setImageView(){
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+        Log.d("bitmap", bitmap+"");
         ExifInterface exif = null;
 
         try {
@@ -246,6 +247,7 @@ public class CameraTest2Activity extends AppCompatActivity implements View.OnCli
 
         imageFile = new File(storageDir, imageFileName);
         mCurrentPhotoPath = imageFile.getAbsolutePath();
+
 
         return imageFile;
     }

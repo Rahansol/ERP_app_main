@@ -77,7 +77,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
     SharedPreferences.Editor editor;
 
 
-    Button btnSave;
+    TextView btnSave;
 
 
     @Nullable
@@ -120,7 +120,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
 
 
-        Button go_back= rootView.findViewById(R.id.go_back);
+        TextView go_back= rootView.findViewById(R.id.go_back);
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
