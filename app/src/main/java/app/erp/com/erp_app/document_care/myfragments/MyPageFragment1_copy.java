@@ -966,7 +966,7 @@ public class MyPageFragment1_copy extends Fragment implements View.OnClickListen
                    /*※ 카메라 촬영후 특정 단말의 경우 (ex: nexus, gallaxy, vega) ※
                      onActivityResult- data.getData() 값이 null 인 경우가 있음..
                      이런경우 보통은 Bitmap 으로 data 값이 넘어오기 때문에
-                     Bitmap captureBitmap = (Bitmap) data.getExtras().get("data"); 으로 호툴하거나
+                     Bitmap captureBitmap = (Bitmap) data.getExtras().get("data"); 으로 호출하거나
                      또 한가지 방법은 마지막에 저장된 이미지 Uri 를 가져오는 방법이 있다! -EXTERNAL_CONTENT_URI
                      아래 참조.... */
                 try {

@@ -909,60 +909,62 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "이미지 불러오기", Toast.LENGTH_SHORT).show();
             Log.d("requestCodeValue", resultCode/300+"");
 
-            try {
-                InputStream in = getContext().getContentResolver().openInputStream(data.getData());
-                Uri selectedImage = data.getData();
-                Log.d("selected Image :::::::::::: >>>>>>>>> ", selectedImage+"");
-                Bitmap img = BitmapFactory.decodeStream(in);
+            if (resultCode == RESULT_OK){       //resultCode == RESULT_OK 이렇게 한번 더 확인해야 사진앨범에서 사진을 선택하지 않고 뒤로가기 버튼을 눌러도 앱이 꺼지지 않음..!!!
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(data.getData());
+                    Uri selectedImage = data.getData();
+                    Log.d("selected Image :::::::::::: >>>>>>>>> ", selectedImage+"");
+                    Bitmap img = BitmapFactory.decodeStream(in);
 
-                int column_index=0;
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContext().getContentResolver().query(selectedImage, proj, null, null, null);
-                if(cursor.moveToFirst()){
-                    column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    int column_index=0;
+                    String[] proj = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContext().getContentResolver().query(selectedImage, proj, null, null, null);
+                    if(cursor.moveToFirst()){
+                        column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    }
+                    String gallery_path =  cursor.getString(column_index);
+                    Log.d("gallery_path ::::::::::::: >>>>>>>>>>> 2222222222222 ", gallery_path+"");   ///storage/emulated/0/IERP/JPEG_20210121_0208.jpg
+                    in.close();
+
+                    //REG_DTTI (현재날짜)
+                    long now = System.currentTimeMillis();
+                    Date date = new Date(now);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+                    DTTI = sdf.format(date);
+                    DTTI2 = sdf2.format(date);
+                    G.dtti = DTTI;
+                    G.dtti2 = DTTI2;
+                    G.TempBusId=st_bus_list_id+"";
+
+                    TempBusId_Value = G.TempBusId+"";
+                    TRANSP_BIZR_ID = G.transpBizrId + "";
+                    Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
+                    GarryValue = Garray.PositionInfo[G.position][1] + "";
+
+                    JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 300));
+                    item.preview_uri= selectedImage;                // 변경될 이미지 저장
+                    DB_Path = Garray.value[G.position];
+                    job_text_adapter_p_c.notifyDataSetChanged();    //변경됐다고 adapter 에 알리기
+
+
+                    path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + GarryValue + ".jpg").replaceAll("/","%"));
+                    Log.d("path_list===========> ", path_list+"");    //[/storage/emulated/0/DCIM/Camera/IMG_20210222_001322.jpg&nas_image%image%IERP%PRJ_BUS_01004%20210222%PRJ_BUS_01004_20210222_4100200_141101234_1.jpg]
+                    int cnt = 0;
+
+                    for (String str : path_list){
+                        cnt++;
+                        System.out.println(cnt+" :  "+str);
+                        sign_map.put("sign"+cnt, str);
+                    }
+                    Log.d("sign_map **************** ", sign_map.size()+"");
+                    Log.d("sign_map **************** ", sign_map+"");
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                String gallery_path =  cursor.getString(column_index);
-                Log.d("gallery_path ::::::::::::: >>>>>>>>>>> 2222222222222 ", gallery_path+"");   ///storage/emulated/0/IERP/JPEG_20210121_0208.jpg
-                in.close();
-
-                //REG_DTTI (현재날짜)
-                long now = System.currentTimeMillis();
-                Date date = new Date(now);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-                DTTI = sdf.format(date);
-                DTTI2 = sdf2.format(date);
-                G.dtti = DTTI;
-                G.dtti2 = DTTI2;
-                G.TempBusId=st_bus_list_id+"";
-
-                TempBusId_Value = G.TempBusId+"";
-                TRANSP_BIZR_ID = G.transpBizrId + "";
-                Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
-                GarryValue = Garray.PositionInfo[G.position][1] + "";
-
-                JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 300));
-                item.preview_uri= selectedImage;                // 변경될 이미지 저장
-                DB_Path = Garray.value[G.position];
-                job_text_adapter_p_c.notifyDataSetChanged();    //변경됐다고 adapter 에 알리기
-
-
-                path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + GarryValue + ".jpg").replaceAll("/","%"));
-                Log.d("path_list===========> ", path_list+"");    //[/storage/emulated/0/DCIM/Camera/IMG_20210222_001322.jpg&nas_image%image%IERP%PRJ_BUS_01004%20210222%PRJ_BUS_01004_20210222_4100200_141101234_1.jpg]
-                int cnt = 0;
-
-                for (String str : path_list){
-                    cnt++;
-                    System.out.println(cnt+" :  "+str);
-                    sign_map.put("sign"+cnt, str);
-                }
-                Log.d("sign_map **************** ", sign_map.size()+"");
-                Log.d("sign_map **************** ", sign_map+"");
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         } //[사진촬영]
         else if (requestCode/100 ==2){
@@ -989,10 +991,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         Log.d("이미지uri", imgUri+", 아이디 :"+id);
 
                         // 여기서 item.preview_uri 에 사진경로 uri를 저장하면서 어댑터에서 포지션을 찾아 vh.ivPreview.setImageURI(item.preview_uri); 해줌
-                        JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));
-                        item.preview_uri= imgUri;
+                        JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //items 의 requestCode 값과 포지션값 가져오기
+                        item.preview_uri= imgUri;                      //items 값 변경
                         DB_Path = Garray.value[G.position];
-                        job_text_adapter_p_c.notifyDataSetChanged();
+                        job_text_adapter_p_c.notifyDataSetChanged();   //변경 알리기
+                        cursorImages.close();    //커서 사용이 끝나면 닫기!
 
                     }
                 } catch (Exception e) {
