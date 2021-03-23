@@ -628,7 +628,7 @@
         android:id="@+id/btn_insert"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:text="다음 페이지로 이동"
+        android:text="등록 다음 단계로 이동   →"
         android:textSize="16sp"
         android:textColor="#ffffff"
         android:textStyle="bold"

@@ -141,7 +141,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                     dialog.show();
                 }
             });
-            vh.ivTakePic.setText("사진앨범");
+            vh.ivTakePic.setText("사진선택");
             vh.ivTakePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -160,7 +160,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             setImageUri();
                             if (imgUri!=null) intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
                             //((Activity)context).startActivityForResult(intent, 200);
-                            myPageFragment1.startActivityForResult(intent, 200);
+                            myPageFragment1.startActivityForResult(intent, 200+position);   //intent 로 전달할때 position 값도 같이 전달..
                         }
                     });
                     builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
@@ -263,7 +263,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             setImageUri();
                             if (imgUri!=null) intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
                             //((Activity)context).startActivityForResult(intent, 200);
-                            myPageFragment1.startActivityForResult(intent, 200);
+                            myPageFragment1.startActivityForResult(intent, 200+position);
                         }
                     });
                     builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {

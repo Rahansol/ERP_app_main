@@ -941,14 +941,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
                 GarryValue = Garray.PositionInfo[G.position][1] + "";
 
-                //JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 100));
                 JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 300));
-
-                item.preview_uri= selectedImage;
+                item.preview_uri= selectedImage;                // 변경될 이미지 저장
                 DB_Path = Garray.value[G.position];
-                job_text_adapter_p_c.notifyDataSetChanged();
-
-
+                job_text_adapter_p_c.notifyDataSetChanged();    //변경됐다고 adapter 에 알리기
 
 
                 path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + GarryValue + ".jpg").replaceAll("/","%"));
@@ -994,7 +990,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                         // 여기서 item.preview_uri 에 사진경로 uri를 저장하면서 어댑터에서 포지션을 찾아 vh.ivPreview.setImageURI(item.preview_uri); 해줌
                         JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));
-                        //item.preview_uri= Uri.parse(String.valueOf(IMAGE_PROJECTION));
                         item.preview_uri= imgUri;
                         DB_Path = Garray.value[G.position];
                         job_text_adapter_p_c.notifyDataSetChanged();
