@@ -4,8 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="test_url">http://192.168.0.122:8180/controller/</string>
-    <!--<string name="test_url">http://ierp.interpass.co.kr/controller/</string>-->
+    <!--<string name="test_url">http://192.168.0.122:8180/controller/</string>-->
+    <string name="test_url">http://ierp.interpass.co.kr/controller/</string>
     <!--<string name="test_url">http://192.168.0.49:8080/controller/</string>-->
 
     <string name="action_settings">Settings</string>

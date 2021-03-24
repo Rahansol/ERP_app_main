@@ -44,7 +44,6 @@
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
                 android:hint="일련번호 입력"
-                android:maxLength="9"
                 android:paddingLeft="8dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"

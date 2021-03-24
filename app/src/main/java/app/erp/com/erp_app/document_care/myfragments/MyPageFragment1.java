@@ -17,10 +17,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.InputType;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -49,6 +51,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -160,6 +163,15 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.pager1_my_project_work_insert_fragment_1, container, false);
 
+            tedPermission();
+
+            /*if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                int permissionOnResult=getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (permissionOnResult==PackageManager.PERMISSION_DENIED){
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+                }
+            }*/
+
             Bundle bundle = getActivity().getIntent().getExtras();
             if (bundle != null) {
                 selectedNum = bundle.getString("SelectedNum");    //아이템 선택값 전달받기..
@@ -231,8 +243,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 }
             });
 
+            //키보드 올리기
             EtBusNum= rootView.findViewById(R.id.et_bus_num);
-            //bus_num= EtBusNum.getText().toString();
+            /*EtBusNum.requestFocus();
+            InputMethodManager imm= (InputMethodManager)getContext().getSystemService(getContext().INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            EtBusNum.setRawInputType(InputType.TYPE_CLASS_NUMBER);*/
 
             /*[차량검색]버튼*/
             btnSearchBusNum= rootView.findViewById(R.id.btn_search_bus_num);
@@ -278,6 +294,20 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 100:
+                if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(getContext(), "사진촬영 허용", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext(), "사진촬영 불가", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
@@ -302,7 +332,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         TedPermission.with(getContext())
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage(getResources().getString(R.string.permission_2))
-                .setRationaleMessage(getResources().getString(R.string.permission_1))
+                .setDeniedMessage(getResources().getString(R.string.permission_1))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
     }
@@ -328,7 +358,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             super.onPostExecute(bus_infoVos);
 
             if (bus_infoVos.size() == 0){
-                Toast.makeText(getContext(), "차량번호가 존재하지 않습니다. 신규등록을 해주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "차량번호가 존재하지 않습니다. 차량등록을 해주세요.", Toast.LENGTH_SHORT).show();
                 spinner_array_project_bus_list= new ArrayList<>();
 
             } else if (bus_infoVos != null){
@@ -972,11 +1002,16 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 Log.d("ㅇㅇ", "카메라앱 결과 가져옴!!!!!");
                 Log.d("카메라앱", resultCode+", "+requestCode);
 
-                Uri imgUri= null;
+                // NOTE: ☆ 카메라 촬영 후 특정 단말의 경우 ex; Nexus, Gallaxy, Vega.. etc ☆
+                // NOTE: onActivityResult 결과를 받는 쪽에서 data.getData()가 null 값이 경우가 있음..
+                // NOTE: 이런경우 보통은 Bitmap 으로 data 값이 넘어오기 때문에
+                // NOTE: Bitmap bitmap= (Bitmap) data.getExtras().get("data"); 으로 호출하거나
+                // NOTE: 마지막에 저장된 이미지 Uri를 가져오는 방법이 있다 - EXTERNAL_CONTENT_URI (아래 참조...)
+
+                /*Uri imgUri= null;
                 String[] IMAGE_PROJECTION={
                         MediaStore.Images.ImageColumns.DATA,
-                        MediaStore.Images.ImageColumns._ID
-                };
+                        MediaStore.Images.ImageColumns._ID };
 
                 try {
                     Cursor cursorImages= getContext().getContentResolver().query( //외부 메모리에 있는 이미지 정보 조회
@@ -988,7 +1023,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     if (cursorImages != null && cursorImages.moveToLast()){
                         imgUri= Uri.parse(cursorImages.getString(0));   //경로
                         int id= cursorImages.getInt(1);     //아이디
-                        Log.d("이미지uri", imgUri+", 아이디 :"+id);
+                        Log.d("이미지uri", imgUri+", 아이디 :"+id + "cursorImages://"+ cursorImages);
 
                         // 여기서 item.preview_uri 에 사진경로 uri를 저장하면서 어댑터에서 포지션을 찾아 vh.ivPreview.setImageURI(item.preview_uri); 해줌
                         JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //items 의 requestCode 값과 포지션값 가져오기
@@ -996,11 +1031,25 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         DB_Path = Garray.value[G.position];
                         job_text_adapter_p_c.notifyDataSetChanged();   //변경 알리기
                         cursorImages.close();    //커서 사용이 끝나면 닫기!
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
+
+                // STATUS: 1. 안드 11 ->  사진촬영 -> 촬영된 이미지 잘 불려짐
+                // STATUS: 2. 안드 10 ->  사진촬영 -> 촬영된 이미지는 잘 저장이 되어있으나 다른 경로에서 다른 사진을 가져옴 ERROR
+                // FIXME: NO IDEA WHAT TO DO !!
+
+                // EDIT: 사진촬영을 실행하는 곳 (리사이클러뷰 어댑터- job_text_adapter_p_c)에서
+                // EDIT: imgUri 를 G 클래스에 저장하고 여기서 불러줌..
+                // EDIT: 리사이클러뷰 item의 값을 변경해주고 notify 해준다.
+
+                Log.d("imgUri확인..", G.CAPTURED_IMAGE_URI+"");     //이미지 저장경로
+                JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //어댑터에서 리사이클러뷰 아이템의 position 까지 intent 로 보내주었으니 자리변경하여 아이템 값 잘 바꿔줌
+                item.preview_uri= G.CAPTURED_IMAGE_URI;
+                DB_Path = Garray.value[G.position];
+                job_text_adapter_p_c.notifyDataSetChanged();
+
             }
         } // [바코드 스캐너]
         else {
@@ -1008,8 +1057,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             String barcode= intentResult.getContents();
             Log.d("바코드값", barcode+"");
             G.BARCODE= barcode;
+            Garray.value[Garray.PositionInfo[G.position][0]]=barcode;
             //Item에 접근하기
             JobTextItems Item= jobTextItems.get(G.position);
+
             Item.busNum= barcode;
             job_text_adapter_p_c.notifyDataSetChanged();
         }

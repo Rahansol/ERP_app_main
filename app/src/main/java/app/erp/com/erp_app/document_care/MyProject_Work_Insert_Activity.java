@@ -6,6 +6,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -77,14 +79,14 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity{
         manager.beginTransaction().replace(R.id.frameLayout, myPageFragment1).commit();   //첫번째 Fragment 로 이동 transition!!
 
 
-
-        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
+        /*if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
             int permissionOnResult=checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if(permissionOnResult== PackageManager.PERMISSION_DENIED){
                 //퍼미션 체크 다이얼로그
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
             }
-        }
+        }*/
+
 
         /*List<Fragment> list= new ArrayList<>();
         list.add(new MyPageFragment1());
@@ -98,22 +100,6 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity{
     }//onCreaet()....
 
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        IntentResult intentResult= IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        Log.d("intentResult", intentResult+"");
-        String barcode= intentResult.getContents();
-        Log.d("barcode", barcode+"");
-        Log.d("resultCode", resultCode+"");    //resultCode = -1...?
-        G.BARCODE= barcode;
-
-        switch (resultCode){
-            case 600:
-                Log.d("requestCode6", "666666666666666666666666");   //resultCode = -1...?
-        }
-    }*/
 
 
     @Override
@@ -127,6 +113,7 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity{
         }
     }//onBackPressed..
 
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -139,6 +126,8 @@ public class MyProject_Work_Insert_Activity extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
