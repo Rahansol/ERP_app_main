@@ -50,6 +50,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
     Uri imgUri;  //캡쳐한 이미지 경로 Uri
     String mCurrentPhotoPath;
+    File imageFile;
 
 
     public Job_Text_Adapter_P_C() {
@@ -160,9 +161,12 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             setImageUri();
                             Log.d("imgUri>>", imgUri+"");
+                            Log.d("imageFile>>", imageFile+"");
+                            Log.d("mCurrentPhotoPath>>!!", mCurrentPhotoPath+"");
                             if (imgUri!=null){
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);   // 카메라앱을 실행할 때 EXTRA_DATA 로 미리 캡쳐된 사진이 저장될 경로를 지정 (setImageUri() 에서..)
                                 G.CAPTURED_IMAGE_URI= imgUri;
+                                G.CAPTURED_IMAGE_PATH= imageFile+"";
                                 Log.d("imgUri저장", imgUri+"");
                                 myPageFragment1.startActivityForResult(intent, 200+position);   //intent 로 전달할때 position 값도 같이 전달..
                             }
@@ -269,11 +273,13 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             setImageUri();
-                            Log.d("imgUri>>", imgUri+"");
+                            Log.d("imgUri>>", imgUri+"");                           // content://app.erp.com.erp_app/hidden/IERP/JPEG_20210325_0914.jpg
+                            Log.d("imageFile>>", imageFile+"");                     // /storage/emulated/0/IERP/JPEG_20210325_0914.jpg
+                            Log.d("mCurrentPhotoPath>>!!", mCurrentPhotoPath+"");   // /storage/emulated/0/IERP/JPEG_20210325_0914.jpg
                             if (imgUri!=null){
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);   // 카메라앱을 실행할 때 EXTRA_DATA 로 미리 캡쳐된 사진이 저장될 경로를 지정 (setImageUri() 에서..)
                                 G.CAPTURED_IMAGE_URI= imgUri;
-                                Log.d("imgUri저장", imgUri+"");
+                                G.CAPTURED_IMAGE_PATH= imageFile+"";
                                 myPageFragment1.startActivityForResult(intent, 200+position);   //intent 로 전달할때 position 값도 같이 전달..
                             }
                         }
@@ -343,7 +349,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
         String timeStamp= new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
         String imageFileName= "JPEG_"+timeStamp+".jpg";
-        File imageFile= null;
+        imageFile= null;
         File storageDir= new File(Environment.getExternalStorageDirectory()+"/IERP");   //외부메모리 최상위(root) 경로  //경로: [storage/emulated]
 
         if (!storageDir.exists()){
@@ -353,12 +359,15 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
             Log.d("storageDir========저장경로 =====::: ", storageDir+"");    //storage/emulated/0/IERP  //저장경로 있음
         }
         imageFile= new File(storageDir, imageFileName);
-        mCurrentPhotoPath= imageFile.getAbsolutePath();  //이미지 파일의 절대경로?
+        Log.d("imageFile_imageFile>>>", imageFile+"");   // /storage/emulated/0/IERP/JPEG_20210325_0955.jpg
+        mCurrentPhotoPath= imageFile.getAbsolutePath();            // /storage/emulated/0/IERP/JPEG_20210325_0955.jpg
+        Log.d("mCurrentPhotoPath확인>>", mCurrentPhotoPath+"");
 
         //카메라앱에 전달해줄 저장 파일경로= File 객체가 아니라 Uri 객체여야함!!
         // File -----> Uri 변환
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.N)  {
             imgUri = Uri.fromFile(imageFile);
+            Log.d("imgUri확인>>>>>>", imgUri+"");
         }else {
             imgUri= FileProvider.getUriForFile(context, context.getPackageName(), imageFile);  // imgUri 작업 끝
             Log.d("PATH TEST : >>>> ", "["+imgUri+"]["+imageFile+"]");

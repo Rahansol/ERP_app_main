@@ -3,6 +3,8 @@ package app.erp.com.erp_app.document_care.myfragments;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import java.io.File;
+
 import retrofit2.http.PUT;
 
 public class G {
@@ -55,7 +57,8 @@ public class G {
     public static String BUS_NUM_VAL;
 
 
-    public static Uri CAPTURED_IMAGE_URI;
-    public static Bitmap CAPTURED_IMAGE_BITMAP;
+    public static Uri CAPTURED_IMAGE_URI;        // for 사진촬영
+    public static String CAPTURED_IMAGE_PATH;    // for 사진촬영
+    public static Bitmap CAPTURED_IMAGE_BITMAP;  // for 사진앨범
 
 }

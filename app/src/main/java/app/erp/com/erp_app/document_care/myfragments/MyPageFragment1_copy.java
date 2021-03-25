@@ -885,6 +885,8 @@ public class MyPageFragment1_copy extends Fragment implements View.OnClickListen
 
         //switch (Math.floorDiv(requestCode, 100)
 
+
+
         // [사진앨범]
         if (requestCode/100 == 3){
             Toast.makeText(getContext(), "이미지 불러오기", Toast.LENGTH_SHORT).show();
