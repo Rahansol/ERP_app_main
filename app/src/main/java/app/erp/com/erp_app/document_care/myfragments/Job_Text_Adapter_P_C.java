@@ -162,12 +162,14 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             setImageUri();
                             Log.d("imgUri>>", imgUri+"");
                             Log.d("imageFile>>", imageFile+"");
-                            Log.d("mCurrentPhotoPath>>!!", mCurrentPhotoPath+"");
+                            // FIXME: 여기서 imageFile을 Uri 타입으로 변경하여 cropImage 에 파라미터로 보내보기?
+                            //cropImage(imageFile);
                             if (imgUri!=null){
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);   // 카메라앱을 실행할 때 EXTRA_DATA 로 미리 캡쳐된 사진이 저장될 경로를 지정 (setImageUri() 에서..)
                                 G.CAPTURED_IMAGE_URI= imgUri;
                                 G.CAPTURED_IMAGE_PATH= imageFile+"";
                                 Log.d("imgUri저장", imgUri+"");
+
                                 myPageFragment1.startActivityForResult(intent, 200+position);   //intent 로 전달할때 position 값도 같이 전달..
                             }
 
@@ -220,6 +222,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             IntentIntegrator integrator= new IntentIntegrator(myPageFragment1.getActivity());
                             integrator.forSupportFragment(myPageFragment1).initiateScan();
                             myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
+
                         }
                     });
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -373,6 +376,14 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
             Log.d("PATH TEST : >>>> ", "["+imgUri+"]["+imageFile+"]");
         }
         //new AlertDialog.Builder(context).setMessage(imgUri.toString()).create().show();  //작업확인
+    }
+
+
+
+    public void cropImage(Uri imgFileUri){
+        if (imageFile==null){
+            //FIXME: Crop 해주기
+        }
     }
 
 

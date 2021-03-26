@@ -293,6 +293,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     }//onCreate...
 
 
+
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -1041,19 +1045,16 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                 // EDIT: 사진촬영을 실행하는 곳 (리사이클러뷰 어댑터- job_text_adapter_p_c)에서
                 // EDIT: imgUri 를 G 클래스에 저장하고 여기서 불러줌..
-                // EDIT: 리사이클러뷰 item의 값을 변경해주고 notify 해준다.
+                // EDIT: 리사이클러뷰 item의 값을 변경해주고 notify 해쥼..
 
-
-                // TODO: ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-                Log.d("G.CAPTURED_IMAGE_PATH>>>",G.CAPTURED_IMAGE_PATH+"" );
-
-                Log.d("imgUri확인..", G.CAPTURED_IMAGE_URI+"");     //이미지 저장경로
+                // NOTE: 1) 리사이클러뷰 아이템 값 변경작업
                 JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //어댑터에서 리사이클러뷰 아이템의 position 까지 intent 로 보내주었으니 자리변경하여 아이템 값 잘 바꿔줌
                 item.preview_uri= G.CAPTURED_IMAGE_URI;
                 DB_Path = Garray.value[G.position];
-                job_text_adapter_p_c.notifyDataSetChanged();
+                job_text_adapter_p_c.notifyDataSetChanged();     //리사이클러뷰 아이템 값 변경- 화면에서 보여지는 값.
 
+                // NOTE: 2) 사진촬영 후 그 이미지 INSERT 및 UPDATE 작업
+                //          -> gallery_path 와 path_list 생성
                 long now = System.currentTimeMillis();
                 Date date = new Date(now);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -1063,23 +1064,23 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 G.dtti = DTTI;
                 G.dtti2 = DTTI2;
 
+
+
                 String gallery_path= G.CAPTURED_IMAGE_PATH;
-                Log.d("gallery_path확인>>>!!", gallery_path+"");
-                Log.d("gallery_path확인>>>!!", G.CAPTURED_IMAGE_PATH+"");
                 Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + G.dtti2 + "/" + TABLE_NAME + "_" + G.dtti2 + "_" + G.transpBizrId + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
                 path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + G.transpBizrId + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg").replaceAll("/","%"));
-                Log.d("path_list확인+++++", path_list+"");
-                int cnt=0;
+                Log.d("gallery_path ))))", gallery_path+"");
+                Log.d("path_list ))))", path_list+"");
 
+                // NOTE: 업로드할 이미지의 경로 이름을 다르게 주기위한 작업
+                int cnt=0;
                 for (String str : path_list){
                     cnt++;
                     System.out.println(cnt+" :  "+str);
                     sign_map.put("sign"+cnt, str);
                 }
-                Log.d("sign_map확인++++++++++++++", sign_map.size()+"");
-                Log.d("sign_map확인++++++++++++++", sign_map+"");
-
-
+                Log.d("sign_map ))))", sign_map.size()+"");
+                Log.d("sign_map ))))", sign_map+"");
             }
         } // [바코드 스캐너]
         else {
@@ -1111,7 +1112,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     //[다음]버튼
     @Override
     public void onClick(View v) {
-
         Log.d("TABLE_NAME>>>", TABLE_NAME+"");
 
         switch (v.getId()) {
@@ -1358,6 +1358,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             }
         }
     }//ImageUploadJson()...
+
 
 
 

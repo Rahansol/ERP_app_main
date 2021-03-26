@@ -62,6 +62,7 @@ public class CustomScannerActivity extends Activity implements DecoratedBarcodeV
         barcodeScannerView.setTorchListener(this);
         capture = new CaptureManager(this, barcodeScannerView);
         capture.initializeFromIntent(getIntent(), savedInstanceState);
+        Log.d("getIntent!", getIntent()+"");
         Log.d("savedInstanceState:=====>  ", savedInstanceState+""); //null
         capture.decode();
     }

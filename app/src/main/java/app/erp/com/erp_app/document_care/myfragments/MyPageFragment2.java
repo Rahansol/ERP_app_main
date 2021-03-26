@@ -120,7 +120,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
 
 
-        TextView go_back= rootView.findViewById(R.id.go_back);
+        /*TextView go_back= rootView.findViewById(R.id.go_back);
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,10 +130,9 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                         .addToBackStack(null)
                         .commit();
             }
-        });
+        });*/
 
         recyclerView_cable= rootView.findViewById(R.id.recyclerview_cable);
-
 
         btnSave= rootView.findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
@@ -142,6 +141,14 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
     }//onCreateView
 
 
+    // NOTE: 안전하게 context 를 사용하는 법 - onAttach 사용.
+    // NOTE: 프래그먼트 이곳 저곳에서 getContext(), getActivity()를 부르다가 Null 이 발생할 수 있기때문에
+    // NOTE: 더 안전하게 하려면 부를 때마다 체크 .. ===>>  ( isAdd() && mContext != null )
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext= context;
+    }
 
 
 
@@ -305,7 +312,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                         call.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
-                                Toast.makeText(getContext(), "저장완료!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "저장완료!", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -314,17 +321,26 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                             }
                         });
 
-                        /*Intent i= new Intent(getContext(), Call_Center_Activity.class);
-                        startActivity(i);*/
 
-
-                        //첫번째 fragment 화면으로 돌아감
-                        getActivity().getSupportFragmentManager()
-                                //.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)   //BackStack 에 있는 모든 fragments 들을 소멸시킴
+                         /*getActivity().getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frameLayout, new MyPageFragment1())
+                                .replace(R.id.frameLayout, new MyPageFragment1())    //첫번째 fragment 화면으로 돌아감
                                 .addToBackStack(null)
-                                .commit();
+                                .commit(); */
+
+                        // STATUS: [완료]버튼을 클릭 -> 두번째 화면(2단계)으로 돌아감 (지금 현재화면)
+                        // FIXME: 1) BackStack 에 있는 모든 fragments 들 소멸시키고 첫밴째 화면(1단계)으로 '이동'시키기
+                        // FIXME: 2) 1단계 화면에서 뒤로가기 버튼 클릭 -> 메인화면으로 이동시키기
+
+
+                        // NOTE: BackStack 에 있는 모든 fragments 들을 소멸시킴
+                        getActivity().getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+
+                        // EDIT: [완료]버튼 클릭하면 1단계 화면으로 이동
+                        //       1) 1단계 화면에서 뒤로가기 버튼 클릭  ->  첫번째로 [프로젝트 업무] 메뉴를 선택하면 나오는 [작성하기] 화면으로 이동
+                        //       3) [작성하기] 화면에서 뒤로가기 버튼클릭  ->  메인화면으로 이동
+
 
                     }
                 });

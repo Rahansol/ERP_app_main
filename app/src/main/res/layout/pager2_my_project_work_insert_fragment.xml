@@ -421,7 +421,7 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:weightSum="2">
-        <TextView
+        <!--<TextView
             android:id="@+id/go_back"
             android:layout_weight="1"
             android:layout_width="wrap_content"
@@ -431,18 +431,17 @@
             android:text="이전"
             android:textColor="#ffffff"
             android:textStyle="bold"
-            android:background="#3b4148"/>
+            android:background="#3b4148"/>-->
         <TextView
             android:id="@+id/btn_save"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#ffffff"
             android:textStyle="bold"
-            android:text="저장"
-            android:background="#F44336"/>
+            android:text="등록 완료하기"
+            android:background="#2196F3"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -632,6 +632,6 @@
         android:textSize="16sp"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:background="#5A3CC6"/>
+        android:background="#2196F3"/>
 
 </LinearLayout>

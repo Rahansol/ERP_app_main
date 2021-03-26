@@ -12,4 +12,10 @@
         android:icon="@drawable/power_btn"
         android:title="logout"
         app:showAsAction="ifRoom"/>
+
+   <!-- <item
+        android:id="@+id/my_nav"
+        android:icon="@drawable/menu_icon"
+        android:title="메뉴"
+        app:showAsAction="always"/>-->
 </menu>
