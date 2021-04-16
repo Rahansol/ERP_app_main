@@ -115,6 +115,9 @@ public class LoginActivity extends Activity{
             autoLogin.setChecked(true);
             id_text.setText(pref.getString("auto_id",""));
             pw_text.setText(pref.getString("auto_pw", ""));
+            if(id_text.length()!=0 && pw_text.length()!=0) {
+                new App_Login().execute(id_text.getText().toString(),pw_text.getText().toString());
+            }
         }else{
             autoLogin.setChecked(false);
         }

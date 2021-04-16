@@ -34,6 +34,7 @@ public class Gtv_Error_Install_Activity extends AppCompatActivity implements Vie
     TableLayout table_gtv_body;
 
     SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +132,11 @@ public class Gtv_Error_Install_Activity extends AppCompatActivity implements Vie
                         .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                         .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+                                editor = pref.edit();
+                                editor.putString("auto_login" , "Nauto");
+                                editor.commit();
+
                                 Intent i = new Intent(Gtv_Error_Install_Activity.this , LoginActivity.class );
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

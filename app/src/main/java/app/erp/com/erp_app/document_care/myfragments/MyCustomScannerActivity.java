@@ -44,6 +44,9 @@ public class MyCustomScannerActivity extends Activity implements DecoratedBarcod
         }*/
 
         switchFlashlightButtonCheck = true;
+        //Log.d("PICK_FROM_CAMERA ")
+
+
 
 //        setting_btn = (ImageButton)findViewById(R.id.setting_btn);
         switchFlashlightButton = (ImageButton)findViewById(R.id.switch_flashlight);
@@ -52,12 +55,22 @@ public class MyCustomScannerActivity extends Activity implements DecoratedBarcod
             switchFlashlightButton.setVisibility(View.GONE);
         }
 
+
+
         barcodeScannerView = (DecoratedBarcodeView)findViewById(R.id.zxing_barcode_scanner);
         barcodeScannerView.setTorchListener(this);
         capture = new CaptureManager(this, barcodeScannerView);
+
+        if (G.CameraFlash) {
+            barcodeScannerView.setTorchOn();
+        } else {
+            barcodeScannerView.setTorchOff();
+        }
+
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         Log.d("savedInstanceState:=====>  ", savedInstanceState+""); //null
         capture.decode();
+
     }
 
     @Override
@@ -91,9 +104,12 @@ public class MyCustomScannerActivity extends Activity implements DecoratedBarcod
     public void switchFlashlight(View view) {
         if (switchFlashlightButtonCheck) {
             barcodeScannerView.setTorchOn();
+            G.CameraFlash=true;
         } else {
             barcodeScannerView.setTorchOff();
+            G.CameraFlash=false;
         }
+
     }
 
     private boolean hasFlash() {

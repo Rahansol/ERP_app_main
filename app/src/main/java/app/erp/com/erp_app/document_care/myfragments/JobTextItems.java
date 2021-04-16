@@ -22,10 +22,10 @@ public class JobTextItems {
     }
 
 
-    public JobTextItems(String jobText, String busNum, Uri takePic, String tv, String tv_p, String preview) {
+    public JobTextItems(String jobText, String busNum, Uri preview_uri, String tv, String tv_p, String preview) {
         this.jobText = jobText;
         this.busNum = busNum;
-        this.preview_uri = takePic;
+        this.preview_uri = preview_uri;
         this.tv = tv;
         this.tv_p = tv_p;
         this.preview = preview;

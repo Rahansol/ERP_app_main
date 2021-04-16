@@ -59,6 +59,8 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
     String page_check ;
 
     SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,7 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         pref = getSharedPreferences("user_info" , MODE_PRIVATE);
         String token_dep_code = pref.getString("dep_code","");
         String emp_id = pref.getString("emp_id","");
+
 
         String token = FirebaseInstanceId.getInstance().getToken();
         message_group(token_dep_code);
@@ -129,6 +132,10 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         if (id == R.id.nav_camera) {
             //차량 바코드 등록
             Intent i = new Intent(Call_Center_Activity.this , Barcode_bus_Activity.class);
+            startActivity(i);
+        }else if (id == R.id.home) {
+            // 예비품 지급
+            Intent i = new Intent(Call_Center_Activity.this, Call_Center_Activity.class);
             startActivity(i);
         }else if (id == R.id.reserve_item_give) {
             // 예비품 지급
@@ -350,10 +357,15 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.logout_btn :
+
                 new AlertDialog.Builder(this)
                         .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                         .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                editor = pref.edit();
+                                editor.putString("auto_login" , "Nauto");
+                                editor.commit();
+
                                 Intent i = new Intent(Call_Center_Activity.this , LoginActivity.class );
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -367,7 +379,11 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
                         })
                         .show();
                 return true;
-            case R.id.help_btn :
+            case R.id.prj_btn:
+                Intent i= new Intent(Call_Center_Activity.this, MyInstallationSignActivity.class);
+                startActivity(i);
+                return true;
+            /*case R.id.help_btn :
                 Intent i = new Intent(Call_Center_Activity.this , Help_Actaivity.class );
                 switch (page_check){
                     case "insert" :
@@ -383,7 +399,7 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
                         startActivity(i);
                         break;
                 }
-                return true;
+                return true;*/
             default:
                 Toast.makeText(this,"선택하신 메뉴의 도움말은 준비중 입니다.",Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);

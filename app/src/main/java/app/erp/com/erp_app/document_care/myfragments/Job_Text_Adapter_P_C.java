@@ -76,6 +76,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
     }
 
 
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -113,9 +114,10 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             G.position= position;
-                            IntentIntegrator integrator= new IntentIntegrator(myPageFragment1.getActivity());
+                            /*IntentIntegrator integrator= new IntentIntegrator(myPageFragment1.getActivity());
                             integrator.forSupportFragment(myPageFragment1).initiateScan();
-                            myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
+                            myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);*/
+                            IntentIntegrator.forSupportFragment(myPageFragment1).setCaptureActivity(MyCustomScannerActivity.class).initiateScan();
                         }
                     });
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -126,6 +128,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             if (et.getText().length()!=0){
                                 item.busNum= et.getText().toString();
                                 vh.etBusNum.setText(item.busNum);
+                                G.EDIT_TEXT_BUS_NUM= item.busNum;
 
                                 //입력 후 키보드 내리기
                                 InputMethodManager imm= (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
@@ -162,8 +165,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             setImageUri();
                             Log.d("imgUri>>", imgUri+"");
                             Log.d("imageFile>>", imageFile+"");
-                            // FIXME: 여기서 imageFile을 Uri 타입으로 변경하여 cropImage 에 파라미터로 보내보기?
-                            //cropImage(imageFile);
+
                             if (imgUri!=null){
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);   // 카메라앱을 실행할 때 EXTRA_DATA 로 미리 캡쳐된 사진이 저장될 경로를 지정 (setImageUri() 에서..)
                                 G.CAPTURED_IMAGE_URI= imgUri;
@@ -219,9 +221,11 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             G.position= position;
-                            IntentIntegrator integrator= new IntentIntegrator(myPageFragment1.getActivity());
+                            /*IntentIntegrator integrator= new IntentIntegrator(myPageFragment1.getActivity());
                             integrator.forSupportFragment(myPageFragment1).initiateScan();
-                            myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);
+                            myPageFragment1.startActivityForResult(integrator.createScanIntent(), 600);*/
+
+                            IntentIntegrator.forSupportFragment(myPageFragment1).setCaptureActivity(MyCustomScannerActivity.class).initiateScan();
 
                         }
                     });
@@ -234,6 +238,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                                 //et.setTextColor(Integer.parseInt("#E91E63"));  // 텍스트 색 변경
                                 item.busNum= et.getText().toString();
                                 vh.etBusNum.setText(item.busNum);
+                                G.EDIT_TEXT_BUS_NUM= item.busNum;
 
                                 //입력 후 키보드 내리기
                                 InputMethodManager imm= (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);

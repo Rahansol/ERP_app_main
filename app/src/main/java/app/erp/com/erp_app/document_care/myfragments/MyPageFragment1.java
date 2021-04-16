@@ -2,7 +2,6 @@ package app.erp.com.erp_app.document_care.myfragments;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,25 +13,17 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.InputType;
-import android.util.ArrayMap;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,67 +34,55 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.theartofdev.edmodo.cropper.CropImage;
 
-import org.json.JSONArray;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Array;
-import java.sql.Struct;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
+import app.erp.com.erp_app.Barcode_My_list_Activity;
+import app.erp.com.erp_app.Barcode_bus_Activity;
+import app.erp.com.erp_app.Barcode_garage_input_Activity;
+import app.erp.com.erp_app.Barcode_garage_output_Activity;
 import app.erp.com.erp_app.ERP_Spring_Controller;
-import app.erp.com.erp_app.MainActivity;
+import app.erp.com.erp_app.Gtv_Error_Install_Activity;
 import app.erp.com.erp_app.New_Bus_Activity;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.ReserveItemRepairActivity;
+import app.erp.com.erp_app.Work_Report_Activity;
 import app.erp.com.erp_app.callcenter.Call_Center_Activity;
 import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
-import app.erp.com.erp_app.document_care.PreviewDialogActivity;
-import app.erp.com.erp_app.document_care.ProJect_Doc_Write_Activity;
-import app.erp.com.erp_app.document_care.ProJect_Work_Insert_Activity;
+import app.erp.com.erp_app.document_care.myInstallSignFragments.MyInstallationSignActivity;
+import app.erp.com.erp_app.error_history.Error_History_Activity;
 import app.erp.com.erp_app.jsonparser.JSONParser;
+import app.erp.com.erp_app.over_work.Over_Work_Activity;
+import app.erp.com.erp_app.over_work.Over_Work_Approval_Activity;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import app.erp.com.erp_app.vo.Bus_infoVo;
-import app.erp.com.erp_app.vo.Trouble_CodeVo;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -123,7 +102,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     static String ItemType_C;
     static String ItemType_P;
     static String ItemName;
-    static Uri uri;
+    static Uri uri, selectedImage;
     static String imgUriPath;   //어댑터에서 sharedPreference를 통해 전달받은 imgUri 경로
     private Button btnRegisterNewBus, btnSearchBusNum;
     private EditText EtBusNum;
@@ -144,9 +123,14 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     private ArrayList<String> path_list= new ArrayList<String>();
 
     static String mPath,DB_Path, GarryValue, st_temp_bus_id, area_code, unitNum, GLOBAL, DTTI, DTTI2, REG_EMP_ID, TRANSP_BIZR_ID, BUSOFF_NAME, GARAGE_ID, GARAGE_NAME, ROUTE_ID, ROUTE_NUM, BUS_ID, TempBusId, TempBusId_Value, BUS_NUM, VEHICLE_NUM, JOB_TYPE, TABLE_NAME; //파일명 바꿀때/ 파라미터 필요
-    static int SelectedNum=0;
     static String selectedNum;
-    static String selectedNum2;
+    private DrawerLayout drawerLayout;
+    private NavigationView nav;
+
+    Bitmap bitmap;
+    static Bitmap resizeBitmap;
+
+    static ImageView photoBitmap;
     public MyPageFragment1() {
 
     }
@@ -171,6 +155,77 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
                 }
             }*/
+
+            getActivity().setTitle("1단계");
+
+            drawerLayout= rootView.findViewById(R.id.drawer_layout);
+            nav= rootView.findViewById(R.id.nav);
+            nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Toast.makeText(getActivity(), "!!!!", Toast.LENGTH_SHORT).show();
+                    switch (item.getItemId()){
+                        case R.id.home:
+                            Intent i_1 = new Intent(getContext() , Call_Center_Activity.class);
+                            startActivity(i_1);
+                            break;
+                        case R.id.nav_camera:
+                            Intent i = new Intent(getContext() , Barcode_bus_Activity.class);
+                            startActivity(i);
+                            break;
+                        case R.id.reserve_item_give:
+                            Intent i1 = new Intent(getContext() , Barcode_garage_input_Activity.class);
+                            startActivity(i1);
+                            break;
+                        case R.id.reserve_item_return:
+                            Intent i2 = new Intent(getContext() , Barcode_garage_output_Activity.class);
+                            startActivity(i2);
+                            break;
+                        case R.id.my_barcode_workList:
+                            Intent i3 = new Intent(getContext() , Barcode_My_list_Activity.class);
+                            startActivity(i3);
+                            break;
+                        case R.id.new_bus_insert:
+                            Intent i4 = new Intent(getContext() , New_Bus_Activity.class);
+                            startActivity(i4);
+                            break;
+                        case R.id.gtv_error_install:
+                            Intent i5 = new Intent(getContext() , Gtv_Error_Install_Activity.class);
+                            startActivity(i5);
+                            break;
+                        case R.id.reserve_item_repair:
+                            Intent i6 = new Intent(getContext() , ReserveItemRepairActivity.class);
+                            startActivity(i6);
+                            break;
+                        case R.id.work_report_btn:
+                            Intent i7 = new Intent(getContext() , Work_Report_Activity.class);
+                            startActivity(i7);
+                            break;
+                        case R.id.installation_List_signature:
+                            Intent i8 = new Intent(getContext() , Installation_List_Signature_Activity.class);
+                            startActivity(i8);
+                            break;
+                        case R.id.my_installation_sign:
+                            Intent i9 = new Intent(getContext() , MyInstallationSignActivity.class);
+                            startActivity(i9);
+                            break;
+                        case R.id.trouble_serch_btn:
+                            Intent i10 = new Intent(getContext() , Error_History_Activity.class);
+                            startActivity(i10);
+                            break;
+                        case R.id.over_work_btn:
+                            Intent i11 = new Intent(getContext() , Over_Work_Activity.class);
+                            startActivity(i11);
+                            break;
+                        case R.id.over_work_approval_btn:
+                            Intent i12 = new Intent(getContext() , Over_Work_Approval_Activity.class);
+                            startActivity(i12);
+                            break;
+                    }
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return true;
+                }
+            });
 
             Bundle bundle = getActivity().getIntent().getExtras();
             if (bundle != null) {
@@ -219,7 +274,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             tvVersion = rootView.findViewById(R.id.tv_version);
             Log.d(" st_version_value 값===> ", st_version_value + "");  //null. 왜?? 이벤트를 안줘서??  //코딩은 순서대로.. 버전이 아직 선택이 되지도 않았음.
 
-           spinner_project_transp = rootView.findViewById(R.id.project_transp);             /*운수사 스피너*/
+            spinner_project_transp = rootView.findViewById(R.id.project_transp);              /*운수사 스피너*/
             spinner_project_garage = rootView.findViewById(R.id.project_garage_spinner);     /*영업소 스피너*/
             spinner_project_route_list = rootView.findViewById(R.id.project_route_list);     /*노선번호 스피너*/
             // spinner_project_bus_ver= rootView.findViewById(R.id.project_bus_ver);         /*버전 스피너*/
@@ -232,7 +287,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             bus_num_list = rootView.findViewById(R.id.bus_num_list);
 
 
-            /*[차량신규등록]버튼*/
+            /* NOTE: [차량신규등록]버튼 */
             btnRegisterNewBus = rootView.findViewById(R.id.btn_register_new_bus);
             btnRegisterNewBus.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -243,24 +298,31 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 }
             });
 
-            //키보드 올리기
+            // NOTE: 키보드 올리기
             EtBusNum= rootView.findViewById(R.id.et_bus_num);
             /*EtBusNum.requestFocus();
             InputMethodManager imm= (InputMethodManager)getContext().getSystemService(getContext().INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             EtBusNum.setRawInputType(InputType.TYPE_CLASS_NUMBER);*/
 
-            /*[차량검색]버튼*/
+            /* NOTE: [차량검색]버튼 */
             btnSearchBusNum= rootView.findViewById(R.id.btn_search_bus_num);
             btnSearchBusNum.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     //et값 없으면 이벤트 걸기
-                    if (st_job_name==null){
+                    if (st_job_name == null){
                         Toast.makeText(getContext(), "프로젝트를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                    }else if (EtBusNum.getText().toString().length() ==0) {
-                        Toast.makeText(getContext(), "차량검색을 해주세요.", Toast.LENGTH_SHORT).show();
+                    }else if (EtBusNum.getText().toString().length() < 2) {
+                        Toast.makeText(getContext(), "차량번호를 두자리 이상 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        // <영업소, 노선, 구분> 스피너 초기화
+                        project_bus_list.setAdapter(null);
+                        spinner_project_garage.setAdapter(null);
+                        spinner_project_route_list.setAdapter(null);
+                        spinner_prj_base_infra_job.setAdapter(null);
+                        //리사이클러뷰 초기화
+                        jobTextItems= new ArrayList<>();
                     }else {
                         ERP_Spring_Controller erp = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                         Call<List<Bus_infoVo>> call = erp.getBusNumList(EtBusNum.getText().toString(), st_office_group_value);  //안드로이드에서 스프링으로 [파라미터]를 전달하면 스프링쪽에서 map으로 전달받음
@@ -283,7 +345,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
 
 
-            /* [다음]버튼 */
+            /* NOTE: [다음]버튼 */
             btn_insert = rootView.findViewById(R.id.btn_insert);
             btn_insert.setOnClickListener(this);
 
@@ -291,8 +353,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
         return rootView;
     }//onCreate...
-
-
 
 
 
@@ -323,7 +383,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                Toast.makeText(getContext(), "권한요청 성공.......", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "권한요청 성공.......", Toast.LENGTH_SHORT).show();
                 //권한요청 성공
             }
 
@@ -340,6 +400,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
     }
+
+
 
 
     /*[차량검색]버튼을 누르면 실행되는 스피너*/
@@ -941,13 +1003,15 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         if (requestCode/100 == 3){
             Toast.makeText(getContext(), "이미지 불러오기", Toast.LENGTH_SHORT).show();
             Log.d("requestCodeValue", resultCode/300+"");
-
             if (resultCode == RESULT_OK){       //resultCode == RESULT_OK 이렇게 한번 더 확인해야 사진앨범에서 사진을 선택하지 않고 뒤로가기 버튼을 눌러도 앱이 꺼지지 않음..!!!
                 try {
                     InputStream in = getContext().getContentResolver().openInputStream(data.getData());
-                    Uri selectedImage = data.getData();
-                    Log.d("selected Image :::::::::::: >>>>>>>>> ", selectedImage+"");
+                    selectedImage = data.getData();   // NOTE: selectedImage == Uri 타입임.
                     Bitmap img = BitmapFactory.decodeStream(in);
+                    int SCALE= 2;
+                    // FIXME: 이미지 리사이즈하기
+                    //img= Bitmap.createScaledBitmap(img, img.getWidth()*SCALE, img.getHeight()*SCALE, true);
+                    img= Bitmap.createScaledBitmap(img, 360, 480, true);
 
                     int column_index=0;
                     String[] proj = {MediaStore.Images.Media.DATA};
@@ -956,7 +1020,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                     }
                     String gallery_path =  cursor.getString(column_index);
-                    Log.d("gallery_path ::::::::::::: >>>>>>>>>>> 2222222222222 ", gallery_path+"");   ///storage/emulated/0/IERP/JPEG_20210121_0208.jpg
                     in.close();
 
                     //REG_DTTI (현재날짜)
@@ -1039,6 +1102,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }*/
 
+                // TODO: HOW TO CROP IMAGE AFTER CAPTURING?
+
                 // STATUS: 1. 안드 11 ->  사진촬영 -> 촬영된 이미지 잘 불려짐
                 // STATUS: 2. 안드 10 ->  사진촬영 -> 촬영된 이미지는 잘 저장이 되어있으나 다른 경로에서 다른 사진을 가져옴 ERROR
                 // FIXME: NO IDEA WHAT TO DO !!
@@ -1047,9 +1112,55 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 // EDIT: imgUri 를 G 클래스에 저장하고 여기서 불러줌..
                 // EDIT: 리사이클러뷰 item의 값을 변경해주고 notify 해쥼..
 
+
+
+
+             /**
+                //FIXME: 리사이즈 시도.. 안나옴 ㅜㅜ
+                //FIXME: G.Captured 에 있는 imgUri 를 bitmap 형식으로 변경하기
+                bitmap= null;
+                try {
+                    // TODO: 1)    uri 를 bitmap 으로 ..
+                    bitmap= MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.parse(G.CAPTURED_IMAGE_PATH));
+
+                    // TODO: 1)    bitmap 을 원하는 크기로 리사이즈 ..
+                    BitmapFactory.Options options= new BitmapFactory.Options();
+                    options.inSampleSize= 4;
+                    bitmap= BitmapFactory.decodeFile(G.CAPTURED_IMAGE_PATH, options);
+
+                    int width = 100;
+                    int height = 100;
+                    int bmpWidth = bitmap.getWidth();
+                    int bmpHeight = bitmap.getHeight();
+
+                    if (bmpWidth > width){
+                        int mWidth = bmpWidth/100;
+                        int scale = width/mWidth;
+                        bmpWidth = (scale/100);
+                        bmpHeight = (scale/100);
+                    }else if (bmpHeight >  height){
+                        int mHeight = bmpHeight/100;
+                        int scale = height/mHeight;
+                        bmpWidth = (scale/100);
+                        bmpHeight = (scale/100);
+                    }
+                    resizeBitmap = Bitmap.createScaledBitmap(bitmap, bmpWidth, bmpHeight, true);
+                    Log.d("리사이즈빕맵", resizeBitmap+"");
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+           **/
+
+
+
                 // NOTE: 1) 리사이클러뷰 아이템 값 변경작업
                 JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //어댑터에서 리사이클러뷰 아이템의 position 까지 intent 로 보내주었으니 자리변경하여 아이템 값 잘 바꿔줌
-                item.preview_uri= G.CAPTURED_IMAGE_URI;
+                item.preview_uri= G.CAPTURED_IMAGE_URI;   //FIXME: 원래 원본 코드 !!!!!
+                //item.preview_uri= Uri.parse(String.valueOf(resizeBitmap));   //FIXME: 리사이즈 시도.. 안나옴 ㅜㅜ
                 DB_Path = Garray.value[G.position];
                 job_text_adapter_p_c.notifyDataSetChanged();     //리사이클러뷰 아이템 값 변경- 화면에서 보여지는 값.
 
@@ -1082,7 +1193,13 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 Log.d("sign_map ))))", sign_map.size()+"");
                 Log.d("sign_map ))))", sign_map+"");
             }
-        } // [바코드 스캐너]
+        }/*else if (requestCode/100 ==7){
+            Bundle bundle= data.getExtras();
+            assert bundle != null;
+            Bitmap bitmap= bundle.getParcelable("data");
+
+        }*/
+        // [바코드 스캐너]
         else {
             Log.d("600실행", "600실행");
             String barcode= intentResult.getContents();
@@ -1095,24 +1212,57 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             Item.busNum= barcode;
             job_text_adapter_p_c.notifyDataSetChanged();
         }
-}
+}//onActivityResult()...
 
 
 
-
-    private static HashMap<String, Object> convertArrayListToHashMap(ArrayList<String> mPath_list){
-        HashMap<String, Object> hashMap= new HashMap<>();
-        for (String str : mPath_list){
-            hashMap.put(str, str);
-        }
-        return hashMap;
+    // TODO: HOW TO IMAGE CROP AFTER TAKING PHOTO??
+    /** 이미지크롭 참조) https://www.youtube.com/watch?v=X7YQy3ayjOg **/
+    public void onChooseFile(View v){
+        //CropImage.activity().start(MyProject_Work_Insert_Activity.myPageFragment1);
     }
 
 
-    //[다음]버튼
+    public void cropImage(Uri imageUri){
+        Intent intent= getCropIntent(imageUri);
+        startActivityForResult(intent, 700);
+    }
+
+    public Intent getCropIntent(Uri inputUri){
+        Intent intent= new Intent("com.android.camera.action,CROP");
+        intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        intent.setDataAndType(inputUri, "image/*");
+
+        intent.putExtra("aspectX", 4);
+        intent.putExtra("aspectY", 3);
+        intent.putExtra("outputX", 400);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("scale", true);
+
+        intent.putExtra("return-data", true);
+        intent.putExtra("return-data", true);
+        intent.putExtra("return-data", true);
+
+        return intent;
+    }
+
+
+
+
+
+    // NOTE: [다음 2단계로 이동]버튼
     @Override
     public void onClick(View v) {
         Log.d("TABLE_NAME>>>", TABLE_NAME+"");
+
+        Log.d("Garray.toString>>>", Garray.value.toString()+"");
+        Log.d("Garray.length>>>", Garray.value.length+"");
+
+        Log.d("G.EDIT_TEXT_BUS_NUM확인>>", G.EDIT_TEXT_BUS_NUM+"");
+        Log.d("G.EDIT_TEXT_BUS_NUM확인>>", G.CAPTURED_IMAGE_URI+"");
+        Log.d("selectedImage확인>>", selectedImage+"");
 
         switch (v.getId()) {
             case R.id.btn_insert:
@@ -1122,13 +1272,12 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     Toast.makeText(getContext(), "영업소를 선택하세요.", Toast.LENGTH_SHORT).show();
                 } else if (st_project_route_list.equals("선택")) {
                     Toast.makeText(getContext(), "노선번호를 선택하세요.", Toast.LENGTH_SHORT).show();
-                } /*else if (etProject_bus_list.getText().length() == 0) {
-                    Toast.makeText(getContext(), "차량지역 번호를 확인 하세요.", Toast.LENGTH_SHORT).show();
-                }*/ /*else if (etProject_bus_list.getText().length()>12 || etProject_bus_list.getText().length()<12){
-
-                }*/
-                else {
-                    //REG_EMP_ID
+                    // TODO: 이미지 업로드한 값이 없거나 입력한 일련번호가 없으면 이벤트주기
+                }else if (   G.EDIT_TEXT_BUS_NUM == null &&
+                             G.CAPTURED_IMAGE_URI == null &&
+                             selectedImage == null){           // NOTE: selectedImage 는 사진앨범에서 선택한 이미지임.
+                            Toast.makeText(getContext(), "이미지나 일련번호를 업로드 해주세요.", Toast.LENGTH_SHORT).show();
+                }else {
                     pref = getContext().getSharedPreferences("user_info", Context.MODE_PRIVATE);
                     REG_EMP_ID = pref.getString("emp_id", "");  //이렇게??
                     System.out.println(" ### REG_EMP_ID : " + REG_EMP_ID);
@@ -1271,7 +1420,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     //Toast.makeText(getContext(),"이미지 업로드 시작..." ,Toast.LENGTH_SHORT).show();
-
                                     new ImageUploadJson().execute();
 
                                 }
@@ -1301,6 +1449,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                             ERP_Spring_Controller erp_job_name = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                             Call<List<Bus_OfficeVO>> call_job_name = erp_job_name.JobNameSpinner();
                             new JobNameList().execute(call_job_name);
+
                         }
                     });
                     builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -1350,7 +1499,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 progressDialog.dismiss();   //작업끝나고 dismiss
             if (aBoolean){
 
-                Toast.makeText(getContext(),"이미지 업로드 완료" ,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"이미지 업로드 완료" ,Toast.LENGTH_SHORT).show();
 
             }else {
                 Toast.makeText(getContext(),"이미지 업로드 오류 발생 !!" ,Toast.LENGTH_SHORT).show();
@@ -1358,6 +1507,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             }
         }
     }//ImageUploadJson()...
+
+
+
+
+
 
 
 

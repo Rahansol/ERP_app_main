@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+
+    <!--<item
         android:id="@+id/help_btn"
         android:icon="@drawable/help_btn"
         android:title="help"
+        app:showAsAction="ifRoom"/>-->
+
+    <item
+        android:id="@+id/prj_btn"
+        android:title="prj"
+        android:icon="@drawable/prj_btn"
         app:showAsAction="ifRoom"/>
 
     <item
@@ -12,9 +19,9 @@
         android:icon="@drawable/power_btn"
         android:title="logout"
         app:showAsAction="ifRoom"/>
-
-   <!-- <item
-        android:id="@+id/my_nav"
+<!--
+    <item
+        android:id="@+id/nav_menu"
         android:icon="@drawable/menu_icon"
         android:title="메뉴"
         app:showAsAction="always"/>-->

@@ -9,6 +9,10 @@
         android:title="현장관리">
         <menu>
             <item
+                android:id="@+id/home"
+                android:icon="@drawable/ic_home"
+                android:title="HOME" />
+            <item
                 android:id="@+id/new_bus_insert"
                 android:icon="@drawable/ic_menu_new_bus"
                 android:title="버스등록" />

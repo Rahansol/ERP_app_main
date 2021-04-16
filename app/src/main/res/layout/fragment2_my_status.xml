@@ -9,7 +9,7 @@
     <!--작성현황-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="160dp"
         android:orientation="vertical"
         android:background="@drawable/new_background3"
         android:paddingTop="10dp">
@@ -41,18 +41,20 @@
         </RelativeLayout>
 
 
+        <!--조회기간 및 차량검색창-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <RelativeLayout
                 android:id="@+id/layout2"
-                android:layout_width="295dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/box_in_out3"
                 android:padding="3dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginBottom="6dp">
                 <TextView
                     android:id="@+id/tv_period_title"
@@ -64,50 +66,103 @@
                     android:textColor="#ffffff"
                     android:background="@drawable/box_in_out2"
                     android:layout_marginRight="5dp"/>
-                <RelativeLayout
-                    android:id="@+id/iv_start_date"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_period_title"
-                    android:background="@drawable/transparent_circle_grey_outline"
-                    android:layout_marginRight="5dp">
-                    <TextView
-                        android:id="@+id/tv_start_date"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:gravity="center"
-                        android:text="20201010"
-                        android:textColor="#7B65FB"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/iv_end_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_start_date"
-                    android:background="@drawable/transparent_circle_grey_outline">
-                    <TextView
-                        android:id="@+id/tv_end_date"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:gravity="center"
-                        android:text="20201030"
-                        android:textColor="#7B65FB"/>
-                </RelativeLayout>
+                    android:orientation="horizontal"
+                    android:layout_toRightOf="@+id/tv_period_title">
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:id="@+id/iv_start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/tv_period_title"
+                        android:background="@drawable/transparent_circle_grey_outline"
+                        android:layout_marginRight="5dp">
+                        <TextView
+                            android:id="@+id/tv_start_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:text="20201010"
+                            android:textColor="#7B65FB"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:id="@+id/iv_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/iv_start_date"
+                        android:background="@drawable/transparent_circle_grey_outline">
+                        <TextView
+                            android:id="@+id/tv_end_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:text="20201030"
+                            android:textColor="#7B65FB"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/btnSearch"
-                android:layout_width="80dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="조회"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:background="@drawable/box_in_out_sky_blue"
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="5dp"/>
+
+            <!--차량검색-->
+            <LinearLayout
+                android:layout_weight="1"
+                android:weightSum="6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_weight="5.5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/box_in_out3"
+                    android:padding="3dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="6dp">
+                    <TextView
+                        android:id="@+id/search_bus_num_title"
+                        android:layout_width="80dp"
+                        android:layout_height="35dp"
+                        android:gravity="center"
+                        android:background="@drawable/box_in_out2"
+                        android:text="차량검색"
+                        android:textSize="12sp"
+                        android:textColor="#ffffff"
+                        android:layout_marginRight="4dp"/>
+                    <EditText
+                        android:id="@+id/et_search_bus_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/search_bus_num_title"
+                        android:hint="특정차량 검색 시 입력"
+                        android:textSize="14sp"
+                        android:paddingTop="3dp"
+                        android:paddingLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                </RelativeLayout>
+
+                <Button
+                    android:layout_weight="0.5"
+                    android:id="@+id/btnSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="조회"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:background="@drawable/box_in_out_sky_blue"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginRight="16dp"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -123,7 +178,7 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="165dp"
         android:padding="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"/>

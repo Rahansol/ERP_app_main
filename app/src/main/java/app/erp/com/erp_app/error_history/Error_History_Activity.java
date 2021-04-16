@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -66,11 +67,16 @@ public class Error_History_Activity extends AppCompatActivity {
 
     private Dialog_Office_find office_dialog;
 
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_error_history_main);
         mcContext = this;
+
+
 
         erp = ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
         Call<List<Trouble_CodeVo>> trouble_unit_code_list_call = erp.trouble_unit_code_list();
@@ -369,6 +375,7 @@ public class Error_History_Activity extends AppCompatActivity {
         protected void onPostExecute(final List<Trouble_CodeVo> trouble_codeVos) {
             super.onPostExecute(trouble_codeVos);
             Log.d("ttt","ttttt1ttt"+trouble_codeVos.toString());
+
             if(trouble_codeVos != null){
                 final List<String> spinner_list = new ArrayList<>();
                 spinner_list.add("장비 선택");
@@ -419,15 +426,24 @@ public class Error_History_Activity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()){
+
             case R.id.logout_btn :
+
                 new AlertDialog.Builder(this)
                         .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                         .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+                                editor = pref.edit();
+                                editor.putString("auto_login" , "Nauto");
+                                editor.commit();
+
                                 Intent i = new Intent(Error_History_Activity.this , LoginActivity.class );
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                                 startActivity(i);
                             }
                         })

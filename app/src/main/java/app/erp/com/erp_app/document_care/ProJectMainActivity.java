@@ -3,6 +3,7 @@ package app.erp.com.erp_app.document_care;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import androidx.annotation.Nullable;
@@ -29,6 +30,9 @@ import app.erp.com.erp_app.R;
 public class ProJectMainActivity extends AppCompatActivity {
     FragmentManager fm;
     FragmentTransaction ft;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,11 @@ public class ProJectMainActivity extends AppCompatActivity {
                         .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                         .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+                                editor = pref.edit();
+                                editor.putString("auto_login" , "Nauto");
+                                editor.commit();
+
                                 Intent i = new Intent(ProJectMainActivity.this , LoginActivity.class );
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

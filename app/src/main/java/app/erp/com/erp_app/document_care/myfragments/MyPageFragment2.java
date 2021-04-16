@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,7 +79,7 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
 
     TextView btnSave;
-
+    static LinearLayout project_item_layout;
 
     @Nullable
     @Override
@@ -101,7 +102,9 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
         fragmentManager= ((MyProject_Work_Insert_Activity)getActivity()).getSupportFragmentManager();
 
-        //민혁 - 변수 초기화 추가
+        getActivity().setTitle("2단계");
+
+        // EDIT: 변수 초기화 추가
         for(int i=0; i < Garray.value2.length;i++) {
             Garray.value2[i]="";
         }
@@ -120,22 +123,12 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
 
 
 
-        /*TextView go_back= rootView.findViewById(R.id.go_back);
-        go_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frameLayout, new MyPageFragment1())
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });*/
 
         recyclerView_cable= rootView.findViewById(R.id.recyclerview_cable);
 
         btnSave= rootView.findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
+        project_item_layout= rootView.findViewById(R.id.project_item_layout);
 
         return  rootView;
     }//onCreateView
@@ -169,7 +162,9 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
         protected void onPostExecute(List<Bus_OfficeVO> bus_officeVOS) {
             super.onPostExecute(bus_officeVOS);
 
-            if (bus_officeVOS != null){
+            if (bus_officeVOS.size()>0){
+                Log.d("bus_officeVOS사이즈>>>>>>>", bus_officeVOS.size()+" 개");
+                project_item_layout.setVisibility(View.VISIBLE);
                 cableInsertItems= new ArrayList<>();
                 for (int i=0; i<bus_officeVOS.size(); i++){
                     cableInsertItems.add(new CableInsertItems(bus_officeVOS.get(i).getItem_each_seq(), bus_officeVOS.get(i).getItem_group_name(), "0"));
@@ -177,18 +172,31 @@ public class MyPageFragment2 extends Fragment implements View.OnClickListener {
                 cableInsertAdapter= new CableInsertAdapter(mContext, cableInsertItems);
                 recyclerView_cable.setAdapter(cableInsertAdapter);
 
-                //item.quantity.notify();
-                //cableInsertAdapter.notifyItemChanged(2);
-
-               // cableInsertAdapter.notifyDataSetChanged();
-
+            }else {
+                //Log.d("bus_officeVOS사이즈else>>>>>>>", bus_officeVOS.size()+" 개");
+                //Toast.makeText(getContext(), "케이블 설치목록이 없습니다. \n[등록완료] 버튼을 터치하여 등록을 완료하세요.", Toast.LENGTH_SHORT).show();
+               //project_item_layout.setVisibility(View.GONE);
+                AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
+                builder
+                    .setTitle("등록 완료!")
+                    .setMessage("본 프로젝트는 케이블이 없어,\n등록 작업이 완료 되었습니다.")
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // NOTE: BackStack 에 있는 모든 fragments 들을 소멸시킴
+                            getActivity().getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        }
+                    });
+                AlertDialog alertDialog= builder.create();
+                alertDialog.setCanceledOnTouchOutside( false );
+                alertDialog.show();
             }
         }
     }
 
 
 
-    //btnSave [저장]버튼
+    // NOTE: [등록완료]버튼
     @Override
     public void onClick(View v) {
         switch (v.getId()){

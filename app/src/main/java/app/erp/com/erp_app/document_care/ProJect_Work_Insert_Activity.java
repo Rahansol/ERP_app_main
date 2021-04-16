@@ -39,6 +39,7 @@ public class ProJect_Work_Insert_Activity extends AppCompatActivity {
 
     private ViewPager insert_view_pager;
     private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     private Prj_Work_Insert_PagerAdapter adapter = new Prj_Work_Insert_PagerAdapter(getSupportFragmentManager());
     private Context mcontext;
     private ProJectVO pvo;
@@ -343,6 +344,11 @@ public class ProJect_Work_Insert_Activity extends AppCompatActivity {
                         .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                         .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+                                editor = pref.edit();
+                                editor.putString("auto_login" , "Nauto");
+                                editor.commit();
+
                                 Intent i = new Intent(ProJect_Work_Insert_Activity.this , LoginActivity.class );
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -43,8 +43,8 @@ public class CropImageActivity extends AppCompatActivity {
         CropImage.activity(G.CAPTURED_IMAGE_URI)
                 .start(this);
 
-      //  CropImage.activity()
-                //.start(context, );
+       /*CropImage.activity()
+                .start(this, );*/
 
     }
 

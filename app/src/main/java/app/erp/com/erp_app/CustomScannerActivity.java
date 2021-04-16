@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
+import app.erp.com.erp_app.document_care.myfragments.G;
 import app.erp.com.erp_app.document_care.myfragments.MyPageFragment1;
 
 /**
@@ -61,6 +62,13 @@ public class CustomScannerActivity extends Activity implements DecoratedBarcodeV
         barcodeScannerView = (DecoratedBarcodeView)findViewById(R.id.zxing_barcode_scanner);
         barcodeScannerView.setTorchListener(this);
         capture = new CaptureManager(this, barcodeScannerView);
+
+        if (G.CameraFlash) {
+            barcodeScannerView.setTorchOn();
+        } else {
+            barcodeScannerView.setTorchOff();
+        }
+
         capture.initializeFromIntent(getIntent(), savedInstanceState);
         Log.d("getIntent!", getIntent()+"");
         Log.d("savedInstanceState:=====>  ", savedInstanceState+""); //null
@@ -98,8 +106,10 @@ public class CustomScannerActivity extends Activity implements DecoratedBarcodeV
     public void switchFlashlight(View view) {
         if (switchFlashlightButtonCheck) {
             barcodeScannerView.setTorchOn();
+            G.CameraFlash=true;
         } else {
             barcodeScannerView.setTorchOff();
+            G.CameraFlash=false;
         }
     }
 

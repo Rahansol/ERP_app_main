@@ -9,7 +9,7 @@
     <!--작성현황-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="160dp"
         android:orientation="vertical"
         android:background="@drawable/new_background3"
         android:paddingTop="10dp">
@@ -46,11 +46,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <RelativeLayout
-                android:layout_width="295dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/box_in_out3"
                 android:padding="3dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginBottom="6dp">
                 <TextView
                     android:id="@+id/tv_period_title"
@@ -92,6 +93,46 @@
                         android:textColor="#7B65FB"/>
                 </RelativeLayout>
             </RelativeLayout>
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_weight="5.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/box_in_out3"
+                android:padding="3dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="6dp">
+                <TextView
+                    android:id="@+id/search_bus_num_title"
+                    android:layout_width="80dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:background="@drawable/box_in_out2"
+                    android:text="차량검색"
+                    android:textSize="12sp"
+                    android:textColor="#ffffff"
+                    android:layout_marginRight="4dp"/>
+                <EditText
+                    android:id="@+id/et_search_bus_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/search_bus_num_title"
+                    android:hint="특정차량 검색 시 입력"
+                    android:textSize="14sp"
+                    android:paddingTop="3dp"
+                    android:paddingLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/btnSearch"
@@ -109,6 +150,9 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"/>
         </LinearLayout>
+
+
+
     </LinearLayout>
 
 
@@ -123,7 +167,7 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="165dp"
         android:padding="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"/>

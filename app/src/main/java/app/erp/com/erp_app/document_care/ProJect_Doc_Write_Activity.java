@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -40,6 +41,9 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class ProJect_Doc_Write_Activity extends AppCompatActivity {
+
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     private Context mcontext;
     private ViewPager doc_viewpager;
@@ -360,6 +364,11 @@ public class ProJect_Doc_Write_Activity extends AppCompatActivity {
                         .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                         .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+                                editor = pref.edit();
+                                editor.putString("auto_login" , "Nauto");
+                                editor.commit();
+
                                 Intent i = new Intent(ProJect_Doc_Write_Activity.this , LoginActivity.class );
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

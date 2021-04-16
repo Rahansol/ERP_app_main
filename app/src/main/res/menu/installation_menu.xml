@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--<item
-        android:id="@+id/help_btn"
-        android:icon="@drawable/help_btn"
-        android:title="help"
+
+
+    <item
+        android:id="@+id/home_btn"
+        android:title="홈"
+        android:icon="@drawable/as_btn"
         app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/logout_btn"
-        android:icon="@drawable/power_btn"
-        android:title="logout"
-        app:showAsAction="ifRoom"/>-->
-
-    <item
-        android:id="@+id/installation_paper"
-        android:title="작성하기"
-        android:icon="@drawable/ic_menu_new_bus"
-        app:showAsAction="withText"/>
-
-    <item
-        android:id="@+id/signature_paper"
-        android:title="서명하기"
-        android:icon="@drawable/ic_signature"
-        app:showAsAction="withText"/>
-
 </menu>

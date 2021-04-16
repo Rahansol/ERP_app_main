@@ -1,133 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
+    android:id="@+id/drawer_layout"
     tools:context=".document_care.myfragments.Installation_List_Signature_Activity"
-    android:background="#E8E8F3">
+    android:theme="@style/AppTheme.NoActionBar">
+
 
     <LinearLayout
-        android:id="@+id/linear1"
         android:layout_width="match_parent"
-        android:layout_height="255dp"
-        android:orientation="vertical"
-        android:background="@drawable/new_background3"
-        android:paddingTop="10dp">
-
-        <!--프로젝트 스피너-->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/prj_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box_in_out3"
-            android:padding="3dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="6dp">
-            <TextView
-                android:id="@+id/project_title"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:gravity="center"
-                android:text="프로젝트"
-                android:textSize="12sp"
-                android:textColor="#ffffff"
-                android:background="@drawable/box_in_out2"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginRight="4dp"/>
-            <Spinner
-                android:id="@+id/project_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_toRightOf="@id/project_title"/>
-        </RelativeLayout>
-
-
-
-
-
-
-
-        <!--조회기간-->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box_in_out3"
-            android:padding="3dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="6dp">
-            <TextView
-                android:id="@+id/tv_period_title"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:gravity="center"
-                android:text="조회기간"
-                android:textSize="12sp"
-                android:textColor="#ffffff"
-                android:background="@drawable/box_in_out2"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginRight="10dp"/>
-            <RelativeLayout
-                android:id="@+id/iv_start_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_period_title"
-                android:background="@drawable/transparent_circle_grey_outline"
-                android:layout_marginRight="12dp">
-                <TextView
-                    android:id="@+id/tv_start_date"
-                    android:layout_width="125dp"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="20201010"
-                    android:textColor="#7B65FB"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/iv_end_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_start_date"
-                android:background="@drawable/transparent_circle_grey_outline">
-                <TextView
-                    android:id="@+id/tv_end_date"
-                    android:layout_width="125dp"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="20201030"
-                    android:textColor="#7B65FB"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"/>
-            </RelativeLayout>
-        </RelativeLayout>
-
-
-
-
-        <RelativeLayout
-            android:id="@+id/layout_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/linear1"
+                android:layout_width="match_parent"
+                android:layout_height="310dp"
+                android:background="@drawable/new_background3"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/tool_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize" />
+                </com.google.android.material.appbar.AppBarLayout>
+
+
+                <!--프로젝트 스피너-->
+                <RelativeLayout
+                    android:id="@+id/prj_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/box_in_out3"
+                    android:padding="3dp"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/project_title"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_marginRight="4dp"
+                        android:background="@drawable/box_in_out2"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="프로젝트"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/project_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_toRightOf="@id/project_title" />
+                </RelativeLayout>
+
+
+                <!--조회기간-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/box_in_out3"
+                    android:padding="3dp">
+
+                    <TextView
+                        android:id="@+id/tv_period_title"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/box_in_out2"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="조회기간"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/iv_start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="12dp"
+                        android:layout_toRightOf="@id/tv_period_title"
+                        android:background="@drawable/transparent_circle_grey_outline">
+
+                        <TextView
+                            android:id="@+id/tv_start_date"
+                            android:layout_width="125dp"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="20201010"
+                            android:textColor="#7B65FB" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/iv_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/iv_start_date"
+                        android:background="@drawable/transparent_circle_grey_outline">
+
+                        <TextView
+                            android:id="@+id/tv_end_date"
+                            android:layout_width="125dp"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="20201030"
+                            android:textColor="#7B65FB" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:id="@+id/relative_layout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/box_in_out3"
+                        android:padding="3dp">
+
+                        <TextView
+                            android:id="@+id/jobType_spinner_title"
+                            android:layout_width="100dp"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="4dp"
+                            android:background="@drawable/box_in_out2"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="작업"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/jobType_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_toRightOf="@id/jobType_spinner_title" />
+                    </RelativeLayout>
+
+
+                    <!-- <Button
+                         android:id="@+id/searchBtn"
+                         android:layout_width="80dp"
+                         android:layout_height="35dp"
+                         android:layout_centerVertical="true"
+                         android:gravity="center"
+                         android:text="조회"
+                         android:textColor="#ffffff"
+                         android:textSize="16sp"
+                         android:textStyle="bold"
+                         android:background="@drawable/box_in_out"
+                         android:layout_marginRight="20dp"
+                         android:layout_toRightOf="@+id/relative_layout2"
+                         android:onClick="clickSearchBtn"/>-->
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
             <RelativeLayout
-                android:id="@+id/relative_layout2"
+                android:id="@+id/busoff_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/box_in_out3"
                 android:padding="3dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="207dp"
+                android:visibility="invisible">
                 <TextView
-                    android:id="@+id/jobType_spinner_title"
+                    android:id="@+id/busoff_name_title"
                     android:layout_width="100dp"
                     android:layout_height="35dp"
                     android:gravity="center"
-                    android:text="작업"
+                    android:text="운수사"
                     android:textSize="12sp"
                     android:textColor="#ffffff"
                     android:background="@drawable/box_in_out2"
@@ -135,259 +212,205 @@
                     android:paddingRight="10dp"
                     android:layout_marginRight="4dp"/>
                 <Spinner
-                    android:id="@+id/jobType_spinner"
+                    android:id="@+id/busoff_name_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:layout_toRightOf="@id/jobType_spinner_title"/>
+                    android:layout_toRightOf="@id/busoff_name_title"/>
             </RelativeLayout>
 
+            <!-- <Button
+                 android:id="@+id/btnSearch2"
+                 android:layout_width="80dp"
+                 android:layout_height="35dp"
+                 android:layout_gravity="right"
+                 android:text="조회"
+                 android:textColor="#ffffff"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
+                 android:background="@drawable/box_in_out_sky_blue"
+                 android:layout_marginRight="20dp"
+                 android:layout_toRightOf="@+id/busoff_name_layout"
+                 android:layout_marginTop="153dp"
+                 android:visibility="invisible"
+                 android:onClick="clickSearch2"/>-->
 
 
-           <!-- <Button
-                android:id="@+id/searchBtn"
-                android:layout_width="80dp"
-                android:layout_height="35dp"
-                android:layout_centerVertical="true"
-                android:gravity="center"
+
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/garage_name_layout"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/busoff_name_layout"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:padding="3dp"
+                android:background="@drawable/box_in_out3"
+                android:visibility="invisible">
+                <TextView
+                    android:id="@+id/garage_name_title"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="영업소"
+                    android:textSize="12sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/box_in_out2"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+                <Spinner
+                    android:id="@+id/garage_name_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_toRightOf="@+id/garage_name_title"/>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSearch3"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
                 android:text="조회"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:background="@drawable/box_in_out"
+                android:background="@drawable/box_in_out_sky_blue"
                 android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/relative_layout2"
-                android:onClick="clickSearchBtn"/>-->
+                android:layout_toRightOf="@+id/garage_name_layout"
+                android:layout_marginTop="255dp"
+                android:visibility="invisible"
+                android:onClick="clickSearch3"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/busoff_name_layout"
+                android:padding="10dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="45dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_transp_bizr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="vertical"/>
+
+
+            </LinearLayout>
+
+
+
+
+            <!-- <Button
+                 android:id="@+id/btnWrite"
+                 android:layout_width="wrap_content"
+                 android:layout_height="40dp"
+                 android:layout_centerInParent="true"
+                 android:layout_alignParentBottom="true"
+                 android:text="확인서 작성하기"
+                 android:textColor="@color/white"
+                 android:layout_marginBottom="20dp"
+                 android:paddingLeft="15dp"
+                 android:paddingRight="15dp"
+                 android:background="@drawable/box_in_out2_1"/>-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#9784DC"
+                android:padding="5dp"
+                android:layout_marginTop="10dp">
+
+                <RelativeLayout
+                    android:id="@+id/click_write"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/click_sign">
+                    <ImageView
+                        android:id="@+id/iv_sign"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_signature"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="작성하기"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:layout_below="@+id/iv_sign"
+                        android:paddingTop="3dp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/click_sign"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="220dp">
+                    <ImageView
+                        android:id="@+id/iv_write"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_signature"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="서명하기"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:layout_below="@+id/iv_write"
+                        android:paddingTop="3dp"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
         </RelativeLayout>
-
-
-
-
-
-
     </LinearLayout>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    <RelativeLayout
-        android:id="@+id/busoff_name_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/box_in_out3"
-        android:padding="3dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="150dp"
-        android:visibility="invisible">
-        <TextView
-            android:id="@+id/busoff_name_title"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:gravity="center"
-            android:text="운수사"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:background="@drawable/box_in_out2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_marginRight="4dp"/>
-        <Spinner
-            android:id="@+id/busoff_name_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_toRightOf="@id/busoff_name_title"/>
-    </RelativeLayout>
-
-   <!-- <Button
-        android:id="@+id/btnSearch2"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:layout_gravity="right"
-        android:text="조회"
-        android:textColor="#ffffff"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/box_in_out_sky_blue"
-        android:layout_marginRight="20dp"
-        android:layout_toRightOf="@+id/busoff_name_layout"
-        android:layout_marginTop="153dp"
-        android:visibility="invisible"
-        android:onClick="clickSearch2"/>-->
-
-
-
-
-
-
-
-    <RelativeLayout
-        android:id="@+id/garage_name_layout"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/busoff_name_layout"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:padding="3dp"
-        android:background="@drawable/box_in_out3"
-        android:visibility="invisible">
-        <TextView
-            android:id="@+id/garage_name_title"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:gravity="center"
-            android:text="영업소"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:background="@drawable/box_in_out2"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
-        <Spinner
-            android:id="@+id/garage_name_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_toRightOf="@+id/garage_name_title"/>
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/btnSearch3"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:layout_gravity="right"
-        android:text="조회"
-        android:textColor="#ffffff"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/box_in_out_sky_blue"
-        android:layout_marginRight="20dp"
-        android:layout_toRightOf="@+id/garage_name_layout"
-        android:layout_marginTop="198dp"
-        android:visibility="invisible"
-        android:onClick="clickSearch3"/>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/busoff_name_layout"
-        android:padding="10dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="45dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_transp_bizr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"/>
-
-
-    </LinearLayout>
-
-
-
-
-   <!-- <Button
-        android:id="@+id/btnWrite"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:text="확인서 작성하기"
-        android:textColor="@color/white"
-        android:layout_marginBottom="20dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:background="@drawable/box_in_out2_1"/>-->
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/activity_main_drawer"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#9784DC"
-        android:padding="5dp"
-        android:layout_marginTop="10dp">
 
-        <RelativeLayout
-            android:id="@+id/click_write"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/click_sign">
-            <ImageView
-                android:id="@+id/iv_sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_signature"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="작성하기"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#ffffff"
-                android:layout_below="@+id/iv_sign"
-                android:paddingTop="3dp"/>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/click_sign"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="220dp">
-            <ImageView
-                android:id="@+id/iv_write"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_signature"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="서명하기"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#ffffff"
-                android:layout_below="@+id/iv_write"
-                android:paddingTop="3dp"/>
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

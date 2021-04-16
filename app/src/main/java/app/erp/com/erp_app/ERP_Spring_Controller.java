@@ -633,14 +633,16 @@ public interface ERP_Spring_Controller {
                                             , @Query("ed_date") String ed_date
                                             , @Query("garage_id") String garage_id
                                             , @Query("transp_bizr_id") String transp_bizr_id
-                                            , @Query("job_type") String job_type);
+                                            , @Query("job_type") String job_type
+                                            );
 
     @GET("AndroidRegister/Transp_Bizr_List2")
     Call<List<Bus_OfficeVO>> MyInstallationDetail(@Query("table_name") String table_name
                                                     , @Query("st_date") String st_date
                                                     , @Query("ed_date") String ed_date
                                                     , @Query("reg_emp_id") String reg_emp_id
-                                                    , @Query("finish_yn") String finish_yn);
+                                                    , @Query("finish_yn") String finish_yn
+                                                    , @Query("bus_num") String bus_num);
 
 
     /*step3 상단*/
@@ -900,10 +902,11 @@ public interface ERP_Spring_Controller {
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.0.122:8180/controller/")
-           // .baseUrl("http://ierp.interpass.co.kr/controller/")
+            //.baseUrl("http://ierp.interpass.co.kr/controller/")
 
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build();
 
 }
+

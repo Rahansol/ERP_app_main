@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class Fragment3_my_status_completed extends Fragment {
     private RelativeLayout startDateLayout, endDateLayout;
     private DatePickerDialog.OnDateSetListener callBackMethod;
     private Button btnSearch;
+    private EditText etSearchBusNum;
 
     private RecyclerView recyclerView;
     private ArrayList<TranspBizrItems2> transpBizrItems2= new ArrayList<>();
@@ -106,16 +108,21 @@ public class Fragment3_my_status_completed extends Fragment {
         });
 
         recyclerView= view.findViewById(R.id.recycler);
+
+        etSearchBusNum= view.findViewById(R.id.et_search_bus_num);
+
         btnSearch= view.findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (stPrjSpinner.equals("선택")) {
                     Toast.makeText(getContext(), "프로젝트를 선택하세요.", Toast.LENGTH_SHORT).show();
+                }else if (etSearchBusNum.getText().toString().length() == 1){
+                    Toast.makeText(getContext(), "차량번호를 두자리 이상 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }else{
                     ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-                    Call<List<Bus_OfficeVO>> call= erp.MyInstallationDetail(TableName, startDateVal, endDateVal, REG_EMP_ID, "YY");
-                    Log.d("값 확인==> ", TableName+", "+startDateVal+", "+endDateVal+", "+REG_EMP_ID);
+                    Call<List<Bus_OfficeVO>> call= erp.MyInstallationDetail(TableName, startDateVal, endDateVal, REG_EMP_ID, "YY",etSearchBusNum.getText().toString());
+                    Log.d("값 확인==> ", TableName+", "+startDateVal+", "+endDateVal+", "+REG_EMP_ID +", "+etSearchBusNum.getText().toString());
                     new MyInstallationDetailLists().execute(call);
                     transpBizrItems2= new ArrayList<>();     //  리사이클러뷰에 뿌려줄 데이터를 담을 ArrayList 초기화하기..
                 }
@@ -235,46 +242,47 @@ public class Fragment3_my_status_completed extends Fragment {
 
             if (bus_officeVOS == null){
                 Toast.makeText(getContext(), "불러올 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+            }else {
+                for (int i=0; i<bus_officeVOS.size(); i++){
+                    transpBizrItems2.add(new TranspBizrItems2(false
+                            , stJobName= bus_officeVOS.get(i).getJob_name()
+                            , stJobType= bus_officeVOS.get(i).getJob_type()
+                            , stBusoffName= bus_officeVOS.get(i).getBusoff_name()
+                            , stTranspBizrId= bus_officeVOS.get(i).getTransp_bizr_id()
+                            , stGarageName= bus_officeVOS.get(i).getGarage_name()
+                            , stRouteNum= bus_officeVOS.get(i).getRoute_num()
+                            , stBusNum= bus_officeVOS.get(i).getBus_num()
+                            , stDocDtti= bus_officeVOS.get(i).getDoc_dtti()
+                            , stRegDtti= bus_officeVOS.get(i).getReg_dtti()
+                            , stBusId= bus_officeVOS.get(i).getBus_id()
+                            , stTableName= bus_officeVOS.get(i).getTable_name()));
+                }
+                transpBizrAdapter2= new TranspBizrAdapter2(getContext(), transpBizrItems2);
+                recyclerView.setAdapter(transpBizrAdapter2);
+                transpBizrAdapter2.setMyListener(new TranspBizrAdapter2.MyOnItemClickListener() {
+                    @Override
+                    public void myOnItemClick(View v, int pos) {
+                        Intent i= new Intent(getContext(), Installation_List_Sginature_Activity2.class);
+                        i.putExtra("item_job_name", bus_officeVOS.get(pos).getJob_name());
+                        G.TABLE_NAME= TableName;
+                        Log.d("G.Table", G.TABLE_NAME+"");
+                        G.PRJ_NAME= stPrjSpinnerValue;
+                        Log.d("G.PRJ_NAME", G.PRJ_NAME+"");
+                        G.JOB_TYPE= bus_officeVOS.get(pos).getJob_type();
+                        G.TRANSP_BIZR_ID= bus_officeVOS.get(pos).getTransp_bizr_id();
+                        i.putExtra("item_busoff_name", bus_officeVOS.get(pos).getBusoff_name());
+                        i.putExtra("item_garage_name", bus_officeVOS.get(pos).getGarage_name());
+                        i.putExtra("item_bus_num", bus_officeVOS.get(pos).getBus_num());
+                        i.putExtra("item_bus_id", bus_officeVOS.get(pos).getBus_id());
+                        i.putExtra("item_reg_dtti", bus_officeVOS.get(pos).getReg_dtti());
+                        i.putExtra("item_sign", bus_officeVOS.get(pos).getDoc_dtti());
+                        i.putExtra("item_route_num", bus_officeVOS.get(pos).getRoute_num());
+                        i.putExtra("item_table_name", bus_officeVOS.get(pos).getTable_name());
+                        startActivity(i);
+                    }
+                });
             }
 
-            for (int i=0; i<bus_officeVOS.size(); i++){
-                transpBizrItems2.add(new TranspBizrItems2(false
-                        , stJobName= bus_officeVOS.get(i).getJob_name()
-                        , stJobType= bus_officeVOS.get(i).getJob_type()
-                        , stBusoffName= bus_officeVOS.get(i).getBusoff_name()
-                        , stTranspBizrId= bus_officeVOS.get(i).getTransp_bizr_id()
-                        , stGarageName= bus_officeVOS.get(i).getGarage_name()
-                        , stRouteNum= bus_officeVOS.get(i).getRoute_num()
-                        , stBusNum= bus_officeVOS.get(i).getBus_num()
-                        , stDocDtti= bus_officeVOS.get(i).getDoc_dtti()
-                        , stRegDtti= bus_officeVOS.get(i).getReg_dtti()
-                        , stBusId= bus_officeVOS.get(i).getBus_id()
-                        , stTableName= bus_officeVOS.get(i).getTable_name()));
-            }
-            transpBizrAdapter2= new TranspBizrAdapter2(getContext(), transpBizrItems2);
-            recyclerView.setAdapter(transpBizrAdapter2);
-            transpBizrAdapter2.setMyListener(new TranspBizrAdapter2.MyOnItemClickListener() {
-                @Override
-                public void myOnItemClick(View v, int pos) {
-                    Intent i= new Intent(getContext(), Installation_List_Sginature_Activity2.class);
-                    i.putExtra("item_job_name", bus_officeVOS.get(pos).getJob_name());
-                    G.TABLE_NAME= TableName;
-                    Log.d("G.Table", G.TABLE_NAME+"");
-                    G.PRJ_NAME= stPrjSpinnerValue;
-                    Log.d("G.PRJ_NAME", G.PRJ_NAME+"");
-                    G.JOB_TYPE= bus_officeVOS.get(pos).getJob_type();
-                    G.TRANSP_BIZR_ID= bus_officeVOS.get(pos).getTransp_bizr_id();
-                    i.putExtra("item_busoff_name", bus_officeVOS.get(pos).getBusoff_name());
-                    i.putExtra("item_garage_name", bus_officeVOS.get(pos).getGarage_name());
-                    i.putExtra("item_bus_num", bus_officeVOS.get(pos).getBus_num());
-                    i.putExtra("item_bus_id", bus_officeVOS.get(pos).getBus_id());
-                    i.putExtra("item_reg_dtti", bus_officeVOS.get(pos).getReg_dtti());
-                    i.putExtra("item_sign", bus_officeVOS.get(pos).getDoc_dtti());
-                    i.putExtra("item_route_num", bus_officeVOS.get(pos).getRoute_num());
-                    i.putExtra("item_table_name", bus_officeVOS.get(pos).getTable_name());
-                    startActivity(i);
-                }
-            });
         }
     }
 }

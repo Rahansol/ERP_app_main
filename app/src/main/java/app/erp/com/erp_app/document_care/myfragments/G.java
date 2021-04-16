@@ -57,8 +57,12 @@ public class G {
     public static String BUS_NUM_VAL;
 
 
+    public static String EDIT_TEXT_BUS_NUM;
     public static Uri CAPTURED_IMAGE_URI;        // for 사진촬영
     public static String CAPTURED_IMAGE_PATH;    // for 사진촬영
+    public static Bitmap takePic;
+    public static Bitmap fromAlbum;
+    public static boolean CameraFlash=false;    // for 사진촬영
     public static Bitmap CAPTURED_IMAGE_BITMAP;  // for 사진앨범
 
 }

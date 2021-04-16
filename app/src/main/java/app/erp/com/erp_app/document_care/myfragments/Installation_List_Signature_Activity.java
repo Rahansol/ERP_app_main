@@ -1,6 +1,10 @@
 package app.erp.com.erp_app.document_care.myfragments;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -9,6 +13,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +31,8 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,12 +41,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import app.erp.com.erp_app.Barcode_My_list_Activity;
+import app.erp.com.erp_app.Barcode_bus_Activity;
+import app.erp.com.erp_app.Barcode_garage_input_Activity;
+import app.erp.com.erp_app.Barcode_garage_output_Activity;
 import app.erp.com.erp_app.ERP_Spring_Controller;
+import app.erp.com.erp_app.Gtv_Error_Install_Activity;
+import app.erp.com.erp_app.New_Bus_Activity;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.ReserveItemRepairActivity;
+import app.erp.com.erp_app.Work_Report_Activity;
+import app.erp.com.erp_app.callcenter.Call_Center_Activity;
 import app.erp.com.erp_app.document_care.MyProject_Work_Insert_Activity;
+import app.erp.com.erp_app.document_care.myInstallSignFragments.MyInstallationSignActivity;
 import app.erp.com.erp_app.document_care.myfragments.Installation_List_Sginature_Activity2;
 import app.erp.com.erp_app.document_care.myfragments.TranspBizrAdapter;
 import app.erp.com.erp_app.document_care.myfragments.TranspBizrItems;
+import app.erp.com.erp_app.error_history.Error_History_Activity;
+import app.erp.com.erp_app.over_work.Over_Work_Activity;
+import app.erp.com.erp_app.over_work.Over_Work_Approval_Activity;
 import app.erp.com.erp_app.vo.Bus_OfficeVO;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -59,18 +79,102 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
     private RecyclerView recyclerTranspBizr;
     public ArrayList<TranspBizrItems> transpBizrItems= new ArrayList<>();
     private TranspBizrAdapter transpBizrAdapter;
-
+    
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView nav;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_installation__list__signature);
 
-        getSupportActionBar().setTitle("설치확인서 목록");
-
         AActivity= Installation_List_Signature_Activity.this;
-
         mContext= this;
+
+        drawerLayout= findViewById(R.id.drawer_layout);
+        nav= findViewById(R.id.nav);
+        toolbar= findViewById(R.id.tool_bar);
+        toolbar.setTitle("프로젝트 서명");
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+       // getSupportActionBar().setTitle("설치확인서 목록");
+
+
+        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Toast.makeText(mContext, "ttttttttttt1", Toast.LENGTH_SHORT).show();
+                        Intent i_1 = new Intent(Installation_List_Signature_Activity.this , Call_Center_Activity.class);
+                        startActivity(i_1);
+                        break;
+                    case R.id.nav_camera:
+                        Intent i = new Intent(Installation_List_Signature_Activity.this , Barcode_bus_Activity.class);
+                        startActivity(i);
+                        break;
+                    case R.id.reserve_item_give:
+                        Intent i1 = new Intent(Installation_List_Signature_Activity.this , Barcode_garage_input_Activity.class);
+                        startActivity(i1);
+                        break;
+                    case R.id.reserve_item_return:
+                        Intent i2 = new Intent(Installation_List_Signature_Activity.this , Barcode_garage_output_Activity.class);
+                        startActivity(i2);
+                        break;
+                    case R.id.my_barcode_workList:
+                        Intent i3 = new Intent(Installation_List_Signature_Activity.this , Barcode_My_list_Activity.class);
+                        startActivity(i3);
+                        break;
+                    case R.id.new_bus_insert:
+                        Intent i4 = new Intent(Installation_List_Signature_Activity.this , New_Bus_Activity.class);
+                        startActivity(i4);
+                        break;
+                    case R.id.gtv_error_install:
+                        Intent i5 = new Intent(Installation_List_Signature_Activity.this , Gtv_Error_Install_Activity.class);
+                        startActivity(i5);
+                        break;
+                    case R.id.reserve_item_repair:
+                        Intent i6 = new Intent(Installation_List_Signature_Activity.this , ReserveItemRepairActivity.class);
+                        startActivity(i6);
+                        break;
+                    case R.id.work_report_btn:
+                        Intent i7 = new Intent(Installation_List_Signature_Activity.this , Work_Report_Activity.class);
+                        startActivity(i7);
+                        break;
+                    case R.id.installation_List_signature:
+                        Intent i8 = new Intent(Installation_List_Signature_Activity.this , Installation_List_Signature_Activity.class);
+                        startActivity(i8);
+                        break;
+                    case R.id.my_installation_sign:
+                        Intent i9 = new Intent(Installation_List_Signature_Activity.this , MyInstallationSignActivity.class);
+                        startActivity(i9);
+                        break;
+                    case R.id.trouble_serch_btn:
+                        Intent i10 = new Intent(Installation_List_Signature_Activity.this , Error_History_Activity.class);
+                        startActivity(i10);
+                        break;
+                    case R.id.over_work_btn:
+                        Intent i11 = new Intent(Installation_List_Signature_Activity.this , Over_Work_Activity.class);
+                        startActivity(i11);
+                        break;
+                    case R.id.over_work_approval_btn:
+                        Intent i12 = new Intent(Installation_List_Signature_Activity.this , Over_Work_Approval_Activity.class);
+                        startActivity(i12);
+                        break;
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+        actionBarDrawerToggle= new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+        actionBarDrawerToggle.syncState();
+
+
         projectSpinner= findViewById(R.id.project_spinner);
         jobTypeSpinner= findViewById(R.id.jobType_spinner);
         busoffNameSpinner= findViewById(R.id.busoff_name_spinner);
@@ -243,6 +347,24 @@ public class Installation_List_Signature_Activity extends AppCompatActivity {
 
 
     }//onCreate...
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.installation_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home_btn:
+                Intent intent= new Intent(Installation_List_Signature_Activity.this, Call_Center_Activity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

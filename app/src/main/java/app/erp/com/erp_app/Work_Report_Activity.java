@@ -42,6 +42,7 @@ public class Work_Report_Activity extends AppCompatActivity {
     Context context;
     Button serch_btn , submit_btn;
     SharedPreferences pref;
+    SharedPreferences.Editor editor;
     EditText text_box;
 
     ProgressDialog progressDialog;
@@ -327,6 +328,11 @@ public class Work_Report_Activity extends AppCompatActivity {
                         .setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?")
                         .setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+                                editor = pref.edit();
+                                editor.putString("auto_login" , "Nauto");
+                                editor.commit();
+
                                 Intent i = new Intent(Work_Report_Activity.this , LoginActivity.class );
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
