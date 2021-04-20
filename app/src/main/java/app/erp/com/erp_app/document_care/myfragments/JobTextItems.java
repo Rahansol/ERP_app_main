@@ -11,6 +11,7 @@ public class JobTextItems {
     String jobText;
     String busNum;
     Uri preview_uri;
+    //Bitmap preview_bm;    // uri -> bitmap 변경작업...
     String tv;
     String tv_p;
     String preview;
@@ -26,6 +27,7 @@ public class JobTextItems {
         this.jobText = jobText;
         this.busNum = busNum;
         this.preview_uri = preview_uri;
+      //  this.preview_bm = preview_bm;
         this.tv = tv;
         this.tv_p = tv_p;
         this.preview = preview;

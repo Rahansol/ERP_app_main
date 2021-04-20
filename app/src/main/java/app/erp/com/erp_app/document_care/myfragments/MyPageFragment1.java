@@ -13,6 +13,10 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,9 +55,13 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,7 +110,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     static String ItemType_C;
     static String ItemType_P;
     static String ItemName;
-    static Uri uri, selectedImage;
+    static Uri uri, selectedImageUri;
     static String imgUriPath;   //어댑터에서 sharedPreference를 통해 전달받은 imgUri 경로
     private Button btnRegisterNewBus, btnSearchBusNum;
     private EditText EtBusNum;
@@ -127,8 +135,9 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     private DrawerLayout drawerLayout;
     private NavigationView nav;
 
-    Bitmap bitmap;
+    Bitmap bm;
     static Bitmap resizeBitmap;
+    ImageView ivBitmap;
 
     static ImageView photoBitmap;
     public MyPageFragment1() {
@@ -157,6 +166,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             }*/
 
             getActivity().setTitle("1단계");
+
+            ivBitmap = rootView.findViewById(R.id.ivBitmap);
 
             drawerLayout= rootView.findViewById(R.id.drawer_layout);
             nav= rootView.findViewById(R.id.nav);
@@ -1006,16 +1017,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             if (resultCode == RESULT_OK){       //resultCode == RESULT_OK 이렇게 한번 더 확인해야 사진앨범에서 사진을 선택하지 않고 뒤로가기 버튼을 눌러도 앱이 꺼지지 않음..!!!
                 try {
                     InputStream in = getContext().getContentResolver().openInputStream(data.getData());
-                    selectedImage = data.getData();   // NOTE: selectedImage == Uri 타입임.
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    int SCALE= 2;
-                    // FIXME: 이미지 리사이즈하기
-                    //img= Bitmap.createScaledBitmap(img, img.getWidth()*SCALE, img.getHeight()*SCALE, true);
-                    img= Bitmap.createScaledBitmap(img, 360, 480, true);
+                    selectedImageUri = data.getData();   // NOTE: selectedImage == Uri 타입임.
 
                     int column_index=0;
                     String[] proj = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContext().getContentResolver().query(selectedImage, proj, null, null, null);
+                    Cursor cursor = getContext().getContentResolver().query(selectedImageUri, proj, null, null, null);
                     if(cursor.moveToFirst()){
                         column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                     }
@@ -1038,8 +1044,21 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
                     GarryValue = Garray.PositionInfo[G.position][1] + "";
 
+                    // Uri -> Bitmap 변경
+                    bm = null;
+                    if (selectedImageUri != null){
+                        try {
+                            bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), selectedImageUri);
+                            ivBitmap.setImageBitmap(bm);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 300));
-                    item.preview_uri= selectedImage;                // 변경될 이미지 저장
+                    item.preview_uri= selectedImageUri;     // STATUS: 변경될 이미지 저장 = 원본
+                    //item.preview_bm = bm;                 // Uri -> Bitmap
+
                     DB_Path = Garray.value[G.position];
                     job_text_adapter_p_c.notifyDataSetChanged();    //변경됐다고 adapter 에 알리기
 
@@ -1072,37 +1091,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 // NOTE: onActivityResult 결과를 받는 쪽에서 data.getData()가 null 값이 경우가 있음..
                 // NOTE: 이런경우 보통은 Bitmap 으로 data 값이 넘어오기 때문에
                 // NOTE: Bitmap bitmap= (Bitmap) data.getExtras().get("data"); 으로 호출하거나
-                // NOTE: 마지막에 저장된 이미지 Uri를 가져오는 방법이 있다 - EXTERNAL_CONTENT_URI (아래 참조...)
+                // NOTE: 마지막에 저장된 이미지 Uri 를 가져오는 방법이 있다 - EXTERNAL_CONTENT_URI (아래 참조...)
 
-                /*Uri imgUri= null;
-                String[] IMAGE_PROJECTION={
-                        MediaStore.Images.ImageColumns.DATA,
-                        MediaStore.Images.ImageColumns._ID };
 
-                try {
-                    Cursor cursorImages= getContext().getContentResolver().query( //외부 메모리에 있는 이미지 정보 조회
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,         //외부 메모리
-                            IMAGE_PROJECTION,    // 조회할 컬럼
-                            null,       // WHERE 절 조건지정
-                            null,   // WHERE 절 선택인자 지정
-                            null);     // ORDER BY 절 정렬순서 지정
-                    if (cursorImages != null && cursorImages.moveToLast()){
-                        imgUri= Uri.parse(cursorImages.getString(0));   //경로
-                        int id= cursorImages.getInt(1);     //아이디
-                        Log.d("이미지uri", imgUri+", 아이디 :"+id + "cursorImages://"+ cursorImages);
 
-                        // 여기서 item.preview_uri 에 사진경로 uri를 저장하면서 어댑터에서 포지션을 찾아 vh.ivPreview.setImageURI(item.preview_uri); 해줌
-                        JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //items 의 requestCode 값과 포지션값 가져오기
-                        item.preview_uri= imgUri;                      //items 값 변경
-                        DB_Path = Garray.value[G.position];
-                        job_text_adapter_p_c.notifyDataSetChanged();   //변경 알리기
-                        cursorImages.close();    //커서 사용이 끝나면 닫기!
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
 
-                // TODO: HOW TO CROP IMAGE AFTER CAPTURING?
 
                 // STATUS: 1. 안드 11 ->  사진촬영 -> 촬영된 이미지 잘 불려짐
                 // STATUS: 2. 안드 10 ->  사진촬영 -> 촬영된 이미지는 잘 저장이 되어있으나 다른 경로에서 다른 사진을 가져옴 ERROR
@@ -1112,55 +1105,29 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 // EDIT: imgUri 를 G 클래스에 저장하고 여기서 불러줌..
                 // EDIT: 리사이클러뷰 item의 값을 변경해주고 notify 해쥼..
 
-
-
-
-             /**
-                //FIXME: 리사이즈 시도.. 안나옴 ㅜㅜ
-                //FIXME: G.Captured 에 있는 imgUri 를 bitmap 형식으로 변경하기
-                bitmap= null;
-                try {
-                    // TODO: 1)    uri 를 bitmap 으로 ..
-                    bitmap= MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.parse(G.CAPTURED_IMAGE_PATH));
-
-                    // TODO: 1)    bitmap 을 원하는 크기로 리사이즈 ..
-                    BitmapFactory.Options options= new BitmapFactory.Options();
-                    options.inSampleSize= 4;
-                    bitmap= BitmapFactory.decodeFile(G.CAPTURED_IMAGE_PATH, options);
-
-                    int width = 100;
-                    int height = 100;
-                    int bmpWidth = bitmap.getWidth();
-                    int bmpHeight = bitmap.getHeight();
-
-                    if (bmpWidth > width){
-                        int mWidth = bmpWidth/100;
-                        int scale = width/mWidth;
-                        bmpWidth = (scale/100);
-                        bmpHeight = (scale/100);
-                    }else if (bmpHeight >  height){
-                        int mHeight = bmpHeight/100;
-                        int scale = height/mHeight;
-                        bmpWidth = (scale/100);
-                        bmpHeight = (scale/100);
+                // STATUS: 이미지가 서버로 잘 전달이 되나 이미지 크기가 너무 큰 단점이 있음  (데이터 사이즈가 큰 경우, 기타 메로리 부족 문제)
+                // NOTE: 1)   이미지 사이즈를 줄이기 위해 Bitmap 이용.
+                // NOTE:      G.CAPTURED_IMAGE_URI 를 bitmap 으로 변경 및 사이즈 조정
+                bm = null;
+                if (G.CAPTURED_IMAGE_URI != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), G.CAPTURED_IMAGE_URI);   // uri -> bitmap 변경
+                        Log.d("checkBitmap2>>", bm+"");
+                        Log.d("사이즈체크>>","가로:"+bm.getWidth()+", 세로:"+bm.getHeight());         //가로:960, 세로:1280
+                        G.CAPTURED_IMAGE_BITMAP = bm.createScaledBitmap(bm, 400, 600, false);
+                        Log.d("사이즈체크2>>","가로:"+G.CAPTURED_IMAGE_BITMAP.getWidth()+", 세로:"+G.CAPTURED_IMAGE_BITMAP.getHeight());  //가로:400, 세로:600
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    resizeBitmap = Bitmap.createScaledBitmap(bitmap, bmpWidth, bmpHeight, true);
-                    Log.d("리사이즈빕맵", resizeBitmap+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
 
-           **/
 
 
 
-                // NOTE: 1) 리사이클러뷰 아이템 값 변경작업
+                // NOTE: 2) 리사이클러뷰 아이템 값 변경작업
                 JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //어댑터에서 리사이클러뷰 아이템의 position 까지 intent 로 보내주었으니 자리변경하여 아이템 값 잘 바꿔줌
                 item.preview_uri= G.CAPTURED_IMAGE_URI;   //FIXME: 원래 원본 코드 !!!!!
-                //item.preview_uri= Uri.parse(String.valueOf(resizeBitmap));   //FIXME: 리사이즈 시도.. 안나옴 ㅜㅜ
+                //item.preview_uri = G.CAPTURED_IMAGE_BITMAP;   // URI -> BITMAP
                 DB_Path = Garray.value[G.position];
                 job_text_adapter_p_c.notifyDataSetChanged();     //리사이클러뷰 아이템 값 변경- 화면에서 보여지는 값.
 
@@ -1174,7 +1141,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 DTTI2 = sdf2.format(date);
                 G.dtti = DTTI;
                 G.dtti2 = DTTI2;
-
 
 
                 String gallery_path= G.CAPTURED_IMAGE_PATH;
@@ -1193,12 +1159,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 Log.d("sign_map ))))", sign_map.size()+"");
                 Log.d("sign_map ))))", sign_map+"");
             }
-        }/*else if (requestCode/100 ==7){
-            Bundle bundle= data.getExtras();
-            assert bundle != null;
-            Bitmap bitmap= bundle.getParcelable("data");
-
-        }*/
+        }
         // [바코드 스캐너]
         else {
             Log.d("600실행", "600실행");
@@ -1216,37 +1177,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
 
 
-    // TODO: HOW TO IMAGE CROP AFTER TAKING PHOTO??
-    /** 이미지크롭 참조) https://www.youtube.com/watch?v=X7YQy3ayjOg **/
-    public void onChooseFile(View v){
-        //CropImage.activity().start(MyProject_Work_Insert_Activity.myPageFragment1);
-    }
-
-
-    public void cropImage(Uri imageUri){
-        Intent intent= getCropIntent(imageUri);
-        startActivityForResult(intent, 700);
-    }
-
-    public Intent getCropIntent(Uri inputUri){
-        Intent intent= new Intent("com.android.camera.action,CROP");
-        intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        intent.setDataAndType(inputUri, "image/*");
-
-        intent.putExtra("aspectX", 4);
-        intent.putExtra("aspectY", 3);
-        intent.putExtra("outputX", 400);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("scale", true);
-
-        intent.putExtra("return-data", true);
-        intent.putExtra("return-data", true);
-        intent.putExtra("return-data", true);
-
-        return intent;
-    }
 
 
 
@@ -1255,14 +1185,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     // NOTE: [다음 2단계로 이동]버튼
     @Override
     public void onClick(View v) {
-        Log.d("TABLE_NAME>>>", TABLE_NAME+"");
-
-        Log.d("Garray.toString>>>", Garray.value.toString()+"");
-        Log.d("Garray.length>>>", Garray.value.length+"");
-
-        Log.d("G.EDIT_TEXT_BUS_NUM확인>>", G.EDIT_TEXT_BUS_NUM+"");
-        Log.d("G.EDIT_TEXT_BUS_NUM확인>>", G.CAPTURED_IMAGE_URI+"");
-        Log.d("selectedImage확인>>", selectedImage+"");
 
         switch (v.getId()) {
             case R.id.btn_insert:
@@ -1275,7 +1197,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     // TODO: 이미지 업로드한 값이 없거나 입력한 일련번호가 없으면 이벤트주기
                 }else if (   G.EDIT_TEXT_BUS_NUM == null &&
                              G.CAPTURED_IMAGE_URI == null &&
-                             selectedImage == null){           // NOTE: selectedImage 는 사진앨범에서 선택한 이미지임.
+                            selectedImageUri == null){           // NOTE: selectedImage 는 사진앨범에서 선택한 이미지임.
                             Toast.makeText(getContext(), "이미지나 일련번호를 업로드 해주세요.", Toast.LENGTH_SHORT).show();
                 }else {
                     pref = getContext().getSharedPreferences("user_info", Context.MODE_PRIVATE);
@@ -1498,8 +1420,6 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
             if (progressDialog != null)
                 progressDialog.dismiss();   //작업끝나고 dismiss
             if (aBoolean){
-
-                //Toast.makeText(getContext(),"이미지 업로드 완료" ,Toast.LENGTH_SHORT).show();
 
             }else {
                 Toast.makeText(getContext(),"이미지 업로드 오류 발생 !!" ,Toast.LENGTH_SHORT).show();

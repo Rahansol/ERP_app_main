@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -32,7 +34,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,11 +55,11 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
     ArrayList<JobTextItems> items;
     MyPageFragment1 myPageFragment1;
 
-    ArrayList[] arrayLists={};
 
     Uri imgUri;  //캡쳐한 이미지 경로 Uri
     String mCurrentPhotoPath;
     File imageFile;
+    Bitmap bm;
 
 
     public Job_Text_Adapter_P_C() {
@@ -152,9 +161,6 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     G.position= vh.getAdapterPosition();
 
-                    //G.position= position+1;             //전역변수 G 클래스에 포지션값 저장
-                    Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
-
                     AlertDialog.Builder builder= new AlertDialog.Builder(context);
                     builder.setIcon(R.drawable.ic_menu_camera);
                     builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요");
@@ -170,7 +176,6 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);   // 카메라앱을 실행할 때 EXTRA_DATA 로 미리 캡쳐된 사진이 저장될 경로를 지정 (setImageUri() 에서..)
                                 G.CAPTURED_IMAGE_URI= imgUri;
                                 G.CAPTURED_IMAGE_PATH= imageFile+"";
-                                Log.d("imgUri저장", imgUri+"");
 
                                 myPageFragment1.startActivityForResult(intent, 200+position);   //intent 로 전달할때 position 값도 같이 전달..
                             }
@@ -283,7 +288,7 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
                             setImageUri();
                             Log.d("imgUri>>", imgUri+"");                           // content://app.erp.com.erp_app/hidden/IERP/JPEG_20210325_0914.jpg
                             Log.d("imageFile>>", imageFile+"");                     // /storage/emulated/0/IERP/JPEG_20210325_0914.jpg
-                            Log.d("mCurrentPhotoPath>>!!", mCurrentPhotoPath+"");   // /storage/emulated/0/IERP/JPEG_20210325_0914.jpg
+                            Log.d("bm>>", bm+"");
                             if (imgUri!=null){
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);   // 카메라앱을 실행할 때 EXTRA_DATA 로 미리 캡쳐된 사진이 저장될 경로를 지정 (setImageUri() 에서..)
                                 G.CAPTURED_IMAGE_URI= imgUri;
@@ -351,45 +356,70 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
 
 
+    //사진촬영 할 때 만..
     public void setImageUri(){
-
-        //Toast.makeText(context, "setIamgeUri 실행 토스트!!!", Toast.LENGTH_SHORT).show();
-
         String timeStamp= new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
         String imageFileName= "JPEG_"+timeStamp+".jpg";
         imageFile= null;
         File storageDir= new File(Environment.getExternalStorageDirectory()+"/IERP");   //외부메모리 최상위(root) 경로  //경로: [storage/emulated]
 
         if (!storageDir.exists()){
-            Log.d(" ::: ", storageDir+" 가 존재안함!!");
             storageDir.mkdirs();
         }else {
-            Log.d("storageDir========저장경로 =====::: ", storageDir+"");    //storage/emulated/0/IERP  //저장경로 있음
+            //storage/emulated/0/IERP  //저장경로 있음
         }
-        imageFile= new File(storageDir, imageFileName);
-        Log.d("imageFile_imageFile>>>", imageFile+"");   // /storage/emulated/0/IERP/JPEG_20210325_0955.jpg
+        imageFile= new File(storageDir, imageFileName);            // /storage/emulated/0/IERP/JPEG_20210325_0955.jpg
         mCurrentPhotoPath= imageFile.getAbsolutePath();            // /storage/emulated/0/IERP/JPEG_20210325_0955.jpg
-        Log.d("mCurrentPhotoPath확인>>", mCurrentPhotoPath+"");
 
         //카메라앱에 전달해줄 저장 파일경로= File 객체가 아니라 Uri 객체여야함!!
         // File -----> Uri 변환
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.N)  {
             imgUri = Uri.fromFile(imageFile);
-            Log.d("imgUri확인>>>>>>", imgUri+"");
+
         }else {
             imgUri= FileProvider.getUriForFile(context, context.getPackageName(), imageFile);  // imgUri 작업 끝
-            Log.d("PATH TEST : >>>> ", "["+imgUri+"]["+imageFile+"]");
         }
         //new AlertDialog.Builder(context).setMessage(imgUri.toString()).create().show();  //작업확인
     }
 
 
 
-    public void cropImage(Uri imgFileUri){
-        if (imageFile==null){
-            //FIXME: Crop 해주기
+
+    //STATUS: tried to change [imgUri  ->  Bitmap], but the result still shows as null.
+    public Bitmap loadBitmap(String url){
+        bm = null;
+        InputStream is = null;
+        BufferedInputStream bis = null;
+        try{
+            URLConnection conn = new URL(url).openConnection();
+            conn.connect();
+            is = conn.getInputStream();
+            bis = new BufferedInputStream(is, 600);
+            bm = BitmapFactory.decodeStream(bis);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (bis != null){
+                try{
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }if (is != null){
+                try{
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        return bm;
     }
+
+
+
 
 
 

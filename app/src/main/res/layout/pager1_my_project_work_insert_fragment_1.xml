@@ -306,6 +306,11 @@
                 </LinearLayout>
 
 
+                <ImageView
+                    android:id="@+id/ivBitmap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_job_text"
                     android:layout_width="match_parent"
