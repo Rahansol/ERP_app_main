@@ -102,7 +102,8 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
         vh.tvJobText.setText(item.jobText);
         vh.etBusNum.setText(item.busNum); //직접입력으로 입력된 번호..
         vh.tv.setText(item.tv);
-        vh.ivPreview.setImageURI(item.preview_uri);
+       // vh.ivPreview.setImageURI(item.preview_uri);
+        vh.ivPreview.setImageBitmap(item.preview_bm);
         ////  PCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPCPC
         if (item.tv.equals("미리보기 (P,C 둘다)")){
             vh.tv.setText("미리보기");

@@ -10,8 +10,8 @@ import java.io.File;
 public class JobTextItems {
     String jobText;
     String busNum;
-    Uri preview_uri;
-    //Bitmap preview_bm;    // uri -> bitmap 변경작업...
+    //Uri preview_uri;
+    Bitmap preview_bm;    // uri -> bitmap 변경작업...
     String tv;
     String tv_p;
     String preview;
@@ -23,11 +23,11 @@ public class JobTextItems {
     }
 
 
-    public JobTextItems(String jobText, String busNum, Uri preview_uri, String tv, String tv_p, String preview) {
+    public JobTextItems(String jobText, String busNum, Bitmap preview_bm, String tv, String tv_p, String preview) {
         this.jobText = jobText;
         this.busNum = busNum;
-        this.preview_uri = preview_uri;
-      //  this.preview_bm = preview_bm;
+        //this.preview_uri = preview_uri;
+        this.preview_bm = preview_bm;
         this.tv = tv;
         this.tv_p = tv_p;
         this.preview = preview;

@@ -960,7 +960,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     G.Last_seq = Math.max(Integer.parseInt(bus_officeVOS.get(i).getP_item_seq()), Integer.parseInt(bus_officeVOS.get(i).getC_item_seq())) + "";
                     jobTextItems.add(new JobTextItems(ItemName = bus_officeVOS.get(i).getItem_name()
                             , ""    //hint: 일련번호 입력
-                            , uri
+                            , bm
                             , "미리보기 (P,C 둘다)"
                             , ItemType_C = bus_officeVOS.get(i).getC_item_seq()
                             , ItemType_P = bus_officeVOS.get(i).getP_item_seq()));   //다시 set....
@@ -969,7 +969,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     G.Last_seq = bus_officeVOS.get(i).getP_item_seq();
                     jobTextItems.add(new JobTextItems(ItemName = bus_officeVOS.get(i).getItem_name()
                             , "해당없음"// 일련번호
-                            , uri
+                            , bm
                             , "미리보기  (P 만)"
                             , ""
                             , ItemType_P = bus_officeVOS.get(i).getP_item_seq()));
@@ -978,7 +978,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     G.Last_seq = bus_officeVOS.get(i).getC_item_seq();
                     jobTextItems.add(new JobTextItems(ItemName = bus_officeVOS.get(i).getItem_name()
                             , ""      //hint: 일련번호 입력
-                            , uri
+                            , bm
                             , "해당없음  (C 만)"
                             , ItemType_C = bus_officeVOS.get(i).getC_item_seq()
                             , ""));
@@ -1048,16 +1048,17 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     bm = null;
                     if (selectedImageUri != null){
                         try {
-                            bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), selectedImageUri);
-                            ivBitmap.setImageBitmap(bm);
+                            bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), selectedImageUri);   //가로:960, 세로:1280
+                            bm = bm.createScaledBitmap(bm, 400, 600, false);                            //가로:400, 세로:600
+                            //ivBitmap.setImageBitmap(bm);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
 
                     JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 300));
-                    item.preview_uri= selectedImageUri;     // STATUS: 변경될 이미지 저장 = 원본
-                    //item.preview_bm = bm;                 // Uri -> Bitmap
+                    //item.preview_uri= selectedImageUri;     // STATUS: 변경될 이미지 저장 = 원본
+                    item.preview_bm = bm;                     // Uri -> Bitmap
 
                     DB_Path = Garray.value[G.position];
                     job_text_adapter_p_c.notifyDataSetChanged();    //변경됐다고 adapter 에 알리기
@@ -1111,11 +1112,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 bm = null;
                 if (G.CAPTURED_IMAGE_URI != null){
                     try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), G.CAPTURED_IMAGE_URI);   // uri -> bitmap 변경
-                        Log.d("checkBitmap2>>", bm+"");
-                        Log.d("사이즈체크>>","가로:"+bm.getWidth()+", 세로:"+bm.getHeight());         //가로:960, 세로:1280
-                        G.CAPTURED_IMAGE_BITMAP = bm.createScaledBitmap(bm, 400, 600, false);
-                        Log.d("사이즈체크2>>","가로:"+G.CAPTURED_IMAGE_BITMAP.getWidth()+", 세로:"+G.CAPTURED_IMAGE_BITMAP.getHeight());  //가로:400, 세로:600
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), G.CAPTURED_IMAGE_URI);   // uri -> bitmap 변경    //가로:960, 세로:1280
+                        G.CAPTURED_IMAGE_BITMAP = bm.createScaledBitmap(bm, 400, 600, false);     //가로:400, 세로:600
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -1126,8 +1124,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                 // NOTE: 2) 리사이클러뷰 아이템 값 변경작업
                 JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //어댑터에서 리사이클러뷰 아이템의 position 까지 intent 로 보내주었으니 자리변경하여 아이템 값 잘 바꿔줌
-                item.preview_uri= G.CAPTURED_IMAGE_URI;   //FIXME: 원래 원본 코드 !!!!!
-                //item.preview_uri = G.CAPTURED_IMAGE_BITMAP;   // URI -> BITMAP
+                //item.preview_uri= G.CAPTURED_IMAGE_URI;   //FIXME: 원래 원본 코드 !!!!!
+                item.preview_bm = G.CAPTURED_IMAGE_BITMAP;   // URI -> BITMAP
                 DB_Path = Garray.value[G.position];
                 job_text_adapter_p_c.notifyDataSetChanged();     //리사이클러뷰 아이템 값 변경- 화면에서 보여지는 값.
 
