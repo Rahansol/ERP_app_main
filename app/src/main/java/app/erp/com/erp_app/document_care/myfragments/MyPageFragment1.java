@@ -1038,13 +1038,14 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     G.dtti = DTTI;
                     G.dtti2 = DTTI2;
                     G.TempBusId=st_bus_list_id+"";
-
                     TempBusId_Value = G.TempBusId+"";
                     TRANSP_BIZR_ID = G.transpBizrId + "";
                     Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + DTTI2 + "/" + TABLE_NAME + "_" + DTTI2 + "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
                     GarryValue = Garray.PositionInfo[G.position][1] + "";
 
-                    // Uri -> Bitmap 변경
+
+                    // NOTE: 이미지를 업로드 하는데 용량 너무 차지.. -> 리사이징을 하려면 Bitmap 으로 해야함.
+                    // NOTE: Uri -> Bitmap 변경
                     bm = null;
                     if (selectedImageUri != null){
                         try {
@@ -1058,10 +1059,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                     JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 300));
                     //item.preview_uri= selectedImageUri;     // STATUS: 변경될 이미지 저장 = 원본
-                    item.preview_bm = bm;                     // Uri -> Bitmap
+                    item.preview_bm = bm;                     // EDIT: Uri -> Bitmap 로 변경 및 저장
 
                     DB_Path = Garray.value[G.position];
-                    job_text_adapter_p_c.notifyDataSetChanged();    //변경됐다고 adapter 에 알리기
+                    job_text_adapter_p_c.notifyDataSetChanged();    // STATUS: 변경됐다고 adapter 에 알리기 notify
 
 
                     path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + GarryValue + ".jpg").replaceAll("/","%"));
@@ -1112,7 +1113,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 bm = null;
                 if (G.CAPTURED_IMAGE_URI != null){
                     try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), G.CAPTURED_IMAGE_URI);   // uri -> bitmap 변경    //가로:960, 세로:1280
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), G.CAPTURED_IMAGE_URI);   // EDIT:    uri -> bitmap 변경    //가로:960, 세로:1280
                         G.CAPTURED_IMAGE_BITMAP = bm.createScaledBitmap(bm, 400, 600, false);     //가로:400, 세로:600
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1124,10 +1125,10 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                 // NOTE: 2) 리사이클러뷰 아이템 값 변경작업
                 JobTextItems item= jobTextItems.get(Math.floorMod(requestCode, 200));   //어댑터에서 리사이클러뷰 아이템의 position 까지 intent 로 보내주었으니 자리변경하여 아이템 값 잘 바꿔줌
-                //item.preview_uri= G.CAPTURED_IMAGE_URI;   //FIXME: 원래 원본 코드 !!!!!
-                item.preview_bm = G.CAPTURED_IMAGE_BITMAP;   // URI -> BITMAP
+                //item.preview_uri= G.CAPTURED_IMAGE_URI;    //STATUS: 원래 원본 코드 !!!!!
+                item.preview_bm = G.CAPTURED_IMAGE_BITMAP;   //EDIT:   URI -> BITMAP
                 DB_Path = Garray.value[G.position];
-                job_text_adapter_p_c.notifyDataSetChanged();     //리사이클러뷰 아이템 값 변경- 화면에서 보여지는 값.
+                job_text_adapter_p_c.notifyDataSetChanged();     //리사이클러뷰 아이템 값 변경 알리기
 
                 // NOTE: 2) 사진촬영 후 그 이미지 INSERT 및 UPDATE 작업
                 //          -> gallery_path 와 path_list 생성
