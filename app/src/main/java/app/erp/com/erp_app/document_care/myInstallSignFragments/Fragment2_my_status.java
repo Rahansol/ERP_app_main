@@ -242,7 +242,7 @@ public class Fragment2_my_status extends Fragment {
                 return response.body();
             } catch (IOException e) {
                 e.printStackTrace();
-                progressDialog.dismiss();
+                //progressDialog.dismiss();
             }
             return null;
         }
