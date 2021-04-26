@@ -138,7 +138,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     private DrawerLayout drawerLayout;
     private NavigationView nav;
 
-    Bitmap bm;
+    Bitmap bm, resizeBitmap;
     ImageView ivBitmap;
     File bmImageFile;
 
@@ -1048,30 +1048,68 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                     GarryValue = Garray.PositionInfo[G.position][1] + "";
 
 
-                    // NOTE: 이미지를 업로드 하는데 용량 너무 차지.. -> 리사이징을 하려면 Bitmap 으로 해야함.
+                    // NOTE: 1) 이미지를 업로드 하는데 용량 너무 차지.. -> 리사이징을 하려면 Bitmap 으로 해야함.
                     // NOTE: Uri -> Bitmap 변경
                     bm = null;
                     if (selectedImageUri != null){
                         try {
                             bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), selectedImageUri);   //가로:960, 세로:1280
-                            bm = bm.createScaledBitmap(bm, 400, 600, false);                            //가로:400, 세로:600
-                            //ivBitmap.setImageBitmap(bm);
-                            Log.d("selectedImageUri체크>>",selectedImageUri+"");
-                            Log.d("bm체크>>", bm+"");
+                            int bmWidth= bm.getWidth();
+                            int bmHeight= bm.getHeight();
+
+                            double Wratio= 0.0f;
+                            double Hratio= 0.0f;
+                            //Matrix matrix= new Matrix();
+                                Wratio= (bmWidth >= bmHeight)?((double)bmWidth / (double)bmHeight) * 512 : 512 ;
+                                Hratio= (bmHeight >= bmWidth)?((double)bmHeight / (double)bmWidth) * 512 : 512 ;
+                                //matrix.postRotate(0);
+                            resizeBitmap= bm.createScaledBitmap(bm, (int)Wratio, (int)Hratio, true);
+                            //resizeBitmap= resizeBitmap.createBitmap(resizeBitmap, 0, 0, (int)Wratio, (int)Hratio, matrix, true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
 
+
+
+                    //NOTE: 2) 리사이클러뷰 아이템 값 변경작업 (보여지는 화면)
                     JobTextItems item = jobTextItems.get(Math.floorMod(requestCode, 300));
                     //item.preview_uri= selectedImageUri;     // STATUS: 변경될 이미지 저장 = 원본
-                    item.preview_bm = bm;                     // EDIT: Uri -> Bitmap 로 변경 및 저장
+                    item.preview_bm = resizeBitmap;                     // EDIT: Uri -> Bitmap 로 변경 및 저장
 
                     DB_Path = Garray.value[G.position];
                     job_text_adapter_p_c.notifyDataSetChanged();    // STATUS: 변경됐다고 adapter 에 알리기 notify
 
 
-                    path_list.add(gallery_path + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + GarryValue + ".jpg").replaceAll("/","%"));
+
+
+                    //NOTE: 3) 변경된 Bitmap (resizeBitmap) 을 File 형식으로 변환.. -> 새로운 파일생성
+                    String timeStamp= new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
+                    String imgFileName= "JPEG_"+timeStamp+".jpg";
+                    bmImageFile= null;
+                    File storageDir= new File(Environment.getExternalStorageDirectory()+"/IERP");
+
+                    if (!storageDir.exists()){
+                        storageDir.mkdirs();
+                    }else {
+                        Log.d("storage체크체크!!!!!!!!>>",storageDir.toString());
+                    }
+                    bmImageFile= new File(storageDir, imgFileName);
+                    try {
+                        bmImageFile.createNewFile();
+                        FileOutputStream out= new FileOutputStream(bmImageFile);
+                        resizeBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+                    } catch (IOException e) {
+                        Log.d("예외발생>>", e.toString());
+                        e.printStackTrace();
+                    }
+                    Log.d("비트맵이미지파일생성>>", bmImageFile.toString());    // /storage/emulated/0/IERP/JPEG_20210422_1420.jpg
+
+
+
+                    path_list.add(bmImageFile + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + TRANSP_BIZR_ID + "_" + st_bus_list_id + "_" + GarryValue + ".jpg").replaceAll("/","%"));
                     Log.d("path_list===========> ", path_list+"");    //[/storage/emulated/0/DCIM/Camera/IMG_20210222_001322.jpg&nas_image%image%IERP%PRJ_BUS_01004%20210222%PRJ_BUS_01004_20210222_4100200_141101234_1.jpg]
                     int cnt = 0;
 
@@ -1120,7 +1158,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 if (G.CAPTURED_IMAGE_URI != null){
                     try {
                         bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), G.CAPTURED_IMAGE_URI);   // EDIT:    uri -> bitmap 변경    //가로:960, 세로:1280
-                        Log.d("bm체크체크>>", bm+"");    //android.graphics.Bitmap@4a63fb7
+                        Log.d("bm체크체크>>", bm+"");                         //   android.graphics.Bitmap@4a63fb7
+                        Log.d("uri체크체크>>", G.CAPTURED_IMAGE_URI.toString());    //   content://app.erp.com.erp_app/hidden/IERP/JPEG_20210422_1437.jpg
 
                         //원본 이미지 사이즈 가져오기
                         int bmWidth = bm.getWidth();
@@ -1157,7 +1196,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 DB_Path = Garray.value[G.position];
                 job_text_adapter_p_c.notifyDataSetChanged();     //리사이클러뷰 아이템 값 변경 알리기
 
-                //EDIT: 변경된 Bitmap 파일을 gallery_path (ex; /storage/emulated/0/IERP/JPEG_20210422_0915.jpg)- 파일 형식으로 바꿔야함.
+                //TODO: 변경된 Bitmap 파일을 gallery_path (ex; /storage/emulated/0/IERP/JPEG_20210422_0915.jpg)- 파일 형식으로 바꿔야함.
                /**
                 * File storage= getContext().getCacheDir();
                 String timeStamp= new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
@@ -1174,8 +1213,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
 
                 Log.d("tempFile체크체크>>", tempFile.toString());    // /data/user/0/app.erp.com.erp_app/cache/JPEG_20210422_1016.jpg
                                                                          // /storage/emulated/0/IERP/JPEG_20210325_0955.jpg  **/
-
-
+                //TODO: tempFile 은 그냥 File 의 경로가 다르기때문에 new File 생성..
                 String timeStamp= new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
                 String imgFileName= "JPEG_"+timeStamp+".jpg";
                 bmImageFile= null;
@@ -1213,10 +1251,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                 G.dtti = DTTI;
                 G.dtti2 = DTTI2;
 
-
-                //String gallery_path= G.CAPTURED_IMAGE_PATH;
-                //Log.d("G.PATURED_IMAGE_PATH체크체크>>", G.CAPTURED_IMAGE_PATH.toString());    // /storage/emulated/0/IERP/JPEG_20210422_0915.jpg
-                //Log.d("gallery_path체크체크>>", gallery_path);                                // /storage/emulated/0/IERP/JPEG_20210422_0957.jpg
+                //Log.d("gallery_path체크체크>>", gallery_path);  // /storage/emulated/0/IERP/JPEG_20210422_0957.jpg
+                // EDIT: gallery_path -> bmImageFile             // /storage/emulated/0/IERP/JPEG_20210422_0957.jpg
                 Garray.value[Garray.PositionInfo[G.position][1]] ="project_img/" + TABLE_NAME + "/" + G.dtti2 + "/" + TABLE_NAME + "_" + G.dtti2 + "_" + G.transpBizrId + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg";
                 path_list.add(bmImageFile + "&"+ ("nas_image/image/IERP/" + TABLE_NAME + "/" + DTTI2+ "/" + TABLE_NAME + "_" + DTTI2+ "_" + G.transpBizrId + "_" + st_bus_list_id + "_" + Garray.PositionInfo[G.position][1] + ".jpg").replaceAll("/","%"));
                 Log.d("gallery_path ))))", bmImageFile+"");

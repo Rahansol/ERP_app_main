@@ -34,8 +34,8 @@ android {
         applicationId "app.erp.com.erp_app"
         minSdkVersion 29
         targetSdkVersion 29    //29버전(안드로이드 10 타켓팅)
-        versionCode 76         //75 -> 76
-        versionName "6.7.1"      //6.7 -> 6.7.1
+        versionCode 77         //76 -> 77
+        versionName "6.7.2"      //6.7.1 -> 6.7.2
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     lintOptions {
