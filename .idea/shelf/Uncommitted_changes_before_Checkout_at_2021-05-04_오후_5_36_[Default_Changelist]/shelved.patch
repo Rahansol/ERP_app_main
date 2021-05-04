@@ -1,0 +1,278 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>buildscript {\r\n\r\n    repositories {\r\n       mavenCentral()\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath 'com.google.gms:google-services:4.3.4'\r\n        classpath 'com.android.tools.build:gradle:4.1.1'\r\n\r\n\r\n        //        classpath 'com.android.tools.build:gradle:3.6.3'\r\n    }\r\n}\r\n\r\napply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'  // Google Services plugin\r\n\r\nandroid {\r\n    // ...\r\n    dataBinding{\r\n        enabled= true\r\n    }\r\n}\r\n\r\nandroid {\r\n    compileSdkVersion 29    //29버전(안드로이드 10 타켓팅)\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n    defaultConfig {\r\n        applicationId \"app.erp.com.erp_app\"\r\n        minSdkVersion 29\r\n        targetSdkVersion 29    //29버전(안드로이드 10 타켓팅)\r\n        versionCode 78         //77 -> 78\r\n        versionName \"6.7.3\"      //6.7.2 -> 6.7.3\r\n        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'\r\n    }\r\n    lintOptions {\r\n        checkReleaseBuilds false\r\n        abortOnError false\r\n    }\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    sourceSets {\r\n        main {\r\n            assets {\r\n                srcDirs 'src\\\\main\\\\assets'    //assets 디렉토리 zip 파일 넣으려고 생성했다가 현재 안쓰고있음  //zip 파일 values 안에 잇음;\r\n            }\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(include: ['*.jar'], dir: 'libs')\r\n//    implementation 'com.google.firebase:firebase-analytics:17.2.2'\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'\r\n    implementation 'androidx.cardview:cardview:1.0.0'\r\n\r\n    implementation 'com.google.firebase:firebase-messaging:21.0.0'\r\n    implementation 'com.google.firebase:firebase-core:18.0.0'\r\n    implementation files('C:\\\\Users\\\\Interpass\\\\Downloads\\\\google-services.json')\r\n    implementation 'com.squareup.picasso:picasso:2.71828'   //glide 대신에 picasso\r\n    testImplementation 'junit:junit:4.12'\r\n\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n    implementation 'com.squareup.retrofit2:retrofit:2.9.0'\r\n    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'\r\n    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'\r\n    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'\r\n\r\n    implementation 'gun0912.ted:tedpermission:2.2.3'\r\n\r\n    implementation 'com.github.bumptech.glide:glide:4.11.0'\r\n    /*annotationProcessor 'com.github.bumptech.glide:compiler:4.11  */\r\n\r\n    implementation 'com.github.gcacace:signature-pad:1.3.1'\r\n\r\n    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.7'\r\n    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.7'\r\n    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'\r\n\r\n    implementation 'com.google.android.play:core:1.9.0'\r\n\r\n//    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'\r\n\r\n\r\n//    implementation 'com.google.firebase:firebase-analytics:17.2.2'\r\n//    implementation 'com.google.firebase:firebase-messaging:17.3.4'\r\n\r\n    implementation 'androidx.cardview:cardview:1.0.0'\r\n    implementation 'com.google.firebase:firebase-messaging:21.0.1'\r\n    implementation platform('com.google.firebase:firebase-bom:26.1.1')\r\n    implementation 'com.google.firebase:firebase-analytics'\r\n/*    implementation 'com.google.firebase:firebase-messaging'*/\r\n/*    implementation 'com.google.firebase:firebase-database:19.2.1'*/\r\n    implementation 'com.google.firebase:firebase-database:19.6.0'\r\n    implementation 'com.google.code.gson:gson:2.8.5'\r\n\r\n\r\n    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'\r\n\r\n\r\n\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 2eafe8b76254a1979300279cac74481e5cc8f75a)
++++ app/build.gradle	(date 1620115260071)
+@@ -25,6 +25,17 @@
+ }
+ 
+ android {
++    /*signingConfigs{
++        release{
++            storeFile file('')
++            storePassword ''
++            keyPassword ''
++            keyAlias = ''
++        }
++    }*/
++
++
++
+     compileSdkVersion 29    //29버전(안드로이드 10 타켓팅)
+     compileOptions {
+         sourceCompatibility JavaVersion.VERSION_1_8
+@@ -34,8 +45,8 @@
+         applicationId "app.erp.com.erp_app"
+         minSdkVersion 29
+         targetSdkVersion 29    //29버전(안드로이드 10 타켓팅)
+-        versionCode 78         //77 -> 78
+-        versionName "6.7.3"      //6.7.2 -> 6.7.3
++        versionCode 83         //77 -> 78
++        versionName "6.7.8"      //6.7.2 -> 6.7.3
+         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+     }
+     lintOptions {
+@@ -92,7 +103,7 @@
+     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.7'
+     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+ 
+-    implementation 'com.google.android.play:core:1.9.0'
++    implementation 'com.google.android.play:core:1.10.0'
+ 
+ //    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+ 
+Index: app/src/main/java/app/erp/com/erp_app/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package app.erp.com.erp_app;\r\n\r\nimport android.app.Activity;\r\nimport android.app.ProgressDialog;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.content.IntentSender;\r\nimport android.content.SharedPreferences;\r\nimport android.content.pm.PackageInfo;\r\nimport android.content.pm.PackageManager;\r\nimport android.os.AsyncTask;\r\nimport android.os.Bundle;\r\nimport android.os.PersistableBundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.CheckBox;\r\nimport android.widget.EditText;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.play.core.appupdate.AppUpdateInfo;\r\nimport com.google.android.play.core.appupdate.AppUpdateManager;\r\nimport com.google.android.play.core.appupdate.AppUpdateManagerFactory;\r\nimport com.google.android.play.core.install.model.AppUpdateType;\r\nimport com.google.android.play.core.install.model.UpdateAvailability;\r\nimport com.google.android.play.core.tasks.OnSuccessListener;\r\nimport com.google.android.play.core.tasks.Task;\r\nimport com.google.gson.Gson;\r\n\r\nimport java.util.List;\r\nimport java.util.concurrent.TimeUnit;\r\n\r\nimport app.erp.com.erp_app.callcenter.Call_Center_Activity;\r\nimport app.erp.com.erp_app.document_care.myfragments.G;\r\nimport app.erp.com.erp_app.vo.User_InfoVo;\r\nimport okhttp3.OkHttpClient;\r\nimport retrofit2.Call;\r\nimport retrofit2.Callback;\r\nimport retrofit2.Response;\r\nimport retrofit2.Retrofit;\r\nimport retrofit2.converter.gson.GsonConverterFactory;\r\n\r\n/**\r\n * Created by hsra on 2019-06-25.\r\n */\r\n\r\npublic class LoginActivity extends Activity{\r\n\r\n    Button submit_login;\r\n    EditText id_text, pw_text;\r\n    private Retrofit retrofit;\r\n    private Gson mGson;\r\n    ProgressDialog progressDialog;\r\n\r\n    CheckBox autoLogin;\r\n\r\n    SharedPreferences pref;\r\n    SharedPreferences.Editor editor;\r\n\r\n    private final int MY_REQUEST_CODE = 100;\r\n    private AppUpdateManager mAppUpdateManager;\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_login);\r\n\r\n        // 업데이트 사용 가능 상태인지 체크\r\n        mAppUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());\r\n        Task<AppUpdateInfo> appUpdateInfoTask = mAppUpdateManager.getAppUpdateInfo();\r\n        // 사용가능 체크 리스너를 달아준다\r\n        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {\r\n            @Override\r\n            public void onSuccess(AppUpdateInfo appUpdateInfo) {\r\n                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE\r\n                        && // 유연한 업데이트 사용 시 (AppUpdateType.FLEXIBLE) 사용\r\n                        appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {\r\n                    try {\r\n                        mAppUpdateManager.startUpdateFlowForResult(\r\n                                appUpdateInfo,\r\n                                // 유연한 업데이트 사용 시 (AppUpdateType.FLEXIBLE) 사용\r\n                                AppUpdateType.IMMEDIATE,\r\n                                // 현재 Activity\r\n                                LoginActivity.this,\r\n                                // 전역변수로 선언해준 Code\r\n                                MY_REQUEST_CODE);\r\n                    } catch (IntentSender.SendIntentException e) {\r\n                        Log.e(\"AppUpdater\", \"AppUpdateManager Error\", e);\r\n                        e.printStackTrace();\r\n                    }\r\n                    // 업데이트가 사용 가능한 상태 (업데이트 있음) -> 이곳에서 업데이트를 요청해주자\r\n                } else {\r\n                    // 업데이트가 사용 가능하지 않은 상태(업데이트 없음) -> 다음 액티비티로 넘어가도록\r\n                }\r\n            }\r\n        });\r\n\r\n        pref = getSharedPreferences(\"user_info\" , MODE_PRIVATE);\r\n        editor = pref.edit();\r\n\r\n        progressDialog = new ProgressDialog(this);\r\n        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);\r\n        progressDialog.setMessage(\"로그인중..\");\r\n\r\n        TextView app_version_text = (TextView)findViewById(R.id.app_version_text);\r\n        String version = getVersionInfo(getApplicationContext());\r\n        app_version_text.setText(\"v\"+version);\r\n\r\n        id_text = (EditText)findViewById(R.id.id_text);\r\n        pw_text = (EditText)findViewById(R.id.pw_text);\r\n        autoLogin = (CheckBox)findViewById(R.id.auto_login);\r\n        String auto_login = pref.getString(\"auto_login\",\"\");\r\n        if(auto_login.equals(\"auto\")){\r\n            autoLogin.setChecked(true);\r\n            id_text.setText(pref.getString(\"auto_id\",\"\"));\r\n            pw_text.setText(pref.getString(\"auto_pw\", \"\"));\r\n            if(id_text.length()!=0 && pw_text.length()!=0) {\r\n                new App_Login().execute(id_text.getText().toString(),pw_text.getText().toString());\r\n            }\r\n        }else{\r\n            autoLogin.setChecked(false);\r\n        }\r\n\r\n        submit_login = (Button)findViewById(R.id.submit_login);\r\n        submit_login.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                if(autoLogin.isChecked()){\r\n                    editor.putString(\"auto_login\" , \"auto\");\r\n                    editor.putString(\"auto_id\" , id_text.getText().toString());\r\n                    editor.putString(\"auto_pw\" , pw_text.getText().toString());\r\n                    editor.commit();\r\n                }else{\r\n                    editor.putString(\"auto_login\" , \"Nauto\");\r\n                    editor.commit();\r\n                }\r\n                if(id_text.getText().toString().equals(\"ratest\")){\r\n                    Intent intent = new Intent(LoginActivity.this,Call_Center_Activity.class);\r\n//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);\r\n                    startActivity(intent);\r\n                    finish();\r\n                }\r\n                progressDialog.show();\r\n                try {\r\n                    new App_Login().execute(id_text.getText().toString(),pw_text.getText().toString());\r\n                }catch (Exception e){\r\n                    e.printStackTrace();\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n    /*private class App_Login extends AsyncTask<Call, Void, List<User_InfoVo>>{\r\n\r\n        @Override\r\n        protected List<User_InfoVo> doInBackground(Call... calls) {\r\n            Call<List<User_InfoVo>> call= calls[0];\r\n            try{\r\n                Response<List<User_InfoVo>> response= call.execute();\r\n            } catch (Exception e) {\r\n                e.printStackTrace();\r\n            }\r\n            return null;\r\n        }\r\n\r\n        @Override\r\n        protected void onPostExecute(List<User_InfoVo> user_infoVos) {\r\n            super.onPostExecute(user_infoVos);\r\n\r\n            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);\r\n            String emp_id = strings[0];\r\n            String emp_pw = strings[1];\r\n            final Call<List<User_InfoVo>> call= erp.app_login(emp_id, emp_pw);\r\n        }\r\n\r\n    }*/\r\n\r\n    private class App_Login extends AsyncTask<String , Integer, Long>{\r\n        @Override\r\n        protected Long doInBackground(String... strings) {\r\n\r\n            /*OkHttpClient okHttpClient = new OkHttpClient.Builder()\r\n                    .connectTimeout(2, TimeUnit.MINUTES)\r\n                    .readTimeout(1,TimeUnit.MINUTES)\r\n                    .writeTimeout(30,TimeUnit.SECONDS)\r\n                    .build();\r\n            retrofit = new Retrofit.Builder()\r\n                    .baseUrl(getResources().getString(R.string.test_url))\r\n                    .addConverterFactory(GsonConverterFactory.create())\r\n                    .client(okHttpClient)\r\n                    .build();\r\n            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);*/\r\n            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);\r\n            String emp_id = strings[0];\r\n            String emp_pw = strings[1];\r\n            final Call<List<User_InfoVo>> call = erp.app_login(emp_id,emp_pw);\r\n            call.enqueue(new Callback<List<User_InfoVo>>() {\r\n                @Override\r\n                public void onResponse(Call<List<User_InfoVo>> call, Response<List<User_InfoVo>> response) {\r\n                    List<User_InfoVo> list = response.body();\r\n                    if(list == null || list.toString().equals(\"[null]\") ){\r\n                        id_text.setText(\"\");\r\n                        pw_text.setText(\"\");\r\n                        progressDialog.dismiss();\r\n                        Toast.makeText(LoginActivity.this , \"아이디랑 비민번호를 다시 확인해주세요\",Toast.LENGTH_SHORT).show();\r\n                        return;\r\n                    }else{\r\n                        //로그인 한 사람의 정보를 sharedPreference 에 저장/ 네네\r\n                        editor.putString(\"emp_id\" , list.get(0).getEmp_id());\r\n                        editor.putString(\"emp_name\", list.get(0).getEmp_name());\r\n                        editor.putString(\"dep_name\",list.get(0).getDep_name());\r\n                        editor.putString(\"dep_code\",list.get(0).getDep_code());\r\n                        editor.putString(\"emp_dep_id\", list.get(0).getEmp_dep_id());\r\n                        editor.commit();\r\n\r\n                        Log.d(\"emp_dep_id 확인+++++++++++++++++++++++++++\", list.get(0).getEmp_dep_id()+\" ooooooooooooooooo\");\r\n                        Log.d(\"emp_id 확인+++++++++++++++++++++++++++\", list.get(0).getEmp_id()+\" ooooooooooooooooo\");\r\n                        Log.d(\"emp_name 확인+++++++++++++++++++++++++++\", list.get(0).getEmp_name()+\" ooooooooooooooooo\");\r\n\r\n                        progressDialog.dismiss();\r\n                        Intent intent = new Intent(LoginActivity.this, Call_Center_Activity.class);\r\n//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);\r\n                        startActivity(intent);\r\n                        finish();\r\n\r\n                    }\r\n                }\r\n\r\n                @Override\r\n                public void onFailure(Call<List<User_InfoVo>> call, Throwable t) {\r\n                    Log.d(\"test\",\"tt\"+t);\r\n\r\n                }\r\n            });\r\n            return null;\r\n        }\r\n    }//App_Login()\r\n\r\n    public String getVersionInfo(Context context){\r\n        String version = null;\r\n        try {\r\n            PackageInfo i = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);\r\n            version = i.versionName;\r\n        } catch(PackageManager.NameNotFoundException e) { }\r\n        return version;\r\n    }\r\n\r\n    @Override\r\n    public void onActivityResult(int requestCode, int resultCode, Intent data) {\r\n        super.onActivityResult(requestCode, resultCode, data);\r\n        if (requestCode == MY_REQUEST_CODE) {\r\n            if (resultCode != RESULT_OK) {\r\n                Log.d(\"AppUpdate\", \"Update flow failed! Result code: \" + resultCode); // 로그로 코드 확인\r\n                Toast.makeText(this , \"ERP 어플을 사용하기 위해서는 업데이트가 필요해요\",Toast.LENGTH_SHORT).show();\r\n                finishAffinity(); // 앱 종료\r\n            }\r\n        }\r\n    }\r\n\r\n    @Override\r\n    protected void onResume() {\r\n        super.onResume();\r\n\r\n        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(\r\n                new OnSuccessListener<AppUpdateInfo>() {\r\n                    @Override\r\n                    public void onSuccess(AppUpdateInfo appUpdateInfo) {\r\n                        if (appUpdateInfo.updateAvailability()\r\n                                == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {\r\n                            // 인 앱 업데이트가 이미 실행중이었다면 계속해서 진행하도록\r\n                            try {\r\n                                mAppUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, LoginActivity.this, MY_REQUEST_CODE);\r\n                            } catch (IntentSender.SendIntentException e) {\r\n                                e.printStackTrace();\r\n                            }\r\n                        }\r\n                    }\r\n                });\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/app/erp/com/erp_app/LoginActivity.java	(revision 2eafe8b76254a1979300279cac74481e5cc8f75a)
++++ app/src/main/java/app/erp/com/erp_app/LoginActivity.java	(date 1620116358496)
+@@ -19,11 +19,17 @@
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
++import androidx.annotation.NonNull;
++
+ import com.google.android.play.core.appupdate.AppUpdateInfo;
+ import com.google.android.play.core.appupdate.AppUpdateManager;
+ import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
++import com.google.android.play.core.install.InstallState;
++import com.google.android.play.core.install.InstallStateUpdatedListener;
+ import com.google.android.play.core.install.model.AppUpdateType;
++import com.google.android.play.core.install.model.InstallStatus;
+ import com.google.android.play.core.install.model.UpdateAvailability;
++import com.google.android.play.core.tasks.OnFailureListener;
+ import com.google.android.play.core.tasks.OnSuccessListener;
+ import com.google.android.play.core.tasks.Task;
+ import com.google.gson.Gson;
+@@ -66,35 +72,8 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_login);
+ 
+-        // 업데이트 사용 가능 상태인지 체크
+-        mAppUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
+-        Task<AppUpdateInfo> appUpdateInfoTask = mAppUpdateManager.getAppUpdateInfo();
+-        // 사용가능 체크 리스너를 달아준다
+-        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+-            @Override
+-            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+-                        && // 유연한 업데이트 사용 시 (AppUpdateType.FLEXIBLE) 사용
+-                        appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+-                    try {
+-                        mAppUpdateManager.startUpdateFlowForResult(
+-                                appUpdateInfo,
+-                                // 유연한 업데이트 사용 시 (AppUpdateType.FLEXIBLE) 사용
+-                                AppUpdateType.IMMEDIATE,
+-                                // 현재 Activity
+-                                LoginActivity.this,
+-                                // 전역변수로 선언해준 Code
+-                                MY_REQUEST_CODE);
+-                    } catch (IntentSender.SendIntentException e) {
+-                        Log.e("AppUpdater", "AppUpdateManager Error", e);
+-                        e.printStackTrace();
+-                    }
+-                    // 업데이트가 사용 가능한 상태 (업데이트 있음) -> 이곳에서 업데이트를 요청해주자
+-                } else {
+-                    // 업데이트가 사용 가능하지 않은 상태(업데이트 없음) -> 다음 액티비티로 넘어가도록
+-                }
+-            }
+-        });
++        //앱업데이트 체크 메소드
++        callInAppUpdate();
+ 
+         pref = getSharedPreferences("user_info" , MODE_PRIVATE);
+         editor = pref.edit();
+@@ -214,11 +193,6 @@
+                         editor.putString("emp_dep_id", list.get(0).getEmp_dep_id());
+                         editor.commit();
+ 
+-                        Log.d("emp_dep_id 확인+++++++++++++++++++++++++++", list.get(0).getEmp_dep_id()+" ooooooooooooooooo");
+-                        Log.d("emp_id 확인+++++++++++++++++++++++++++", list.get(0).getEmp_id()+" ooooooooooooooooo");
+-                        Log.d("emp_name 확인+++++++++++++++++++++++++++", list.get(0).getEmp_name()+" ooooooooooooooooo");
+-
+-                        progressDialog.dismiss();
+                         Intent intent = new Intent(LoginActivity.this, Call_Center_Activity.class);
+ //                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                         startActivity(intent);
+@@ -229,7 +203,7 @@
+ 
+                 @Override
+                 public void onFailure(Call<List<User_InfoVo>> call, Throwable t) {
+-                    Log.d("test","tt"+t);
++                    Log.d("onFailure>>","tt"+t);
+ 
+                 }
+             });
+@@ -237,35 +211,50 @@
+         }
+     }//App_Login()
+ 
++
++
++    //앱 버전코드 가져오기
+     public String getVersionInfo(Context context){
+         String version = null;
+         try {
+             PackageInfo i = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+-            version = i.versionName;
++            version = i.versionName;    //build.gradle 에 있는 versionName
+         } catch(PackageManager.NameNotFoundException e) { }
+         return version;
+     }
+ 
+-    @Override
++
++
++
++    /*@Override
+     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+         super.onActivityResult(requestCode, resultCode, data);
+-        if (requestCode == MY_REQUEST_CODE) {
+-            if (resultCode != RESULT_OK) {
+-                Log.d("AppUpdate", "Update flow failed! Result code: " + resultCode); // 로그로 코드 확인
++
++        if (requestCode == MY_REQUEST_CODE){
++            if (resultCode != RESULT_OK){
+                 Toast.makeText(this , "ERP 어플을 사용하기 위해서는 업데이트가 필요해요",Toast.LENGTH_SHORT).show();
+-                finishAffinity(); // 앱 종료
++                Log.d("AppUpdate===", "Update failed.. Result code>> "+resultCode);
++                finishAffinity();   //앱종료
+             }
+         }
+-    }
++
++
++    } //onActivityResult   */
++
++
++
++
+ 
+     @Override
+     protected void onResume() {
+         super.onResume();
+-
+-        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(
++        //즉시 업데이트 사용시에는 업데이트 도중 앱을 stop 시켰다가 다시 실행했을 때
++        //멈추진 않았는지 검사를 통해 진행해줘야함..
++       mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(
+                 new OnSuccessListener<AppUpdateInfo>() {
+                     @Override
+                     public void onSuccess(AppUpdateInfo appUpdateInfo) {
++                        Log.d("appUpdateInfo.updateAvailability() :: ", appUpdateInfo.updateAvailability()+"");
+                         if (appUpdateInfo.updateAvailability()
+                                 == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                             // 인 앱 업데이트가 이미 실행중이었다면 계속해서 진행하도록
+@@ -278,4 +267,63 @@
+                     }
+                 });
+     }
+-}
++
++
++
++    // IN-APP UPDATE
++    private void callInAppUpdate(){
++        Log.d("tt>>", "tttttttttttt");
++        mAppUpdateManager= AppUpdateManagerFactory.create(getApplicationContext());
++        //업데이트 사용가능 상태인지 체크
++        Task<AppUpdateInfo> appUpdateInfoTask= mAppUpdateManager.getAppUpdateInfo();
++        //사용가능 체크 리스너
++        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
++            @Override
++            public void onSuccess(AppUpdateInfo appUpdateInfo) {
++                Log.d("tt1>>", "tttttttttttt");
++                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
++                            &&
++                    appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
++                    try{
++                        Log.d("tt2>>", "tttttttttttt");
++                        mAppUpdateManager.startUpdateFlowForResult(
++                                appUpdateInfo,
++                                AppUpdateType.IMMEDIATE,
++                                LoginActivity.this,
++                                MY_REQUEST_CODE);
++                    } catch (IntentSender.SendIntentException exception) {
++                        Log.e("AppUpdater>>", "AppUpdateManager Error "+exception);
++                        exception.printStackTrace();
++                    }
++                }else {
++                    //업데이트 사용 불가한 상대 --> 다음 액티비티로 넘어가도록
++                    Log.d("tt4>>", "app update is not available");
++                }
++            }
++        });
++
++        InstallStateUpdatedListener installStateUpdatedListener= new InstallStateUpdatedListener() {
++            @Override
++            public void onStateUpdate(@NonNull InstallState state) {
++                if (state.installStatus() == InstallStatus.DOWNLOADED){
++                    //다운로드를 표시하기 위한 스낵바 추가
++                    if (mAppUpdateManager != null){
++                        mAppUpdateManager.completeUpdate();
++                    }
++                }else if (state.installStatus() == InstallStatus.INSTALLED){
++                    if (mAppUpdateManager != null){
++                        mAppUpdateManager.unregisterListener(this);
++                    }
++                }else {
++                    Log.d("tag>>" ,"InstallStateUpdatedListener: state: "+state.installStatus());
++                }
++            }
++        };
++        mAppUpdateManager.registerListener(installStateUpdatedListener);
++    }//callInAppUpdate()..
++
++
++
++
++
++}//LoginActivity..
+Index: app/release/output-metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"version\": 2,\r\n  \"artifactType\": {\r\n    \"type\": \"APK\",\r\n    \"kind\": \"Directory\"\r\n  },\r\n  \"applicationId\": \"app.erp.com.erp_app\",\r\n  \"variantName\": \"processReleaseResources\",\r\n  \"elements\": [\r\n    {\r\n      \"type\": \"SINGLE\",\r\n      \"filters\": [],\r\n      \"versionCode\": 78,\r\n      \"versionName\": \"6.7.3\",\r\n      \"outputFile\": \"app-release.apk\"\r\n    }\r\n  ]\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/release/output-metadata.json	(revision 2eafe8b76254a1979300279cac74481e5cc8f75a)
++++ app/release/output-metadata.json	(date 1620105621001)
+@@ -10,8 +10,8 @@
+     {
+       "type": "SINGLE",
+       "filters": [],
+-      "versionCode": 78,
+-      "versionName": "6.7.3",
++      "versionCode": 80,
++      "versionName": "6.7.5",
+       "outputFile": "app-release.apk"
+     }
+   ]
