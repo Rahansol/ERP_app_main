@@ -258,6 +258,8 @@ public class LoginActivity extends Activity{
         }
     }
 
+    //test test
+
     @Override
     protected void onResume() {
         super.onResume();
