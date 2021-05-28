@@ -328,7 +328,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/home/baseline_home_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/cancel/baseline_cancel_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -338,8 +338,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_home" />
+                            <entry key="color" value="c3c4cc" />
+                            <entry key="outputName" value="ic_delete" />
                             <entry key="sourceFile" value="C:\Users\hsra" />
                           </map>
                         </option>

@@ -45,10 +45,9 @@ public class Job_Text_Adapter_P_C extends RecyclerView.Adapter {
 
     Uri imgUri;  //캡쳐한 이미지 경로 Uri
     String mCurrentPhotoPath;
-    File imageFile;
+    File imageFile, storageDir;
     Bitmap bm;
     String imageFileName;
-    File storageDir;
 
 
     public Job_Text_Adapter_P_C() {

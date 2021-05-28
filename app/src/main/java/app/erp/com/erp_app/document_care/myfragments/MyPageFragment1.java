@@ -1012,6 +1012,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
 
         IntentResult intentResult= IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        Log.d("intentResult!!!!!!!!!!!!!!!!!",""+intentResult);
 
         //[사진앨범]
         if (requestCode/100 == 3){

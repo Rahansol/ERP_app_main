@@ -147,8 +147,7 @@ public class Over_Work_Insert_Activity extends AppCompatActivity {
                     return;
                 }else if(set.size() == 0 && !proejct_work_check.isChecked()){
                     Toast.makeText(mcontext,"연장근무 작업을 선택해 주세요.",Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    return; }
                 Map<String,Object> info_map = new HashMap<>();
                 info_map.put("work_date",work_date_view.getText().toString());
                 info_map.put("insert_reg_date",get_today);
@@ -168,15 +167,10 @@ public class Over_Work_Insert_Activity extends AppCompatActivity {
                         vo.setEmp_id(emp_id);
 
                         insert_request_map.put(key,vo);
-                    }
-                }
-
+                    } }
                 Call<Boolean> insert_call = erp.insert_over_work(info_map);
-                new Over_Work_Insert_Activity.insert_over_work().execute(insert_call);
-            }
+                new Over_Work_Insert_Activity.insert_over_work().execute(insert_call); }
         });
-
-
         Call<List<Over_Work_VO>> call = erp.app_serch_over_work_list(request_map);
         new Over_Work_Insert_Activity.app_serch_over_work_list().execute(call);
 

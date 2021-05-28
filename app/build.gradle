@@ -34,8 +34,8 @@ android {
         applicationId "app.erp.com.erp_app"
         minSdkVersion 29
         targetSdkVersion 29    //29버전(안드로이드 10 타켓팅)
-        versionCode 77         //76 -> 77
-        versionName "6.7.2"      //6.7.1 -> 6.7.2
+        versionCode 85         //76 -> 77
+        versionName "6.8"      //6.7.1 -> 6.7.2
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     lintOptions {
@@ -111,7 +111,7 @@ dependencies {
 
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
-
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
 

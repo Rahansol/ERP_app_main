@@ -5,15 +5,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -39,10 +48,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,15 +69,19 @@ import app.erp.com.erp_app.dialog.DialogEduEmpList;
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.New_Bus_Activity;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.dialog.Dialog_Doc_Info_View;
 import app.erp.com.erp_app.vo.Bus_infoVo;
 import app.erp.com.erp_app.vo.Edu_Emp_Vo;
 import app.erp.com.erp_app.vo.Trouble_CodeVo;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by hsra on 2019-06-21.
@@ -76,14 +94,47 @@ public class Fragment_trouble_insert_bus extends Fragment {
     public static RecyclerView recyclerView_recentError;
     public static ArrayList<RecentErrorListItems> recentErrorListItems;
 
-    Button  error_insert_btn ,edit_care_emp_list, btn_error_event_num;
+    CircleImageView unitBeforeAddPic, unitAfterAddPic, busUnitCancelBtn, beforeUnitCancelBtn1, beforeUnitCancelBtn2;
+    Boolean isClicked = true;
+    Button  error_insert_btn ,edit_care_emp_list, btn_error_event_num
+            , selectUnitBeforeBtn, selectUnitAfterBtn, busUnitBtn;
+    public int REQUEST_BEFORE_IMAGE_CAPTURED = 200
+               ,REQUEST_BEFORE_IMAGE_PICK = 300
+               ,REQUEST_BEFORE_ADD_IMAGE_CAPTURED = 23
+               ,REQUEST_BEFORE_ADD_IMAGE_PICK = 24
+               ,REQUEST_AFTER_IMAGE_CAPTURED = 400
+               ,REQUEST_AFTER_IMAGE_PICK = 500
+               ,REQUEST_AFTER_ADD_IMAGE_CAPTURED = 45
+               ,REQUEST_AFTER_ADD_IMAGE_PICK = 46
+               ,REQUEST_BUS_UNIT_IMAGE_CAPTURED = 600
+               ,REQUEST_BUS_UNIT_IMAGE_PICK = 700
+
+                /* 교체 전 */
+               ,BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_1 = 11  //첫번째 사진 사진촬영
+               ,BEFORE_PHOTO_CLICK_IMAGE_PICK_1 = 33     //첫번째 사진 사진앨범
+               ,BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_2 = 22  //두번째 사진 사진촬영
+               ,BEFORE_PHOTO_CLICK_IMAGE_PICK_2 = 44     //두번째 사진 사진앨범
+               /* 교체 후 */
+               ,AFTER_PHOTO_CLICK_IMAGE_CAPTURE_1 = 55  //첫번째 사진 사진촬영
+               ,AFTER_PHOTO_CLICK_IMAGE_PICK_1 = 66     //첫번째 사진 사진앨범
+               ,AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2 = 77  //두번째 사진 사진촬영
+               ,AFTER_PHOTO_CLICK_IMAGE_PICK_2 = 88;    //두번째 사진 사진앨범
+
+
     LinearLayout bus_num_barcode_find, insert_bus_info, bus_num_find;
     Context context;
 
     private Retrofit retrofit;
     private DialogEduEmpList mdialog;
 
-    String click_type , page_info;
+
+    Uri imageUri;
+    String click_type , page_info, mCurrentPhotoPath, imageFileName;
+    File imageFile;
+    public static Bitmap resizedPhotoBm;
+    Bitmap bm;
+
+
     EditText find_bus_num ,field_error_garage ,field_error_route, field_error_phone, field_error_notice,unit_before_id,unit_after_id;
     TextView bus_area_name , bus_office_name, trouble_care_list;
     SharedPreferences pref, barcode_type_pref;
@@ -91,7 +142,8 @@ public class Fragment_trouble_insert_bus extends Fragment {
 
     LinearLayout care_layout , old_new_layout , old_barcode
             , new_old_layout ,new_barcode , bus_num_9999 , bus_num_nomal, new_selcet, old_select;
-    ImageView unit_before_camera, unit_after_camera;
+    ImageView unit_before_camera, unit_after_camera,
+                unitBeforeImage1, unitBeforeImage2, unitAfterImage1, unitAfterImage2, busUnitImage;
 
     CheckBox bs_yn;
 
@@ -570,24 +622,884 @@ public class Fragment_trouble_insert_bus extends Fragment {
                 }
             }
         });
+
+
+
+
+        /* 단말기 교체 전/후 이미지 업로딩.. */
+        unitBeforeImage1 = view.findViewById(R.id.unit_before_image1);
+        unitBeforeImage2 = view.findViewById(R.id.unit_before_image2);
+        unitBeforeAddPic = view.findViewById(R.id.add_album_image_btn);
+        unitAfterAddPic = view.findViewById(R.id.unitAfterAddPic);
+
+        unitAfterImage1 = view.findViewById(R.id.unit_after_image1);
+        unitAfterImage2 = view.findViewById(R.id.unit_after_image2);
+
+        selectUnitBeforeBtn = view.findViewById(R.id.selectUnitBeforeBtn);
+        selectUnitAfterBtn = view.findViewById(R.id.selectUnitAfterBtn);
+
+        beforeUnitCancelBtn1 = view.findViewById(R.id.before_unit_cancel_btn_1);
+        beforeUnitCancelBtn2 = view.findViewById(R.id.before_unit_cancel_btn_2);
+
+        /* 차량 단말기 이미지 업로딩 */
+        busUnitImage = view.findViewById(R.id.bus_unit_image);
+        busUnitBtn = view.findViewById(R.id.bus_unit_btn);
+        busUnitCancelBtn = view.findViewById(R.id.bus_unit_cancel_btn);
+
+        /* 교체 전 사진선택 버튼 */
+        selectUnitBeforeBtn.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();                  //캡쳐된 사진이 저장된 경로 지정
+                    if (imageUri != null){
+                        Log.d("imageUri~~", imageUri+"");     //   content://app.erp.com.erp_app/hidden/IERP/JPEG_20210527_0245.jpg
+                        Log.d("imageFile~~", imageFile+"");   //  /storage/emulated/0/IERP/JPEG_20210527_0245.jpg
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, REQUEST_BEFORE_IMAGE_CAPTURED);
+                    }
+
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, REQUEST_BEFORE_IMAGE_PICK);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+        /* 교체 전 사진 */
+        /* 사진 촬영/ 선택 후 추가하기 버튼 */
+        unitBeforeAddPic.setOnClickListener(v -> {
+            //다이얼로그로 바꾸기 -> 사진촬영 + 사진앨범
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, REQUEST_BEFORE_ADD_IMAGE_CAPTURED);
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, REQUEST_BEFORE_ADD_IMAGE_PICK);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+        // 교체 전
+        // 첫번째 사진 클릭시
+        unitBeforeImage1.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_1);
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, BEFORE_PHOTO_CLICK_IMAGE_PICK_1);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+        // 교체 전
+        // 두번째 사진 클릭시
+        unitBeforeImage2.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_2);
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, BEFORE_PHOTO_CLICK_IMAGE_PICK_2);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+        /* 첫번째 사진 삭제 */
+        beforeUnitCancelBtn1.setOnClickListener(v -> {
+            unitBeforeImage1.setVisibility(View.GONE);
+            beforeUnitCancelBtn1.setVisibility(View.GONE);  //삭제버튼 삭제
+            unitBeforeAddPic.setVisibility(View.GONE);
+            selectUnitBeforeBtn.setVisibility(View.VISIBLE);
+        });
+
+
+        beforeUnitCancelBtn2.setOnClickListener(v -> {
+            unitBeforeImage2.setVisibility(View.GONE);
+            unitBeforeAddPic.setVisibility(View.VISIBLE);
+            beforeUnitCancelBtn2.setVisibility(View.GONE);
+        });
+
+
+
+
+
+
+
+
+       /*교체 후 버튼*/
+        selectUnitAfterBtn.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, REQUEST_AFTER_IMAGE_CAPTURED);
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, REQUEST_AFTER_IMAGE_PICK);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+        /* 교체 후 사진 */
+        /* 사진촬형/ 앨범 선택 후 추가하기 버튼 */
+        unitAfterAddPic.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, REQUEST_AFTER_ADD_IMAGE_CAPTURED);
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, REQUEST_AFTER_ADD_IMAGE_PICK);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+
+
+        // 교체 후
+        // 첫번째 사진 클릭시
+        unitAfterImage1.setOnClickListener(v -> {
+            //AFTER_PHOTO_CLICK_IMAGE_CAPTURE_1
+            //AFTER_PHOTO_CLICK_IMAGE_PICK_1
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요!!!.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, AFTER_PHOTO_CLICK_IMAGE_CAPTURE_1);
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, AFTER_PHOTO_CLICK_IMAGE_PICK_1);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+        // 교체 후
+        // 두번째 사진 클릭시
+        unitAfterImage2.setOnClickListener(v -> {
+            //AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2
+            //AFTER_PHOTO_CLICK_IMAGE_PICK_2
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2);
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, AFTER_PHOTO_CLICK_IMAGE_PICK_2);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+
+
+
+
+
+
+        /* 차량 단말기 사진 업로드 */
+        busUnitBtn.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, REQUEST_BUS_UNIT_IMAGE_CAPTURED );
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, REQUEST_BUS_UNIT_IMAGE_PICK);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+        /* 차량 단말기 사진 클릭시 */
+        busUnitImage.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.ic_menu_camera);
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
+            builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    setImageUri();
+                    if (imageUri != null){
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, 1000 );
+                    }
+                }
+            });
+            builder.setNegativeButton("사진앨범", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                    startActivityForResult(intent, 2000);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
+
+        /* 차량 단말기 사진 삭제버튼 */
+        busUnitCancelBtn.setOnClickListener(v -> {
+            busUnitImage.setVisibility(View.GONE);
+            busUnitCancelBtn.setVisibility(View.GONE);
+        });
+
+
+
         return view;
-    }
+    }//onCreateView..
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        Log.d("result ++++++ ", result+"    tt");
-        String barcode = result.getContents();
-        if(click_type.equals("stop")){
+        /*IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Log.d("result~~~", intentResult+"    tt");
+        String strResult = intentResult.getContents();
+        Log.d("strResult +  requestCode", strResult+", "+requestCode);*/
+
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Log.d("intentResult>", ""+intentResult);  //null
+        Log.d("requestCode>", ""+requestCode);
+
+        //TODO: 작업 전 사진
+        /** 사진촬영 **/
+        if (requestCode == REQUEST_BEFORE_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                // Uri -------> Bitmap (사이즈/용량의 문제로 bitmap 으로 변경해주기)
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage1);
+                unitBeforeImage1.setVisibility(View.VISIBLE);
+                unitBeforeAddPic.setVisibility(View.VISIBLE);   //사진촬영 후 추가버튼
+                beforeUnitCancelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+            }
+        }  //NOTE: 첫번째 사진 클릭시 -> 사진촬영
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_1){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage1);
+                unitBeforeImage1.setVisibility(View.VISIBLE);
+               // addImageBtn.setVisibility(View.VISIBLE);   //사진촬영 후 추가버튼
+                beforeUnitCancelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+            }
+        }
+        //NOTE: 두번째 사진 클릭시 -> 사진촬영
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_2){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage2);
+                unitBeforeImage2.setVisibility(View.VISIBLE);
+                // addImageBtn.setVisibility(View.VISIBLE);   //사진촬영 후 추가버튼
+                beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+            }
+        }
+        /** 사진앨범 **/
+        else if (requestCode == REQUEST_BEFORE_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage1.setVisibility(View.VISIBLE);
+                    unitBeforeAddPic.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
+                    beforeUnitCancelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } //NOTE: 첫번째 사진 클릭시 -> 사진앨범
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_1){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage1.setVisibility(View.VISIBLE);
+                    //addAlbumImageBtn.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
+                    beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //NOTE: 두번째 사진 클릭시 -> 사진앨범
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_2){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage2.setVisibility(View.VISIBLE);
+                    //addAlbumImageBtn.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
+                    beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        /** 사진 촬영 후 --> 추가버튼1 **/
+        else if (requestCode == REQUEST_BEFORE_ADD_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage2);
+                unitBeforeImage2.setVisibility(View.VISIBLE);
+                selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
+                beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                unitBeforeAddPic.setVisibility(View.VISIBLE);    //추가버튼 보이기
+            }
+        } /** 사진앨범 선택 후 --> 추가버튼1 **/
+        else if (requestCode == REQUEST_BEFORE_ADD_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage2.setVisibility(View.VISIBLE);
+                    unitBeforeAddPic.setVisibility(View.GONE);
+                    selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
+                    beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //TODO: 작업 후 사진
+        /** 사진촬영 **/
+        else if (requestCode == REQUEST_AFTER_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage1);
+                unitAfterImage1.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.VISIBLE);
+            }
+
+        }  //NOTE: 첫번째 사진 클릭시 -> 사진촬영
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_CAPTURE_1){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage1);
+                unitAfterImage1.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.GONE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+            }
+        }//NOTE: 두번째 사진 클릭시 -> 사진촬영
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage2);
+                unitAfterImage2.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.GONE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+            }
+        }
+        /** 사진앨범 **/
+        else if (requestCode == REQUEST_AFTER_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage1.setVisibility(View.VISIBLE);
+                    unitAfterAddPic.setVisibility(View.VISIBLE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }//NOTE: 첫번째 사진 클릭시 -> 사진앨범                                                                                                   //TODO
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_1){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage1.setVisibility(View.VISIBLE);
+                    unitAfterAddPic.setVisibility(View.GONE);
+                    selectUnitAfterBtn.setVisibility(View.GONE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }//NOTE: 두번째 사진 클릭시 -> 사진앨범
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_2){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage2.setVisibility(View.VISIBLE);
+                    unitAfterAddPic.setVisibility(View.GONE);
+                    selectUnitAfterBtn.setVisibility(View.GONE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        /** 사진 촬영 후 --> 추가버튼2 **/
+        else if (requestCode == REQUEST_AFTER_ADD_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage2);
+                unitAfterImage2.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.GONE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+            }
+        }  /** 사진앨범 선택 후 --> 추가버튼2 **/
+        else if (requestCode == REQUEST_AFTER_ADD_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage2.setVisibility(View.VISIBLE);
+                    unitAfterAddPic.setVisibility(View.GONE);
+                    selectUnitAfterBtn.setVisibility(View.GONE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //TODO:  차량 단말기 사진
+        /** 사진촬영 **/
+        else if (requestCode == REQUEST_BUS_UNIT_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(busUnitImage);
+                busUnitImage.setVisibility(View.VISIBLE);
+                busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
+            }
+        }
+        /** 사진앨범 **/
+        else if (requestCode == REQUEST_BUS_UNIT_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    busUnitImage.setImageBitmap(resizedPhotoBm);
+                    busUnitImage.setVisibility(View.VISIBLE);
+                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //차량단말기 이미지 클릭시  -> 사진촬영
+        }else if (requestCode == 1000) {
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(busUnitImage);
+                busUnitImage.setVisibility(View.VISIBLE);
+                busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
+            }
+        }//차량단말기 이미지 클릭시  -> 사진앨범
+        else if (requestCode == 2000){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    busUnitImage.setImageBitmap(resizedPhotoBm);
+                    busUnitImage.setVisibility(View.VISIBLE);
+                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+        /*if(click_type.equals("stop")){
         }else if(click_type.equals("scan")){
-            new getfield_error_busnum().execute(barcode);
+            new getfield_error_busnum().execute(strResult);
 
         }else if(click_type.equals("before")){
-            unit_before_id.setText(barcode);
+            unit_before_id.setText(strResult);
         }else if(click_type.equals("after")){
-            unit_after_id.setText(barcode);
+            unit_after_id.setText(strResult);
+        }*/
+    }//onActivityforResult..
+
+
+    /* 기존코드- onActivityResult */
+   /* @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Log.d("result~~~", result+"    tt");
+        String strResult = result.getContents();
+
+
+        if(click_type.equals("stop")){
+        }else if(click_type.equals("scan")){
+            new getfield_error_busnum().execute(strResult);
+
+        }else if(click_type.equals("before")){
+            unit_before_id.setText(strResult);
+        }else if(click_type.equals("after")){
+            unit_after_id.setText(strResult);
+        }
+    }*/
+
+
+    // Bitmap 사진 리사이징하기
+    public void ResizingBitmapPhoto() throws IOException {
+        int bmWidth = bm.getWidth();
+        int bmHeight = bm.getHeight();
+        double Wratio = 0.0;
+        double Hratio = 0.0;
+
+        Matrix matrix = new Matrix();
+        if (bmWidth > bmHeight){
+            Wratio = ((double)bmWidth / (double)bmHeight) * 512;
+            Hratio = 1 * 512;
+        }else {
+            Wratio = 1 * 512;
+            Hratio = ((double)bmHeight / (double)bmWidth) * 512;
+        }
+        //matrix.postRotate(90);
+        resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
+        resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
+    }
+
+
+
+    // 사진촬영/ 캡쳐된 이미지 저장경로 지정
+    public void setImageUri(){
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory()+"/IERP");
+
+        if (!storageDir.exists()){
+            storageDir.mkdirs();
+        }else {
+            Log.d("storageDir~~", storageDir+"");
+        }
+
+        imageFile = new File(storageDir, imageFileName);
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
+        Log.d("imagePath~~", mCurrentPhotoPath+"");
+
+        //File ------> Uri
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N){
+            imageUri = Uri.fromFile(imageFile);
+        }else {
+            imageUri = FileProvider.getUriForFile(context, context.getPackageName(), imageFile);
         }
     }
+
+
 
     //버스번호 검색
     private class getfield_error_busnum extends AsyncTask<String , Integer, Long>{

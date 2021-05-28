@@ -151,30 +151,7 @@ public class LoginActivity extends Activity{
         });
     }
 
-    /*private class App_Login extends AsyncTask<Call, Void, List<User_InfoVo>>{
 
-        @Override
-        protected List<User_InfoVo> doInBackground(Call... calls) {
-            Call<List<User_InfoVo>> call= calls[0];
-            try{
-                Response<List<User_InfoVo>> response= call.execute();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<User_InfoVo> user_infoVos) {
-            super.onPostExecute(user_infoVos);
-
-            ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
-            String emp_id = strings[0];
-            String emp_pw = strings[1];
-            final Call<List<User_InfoVo>> call= erp.app_login(emp_id, emp_pw);
-        }
-
-    }*/
 
     private class App_Login extends AsyncTask<String , Integer, Long>{
         @Override

@@ -44,6 +44,7 @@ public class Over_Work_Activity extends AppCompatActivity {
         over_work_insert_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 연장 근무 신청으로 이동
                 Intent i = new Intent(Over_Work_Activity.this , Over_Work_Insert_Activity.class );
                 startActivity(i);
             }
