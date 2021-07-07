@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -89,25 +91,30 @@ import static android.app.Activity.RESULT_OK;
 
 public class Fragment_trouble_insert_bus extends Fragment {
     /*최근 장애건수 확인버튼 및 리사이클러뷰 다이얼로그*/
-    static String bus_id_value, bus_id_value2, transp_bizr_id_value;
+    static String bus_id_value, transp_bizr_id_value;
     public static RecentErrorListAdapter recentErrorListAdapter;
     public static RecyclerView recyclerView_recentError;
     public static ArrayList<RecentErrorListItems> recentErrorListItems;
 
-    CircleImageView unitBeforeAddPic, unitAfterAddPic, busUnitCancelBtn, beforeUnitCancelBtn1, beforeUnitCancelBtn2;
+    CircleImageView unitBeforeAddPic, unitAfterAddPic, busUnitCancelBtn, beforeUnitDeletelBtn1, beforeUnitDeleteBtn2, afterUnitDeletelBtn1, afterUnitDeletelBtn2;
     Boolean isClicked = true;
     Button  error_insert_btn ,edit_care_emp_list, btn_error_event_num
             , selectUnitBeforeBtn, selectUnitAfterBtn, busUnitBtn;
-    public int REQUEST_BEFORE_IMAGE_CAPTURED = 200
-               ,REQUEST_BEFORE_IMAGE_PICK = 300
-               ,REQUEST_BEFORE_ADD_IMAGE_CAPTURED = 23
-               ,REQUEST_BEFORE_ADD_IMAGE_PICK = 24
-               ,REQUEST_AFTER_IMAGE_CAPTURED = 400
-               ,REQUEST_AFTER_IMAGE_PICK = 500
-               ,REQUEST_AFTER_ADD_IMAGE_CAPTURED = 45
-               ,REQUEST_AFTER_ADD_IMAGE_PICK = 46
-               ,REQUEST_BUS_UNIT_IMAGE_CAPTURED = 600
-               ,REQUEST_BUS_UNIT_IMAGE_PICK = 700
+
+                /* 교체 전 */
+    public int REQUEST_BEFORE_IMAGE_CAPTURED = 200      //사진선택 버튼 -> 사진촬영
+               ,REQUEST_BEFORE_IMAGE_PICK = 300         //사진선택 버튼 -> 사진앨범
+               ,REQUEST_BEFORE_ADD_IMAGE_CAPTURED = 23  //추가 버튼 -> 사진촬영
+               ,REQUEST_BEFORE_ADD_IMAGE_PICK = 24      //추가 버튼 -> 사진앨범
+
+                /* 교체 후 */
+               ,REQUEST_AFTER_IMAGE_CAPTURED = 400      //사진선택 버튼 -> 사진촬영
+               ,REQUEST_AFTER_IMAGE_PICK = 500          //사진선택 버튼 -> 사진앨범
+               ,REQUEST_AFTER_ADD_IMAGE_CAPTURED = 45   //추가 버튼 -> 사진촬영
+               ,REQUEST_AFTER_ADD_IMAGE_PICK = 46       //추가 버튼 -> 사진앨범
+                /* 차량/버스 단말기 사진 */
+               ,REQUEST_BUS_UNIT_IMAGE_CAPTURED = 600   //사진선택 버튼 -> 사진촬영
+               ,REQUEST_BUS_UNIT_IMAGE_PICK = 700       //사진선택 버튼 -> 사진앨범
 
                 /* 교체 전 */
                ,BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_1 = 11  //첫번째 사진 사진촬영
@@ -120,6 +127,12 @@ public class Fragment_trouble_insert_bus extends Fragment {
                ,AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2 = 77  //두번째 사진 사진촬영
                ,AFTER_PHOTO_CLICK_IMAGE_PICK_2 = 88;    //두번째 사진 사진앨범
 
+    /* 이미지 경로 */
+    private ArrayList<String> path_list = new ArrayList<String>();
+    private Map<String, Object> path_map = new HashMap<>();
+    private String folderName = "nas_image/image/IERP/";
+    private String TABLE_NAME, DTTI ;    // tranp_bizr_id_value, bus_id_value
+    private int PIC_POSITION;
 
     LinearLayout bus_num_barcode_find, insert_bus_info, bus_num_find;
     Context context;
@@ -129,7 +142,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
 
 
     Uri imageUri;
-    String click_type , page_info, mCurrentPhotoPath, imageFileName;
+    String click_type , page_info, mCurrentPhotoPath;
     File imageFile;
     public static Bitmap resizedPhotoBm;
     Bitmap bm;
@@ -171,6 +184,8 @@ public class Fragment_trouble_insert_bus extends Fragment {
     List<String> cooperate_list ;
 
     ScrollView main_container;
+
+    public String st_field_error_garage, st_field_error_route;
 
     int check_count;
     public Fragment_trouble_insert_bus(){
@@ -296,6 +311,30 @@ public class Fragment_trouble_insert_bus extends Fragment {
             }
         });
 
+        //영업소 editText 입력
+        /*field_error_garage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (field_error_garage.getText().toString().contains(" ")){
+                    Log.d("@@!!","공백있음");
+                }
+                field_error_garage.setText(field_error_garage.getText().toString().trim());
+                field_error_route.setText(field_error_route.getText().toString().trim());
+            }
+        });*/
+
+
+
         field_error_route = (EditText)view.findViewById(R.id.field_error_route);
         field_error_route.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -420,8 +459,26 @@ public class Fragment_trouble_insert_bus extends Fragment {
                 IntentIntegrator.forSupportFragment(Fragment_trouble_insert_bus.this).setCaptureActivity(CustomScannerActivity.class).initiateScan();
             }
         });
-//      버스번호 텍스트 검색
+
+
+
         bus_num_find = (LinearLayout) view.findViewById(R.id.bus_num_find);
+
+        //버스검색 editText
+        find_bus_num.setImeOptions(EditorInfo.IME_ACTION_DONE);   //키보드 [다음] -> [완료]버튼으로 변경
+        find_bus_num.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (v.getId() == R.id.find_bus_num && actionId == EditorInfo.IME_ACTION_DONE){   //키보드의 완료키 입력 검출
+
+                    //edit: [버스검색]버튼 에 onClick 강제로 걸기
+                    bus_num_find.performClick();
+                }
+                return false;
+            }
+        });
+
+        //버스검색 버튼
         bus_num_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -501,12 +558,14 @@ public class Fragment_trouble_insert_bus extends Fragment {
                 String dep_code = pref.getString("dep_code",null);
                 String care_cd = (String)filed_error_map.get("trouble_care_cd");
 
+
+
                 filed_error_map.put("emp_id",emp_id);
                 filed_error_map.put("dep_code",dep_code);
                 filed_error_map.put("infra_code","1");
                 filed_error_map.put("service_id","01");
-                filed_error_map.put("garage_id",field_error_garage.getText().toString());
-                filed_error_map.put("route_id",field_error_route.getText().toString());
+                filed_error_map.put("garage_id",field_error_garage.getText().toString().trim());
+                filed_error_map.put("route_id",field_error_route.getText().toString().trim());
                 filed_error_map.put("driver_tel_num",field_error_phone.getText().toString());
                 filed_error_map.put("notice",field_error_notice.getText().toString());
                 filed_error_map.put("job_viewer",emp_id);
@@ -621,25 +680,38 @@ public class Fragment_trouble_insert_bus extends Fragment {
                     new app_jip_bus_care_insert().execute();
                 }
             }
+
+
         });
 
 
 
 
         /* 단말기 교체 전/후 이미지 업로딩.. */
+
+        /* 교체 전 이미지1,2 */
         unitBeforeImage1 = view.findViewById(R.id.unit_before_image1);
         unitBeforeImage2 = view.findViewById(R.id.unit_before_image2);
-        unitBeforeAddPic = view.findViewById(R.id.add_album_image_btn);
+
+        /* 교체 전/후 추가버튼 */
+        unitBeforeAddPic = view.findViewById(R.id.unitBeforeAddPic);
         unitAfterAddPic = view.findViewById(R.id.unitAfterAddPic);
 
+        /* 교체 후 이미지1,2 */
         unitAfterImage1 = view.findViewById(R.id.unit_after_image1);
         unitAfterImage2 = view.findViewById(R.id.unit_after_image2);
 
+        /* 교체 전/후 사진선택 버튼 */
         selectUnitBeforeBtn = view.findViewById(R.id.selectUnitBeforeBtn);
         selectUnitAfterBtn = view.findViewById(R.id.selectUnitAfterBtn);
 
-        beforeUnitCancelBtn1 = view.findViewById(R.id.before_unit_cancel_btn_1);
-        beforeUnitCancelBtn2 = view.findViewById(R.id.before_unit_cancel_btn_2);
+        /* 교체 전 사진 삭제버튼1,2 */
+        beforeUnitDeletelBtn1 = view.findViewById(R.id.before_unit_delete_btn_1);
+        beforeUnitDeleteBtn2 = view.findViewById(R.id.before_unit_delete_btn_2);
+
+        /* 교체 후 사진 삭제버튼1,2 */
+        afterUnitDeletelBtn1 = view.findViewById(R.id.after_unit_delete_btn_1);
+        afterUnitDeletelBtn2 = view.findViewById(R.id.after_unit_delete_btn_2);
 
         /* 차량 단말기 이미지 업로딩 */
         busUnitImage = view.findViewById(R.id.bus_unit_image);
@@ -769,18 +841,31 @@ public class Fragment_trouble_insert_bus extends Fragment {
 
 
         /* 첫번째 사진 삭제 */
-        beforeUnitCancelBtn1.setOnClickListener(v -> {
+        beforeUnitDeletelBtn1.setOnClickListener(v -> {
             unitBeforeImage1.setVisibility(View.GONE);
-            beforeUnitCancelBtn1.setVisibility(View.GONE);  //삭제버튼 삭제
+            beforeUnitDeletelBtn1.setVisibility(View.GONE);  //삭제버튼 삭제
             unitBeforeAddPic.setVisibility(View.GONE);
             selectUnitBeforeBtn.setVisibility(View.VISIBLE);
+            path_list.remove(0);
         });
 
 
-        beforeUnitCancelBtn2.setOnClickListener(v -> {
-            unitBeforeImage2.setVisibility(View.GONE);
-            unitBeforeAddPic.setVisibility(View.VISIBLE);
-            beforeUnitCancelBtn2.setVisibility(View.GONE);
+        /* 두번째 사진 삭제 */
+        beforeUnitDeleteBtn2.setOnClickListener(v -> {
+            //첫번째 사진이 삭제되었을 때 beforeUnitCancelBtn2 도 삭제해야됨... 어떻게??
+            //뷰의 visibility 로 체크하기..
+            if (beforeUnitDeletelBtn1.getVisibility() == View.GONE){
+                unitBeforeImage2.setVisibility(View.GONE);
+                beforeUnitDeleteBtn2.setVisibility(View.GONE);
+                unitBeforeAddPic.setVisibility(View.GONE);
+                path_list.remove(1);
+            }else {
+                unitBeforeImage2.setVisibility(View.GONE);
+                beforeUnitDeleteBtn2.setVisibility(View.GONE);
+                unitBeforeAddPic.setVisibility(View.VISIBLE);
+                path_list.remove(1);
+            }
+
         });
 
 
@@ -818,12 +903,13 @@ public class Fragment_trouble_insert_bus extends Fragment {
             dialog.show();
         });
 
+
         /* 교체 후 사진 */
-        /* 사진촬형/ 앨범 선택 후 추가하기 버튼 */
+        /* 사진촬영/ 앨범 선택 후 추가하기 버튼 */
         unitAfterAddPic.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setIcon(R.drawable.ic_menu_camera);
-            builder.setTitle("사진선택");
+            builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
             builder.setPositiveButton("사진촬영", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -848,8 +934,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
         });
 
 
-
-
+        //TODO:
         // 교체 후
         // 첫번째 사진 클릭시
         unitAfterImage1.setOnClickListener(v -> {
@@ -885,8 +970,6 @@ public class Fragment_trouble_insert_bus extends Fragment {
         // 교체 후
         // 두번째 사진 클릭시
         unitAfterImage2.setOnClickListener(v -> {
-            //AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2
-            //AFTER_PHOTO_CLICK_IMAGE_PICK_2
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setIcon(R.drawable.ic_menu_camera);
             builder.setTitle("사진선택").setMessage("업로드할 이미지를 선택하세요.");
@@ -913,6 +996,33 @@ public class Fragment_trouble_insert_bus extends Fragment {
             dialog.show();
         });
 
+        //교체 후
+        /* 첫번째 사진 삭제버튼 */
+        afterUnitDeletelBtn1.setOnClickListener(v -> {
+            unitAfterImage1.setVisibility(View.GONE);
+            afterUnitDeletelBtn1.setVisibility(View.GONE);
+            unitAfterAddPic.setVisibility(View.GONE);
+            selectUnitAfterBtn.setVisibility(View.VISIBLE);
+            path_list.remove(2);
+        });
+
+        /* 두번째 사진 삭제버튼 */
+        afterUnitDeletelBtn2.setOnClickListener(v -> {
+            Log.d("drawable state", unitAfterImage1.getDrawableState()+", drawable :"+unitAfterImage1.getDrawable()+"");
+
+            if (afterUnitDeletelBtn1.getVisibility() == View.GONE){
+                unitAfterImage2.setVisibility(View.GONE);
+                afterUnitDeletelBtn2.setVisibility(View.GONE);
+                unitAfterAddPic.setVisibility(View.GONE);
+                path_list.remove(3);
+            }else {
+                unitAfterImage2.setVisibility(View.GONE);
+                afterUnitDeletelBtn2.setVisibility(View.GONE);
+                unitAfterAddPic.setVisibility(View.VISIBLE);
+                path_list.remove(3);
+            }
+
+        });
 
 
 
@@ -982,8 +1092,12 @@ public class Fragment_trouble_insert_bus extends Fragment {
         busUnitCancelBtn.setOnClickListener(v -> {
             busUnitImage.setVisibility(View.GONE);
             busUnitCancelBtn.setVisibility(View.GONE);
+            busUnitBtn.setVisibility(View.VISIBLE);
+            path_list.remove(4);
         });
 
+
+        REG_DTTI();
 
 
         return view;
@@ -992,512 +1106,8 @@ public class Fragment_trouble_insert_bus extends Fragment {
 
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        /*IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        Log.d("result~~~", intentResult+"    tt");
-        String strResult = intentResult.getContents();
-        Log.d("strResult +  requestCode", strResult+", "+requestCode);*/
-
-        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        Log.d("intentResult>", ""+intentResult);  //null
-        Log.d("requestCode>", ""+requestCode);
-
-        //TODO: 작업 전 사진
-        /** 사진촬영 **/
-        if (requestCode == REQUEST_BEFORE_IMAGE_CAPTURED){
-            if (resultCode == RESULT_OK){
-                // Uri -------> Bitmap (사이즈/용량의 문제로 bitmap 으로 변경해주기)
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitBeforeImage1);
-                unitBeforeImage1.setVisibility(View.VISIBLE);
-                unitBeforeAddPic.setVisibility(View.VISIBLE);   //사진촬영 후 추가버튼
-                beforeUnitCancelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-            }
-        }  //NOTE: 첫번째 사진 클릭시 -> 사진촬영
-        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_1){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitBeforeImage1);
-                unitBeforeImage1.setVisibility(View.VISIBLE);
-               // addImageBtn.setVisibility(View.VISIBLE);   //사진촬영 후 추가버튼
-                beforeUnitCancelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-            }
-        }
-        //NOTE: 두번째 사진 클릭시 -> 사진촬영
-        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_2){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitBeforeImage2);
-                unitBeforeImage2.setVisibility(View.VISIBLE);
-                // addImageBtn.setVisibility(View.VISIBLE);   //사진촬영 후 추가버튼
-                beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-            }
-        }
-        /** 사진앨범 **/
-        else if (requestCode == REQUEST_BEFORE_IMAGE_PICK){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    // 이미지뷰에 세팅
-                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage1.setVisibility(View.VISIBLE);
-                    unitBeforeAddPic.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
-                    beforeUnitCancelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } //NOTE: 첫번째 사진 클릭시 -> 사진앨범
-        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_1){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    // 이미지뷰에 세팅
-                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage1.setVisibility(View.VISIBLE);
-                    //addAlbumImageBtn.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
-                    beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        //NOTE: 두번째 사진 클릭시 -> 사진앨범
-        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_2){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    // 이미지뷰에 세팅
-                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage2.setVisibility(View.VISIBLE);
-                    //addAlbumImageBtn.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
-                    beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        /** 사진 촬영 후 --> 추가버튼1 **/
-        else if (requestCode == REQUEST_BEFORE_ADD_IMAGE_CAPTURED){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitBeforeImage2);
-                unitBeforeImage2.setVisibility(View.VISIBLE);
-                selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
-                beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                unitBeforeAddPic.setVisibility(View.VISIBLE);    //추가버튼 보이기
-            }
-        } /** 사진앨범 선택 후 --> 추가버튼1 **/
-        else if (requestCode == REQUEST_BEFORE_ADD_IMAGE_PICK){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    // 이미지뷰에 세팅
-                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage2.setVisibility(View.VISIBLE);
-                    unitBeforeAddPic.setVisibility(View.GONE);
-                    selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
-                    beforeUnitCancelBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        //TODO: 작업 후 사진
-        /** 사진촬영 **/
-        else if (requestCode == REQUEST_AFTER_IMAGE_CAPTURED){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitAfterImage1);
-                unitAfterImage1.setVisibility(View.VISIBLE);
-                unitAfterAddPic.setVisibility(View.VISIBLE);
-            }
-
-        }  //NOTE: 첫번째 사진 클릭시 -> 사진촬영
-        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_CAPTURE_1){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitAfterImage1);
-                unitAfterImage1.setVisibility(View.VISIBLE);
-                unitAfterAddPic.setVisibility(View.GONE);
-                selectUnitAfterBtn.setVisibility(View.GONE);
-            }
-        }//NOTE: 두번째 사진 클릭시 -> 사진촬영
-        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitAfterImage2);
-                unitAfterImage2.setVisibility(View.VISIBLE);
-                unitAfterAddPic.setVisibility(View.GONE);
-                selectUnitAfterBtn.setVisibility(View.GONE);
-            }
-        }
-        /** 사진앨범 **/
-        else if (requestCode == REQUEST_AFTER_IMAGE_PICK){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage1.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.VISIBLE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }//NOTE: 첫번째 사진 클릭시 -> 사진앨범                                                                                                   //TODO
-        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_1){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage1.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.GONE);
-                    selectUnitAfterBtn.setVisibility(View.GONE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }//NOTE: 두번째 사진 클릭시 -> 사진앨범
-        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_2){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage2.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.GONE);
-                    selectUnitAfterBtn.setVisibility(View.GONE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        /** 사진 촬영 후 --> 추가버튼2 **/
-        else if (requestCode == REQUEST_AFTER_ADD_IMAGE_CAPTURED){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(unitAfterImage2);
-                unitAfterImage2.setVisibility(View.VISIBLE);
-                unitAfterAddPic.setVisibility(View.GONE);
-                selectUnitAfterBtn.setVisibility(View.GONE);
-            }
-        }  /** 사진앨범 선택 후 --> 추가버튼2 **/
-        else if (requestCode == REQUEST_AFTER_ADD_IMAGE_PICK){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage2.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.GONE);
-                    selectUnitAfterBtn.setVisibility(View.GONE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        //TODO:  차량 단말기 사진
-        /** 사진촬영 **/
-        else if (requestCode == REQUEST_BUS_UNIT_IMAGE_CAPTURED){
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(busUnitImage);
-                busUnitImage.setVisibility(View.VISIBLE);
-                busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
-            }
-        }
-        /** 사진앨범 **/
-        else if (requestCode == REQUEST_BUS_UNIT_IMAGE_PICK){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    busUnitImage.setImageBitmap(resizedPhotoBm);
-                    busUnitImage.setVisibility(View.VISIBLE);
-                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            //차량단말기 이미지 클릭시  -> 사진촬영
-        }else if (requestCode == 1000) {
-            if (resultCode == RESULT_OK){
-                bm = null;
-                if (imageUri != null){
-                    try {
-                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
-                        ResizingBitmapPhoto();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Glide.with(this)
-                        .load(resizedPhotoBm)
-                        .into(busUnitImage);
-                busUnitImage.setVisibility(View.VISIBLE);
-                busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
-            }
-        }//차량단말기 이미지 클릭시  -> 사진앨범
-        else if (requestCode == 2000){
-            if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    busUnitImage.setImageBitmap(resizedPhotoBm);
-                    busUnitImage.setVisibility(View.VISIBLE);
-                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
 
-
-
-
-
-
-
-        /*if(click_type.equals("stop")){
-        }else if(click_type.equals("scan")){
-            new getfield_error_busnum().execute(strResult);
-
-        }else if(click_type.equals("before")){
-            unit_before_id.setText(strResult);
-        }else if(click_type.equals("after")){
-            unit_after_id.setText(strResult);
-        }*/
-    }//onActivityforResult..
-
-
-    /* 기존코드- onActivityResult */
-   /* @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        Log.d("result~~~", result+"    tt");
-        String strResult = result.getContents();
-
-
-        if(click_type.equals("stop")){
-        }else if(click_type.equals("scan")){
-            new getfield_error_busnum().execute(strResult);
-
-        }else if(click_type.equals("before")){
-            unit_before_id.setText(strResult);
-        }else if(click_type.equals("after")){
-            unit_after_id.setText(strResult);
-        }
-    }*/
-
-
-    // Bitmap 사진 리사이징하기
-    public void ResizingBitmapPhoto() throws IOException {
-        int bmWidth = bm.getWidth();
-        int bmHeight = bm.getHeight();
-        double Wratio = 0.0;
-        double Hratio = 0.0;
-
-        Matrix matrix = new Matrix();
-        if (bmWidth > bmHeight){
-            Wratio = ((double)bmWidth / (double)bmHeight) * 512;
-            Hratio = 1 * 512;
-        }else {
-            Wratio = 1 * 512;
-            Hratio = ((double)bmHeight / (double)bmWidth) * 512;
-        }
-        //matrix.postRotate(90);
-        resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
-        resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
-    }
-
-
-
-    // 사진촬영/ 캡쳐된 이미지 저장경로 지정
-    public void setImageUri(){
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + ".jpg";
-        imageFile = null;
-        File storageDir = new File(Environment.getExternalStorageDirectory()+"/IERP");
-
-        if (!storageDir.exists()){
-            storageDir.mkdirs();
-        }else {
-            Log.d("storageDir~~", storageDir+"");
-        }
-
-        imageFile = new File(storageDir, imageFileName);
-        mCurrentPhotoPath = imageFile.getAbsolutePath();
-        Log.d("imagePath~~", mCurrentPhotoPath+"");
-
-        //File ------> Uri
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N){
-            imageUri = Uri.fromFile(imageFile);
-        }else {
-            imageUri = FileProvider.getUriForFile(context, context.getPackageName(), imageFile);
-        }
-    }
 
 
 
@@ -2282,6 +1892,614 @@ public class Fragment_trouble_insert_bus extends Fragment {
         field_trouble_high_code_list.setBackground(getResources().getDrawable(R.drawable.spinner_background));
         field_trouble_low_code_list.setBackground(getResources().getDrawable(R.drawable.spinner_background));
         field_trouble_care_code_list.setBackground(getResources().getDrawable(R.drawable.spinner_background));
+    }
+
+
+
+    // 현재날짜
+    public void REG_DTTI(){
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        DTTI = sdf.format(date);
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        //String strResult = intentResult.getContents();
+        Log.d("intentResult>", ""+intentResult);  //null
+        Log.d("requestCode>", ""+requestCode);
+
+        //TODO: 작업 전 사진
+        /** 사진촬영 **/       //Note: 순번 1
+        if (requestCode == REQUEST_BEFORE_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                // Uri -------> Bitmap (사이즈/용량의 문제로 bitmap 으로 변경해주기)
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage1);
+                unitBeforeImage1.setVisibility(View.VISIBLE);
+                unitBeforeAddPic.setVisibility(View.VISIBLE);      //사진촬영 후 추가버튼
+                beforeUnitDeletelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                selectUnitBeforeBtn.setVisibility(View.GONE);
+                //path_list.add("교체 전: "+"사진선택 버튼 -> 사진촬영");
+                PIC_POSITION = 1;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 1 >>", path_list+"");
+            }
+        }  //NOTE: 첫번째 사진 클릭시 -> 사진촬영       //Note: 순번 1
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_1){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage1);
+                unitBeforeImage1.setVisibility(View.VISIBLE);
+                if (unitBeforeImage2.getVisibility() == View.VISIBLE){
+                    unitBeforeAddPic.setVisibility(View.GONE);   //사진촬영 후 추가버튼
+                }else {
+                     unitBeforeAddPic.setVisibility(View.VISIBLE);   //사진촬영 후 추가버튼
+                }
+                beforeUnitDeletelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                //path_list.add("교체 전: "+"첫번째 사진 클릭시 -> 사진촬영");
+                PIC_POSITION = 1;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        }
+        //NOTE: 두번째 사진 클릭시 -> 사진촬영          //Note: 순번 2
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_2){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //사진촬영된 값(bitmap) -> imageView 에 붙여주기
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage2);
+                unitBeforeImage2.setVisibility(View.VISIBLE);
+                unitBeforeAddPic.setVisibility(View.GONE);   //사진촬영 후 추가버튼
+                beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                //path_list.add("교체 전: "+"두번째 사진 클릭시 -> 사진촬영");
+                PIC_POSITION = 2;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        }
+        /** 사진앨범 **/            //Note: 순번 1
+        else if (requestCode == REQUEST_BEFORE_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage1.setVisibility(View.VISIBLE);
+                    unitBeforeAddPic.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
+                    beforeUnitDeletelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                    selectUnitBeforeBtn.setVisibility(View.GONE);
+                   // path_list.add("교체 전: "+"사진선택 버튼 -> 사진앨범");
+                    PIC_POSITION = 1;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } //NOTE: 첫번째 사진 클릭시 -> 사진앨범                //Note: 순번 1
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_1){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage1.setVisibility(View.VISIBLE);
+                    if (unitBeforeImage2.getVisibility() == View.VISIBLE){
+                        unitBeforeAddPic.setVisibility(View.GONE);  //사진앨범 선택 후 추가버튼
+                    }else {
+                        unitBeforeAddPic.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
+                    }
+
+                    //beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                   // path_list.add("교체 전: "+"첫번째 사진 클릭시 -> 사진앨범");
+                    PIC_POSITION = 1;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //NOTE: 두번째 사진 클릭시 -> 사진앨범              //Note: 순번 2
+        else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_2){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage2.setVisibility(View.VISIBLE);
+                    unitBeforeAddPic.setVisibility(View.GONE);  //사진앨범 선택 후 추가버튼
+                    beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                    //path_list.add("교체 전: "+"두번째 사진 클릭시 -> 사진앨범");
+                    PIC_POSITION = 2;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        /** 사진 촬영 후 --> 추가버튼1 **/       //Note: 순번 2
+        else if (requestCode == REQUEST_BEFORE_ADD_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitBeforeImage2);
+                unitBeforeImage2.setVisibility(View.VISIBLE);
+                selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
+                beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                unitBeforeAddPic.setVisibility(View.VISIBLE);    //추가버튼 보이기
+                //path_list.add("교체 전: "+"추가버튼 -> 사진촬영");
+                PIC_POSITION = 2;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        } /** 사진앨범 선택 후 --> 추가버튼1 **/           //Note: 순번 2
+        else if (requestCode == REQUEST_BEFORE_ADD_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    // 이미지뷰에 세팅
+                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
+                    unitBeforeImage2.setVisibility(View.VISIBLE);
+                    unitBeforeAddPic.setVisibility(View.GONE);
+                    selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
+                    beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                    //path_list.add("교체 전: "+"추가버튼 -> 사진촬영");
+                    PIC_POSITION = 2;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //TODO: 작업 후 사진
+        /** 사진촬영 **/            //Note: 순번 3
+        else if (requestCode == REQUEST_AFTER_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage1);
+                unitAfterImage1.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.VISIBLE);
+                afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+                //path_list.add("교체 후: "+"사진선택 버튼 -> 사진촬영");
+                PIC_POSITION = 3;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+
+        }  //NOTE: 첫번째 사진 클릭시 -> 사진촬영           //Note: 순번 3
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_CAPTURE_1){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage1);
+                unitAfterImage1.setVisibility(View.VISIBLE);
+                if (unitAfterImage2.getVisibility() == View.VISIBLE){
+                    unitAfterAddPic.setVisibility(View.GONE);
+                }else {
+                    unitAfterAddPic.setVisibility(View.VISIBLE);
+                }
+                selectUnitAfterBtn.setVisibility(View.GONE);
+                afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
+                //path_list.add("교체 전: "+"첫번째 사진 클릭시 -> 사진촬영");
+                PIC_POSITION = 3;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        }//NOTE: 두번째 사진 클릭시 -> 사진촬영         //Note: 순번 4
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage2);
+                unitAfterImage2.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.GONE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+                afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
+                //path_list.add("교체 전: "+"두번째 사진 클릭시 -> 사진촬영");
+                PIC_POSITION = 4;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        }
+        /** 사진앨범 **/                //Note: 순번 3
+        else if (requestCode == REQUEST_AFTER_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage1.setVisibility(View.VISIBLE);
+                    unitAfterAddPic.setVisibility(View.VISIBLE);
+                    afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
+                    selectUnitAfterBtn.setVisibility(View.GONE);
+                   // path_list.add("교체 후: "+"사진선택 버튼 -> 사진앨범");
+                    PIC_POSITION = 3;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }//NOTE: 첫번째 사진 클릭시 -> 사진앨범         //Note: 순번 3
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_1){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage1.setVisibility(View.VISIBLE);
+                    if (unitAfterImage2.getVisibility() == View.VISIBLE){
+                        unitAfterAddPic.setVisibility(View.GONE);
+                    }else {
+                        unitAfterAddPic.setVisibility(View.VISIBLE);
+                    }
+                    selectUnitAfterBtn.setVisibility(View.GONE);
+                    afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
+                   // path_list.add("교체 후: "+"첫번째 사진 클릭시 -> 사진앨범");
+                    PIC_POSITION = 3;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }//NOTE: 두번째 사진 클릭시 -> 사진앨범             //Note: 순번 4
+        else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_2){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage2.setVisibility(View.VISIBLE);
+                    unitAfterAddPic.setVisibility(View.GONE);
+                    selectUnitAfterBtn.setVisibility(View.GONE);
+                    afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
+                   // path_list.add("교체 후: "+"두번째 사진 클릭시 -> 사진앨범");
+                    PIC_POSITION = 4;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        /** 사진 촬영 후 --> 추가버튼2 **/           //Note: 순번 4
+        else if (requestCode == REQUEST_AFTER_ADD_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(unitAfterImage2);
+                unitAfterImage2.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.GONE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+                afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
+                //path_list.add("교체 후: "+"추가버튼 -> 사진촬영");
+                PIC_POSITION = 4;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        }  /** 사진앨범 선택 후 --> 추가버튼2 **/          //Note: 순번 4
+        else if (requestCode == REQUEST_AFTER_ADD_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
+                    unitAfterImage2.setVisibility(View.VISIBLE);
+                    unitAfterAddPic.setVisibility(View.GONE);
+                    selectUnitAfterBtn.setVisibility(View.GONE);
+                    afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
+                    //path_list.add("교체 후: "+"추가버튼 -> 사진앨범");
+                    PIC_POSITION = 4;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //TODO:  차량 단말기 사진
+        /** 사진촬영 **/                //Note: 순번 5
+        else if (requestCode == REQUEST_BUS_UNIT_IMAGE_CAPTURED){
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(busUnitImage);
+                busUnitImage.setVisibility(View.VISIBLE);
+                busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
+                busUnitBtn.setVisibility(View.GONE);
+                //ath_list.add("차량 단말기: "+"사진선택 버튼 -> 사진촬영");
+                PIC_POSITION = 5;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        }
+        /** 사진앨범 **/                //Note: 순번 5
+        else if (requestCode == REQUEST_BUS_UNIT_IMAGE_PICK){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    busUnitImage.setImageBitmap(resizedPhotoBm);
+                    busUnitImage.setVisibility(View.VISIBLE);
+                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                    busUnitBtn.setVisibility(View.GONE);
+                    //path_list.add("차량 단말기: "+"사진선택 버튼 -> 사진앨범");
+                    PIC_POSITION = 5;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //차량단말기 이미지 클릭시  -> 사진촬영            //Note: 순번 5
+        }else if (requestCode == 1000) {
+            if (resultCode == RESULT_OK){
+                bm = null;
+                if (imageUri != null){
+                    try {
+                        bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
+                        ResizingBitmapPhoto();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Glide.with(this)
+                        .load(resizedPhotoBm)
+                        .into(busUnitImage);
+                busUnitImage.setVisibility(View.VISIBLE);
+                busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
+                busUnitBtn.setVisibility(View.GONE);
+                //path_list.add("차량 단말기: "+"사진 클릭시 -> 사진촬영");
+                PIC_POSITION = 5;
+                path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                Log.d("before_unit_path_list 2 >>", path_list+"");
+            }
+        }//차량단말기 이미지 클릭시  -> 사진앨범            //Note: 순번 5
+        else if (requestCode == 2000){
+            if (resultCode == RESULT_OK){
+                try {
+                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
+                    bm = BitmapFactory.decodeStream(in);
+                    in.close();
+                    ResizingBitmapPhoto();
+                    busUnitImage.setImageBitmap(resizedPhotoBm);
+                    busUnitImage.setVisibility(View.VISIBLE);
+                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                    busUnitBtn.setVisibility(View.GONE);
+                    //path_list.add("차량 단말기: "+"사진 클릭시 -> 사진앨범");
+                    PIC_POSITION = 5;
+                    path_list.add(imageFile + "&" + (folderName + "TABLE_NAME" + "/" + DTTI + "/" + "TABLE_NAME" + "_" + DTTI + "_" + transp_bizr_id_value + "_" + bus_id_value + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+                    Log.d("before_unit_path_list 2 >>", path_list+"");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else {   /* 교체 시리얼 바코드 스캔.. */
+            String strResult = intentResult.getContents();
+            if (click_type.equals("stop")){
+
+            }else if (click_type.equals("scan")){
+                new getfield_error_busnum().execute(strResult);
+            }else if(click_type.equals("before")){
+                unit_before_id.setText(strResult);
+            }else if(click_type.equals("after")){
+                unit_after_id.setText(strResult);
+            }
+        }
+
+        Log.d("<<<로그 path_list>>>", path_list+"");
+        //TODO:  여기서 path_map 에 더해주기..
+
+    }//onActivityforResult..
+
+
+
+    // Bitmap 사진 리사이징하기
+    public void ResizingBitmapPhoto() throws IOException {
+        int bmWidth = bm.getWidth();
+        int bmHeight = bm.getHeight();
+        double Wratio = 0.0;
+        double Hratio = 0.0;
+
+        Matrix matrix = new Matrix();
+        if (bmWidth > bmHeight){
+            Wratio = ((double)bmWidth / (double)bmHeight) * 512;
+            Hratio = 1 * 512;
+        }else {
+            Wratio = 1 * 512;
+            Hratio = ((double)bmHeight / (double)bmWidth) * 512;
+        }
+        //matrix.postRotate(90);
+        resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
+        resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
+    }
+
+
+
+    // 사진촬영/ 캡쳐된 이미지 저장경로 지정
+    public void setImageUri(){
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory()+"/IERP");
+
+        if (!storageDir.exists()){
+            storageDir.mkdirs();
+        }else {
+            Log.d("storageDir~~", storageDir+"");
+        }
+
+        imageFile = new File(storageDir, imageFileName);
+        Log.d("imageFile체크체크>>", imageFile+"");
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
+        Log.d("imagePath~~", mCurrentPhotoPath+"");
+
+        //File ------> Uri
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N){
+            imageUri = Uri.fromFile(imageFile);
+        }else {
+            imageUri = FileProvider.getUriForFile(context, context.getPackageName(), imageFile);
+        }
     }
 
 }

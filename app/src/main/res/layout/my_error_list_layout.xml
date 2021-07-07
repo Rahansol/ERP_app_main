@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -186,18 +186,35 @@
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
 
+
+                <Button
+                    android:id="@+id/undisposed_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_below="@id/error_low_code"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/erp_btn"
+                    android:textSize="10sp"
+                    android:text="미처리"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:padding="0dp"
+                    android:layout_marginTop="5dp"/>
+
+
                 <Button
                     android:id="@+id/notice_btn"
                     android:layout_width="55dp"
                     android:layout_height="30dp"
                     android:textSize="10dp"
                     android:text="특이사항"
-                    android:layout_below="@id/line_2"
+                    android:layout_below="@id/error_low_code"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/erp_btn"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:padding="0dp"/>
+                    android:padding="0dp"
+                    android:layout_marginTop="5dp"/>
 
 
                 <Button

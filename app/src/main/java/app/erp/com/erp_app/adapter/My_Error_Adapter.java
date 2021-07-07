@@ -35,6 +35,7 @@ public class My_Error_Adapter extends BaseAdapter {
     private View.OnClickListener call_text_listener;
     private View.OnClickListener move_info_btn;
     private View.OnClickListener notice_btn_listener;
+    private View.OnClickListener undisposedBtnListener;  //미처리
     private String emp_id;
 
     AdapterViewHolder viewHolder;
@@ -64,6 +65,7 @@ public class My_Error_Adapter extends BaseAdapter {
             viewHolder.move_btn = (Button)convertView.findViewById(R.id.move_btn);
             viewHolder.notice_btn = (Button)convertView.findViewById(R.id.notice_btn);
 //            viewHolder.btn_3 = (Button)convertView.findViewById(R.id.btn_3);
+            viewHolder.undisposed_btn = (Button)convertView.findViewById(R.id.undisposed_btn);
 
             viewHolder.error_office = convertView.findViewById(R.id.error_office);
             viewHolder.error_route = convertView.findViewById(R.id.error_route);
@@ -90,6 +92,24 @@ public class My_Error_Adapter extends BaseAdapter {
         /*최근 3~6개월 장애건수*/
         viewHolder.btn_error_event_num.setTag(position);
         viewHolder.btn_error_event_num.setOnClickListener(ErrorEventBtnClickListener);
+
+        /*미처리 버튼*/
+        if (trouble_historylistvo.getUnpro_notice() != null){
+            viewHolder.undisposed_btn.setTag(position);
+            viewHolder.undisposed_btn.setBackground(context.getDrawable(R.drawable.erp_btn_blue));
+            viewHolder.undisposed_btn.setTextColor(context.getColor(R.color.white));
+            viewHolder.undisposed_btn.setText("미처리 사유 수정");
+            viewHolder.undisposed_btn.setOnClickListener(undisposedBtnListener);
+        }else {
+            viewHolder.undisposed_btn.setTag(position);
+            viewHolder.undisposed_btn.setBackground(context.getDrawable(R.drawable.erp_btn_blue_empty));
+            viewHolder.undisposed_btn.setTextColor(context.getColor(R.color.mBlue));
+            viewHolder.undisposed_btn.setText("미처리 사유 입력");
+            viewHolder.undisposed_btn.setOnClickListener(undisposedBtnListener);
+        }
+
+        /*viewHolder.undisposed_btn.setTag(position);
+        viewHolder.undisposed_btn.setOnClickListener(undisposedBtnListener);*/
 
         viewHolder.btn_1.setTag(position);
         viewHolder.btn_1.setOnClickListener(defaultRequestBtnClickListener);
@@ -183,6 +203,11 @@ public class My_Error_Adapter extends BaseAdapter {
         this.ErrorEventBtnClickListener = ErrorEventBtnClickListener;
     }
 
+    /*미처리 버튼*/
+    public void setUndisposed_btn_listener(View.OnClickListener undisposedBtnListener){
+        this.undisposedBtnListener = undisposedBtnListener;
+    }
+
     public View.OnClickListener getDefaultRequestBtnClickListener() {
         return defaultRequestBtnClickListener;
     }
@@ -267,6 +292,7 @@ public class My_Error_Adapter extends BaseAdapter {
         Button btn_2;
         Button move_btn;
         Button notice_btn;
+        Button undisposed_btn;
 //        Button btn_3;
         TextView error_office;
         TextView error_route;

@@ -1376,6 +1376,8 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                         Log.d("i >>>>", i + " = " + Garray.value[i]);
                     }
 
+
+
                     AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
                     builder.setTitle("프로젝트 업무 등록");
                     builder.setMessage("작성하신 업무내역을 등록 하시겠습니까?");
@@ -1453,6 +1455,7 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     //Toast.makeText(getContext(),"이미지 업로드 시작..." ,Toast.LENGTH_SHORT).show();
                                     new ImageUploadJson().execute();
+                                    Log.d("gggggg ", Garray.value[0]+"");
 
                                 }
                                 @Override

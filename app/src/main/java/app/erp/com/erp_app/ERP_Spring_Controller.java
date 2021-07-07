@@ -132,6 +132,10 @@ public interface ERP_Spring_Controller {
     @GET("barcode/app_trouble_history_update")
     Call<Boolean> update_trouble_history (@QueryMap Map<String,Object> update_map, @Query("cooperate_list[]") List<String> cooperate_list);
 
+    //미처리 등록버튼
+    @GET("barcode/trouble_history_undisposed_msg_update")
+    Call<Boolean> trouble_history_undisposed_msg_update(@QueryMap Map<String, Object> updateMap );
+
     @POST("barcode/app_trouble_equal_infra_insert")
     Call<Boolean> app_trouble_equal_infra_insert (@Body Trouble_HistoryListVO test , @Query("cooperate_list[]") List<String> cooperate_list);
 
@@ -901,8 +905,9 @@ public interface ERP_Spring_Controller {
             .build();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
+            //.baseUrl("http://192.168.0.196:8090/controller/")  //정호대리님 ip
             .baseUrl("http://192.168.0.122:8181/controller/")
-            //.baseUrl("http://ierp.interpass.co.kr/controller/")
+            // .baseUrl("http://ierp.interpass.co.kr/controller/")
 
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)

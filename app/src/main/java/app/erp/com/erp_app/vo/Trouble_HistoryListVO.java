@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Trouble_HistoryListVO implements Serializable {
 
+    private String unpro_notice;
     private String reg_date;
     private String reg_time;
     private String dep_name;
@@ -83,87 +84,6 @@ public class Trouble_HistoryListVO implements Serializable {
 
     public Trouble_HistoryListVO() {
     }
-
-    @Override
-    public String toString() {
-        return "Trouble_HistoryListVO{" +
-                "reg_date='" + reg_date + '\'' +
-                ", reg_time='" + reg_time + '\'' +
-                ", dep_name='" + dep_name + '\'' +
-                ", reg_emp_name='" + reg_emp_name + '\'' +
-                ", infra_name='" + infra_name + '\'' +
-                ", busoff_name='" + busoff_name + '\'' +
-                ", service_name='" + service_name + '\'' +
-                ", unit_code='" + unit_code + '\'' +
-                ", ars_high_name='" + ars_high_name + '\'' +
-                ", ars_low_name='" + ars_low_name + '\'' +
-                ", ars_unit_name='" + ars_unit_name + '\'' +
-                ", unit_name='" + unit_name + '\'' +
-                ", garage_name='" + garage_name + '\'' +
-                ", route_num='" + route_num + '\'' +
-                ", bus_num='" + bus_num + '\'' +
-                ", trouble_name='" + trouble_name + '\'' +
-                ", ars_trouble_name='" + ars_trouble_name + '\'' +
-                ", trouble_low_name='" + trouble_low_name + '\'' +
-                ", ars_trouble_low_name='" + ars_trouble_low_name + '\'' +
-                ", trouble_care_name='" + trouble_care_name + '\'' +
-                ", care_emp_name='" + care_emp_name + '\'' +
-                ", unit_change_yn='" + unit_change_yn + '\'' +
-                ", unit_before_id='" + unit_before_id + '\'' +
-                ", unit_after_id='" + unit_after_id + '\'' +
-                ", direct_care='" + direct_care + '\'' +
-                ", care_date='" + care_date + '\'' +
-                ", care_time='" + care_time + '\'' +
-                ", care_emp_id='" + care_emp_id + '\'' +
-                ", trouble_care_cd='" + trouble_care_cd + '\'' +
-                ", trouble_low_cd='" + trouble_low_cd + '\'' +
-                ", trouble_high_cd='" + trouble_high_cd + '\'' +
-                ", ars_trouble_low_cd='" + ars_trouble_low_cd + '\'' +
-                ", ars_trouble_high_cd='" + ars_trouble_high_cd + '\'' +
-                ", bus_id='" + bus_id + '\'' +
-                ", route_id='" + route_id + '\'' +
-                ", garage_id='" + garage_id + '\'' +
-                ", service_id='" + service_id + '\'' +
-                ", transp_bizr_id='" + transp_bizr_id + '\'' +
-                ", infra_code='" + infra_code + '\'' +
-                ", reg_emp_id='" + reg_emp_id + '\'' +
-                ", dep_code='" + dep_code + '\'' +
-                ", office_group='" + office_group + '\'' +
-                ", restore_yn='" + restore_yn + '\'' +
-                ", analysis_yn='" + analysis_yn + '\'' +
-                ", bs_yn='" + bs_yn + '\'' +
-                ", mintong='" + mintong + '\'' +
-                ", notice='" + notice + '\'' +
-                ", ars_notice='" + ars_notice + '\'' +
-                ", move_distance='" + move_distance + '\'' +
-                ", move_time='" + move_time + '\'' +
-                ", wait_time='" + wait_time + '\'' +
-                ", work_time='" + work_time + '\'' +
-                ", st='" + st + '\'' +
-                ", st_grade='" + st_grade + '\'' +
-                ", st_calc='" + st_calc + '\'' +
-                ", ars_yn='" + ars_yn + '\'' +
-                ", job_viewer='" + job_viewer + '\'' +
-                ", job_viewer_view='" + job_viewer_view + '\'' +
-                ", driver_tel_num='" + driver_tel_num + '\'' +
-                ", work_reg_emp_name='" + work_reg_emp_name + '\'' +
-                ", gubun='" + gubun + '\'' +
-                ", bus='" + bus + '\'' +
-                ", jib='" + jib + '\'' +
-                ", charge='" + charge + '\'' +
-                ", ib='" + ib + '\'' +
-                ", jung='" + jung + '\'' +
-                ", bit='" + bit + '\'' +
-                ", move_emp_id='" + move_emp_id + '\'' +
-                ", move_emp_name='" + move_emp_name + '\'' +
-                ", first_yn='" + first_yn + '\'' +
-                ", trouble_high_name='" + trouble_high_name + '\'' +
-                ", emp_name='" + emp_name + '\'' +
-                ", bef_err_cnt='" + bef_err_cnt + '\'' +
-                '}';
-    }
-
-
 
 
     public String getBef_err_cnt() {
@@ -748,5 +668,93 @@ public class Trouble_HistoryListVO implements Serializable {
 
     public void setEmp_name(String emp_name) {
         this.emp_name = emp_name;
+    }
+
+    public String getUnpro_notice() {
+        return unpro_notice;
+    }
+
+    public void setUnpro_notice(String unpro_notice) {
+        this.unpro_notice = unpro_notice;
+    }
+
+    @Override
+    public String toString() {
+        return "Trouble_HistoryListVO{" +
+                "unpro_notice='" + unpro_notice + '\'' +
+                ", reg_date='" + reg_date + '\'' +
+                ", reg_time='" + reg_time + '\'' +
+                ", dep_name='" + dep_name + '\'' +
+                ", reg_emp_name='" + reg_emp_name + '\'' +
+                ", infra_name='" + infra_name + '\'' +
+                ", busoff_name='" + busoff_name + '\'' +
+                ", service_name='" + service_name + '\'' +
+                ", unit_code='" + unit_code + '\'' +
+                ", ars_high_name='" + ars_high_name + '\'' +
+                ", ars_low_name='" + ars_low_name + '\'' +
+                ", ars_unit_name='" + ars_unit_name + '\'' +
+                ", unit_name='" + unit_name + '\'' +
+                ", garage_name='" + garage_name + '\'' +
+                ", route_num='" + route_num + '\'' +
+                ", bus_num='" + bus_num + '\'' +
+                ", trouble_name='" + trouble_name + '\'' +
+                ", ars_trouble_name='" + ars_trouble_name + '\'' +
+                ", trouble_low_name='" + trouble_low_name + '\'' +
+                ", ars_trouble_low_name='" + ars_trouble_low_name + '\'' +
+                ", trouble_care_name='" + trouble_care_name + '\'' +
+                ", care_emp_name='" + care_emp_name + '\'' +
+                ", unit_change_yn='" + unit_change_yn + '\'' +
+                ", unit_before_id='" + unit_before_id + '\'' +
+                ", unit_after_id='" + unit_after_id + '\'' +
+                ", direct_care='" + direct_care + '\'' +
+                ", care_date='" + care_date + '\'' +
+                ", care_time='" + care_time + '\'' +
+                ", care_emp_id='" + care_emp_id + '\'' +
+                ", trouble_care_cd='" + trouble_care_cd + '\'' +
+                ", trouble_low_cd='" + trouble_low_cd + '\'' +
+                ", trouble_high_cd='" + trouble_high_cd + '\'' +
+                ", ars_trouble_low_cd='" + ars_trouble_low_cd + '\'' +
+                ", ars_trouble_high_cd='" + ars_trouble_high_cd + '\'' +
+                ", bus_id='" + bus_id + '\'' +
+                ", route_id='" + route_id + '\'' +
+                ", garage_id='" + garage_id + '\'' +
+                ", service_id='" + service_id + '\'' +
+                ", transp_bizr_id='" + transp_bizr_id + '\'' +
+                ", infra_code='" + infra_code + '\'' +
+                ", reg_emp_id='" + reg_emp_id + '\'' +
+                ", dep_code='" + dep_code + '\'' +
+                ", office_group='" + office_group + '\'' +
+                ", restore_yn='" + restore_yn + '\'' +
+                ", analysis_yn='" + analysis_yn + '\'' +
+                ", bs_yn='" + bs_yn + '\'' +
+                ", mintong='" + mintong + '\'' +
+                ", notice='" + notice + '\'' +
+                ", ars_notice='" + ars_notice + '\'' +
+                ", move_distance='" + move_distance + '\'' +
+                ", move_time='" + move_time + '\'' +
+                ", wait_time='" + wait_time + '\'' +
+                ", work_time='" + work_time + '\'' +
+                ", st='" + st + '\'' +
+                ", st_grade='" + st_grade + '\'' +
+                ", st_calc='" + st_calc + '\'' +
+                ", ars_yn='" + ars_yn + '\'' +
+                ", job_viewer='" + job_viewer + '\'' +
+                ", job_viewer_view='" + job_viewer_view + '\'' +
+                ", driver_tel_num='" + driver_tel_num + '\'' +
+                ", work_reg_emp_name='" + work_reg_emp_name + '\'' +
+                ", gubun='" + gubun + '\'' +
+                ", bus='" + bus + '\'' +
+                ", jib='" + jib + '\'' +
+                ", charge='" + charge + '\'' +
+                ", ib='" + ib + '\'' +
+                ", jung='" + jung + '\'' +
+                ", bit='" + bit + '\'' +
+                ", move_emp_id='" + move_emp_id + '\'' +
+                ", move_emp_name='" + move_emp_name + '\'' +
+                ", first_yn='" + first_yn + '\'' +
+                ", bef_err_cnt='" + bef_err_cnt + '\'' +
+                ", trouble_high_name='" + trouble_high_name + '\'' +
+                ", emp_name='" + emp_name + '\'' +
+                '}';
     }
 }

@@ -105,7 +105,7 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
         Fragment fragment = new Fragment_trouble_list();
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-//        ft.addToBackStack(null);
+//       ft.addToBackStack(null);
         ft.add(R.id.frage_change,fragment);
         ft.commit();
     }
@@ -149,10 +149,6 @@ public class Call_Center_Activity extends AppCompatActivity implements Navigatio
             // 내 바코드 부착내역
             Intent i = new Intent(Call_Center_Activity.this , Barcode_My_list_Activity.class);
             startActivity(i);
-   /*     }else if (id == R.id.reserve_item_workList){
-            // 에비품 지급내역
-            Intent i = new Intent(Call_Center_Activity.this , Barcode_input_list_Activity.class);
-            startActivity(i);*/
         }else if(id == R.id.new_bus_insert){
             // 버스등록
             Intent i = new Intent(Call_Center_Activity.this , New_Bus_Activity.class);

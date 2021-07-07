@@ -1,6 +1,5 @@
 package app.erp.com.erp_app.callcenter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,16 +26,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,6 +40,7 @@ import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.adapter.My_Error_Adapter;
 import app.erp.com.erp_app.R;
 import app.erp.com.erp_app.dialog.Dialog_ErrorNotice;
+import app.erp.com.erp_app.dialog.Dialog_Unpro_Notice;
 import app.erp.com.erp_app.vo.Trouble_HistoryListVO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -247,6 +244,51 @@ public class Fragment_trouble_list extends Fragment {
                 ERP_Spring_Controller erp= ERP_Spring_Controller.retrofit.create(ERP_Spring_Controller.class);
                 Call<List<Trouble_HistoryListVO>> call= erp.app_fieldError_not_care_history(sp_transp_bizr_id, sp_bus_id);  //My_Error_Adapter 에서 bundle 로 받아온 데이터 전달하기..
                 new app_fieldError_not_care_history().execute(call);
+            }
+        });
+
+
+
+        /* 미처리 버튼 */
+        adapter.setUndisposed_btn_listener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = (int)v.getTag();
+                final Trouble_HistoryListVO thlvo = adapter.resultItem(pos);
+                Dialog_Unpro_Notice dialog = new Dialog_Unpro_Notice(context
+                                            , thlvo.getUnpro_notice()
+                                            , thlvo.getReg_date()
+                                            , thlvo.getReg_time()
+                                            , thlvo.getReg_emp_id()
+                                            , thlvo.getUnit_before_id()
+                                            , thlvo.getTrouble_high_cd()
+                                            , thlvo.getTrouble_low_cd()
+                                            , thlvo.getTransp_bizr_id());
+                dialog.setCancelable(true);
+                dialog.show();
+
+                Log.d("111111 unpro_notice",thlvo.getUnpro_notice()+"");
+                Log.d("111111", thlvo.getRoute_id()+"");
+                Log.d("111111", thlvo.getGarage_id()+"");
+                Log.d("111111", thlvo.getReg_date()+"");
+                Log.d("111111", thlvo.getReg_time()+"");
+                Log.d("111111", thlvo.getReg_emp_id()+"");
+                Log.d("111111", thlvo.getUnit_before_id()+"");
+                Log.d("111111", thlvo.getTrouble_high_cd()+"");
+                Log.d("111111", thlvo.getTrouble_low_cd()+"");
+                Log.d("111111", thlvo.getTransp_bizr_id()+"");
+
+                DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics();
+                int width = dm.widthPixels;
+                width = (int)(width * 0.9);
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = width;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                Window window = dialog.getWindow();
+                window.setAttributes(lp);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
         });
 

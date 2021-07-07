@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         fragmentTransaction.commit();
 
-    }
+    }//onCreate..
+
     private long pressedTime = 0;
     private OnBackPressedListener mBackListener;
     public interface OnBackPressedListener {

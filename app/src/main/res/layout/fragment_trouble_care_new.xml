@@ -674,6 +674,7 @@
 
 
 
+
             <!--처리내역-->
             <TextView
                 android:id="@+id/tv_title2"
@@ -982,6 +983,269 @@
 
 
 
+                <LinearLayout
+                    android:id="@+id/pic_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/insert_care_unit_before_layout_total">
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="20dp">
+
+                        <!-- 작업/교체 전 사진 -->
+                        <LinearLayout
+                            android:id="@+id/before_layout"
+                            android:layout_weight="1"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@drawable/box_in_out4_rectangle"
+                            android:layout_marginRight="2dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="30dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="left"
+                                    android:text="증상"
+                                    android:textSize="14sp"
+                                    android:textColor="#7b65fb"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="8dp"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:layout_marginTop="5dp"/>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/unitBeforeAddPic"
+                                    android:layout_gravity="center"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_marginLeft="50dp"
+                                    android:src="@drawable/ic_add"
+                                    android:paddingTop="3dp"/>
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:labelFor="@+id/before_layout">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/unit_before_image1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginBottom="5dp"/>
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/unit_before_image2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_below="@+id/unit_before_image1"/>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/before_unit_delete_btn_1"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginTop="28dp"
+                                    android:layout_marginRight="10dp"
+                                    android:src="@drawable/ic_delete"/>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/before_unit_delete_btn_2"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_below="@+id/unit_before_image1"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:src="@drawable/ic_delete"/>
+                            </RelativeLayout>
+
+
+                            <Button
+                                android:id="@+id/selectUnitBeforeBtn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="사진선택"
+                                android:textColor="@color/white"
+                                android:background="@drawable/box_rectangle_purple"
+                                android:layout_marginTop="5dp"
+                                android:layout_margin="10dp"/>
+                        </LinearLayout>
+
+
+
+                        <!-- 작업/교체 후 사진 -->
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@drawable/box_in_out4_rectangle"
+                            android:layout_marginLeft="2dp">
+
+                            <LinearLayout
+                                android:id="@+id/unit_after_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="30dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="left"
+                                    android:text="조치"
+                                    android:textSize="14sp"
+                                    android:textColor="#7b65fb"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="8dp"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:layout_marginTop="5dp"/>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/unitAfterAddPic"
+                                    android:layout_gravity="center"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_marginLeft="50dp"
+                                    android:src="@drawable/ic_add"
+                                    android:paddingTop="3dp"/>
+                            </LinearLayout>
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/unit_after_image1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginBottom="5dp"/>
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/unit_after_image2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="150dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_below="@+id/unit_after_image1"/>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/after_unit_delete_btn_1"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentRight="true"
+                                    android:src="@drawable/ic_delete"
+                                    android:layout_marginTop="28dp"
+                                    android:layout_marginRight="10dp"/>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/after_unit_delete_btn_2"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentRight="true"
+                                    android:src="@drawable/ic_delete"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_below="@id/unit_after_image1"/>
+                            </RelativeLayout>
+
+                            <Button
+                                android:id="@+id/selectUnitAfterBtn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="사진선택"
+                                android:textColor="@color/white"
+                                android:background="@drawable/box_rectangle_purple"
+                                android:layout_marginTop="5dp"
+                                android:layout_margin="10dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <!-- 차량단말기 사진 -->
+                    <RelativeLayout
+                        android:layout_width="185dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/box_in_out4_rectangle"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/bus_unit_image_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="left"
+                            android:text="차량 전면"
+                            android:textSize="14sp"
+                            android:textColor="#7b65fb"
+                            android:textStyle="bold"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="5dp"/>
+                        <RelativeLayout
+                            android:id="@+id/layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/bus_unit_image_title">
+                            <ImageView
+                                android:id="@+id/bus_unit_image"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"/>
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/bus_unit_cancel_btn"
+                                android:visibility="gone"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_delete"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_alignParentRight="true"/>
+                        </RelativeLayout>
+
+
+                        <Button
+                            android:id="@+id/bus_unit_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="사진선택"
+                            android:textColor="@color/white"
+                            android:background="@drawable/box_rectangle_purple"
+                            android:layout_below="@+id/layout"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+
+
 
 
 
@@ -990,7 +1254,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_centerVertical="true"
-                    android:layout_below="@+id/insert_care_unit_before_layout_total"
+                    android:layout_below="@+id/pic_layout"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
