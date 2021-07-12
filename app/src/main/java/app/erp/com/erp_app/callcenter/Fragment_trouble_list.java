@@ -289,6 +289,15 @@ public class Fragment_trouble_list extends Fragment {
                 Window window = dialog.getWindow();
                 window.setAttributes(lp);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                //edit: 다이얼로그가 사라지면 프래그먼트 리스타트됌
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        restartFragment();
+                    }
+                });
+
             }
         });
 
@@ -666,6 +675,11 @@ public class Fragment_trouble_list extends Fragment {
 
     String text_plus (String text){
         return "(" + text + ")";
+    }
+
+    public void restartFragment(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 
 }

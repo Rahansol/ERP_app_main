@@ -2,6 +2,7 @@ package app.erp.com.erp_app.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import app.erp.com.erp_app.ERP_Spring_Controller;
 import app.erp.com.erp_app.R;
+import app.erp.com.erp_app.callcenter.Fragment_trouble_list;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,6 +86,9 @@ public class Dialog_Unpro_Notice extends Dialog {
 
                 //edit: DB update...
                 new app_trouble_history_unpro_notice_editText_update().execute();
+                //todo: 장애처리 버튼 강제클릭..
+                Fragment_trouble_list fr = new Fragment_trouble_list();
+
                 Toast.makeText(getContext(), "등록되었습니다.", Toast.LENGTH_SHORT).show();
                 dismiss();
             }

@@ -906,7 +906,7 @@ public interface ERP_Spring_Controller {
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             //.baseUrl("http://192.168.0.196:8090/controller/")  //정호대리님 ip
-            .baseUrl("http://192.168.0.122:8181/controller/")
+             .baseUrl("http://192.168.0.122:8181/controller/")
             // .baseUrl("http://ierp.interpass.co.kr/controller/")
 
             .addConverterFactory(GsonConverterFactory.create())

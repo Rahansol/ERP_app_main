@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -82,7 +83,6 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class Fragment_trobule_care extends Fragment {
-
     CircleImageView unitBeforeAddPic, unitAfterAddPic, busUnitCancelBtn, beforeUnitDeletelBtn1, beforeUnitDeleteBtn2, afterUnitDeletelBtn1, afterUnitDeletelBtn2;
     Button selectUnitBeforeBtn, selectUnitAfterBtn, busUnitBtn;
     ImageView unitBeforeImage1, unitBeforeImage2, unitAfterImage1, unitAfterImage2, busUnitImage;
@@ -117,7 +117,7 @@ public class Fragment_trobule_care extends Fragment {
     String mCurrentPhotoPath, str;
     File imageFile;
     public static Bitmap resizedPhotoBm;
-    Bitmap bm;
+    Bitmap bm, bmRotated;
 
     /* 이미지 경로 */
     private String mapValue;
@@ -174,6 +174,7 @@ public class Fragment_trobule_care extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_trouble_care_new, container ,false);
         context = getActivity();
+
 
         //todo: 카메라 권한 허가 체크...
         cameraPermission();
@@ -327,8 +328,8 @@ public class Fragment_trobule_care extends Fragment {
                     update_trouble_history_map.put("cooperate_key","N");
                 }
 
-                update_trouble_history_map.put("garage_id",insert_garage.getText().toString());
-                update_trouble_history_map.put("route_id",insert_route_code.getText().toString());
+                update_trouble_history_map.put("garage_id",insert_garage.getText().toString().trim());
+                update_trouble_history_map.put("route_id",insert_route_code.getText().toString().trim());
 
 //                StringBuilder sb = new StringBuilder();
 //                Set<?> set = update_trouble_history_map.keySet();
@@ -819,6 +820,7 @@ public class Fragment_trobule_care extends Fragment {
 
 
     public void setImageUri(){
+        Log.d("ttttttt","!!!!!!!!!!");
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + ".jpg";
         imageFile = null;
@@ -845,6 +847,144 @@ public class Fragment_trobule_care extends Fragment {
 
 
     public void ResizingBitmapPhoto() throws IOException {
+
+        ExifInterface exif = null;
+
+        try {
+            Log.d("imageFile :" , imageFile.toString());
+            exif = new ExifInterface(imageFile);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);   //회전각도
+        Matrix matrix = new Matrix();
+        Log.d("orientation:" , orientation+"asdf");
+        switch (orientation){
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1,1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1,1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1,1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+        }//switch..
+
+        Log.d("orientation>>", orientation+"");
+
+        int bmWidth = bm.getWidth();
+        int bmHeight = bm.getHeight();
+        double Wratio = 0.0;
+        double Hratio = 0.0;
+
+        if (bmWidth > bmHeight){
+            Wratio = ((double)bmWidth / (double)bmHeight) * 512;
+            Hratio = 1 * 512;
+        }else {
+            Wratio = 1 * 512;
+            Hratio = ((double)bmHeight / (double)bmWidth) * 512;
+        }
+
+        resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
+        resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
+
+
+
+        Log.d("resizedPhotoBm_bm>", "resizedBm=> "+resizedPhotoBm+",    bm=> "+bm);  //android.graphics.Bitmap@fb86ab2
+        Log.d("orientation>>", orientation+"");
+    }
+
+    public void ResizingBitmapPhoto_2(InputStream inputStream) throws IOException {
+
+        ExifInterface exif = null;
+
+        try {
+            Log.d("imageFile :" , imageFile.toString());
+            exif = new ExifInterface(inputStream);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);   //회전각도
+        Matrix matrix = new Matrix();
+        Log.d("orientation:" , orientation+"asdf");
+        switch (orientation){
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1,1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1,1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1,1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+        }//switch..
+
+        Log.d("orientation>>", orientation+"");
+
+        int bmWidth = bm.getWidth();
+        int bmHeight = bm.getHeight();
+        double Wratio = 0.0;
+        double Hratio = 0.0;
+
+        if (bmWidth > bmHeight){
+            Wratio = ((double)bmWidth / (double)bmHeight) * 512;
+            Hratio = 1 * 512;
+        }else {
+            Wratio = 1 * 512;
+            Hratio = ((double)bmHeight / (double)bmWidth) * 512;
+        }
+
+        if(orientation == 0) {
+            resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
+        } else{
+            resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
+            resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
+        }
+
+
+
+
+
+        Log.d("resizedPhotoBm_bm>", "resizedBm=> "+resizedPhotoBm+",    bm=> "+bm);  //android.graphics.Bitmap@fb86ab2
+        Log.d("orientation>>", orientation+"");
+    }
+
+
+
+
+    //이미지 90도 회전 전 기존 코드..
+    public void ResizingBitmapPhotoPic() throws IOException {
         int bmWidth = bm.getWidth();
         int bmHeight = bm.getHeight();
         double Wratio = 0.0;
@@ -853,9 +993,9 @@ public class Fragment_trobule_care extends Fragment {
         Matrix matrix = new Matrix();
         if (bmWidth > bmHeight){
             Wratio = ((double)bmWidth / (double)bmHeight) * 512;
-            Hratio = 1 * 512;
+            Hratio = 1 * 1024;
         }else {
-            Wratio = 1 * 512;
+            Wratio = 1 * 1024;
             Hratio = ((double)bmHeight / (double)bmWidth) * 512;
         }
         //matrix.postRotate(90);
@@ -866,30 +1006,7 @@ public class Fragment_trobule_care extends Fragment {
         Log.d("bm>", bm+"");   //android.graphics.Bitmap@fb86ab2
     }
 
-
-    public void ResizingBitmapPhotoPic() throws IOException {
-        int bmWidth = bm.getWidth();
-        int bmHeight = bm.getHeight();
-        double Wratio = 0.0;
-        double Hratio = 0.0;
-
-        Matrix matrix = new Matrix();
-        if (bmWidth > bmHeight){
-            Wratio = ((double)bmWidth / (double)bmHeight) * 1024;
-            Hratio = 1 * 1024;
-        }else {
-            Wratio = 1 * 1024;
-            Hratio = ((double)bmHeight / (double)bmWidth) * 1024;
-        }
-        //matrix.postRotate(90);
-        resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
-        resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
-
-        Log.d("resizedPhotoBm>", resizedPhotoBm+"");  //android.graphics.Bitmap@fb86ab2
-        Log.d("bm>", bm+"");   //android.graphics.Bitmap@fb86ab2
-    }
-
-
+    //note: 사진촬영 후 bm 을 File 로..
     public void BmToFile() throws IOException{
         String timeStamp= new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN).format(new Date());
         String imgFileName= "JPEG_"+timeStamp+".jpg";
@@ -904,6 +1021,65 @@ public class Fragment_trobule_care extends Fragment {
         try {
             imageFile.createNewFile();
             FileOutputStream out = new FileOutputStream(imageFile);
+            resizedPhotoBm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            Log.d("e---->", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    //note: 사진앨범에서 선택한 이미지bm 을 file 로 생성 및 리사이즈, 오리엔테이션 지정..
+    public void AlbumBmToFile() throws IOException{
+        String timeStamp= new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN).format(new Date());
+        String imgFileName= "JPEG_"+timeStamp+".jpg";
+        imageFile= null;
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/IERP");
+
+        if (!storageDir.exists()){
+            storageDir.mkdirs();
+        }else { Log.d("storageDir>", storageDir.toString()); }
+
+        imageFile = new File(storageDir, imgFileName);
+        try {
+            imageFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(imageFile);
+
+            //ResizingBitmapPhoto();
+
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            /** 기존코드 **/
+           /** resizedPhotoBm.compress(Bitmap.CompressFormat.JPEG, 100, out); **/
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            Log.d("e---->", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+
+    public void AlbumBmToFile_2(InputStream inputStream) throws IOException{
+        String timeStamp= new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN).format(new Date());
+        String imgFileName= "JPEG_"+timeStamp+".jpg";
+        imageFile= null;
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/IERP");
+
+        if (!storageDir.exists()){
+            storageDir.mkdirs();
+        }else { Log.d("storageDir>", storageDir.toString()); }
+
+        imageFile = new File(storageDir, imgFileName);
+        try {
+            imageFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(imageFile);
+
+            ResizingBitmapPhoto_2(inputStream);
+
             resizedPhotoBm.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
@@ -1393,7 +1569,6 @@ public class Fragment_trobule_care extends Fragment {
                         Log.d("path_map: ", path_map+"");
 
 
-
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -1497,9 +1672,19 @@ public class Fragment_trobule_care extends Fragment {
                     InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
                     bm = BitmapFactory.decodeStream(in);
                     in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile(); //변경된 Bitmap -> file 형식으로 변환..
+
+
+                    //ResizingBitmapPhoto_2(in);
+
+
+                    //ResizingBitmapPhoto();
+                    AlbumBmToFile();
+                    //AlbumBmToFile_2(in); //변경된 Bitmap -> file 형식으로 변환..
+
+
+
                     Log.d("phtoalbum_imageFile>", imageFile.toString());
+
                     // 이미지뷰에 세팅
                     unitBeforeImage1.setImageBitmap(resizedPhotoBm);
                     unitBeforeImage1.setVisibility(View.VISIBLE);
@@ -2118,7 +2303,7 @@ public class Fragment_trobule_care extends Fragment {
         }
 
 
-        Log.d("마지막체크","======================================================================================================================================================================================================================================================================================================================================================================");
+        Log.d("마지막체크","===============================================================");
         Log.d("<<<path_list>>>", path_list+"");
         Log.d("<<<path_map>>>", path_map+"");
         //TODO: 여기서 path_map 에 넣어주기..

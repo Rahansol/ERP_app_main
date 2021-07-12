@@ -116,7 +116,7 @@ public class LoginActivity extends Activity{
             id_text.setText(pref.getString("auto_id",""));
             pw_text.setText(pref.getString("auto_pw", ""));
             if(id_text.length()!=0 && pw_text.length()!=0) {
-                new App_Login().execute(id_text.getText().toString(),pw_text.getText().toString());
+                new App_Login().execute(id_text.getText().toString().trim(),pw_text.getText().toString());
             }
         }else{
             autoLogin.setChecked(false);
@@ -143,7 +143,7 @@ public class LoginActivity extends Activity{
                 }
                 progressDialog.show();
                 try {
-                    new App_Login().execute(id_text.getText().toString(),pw_text.getText().toString());
+                    new App_Login().execute(id_text.getText().toString().trim(),pw_text.getText().toString());
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -183,7 +183,7 @@ public class LoginActivity extends Activity{
                         Toast.makeText(LoginActivity.this , "아이디랑 비민번호를 다시 확인해주세요",Toast.LENGTH_SHORT).show();
                         return;
                     }else{
-                        //로그인 한 사람의 정보를 sharedPreference 에 저장/ 네네
+                        //로그인 한 사람의 정보를 sharedPreference 에 저장
                         editor.putString("emp_id" , list.get(0).getEmp_id());
                         editor.putString("emp_name", list.get(0).getEmp_name());
                         editor.putString("dep_name",list.get(0).getDep_name());

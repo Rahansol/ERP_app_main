@@ -7,7 +7,7 @@
 
     <!--<string name="test_url">http://192.168.0.196:8090/controller/</string>   정호대리님 ip -->
     <string name="test_url">http://192.168.0.122:8181/controller/</string>
-  <!--  <string name="test_url">http://ierp.interpass.co.kr/controller/</string>-->
+   <!-- <string name="test_url">http://ierp.interpass.co.kr/controller/</string>-->
 
 
 

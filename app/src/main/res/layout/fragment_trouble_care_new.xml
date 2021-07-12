@@ -481,6 +481,7 @@
                                 android:id="@+id/insert_garage"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
+                                android:singleLine="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
                                 android:layout_toRightOf="@+id/insert_garage_title"
@@ -509,6 +510,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
+                                android:singleLine="true"
                                 android:hint=""
                                 android:layout_toRightOf="@+id/insert_route_code_title"
                                 android:layout_marginLeft="10dp"/>
@@ -1277,6 +1279,7 @@
                         android:id="@+id/insert_care_notice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:layout_centerVertical="true"
                         android:hint="특이사항을 입력하세요."
                         android:textSize="14sp"
