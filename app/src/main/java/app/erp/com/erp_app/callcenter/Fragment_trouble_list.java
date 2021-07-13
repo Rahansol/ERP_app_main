@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -68,6 +69,11 @@ public class Fragment_trouble_list extends Fragment {
     public static RecentErrorListAdapter recentAdapter1;
     public static RecyclerView recycler_RecentError;
     public static ArrayList<RecentErrorListItems> recentErrorListItems;
+
+    private Map<String, Object> updateMap = new HashMap<>();
+
+    public Dialog_Unpro_Notice dialog;
+    public  String get_et_unpro_notice;
 
     private Retrofit retrofit;
     SharedPreferences pref,page_check_info;
@@ -255,28 +261,51 @@ public class Fragment_trouble_list extends Fragment {
             public void onClick(View v) {
                 int pos = (int)v.getTag();
                 final Trouble_HistoryListVO thlvo = adapter.resultItem(pos);
-                Dialog_Unpro_Notice dialog = new Dialog_Unpro_Notice(context
-                                            , thlvo.getUnpro_notice()
-                                            , thlvo.getReg_date()
-                                            , thlvo.getReg_time()
-                                            , thlvo.getReg_emp_id()
-                                            , thlvo.getUnit_before_id()
-                                            , thlvo.getTrouble_high_cd()
-                                            , thlvo.getTrouble_low_cd()
-                                            , thlvo.getTransp_bizr_id());
+                String up = null;
+
+                dialog = new Dialog_Unpro_Notice(context
+                        , thlvo.getUnpro_notice()
+                        , thlvo.getReg_date()
+                        , thlvo.getReg_time()
+                        , thlvo.getReg_emp_id()
+                        , thlvo.getUnit_before_id()
+                        , thlvo.getTrouble_high_cd()
+                        , thlvo.getTrouble_low_cd()
+                        , thlvo.getTransp_bizr_id()
+                        , new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (dialog.return_msg().length() == 0){
+                            Toast.makeText(getContext(), "메세지를 입력하세요.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            String msgg = dialog.return_msg();
+                            Log.d("msg", msgg);
+                            updateMap.put("unpro_notice", msgg);
+                            updateMap.put("reg_date", thlvo.getReg_date());
+                            updateMap.put("reg_time", thlvo.getReg_time());
+                            updateMap.put("reg_emp_id", thlvo.getReg_emp_id());
+                            updateMap.put("unit_code_before", thlvo.getUnit_before_id() == null ? "" : thlvo.getUnit_before_id());
+                            updateMap.put("trouble_high_cd_before", thlvo.getTrouble_high_cd());
+                            updateMap.put("trouble_low_cd_before", thlvo.getTrouble_low_cd());
+                            updateMap.put("transp_bizr_id", thlvo.getTransp_bizr_id());
+
+                            Log.d("updateMap>",updateMap+"");
+
+                            new app_trouble_history_unpro_notice_editText_update().execute();
+                            dialog.dismiss();
+                            RestartFragment();
+                        }
+                    }
+                },
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
                 dialog.setCancelable(true);
                 dialog.show();
-
-                Log.d("111111 unpro_notice",thlvo.getUnpro_notice()+"");
-                Log.d("111111", thlvo.getRoute_id()+"");
-                Log.d("111111", thlvo.getGarage_id()+"");
-                Log.d("111111", thlvo.getReg_date()+"");
-                Log.d("111111", thlvo.getReg_time()+"");
-                Log.d("111111", thlvo.getReg_emp_id()+"");
-                Log.d("111111", thlvo.getUnit_before_id()+"");
-                Log.d("111111", thlvo.getTrouble_high_cd()+"");
-                Log.d("111111", thlvo.getTrouble_low_cd()+"");
-                Log.d("111111", thlvo.getTransp_bizr_id()+"");
 
                 DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics();
                 int width = dm.widthPixels;
@@ -291,15 +320,17 @@ public class Fragment_trouble_list extends Fragment {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 //edit: 다이얼로그가 사라지면 프래그먼트 리스타트됌
-                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+              /*  dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         restartFragment();
                     }
-                });
-
+                });*/
             }
         });
+
+
+
 
 
 
@@ -393,13 +424,11 @@ public class Fragment_trouble_list extends Fragment {
 
                 // C = 다른 운수사로 이동중에서 선택한 운수사를 이미 다른작업자가 이동중인데 자신이 이동하는경우
                 if(msg_check2.equals("Y") && thlvo.getMove_emp_id() !=null && !thlvo.getMove_emp_id().equals(emp_id)){
-//                    Log.d("ccccccccccccc","ccccccccccccccc");
                     msg_check = "C";
                 }
 
                 // A = 선택한 운수사를 이미 다른작업자가 이동중인데 자신이 이동하는경우
                 if(!msg_check2.equals("Y") && thlvo.getMove_emp_id() !=null && !thlvo.getMove_emp_id().equals(emp_id)){
-//                    Log.d("aaaaaaaaaaaa","aaaaaaaaaa");
                     msg_check = "A";
                 }
 
@@ -553,6 +582,35 @@ public class Fragment_trouble_list extends Fragment {
     }
 
 
+    private class app_trouble_history_unpro_notice_editText_update extends AsyncTask<String, Integer, Long>{
+        @Override
+        protected Long doInBackground(String... strings) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(getContext().getResources().getString(R.string.test_url))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            ERP_Spring_Controller erp = retrofit.create(ERP_Spring_Controller.class);
+            Call<Boolean> call = erp.trouble_history_undisposed_msg_update(updateMap);
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    Log.d("call>", "success");
+                    Log.d("call>", response+"");
+                    Log.d("call>", updateMap+"");
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    Log.d("call>", t.getMessage());
+                }
+            });
+
+            return null;
+        }
+    }
+
+
 
 
     private class Filed_MyErrorList extends AsyncTask<String , Integer , Long>{
@@ -677,9 +735,57 @@ public class Fragment_trouble_list extends Fragment {
         return "(" + text + ")";
     }
 
-    public void restartFragment(){
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
+
+    //note: 미처리 메세지 입력 후, 해당 fragment 로 이동 -> 업데이트된 데이터 표출됨.
+    public void RestartFragment(){
+       // service_id = null;
+        switch (service_id){
+            case "01": //버스
+                trouble_bus.setChecked(true);
+                trouble_nms.setChecked(false);
+                trouble_chager.setChecked(false);
+                trouble_bit.setChecked(false);
+                trouble_nomal.setChecked(false);
+                new Filed_MyErrorList().execute();
+                break;
+            case "02": //집계
+                trouble_bus.setChecked(false);
+                trouble_nms.setChecked(true);
+                trouble_chager.setChecked(false);
+                trouble_bit.setChecked(false);
+                trouble_nomal.setChecked(false);
+                new Filed_MyErrorList().execute();
+                break;
+            case "04": //충전기
+                trouble_bus.setChecked(false);
+                trouble_nms.setChecked(false);
+                trouble_chager.setChecked(true);
+                trouble_bit.setChecked(false);
+                trouble_nomal.setChecked(false);
+                new Filed_MyErrorList().execute();
+                break;
+            case "13": //bit
+                trouble_bus.setChecked(false);
+                trouble_nms.setChecked(false);
+                trouble_chager.setChecked(false);
+                trouble_bit.setChecked(true);
+                trouble_nomal.setChecked(false);
+                new Filed_MyErrorList().execute();
+                break;
+            case "09": //일반업무
+                trouble_bus.setChecked(false);
+                trouble_nms.setChecked(false);
+                trouble_chager.setChecked(false);
+                trouble_bit.setChecked(false);
+                trouble_nomal.setChecked(true);
+                new Filed_MyErrorList().execute();
+                break;
+            case "edu": //교육 //todo:교육은 service_id 가 뭐임??
+                Toast.makeText(context, "교육으로 이동??", Toast.LENGTH_SHORT).show();
+                break;
+        }
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.detach(this).attach(this).commit();
     }
 
 }

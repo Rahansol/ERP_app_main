@@ -203,6 +203,26 @@
 
 
                 <Button
+                    android:id="@+id/unpro_notice_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/error_low_code"
+                    android:layout_toRightOf="@+id/undisposed_btn"
+                    android:layout_toLeftOf="@+id/notice_btn"
+                    android:gravity="left|center_vertical"
+                    android:background="@android:color/transparent"
+                    android:layout_marginTop="5dp"
+                    android:textSize="10sp"
+                    android:textColor="#8C8787"
+                    android:textAllCaps="false"
+                    android:text="check test message preview here"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
+
+
+                <Button
                     android:id="@+id/notice_btn"
                     android:layout_width="55dp"
                     android:layout_height="30dp"

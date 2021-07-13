@@ -36,6 +36,8 @@ public class My_Error_Adapter extends BaseAdapter {
     private View.OnClickListener move_info_btn;
     private View.OnClickListener notice_btn_listener;
     private View.OnClickListener undisposedBtnListener;  //미처리
+    private View.OnClickListener unproNoticePreviewListener;
+    private String getTextUnproNotice;
     private String emp_id;
 
     AdapterViewHolder viewHolder;
@@ -66,6 +68,7 @@ public class My_Error_Adapter extends BaseAdapter {
             viewHolder.notice_btn = (Button)convertView.findViewById(R.id.notice_btn);
 //            viewHolder.btn_3 = (Button)convertView.findViewById(R.id.btn_3);
             viewHolder.undisposed_btn = (Button)convertView.findViewById(R.id.undisposed_btn);
+            viewHolder.unpro_notice_preview = (Button) convertView.findViewById(R.id.unpro_notice_preview);
 
             viewHolder.error_office = convertView.findViewById(R.id.error_office);
             viewHolder.error_route = convertView.findViewById(R.id.error_route);
@@ -107,6 +110,8 @@ public class My_Error_Adapter extends BaseAdapter {
             viewHolder.undisposed_btn.setText("미처리 사유 입력");
             viewHolder.undisposed_btn.setOnClickListener(undisposedBtnListener);
         }
+
+        viewHolder.unpro_notice_preview.setText(trouble_historylistvo.getUnpro_notice());
 
         /*viewHolder.undisposed_btn.setTag(position);
         viewHolder.undisposed_btn.setOnClickListener(undisposedBtnListener);*/
@@ -208,6 +213,12 @@ public class My_Error_Adapter extends BaseAdapter {
         this.undisposedBtnListener = undisposedBtnListener;
     }
 
+    public String getText_Untro_notice(String msg){
+        this.getTextUnproNotice = getTextUnproNotice;
+        return msg;
+    }
+
+
     public View.OnClickListener getDefaultRequestBtnClickListener() {
         return defaultRequestBtnClickListener;
     }
@@ -293,6 +304,7 @@ public class My_Error_Adapter extends BaseAdapter {
         Button move_btn;
         Button notice_btn;
         Button undisposed_btn;
+        Button unpro_notice_preview;
 //        Button btn_3;
         TextView error_office;
         TextView error_route;

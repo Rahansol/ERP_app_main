@@ -2,16 +2,15 @@ package app.erp.com.erp_app.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +30,10 @@ public class Dialog_Unpro_Notice extends Dialog {
     private Map<String, Object> updateMap = new HashMap<>();
     private Retrofit retrofit;
     public EditText unpro_notice_editText;
+    private Context context;
+    private View.OnClickListener ok_listener;
+    private View.OnClickListener cancel_listener;
+
 
     public Dialog_Unpro_Notice(@NonNull Context context
                                 , String unpro_notice
@@ -40,7 +43,9 @@ public class Dialog_Unpro_Notice extends Dialog {
                                 , String unit_code_before
                                 , String trouble_high_cd_before
                                 , String trouble_low_cd_before
-                                , String transp_bizr_id) {
+                                , String transp_bizr_id
+                                , View.OnClickListener ok_listener
+                                , View.OnClickListener cancel_listener) {
         super(context);
         this.unpro_notice = unpro_notice;
         this.reg_date = reg_date;
@@ -50,6 +55,8 @@ public class Dialog_Unpro_Notice extends Dialog {
         this.trouble_high_cd_before = trouble_high_cd_before;
         this.trouble_low_cd_before = trouble_low_cd_before;
         this.transp_bizr_id = transp_bizr_id;
+        this.ok_listener = ok_listener;
+        this.cancel_listener = cancel_listener;
     }
 
 
@@ -58,16 +65,19 @@ public class Dialog_Unpro_Notice extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_undisposed_msg);
 
-        TextView btn_cancel = (TextView) findViewById(R.id.btn_cancel);
-        btn_cancel.setOnClickListener(v -> { dismiss(); });
-
-
         unpro_notice_editText = (EditText) findViewById(R.id.unpro_notice_editText);
         //EDIT: 업데이트 된 메세지 불러오기
         unpro_notice_editText.setText(unpro_notice);
 
+        //[취소]버튼에 클릭리스너 달아주기
+        TextView btn_cancel = (TextView) findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(cancel_listener);
+
+        //[확인]버튼에 클릭리스너 달아주기
         TextView btn_ok = (TextView) findViewById(R.id.btn_ok);
-        btn_ok.setOnClickListener(v -> {
+        btn_ok.setOnClickListener(ok_listener);
+
+        /*btn_ok.setOnClickListener(v -> {
             if (unpro_notice_editText.getText().toString().length() == 0){
                 Toast.makeText(getContext(), "메세지를 입력하세요.", Toast.LENGTH_SHORT).show();
             }else {
@@ -93,7 +103,7 @@ public class Dialog_Unpro_Notice extends Dialog {
                 dismiss();
             }
 
-        });
+        });*/
 
 
 
@@ -128,5 +138,9 @@ public class Dialog_Unpro_Notice extends Dialog {
 
             return null;
         }
+    }
+
+    public String return_msg(){
+        return unpro_notice_editText.getText().toString();
     }
 }

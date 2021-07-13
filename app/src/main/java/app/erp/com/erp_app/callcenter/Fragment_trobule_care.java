@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -23,7 +24,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
 
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.system.ErrnoException;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,12 +47,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.util.IOUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -113,18 +120,18 @@ public class Fragment_trobule_care extends Fragment {
             ,AFTER_PHOTO_CLICK_IMAGE_CAPTURE_2 = 77  //두번째 사진 사진촬영
             ,AFTER_PHOTO_CLICK_IMAGE_PICK_2 = 88;    //두번째 사진 사진앨범
 
-    Uri imageUri;
-    String mCurrentPhotoPath, str;
-    File imageFile;
-    public static Bitmap resizedPhotoBm;
-    Bitmap bm, bmRotated;
+    public File imageFile, cacheFilePath;
+    Uri imageUri, albumUri;
+    String mCurrentPhotoPath;
+    public static Bitmap resizedPhotoBm, bm;
+    //Bitmap bm;
 
     /* 이미지 경로 */
     private String mapValue;
     private ArrayList<String> path_list = new ArrayList<String>();
     private Map<String, Object> path_map = new HashMap<>();
     private String folderName = "nas_image/image/IERP/";
-    private String TABLE_NAME, DTTI, TRANSP_BIZR_ID, BUS_ID, UNIT_CODE ;    // tranp_bizr_id_value, bus_id_value
+    private String DTTI, TRANSP_BIZR_ID, BUS_ID, UNIT_CODE ;    // tranp_bizr_id_value, bus_id_value
     private int PIC_POSITION;
 
     Button bus_num_find , bus_num_barcode_find ,edit_care_emp_list;
@@ -796,6 +803,15 @@ public class Fragment_trobule_care extends Fragment {
     }//onCreateView...
 
 
+
+
+
+
+
+
+
+
+    //카메라 권한요청
     private void cameraPermission(){
         PermissionListener permissionListener = new PermissionListener() {
             @Override
@@ -819,8 +835,9 @@ public class Fragment_trobule_care extends Fragment {
 
 
 
+
+
     public void setImageUri(){
-        Log.d("ttttttt","!!!!!!!!!!");
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + ".jpg";
         imageFile = null;
@@ -844,8 +861,6 @@ public class Fragment_trobule_care extends Fragment {
         }
     }
 
-
-
     public void ResizingBitmapPhoto() throws IOException {
 
         ExifInterface exif = null;
@@ -853,7 +868,7 @@ public class Fragment_trobule_care extends Fragment {
         try {
             Log.d("imageFile :" , imageFile.toString());
             exif = new ExifInterface(imageFile);
-        }catch (IOException e){
+        }catch (Exception e){
             e.printStackTrace();
         }
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);   //회전각도
@@ -903,107 +918,6 @@ public class Fragment_trobule_care extends Fragment {
 
         resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
         resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
-
-
-
-        Log.d("resizedPhotoBm_bm>", "resizedBm=> "+resizedPhotoBm+",    bm=> "+bm);  //android.graphics.Bitmap@fb86ab2
-        Log.d("orientation>>", orientation+"");
-    }
-
-    public void ResizingBitmapPhoto_2(InputStream inputStream) throws IOException {
-
-        ExifInterface exif = null;
-
-        try {
-            Log.d("imageFile :" , imageFile.toString());
-            exif = new ExifInterface(inputStream);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);   //회전각도
-        Matrix matrix = new Matrix();
-        Log.d("orientation:" , orientation+"asdf");
-        switch (orientation){
-            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-                matrix.setScale(-1, 1);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                matrix.setRotate(180);
-                break;
-            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-                matrix.setRotate(180);
-                matrix.postScale(-1,1);
-                break;
-            case ExifInterface.ORIENTATION_TRANSPOSE:
-                matrix.setRotate(90);
-                matrix.postScale(-1,1);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                matrix.setRotate(90);
-                break;
-            case ExifInterface.ORIENTATION_TRANSVERSE:
-                matrix.setRotate(-90);
-                matrix.postScale(-1,1);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                matrix.setRotate(-90);
-                break;
-        }//switch..
-
-        Log.d("orientation>>", orientation+"");
-
-        int bmWidth = bm.getWidth();
-        int bmHeight = bm.getHeight();
-        double Wratio = 0.0;
-        double Hratio = 0.0;
-
-        if (bmWidth > bmHeight){
-            Wratio = ((double)bmWidth / (double)bmHeight) * 512;
-            Hratio = 1 * 512;
-        }else {
-            Wratio = 1 * 512;
-            Hratio = ((double)bmHeight / (double)bmWidth) * 512;
-        }
-
-        if(orientation == 0) {
-            resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
-        } else{
-            resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
-            resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
-        }
-
-
-
-
-
-        Log.d("resizedPhotoBm_bm>", "resizedBm=> "+resizedPhotoBm+",    bm=> "+bm);  //android.graphics.Bitmap@fb86ab2
-        Log.d("orientation>>", orientation+"");
-    }
-
-
-
-
-    //이미지 90도 회전 전 기존 코드..
-    public void ResizingBitmapPhotoPic() throws IOException {
-        int bmWidth = bm.getWidth();
-        int bmHeight = bm.getHeight();
-        double Wratio = 0.0;
-        double Hratio = 0.0;
-
-        Matrix matrix = new Matrix();
-        if (bmWidth > bmHeight){
-            Wratio = ((double)bmWidth / (double)bmHeight) * 512;
-            Hratio = 1 * 1024;
-        }else {
-            Wratio = 1 * 1024;
-            Hratio = ((double)bmHeight / (double)bmWidth) * 512;
-        }
-        //matrix.postRotate(90);
-        resizedPhotoBm = bm.createScaledBitmap(bm, (int) Wratio , (int) Hratio, false);
-        resizedPhotoBm = resizedPhotoBm.createBitmap(resizedPhotoBm, 0, 0, (int) Wratio, (int) Hratio, matrix, true);
-
-        Log.d("resizedPhotoBm>", resizedPhotoBm+"");  //android.graphics.Bitmap@fb86ab2
-        Log.d("bm>", bm+"");   //android.graphics.Bitmap@fb86ab2
     }
 
     //note: 사진촬영 후 bm 을 File 로..
@@ -1033,61 +947,144 @@ public class Fragment_trobule_care extends Fragment {
 
 
 
-    //note: 사진앨범에서 선택한 이미지bm 을 file 로 생성 및 리사이즈, 오리엔테이션 지정..
-    public void AlbumBmToFile() throws IOException{
-        String timeStamp= new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN).format(new Date());
-        String imgFileName= "JPEG_"+timeStamp+".jpg";
-        imageFile= null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/IERP");
 
-        if (!storageDir.exists()){
-            storageDir.mkdirs();
-        }else { Log.d("storageDir>", storageDir.toString()); }
 
-        imageFile = new File(storageDir, imgFileName);
+
+
+
+    //todo: 사진앨범
+    //note: 파일 디스크립터=> 프로세스가 열린 파일을 읽고 쓰거나 네트워크 소켓을 여는 데 사용하는 오브젝트
+    public void getAlbumImgFile(){
+        String fileName = getAlbumFileName(albumUri);
+        Log.d("albumUri>", albumUri.toString());  //    content://media/external/images/media/659
         try {
-            imageFile.createNewFile();
-            FileOutputStream out = new FileOutputStream(imageFile);
+            ParcelFileDescriptor parcelFileDescriptor = getActivity().getContentResolver().openFileDescriptor(albumUri, "r");
+            if (parcelFileDescriptor == null) return;
+            FileInputStream inputStream = new FileInputStream(parcelFileDescriptor.getFileDescriptor());
+            File cacheFile = new File(getActivity().getCacheDir(), fileName);
+            FileOutputStream outputStream = new FileOutputStream(cacheFile);
+            IOUtils.copyStream(inputStream, outputStream);
 
-            //ResizingBitmapPhoto();
-
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            /** 기존코드 **/
-           /** resizedPhotoBm.compress(Bitmap.CompressFormat.JPEG, 100, out); **/
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            Log.d("e---->", e.toString());
+            cacheFilePath = new File(cacheFile.getAbsolutePath());
+           //imageFile = new File(cacheFile.getAbsolutePath());
+            Log.d("rrr", cacheFilePath.toString());     //   /data/user/0/app.erp.com.erp_app/cache/20210422_151451.jpg
+            Log.d("view size :", ""+unitBeforeImage1.getWidth());
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
     }
 
 
-    public void AlbumBmToFile_2(InputStream inputStream) throws IOException{
-        String timeStamp= new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN).format(new Date());
-        String imgFileName= "JPEG_"+timeStamp+".jpg";
-        imageFile= null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/IERP");
-
-        if (!storageDir.exists()){
-            storageDir.mkdirs();
-        }else { Log.d("storageDir>", storageDir.toString()); }
-
-        imageFile = new File(storageDir, imgFileName);
+    public String getAlbumFileName(Uri uri){
+        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
         try {
-            imageFile.createNewFile();
-            FileOutputStream out = new FileOutputStream(imageFile);
+            if (cursor == null) return null;
+            cursor.moveToFirst();
+            String fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            //     fileName ->  content://media/external/images/media/659
 
-            ResizingBitmapPhoto_2(inputStream);
+            // <set custom file name..>
+            // 1) set file path
 
-            resizedPhotoBm.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            Log.d("e---->", e.toString());
+
+            // 2) set uri path
+
+            cursor.close();
+            return fileName;
+        }catch (Exception e){
             e.printStackTrace();
+            return null;
         }
     }
+
+    public Bitmap BmAlbumReSize(ImageView targetView, Uri uri){
+        try {
+            ParcelFileDescriptor parcelFileDescriptor = getActivity().getContentResolver( ).openFileDescriptor( uri, "r" );
+            if ( parcelFileDescriptor == null ) return null;
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor( );
+            if ( fileDescriptor == null ) return null;
+
+            int targetW = targetView.getWidth( ); //0
+            int targetH = targetView.getHeight( ); //0
+
+            BitmapFactory.Options options = new BitmapFactory.Options( );
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFileDescriptor( fileDescriptor, null, options );
+            int photoW = options.outWidth;
+            int photoH = options.outHeight;
+
+            Log.d("photosize>", photoW+", "+photoH);
+
+//            int scaleFactor = Math.min( photoW / targetW, photoH / targetH );
+//            if ( scaleFactor >= 8 ) {
+//                options.inSampleSize = 8;
+//            } else if ( scaleFactor >= 4 ) {
+//                options.inSampleSize = 4;
+//            } else {
+//                options.inSampleSize = 2;
+//            }
+            options.inSampleSize = 8;
+            options.inJustDecodeBounds = false;
+
+            Bitmap reSizeBit = BitmapFactory.decodeFileDescriptor( fileDescriptor, null, options );
+            Log.d("resizeBit>", reSizeBit.getWidth()+", "+reSizeBit.getHeight());
+            Log.d("fileDescriptor>",fileDescriptor+"");
+
+            ExifInterface exifInterface = null;
+            try {
+                if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+                    exifInterface = new ExifInterface( fileDescriptor );
+                    Log.d("exifInterface==", exifInterface+"");
+                }
+            } catch ( IOException e ) {
+                e.printStackTrace( );
+            }
+
+            int exifOrientation;
+            int exifDegree = 0;
+
+            //사진 회전값 구하기
+            if ( exifInterface != null ) {
+                exifOrientation = exifInterface.getAttributeInt( ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL );
+                Log.d("exifOrientation>",exifOrientation+"");
+
+                if ( exifOrientation == ExifInterface.ORIENTATION_ROTATE_90 ) {
+                    exifDegree = 90;
+                } else if ( exifOrientation == ExifInterface.ORIENTATION_ROTATE_180 ) {
+                    exifDegree = 180;
+                } else if ( exifOrientation == ExifInterface.ORIENTATION_ROTATE_270 ) {
+                    exifDegree = 270;
+                }
+
+                Log.d("exifOrientation2>",exifOrientation+"");
+            }
+            parcelFileDescriptor.close( );
+            Matrix matrix = new Matrix( );
+            matrix.postRotate( exifDegree );
+
+            Bitmap reSizeExifBitmap = Bitmap.createBitmap( reSizeBit, 0, 0, reSizeBit.getWidth( ), reSizeBit.getHeight( ), matrix, true );
+            return reSizeExifBitmap;
+
+        } catch ( Exception e ) {
+            e.printStackTrace( );
+            return null;
+        }
+    }
+
+    public void createMap(){
+        path_list.add(cacheFilePath + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
+        Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
+
+        for (String str : path_list){
+            path_map.put("ITEM"+PIC_POSITION, str+"");
+            mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
+            update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
+        }
+    }
+
+
 
 
 
@@ -1158,11 +1155,11 @@ public class Fragment_trobule_care extends Fragment {
         update_trouble_history_map.put("trouble_low_cd_before",list.get(0).getTrouble_low_cd());
         update_trouble_history_map.put("transp_bizr_id",list.get(0).getTransp_bizr_id());
 
-        Log.d("transp-bizr-id", list.get(0).getTransp_bizr_id());
+   /*     Log.d("transp-bizr-id", list.get(0).getTransp_bizr_id());
         Log.d("bus-num", list.get(0).getBus_num());
         Log.d("bus-id", list.get(0).getBus_id());
         Log.d("unit-code", list.get(0).getUnit_code());
-
+*/
         TRANSP_BIZR_ID = list.get(0).getTransp_bizr_id();
         BUS_ID = list.get(0).getBus_id();
         UNIT_CODE = list.get(0).getUnit_code();
@@ -1536,13 +1533,10 @@ public class Fragment_trobule_care extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         //String strResult = intentResult.getContents();
-        Log.d("intentResult>", ""+intentResult);  //null
-        Log.d("requestCode>", ""+requestCode);
-
-
+        //Log.d("intentResult>", ""+intentResult);  //null
+        //Log.d("requestCode>", ""+requestCode);
         //TODO: 작업 전 사진
         /** 사진촬영 **/    //Note: 순번 1
         if (requestCode == REQUEST_BEFORE_IMAGE_CAPTURED){
@@ -1556,9 +1550,7 @@ public class Fragment_trobule_care extends Fragment {
                         BmToFile();
                         PIC_POSITION = 1;
                         path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-
                         Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
                         for (String str : path_list){
                             path_map.put("ITEM"+PIC_POSITION, str+"");
                             //edit: DB 로 업로드되는 이미지 경로에는 % 있으면 안됌.!!!!!!!!!!!!
@@ -1567,8 +1559,6 @@ public class Fragment_trobule_care extends Fragment {
                             update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
                         }
                         Log.d("path_map: ", path_map+"");
-
-
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -1584,7 +1574,6 @@ public class Fragment_trobule_care extends Fragment {
                 beforeUnitDeletelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
                 selectUnitBeforeBtn.setVisibility(View.GONE);
                // path_list.add("교체 전: "+"사진선택 버튼 -> 사진촬영");
-
             }
         }  //NOTE: 첫번째 사진 클릭시 -> 사진촬영    //Note: 순번 1
         else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_CAPTURE_1){
@@ -1668,120 +1657,39 @@ public class Fragment_trobule_care extends Fragment {
         /** 사진앨범 **/       //Note: 순번 1
         else if (requestCode == REQUEST_BEFORE_IMAGE_PICK){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-
-
-                    //ResizingBitmapPhoto_2(in);
-
-
-                    //ResizingBitmapPhoto();
-                    AlbumBmToFile();
-                    //AlbumBmToFile_2(in); //변경된 Bitmap -> file 형식으로 변환..
-
-
-
-                    Log.d("phtoalbum_imageFile>", imageFile.toString());
-
-                    // 이미지뷰에 세팅
-                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage1.setVisibility(View.VISIBLE);
-                    unitBeforeAddPic.setVisibility(View.VISIBLE);  //사진앨범 선택 후 추가버튼
-                    beforeUnitDeletelBtn1.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                    selectUnitBeforeBtn.setVisibility(View.GONE);
-                    //path_list.add("교체 전: "+"사진선택 버튼 -> 사진앨범");
-                    PIC_POSITION = 1;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitBeforeImage1.setVisibility(View.VISIBLE);  //이미지뷰 보이기 - 가로/세로 값 얻기위해 visible 로..
+                unitBeforeAddPic.setVisibility(View.VISIBLE);  // + 보이기
+                beforeUnitDeletelBtn1.setVisibility(View.VISIBLE);  // 삭제버튼 보이기
+                unitBeforeImage1.setImageBitmap(BmAlbumReSize(unitBeforeImage1, albumUri));
+                PIC_POSITION = 1;
+                createMap();
             }
         } //NOTE: 첫번째 사진 클릭시 -> 사진앨범    //Note: 순번 1
         else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_1){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile(); //변경된 Bitmap -> file 형식으로 변환..
-                    Log.d("phtoalbum_imageFile>", imageFile.toString());
-                    // 이미지뷰에 세팅
-                    unitBeforeImage1.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage1.setVisibility(View.VISIBLE);
-                    if (unitBeforeImage2.getVisibility() == View.VISIBLE){
-                        unitBeforeAddPic.setVisibility(View.GONE);  //사진앨범 선택 후 추가버튼
-                    }else {
-                        unitBeforeAddPic.setVisibility(View.VISIBLE);
-                    }
-                    //beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                    //path_list.add("교체 전: "+"첫번째 사진 클릭시 -> 사진앨범");
-                    PIC_POSITION = 1;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitBeforeImage1.setVisibility(View.VISIBLE);
+                unitBeforeAddPic.setVisibility(View.VISIBLE);
+                beforeUnitDeletelBtn1.setVisibility(View.VISIBLE);
+                unitBeforeImage1.setImageBitmap(BmAlbumReSize(unitBeforeImage1, albumUri));
+                PIC_POSITION = 1;
+                createMap();
             }
         }
         //NOTE: 두번째 사진 클릭시 -> 사진앨범    //Note: 순번 2
         else if (requestCode == BEFORE_PHOTO_CLICK_IMAGE_PICK_2){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile(); //변경된 Bitmap -> file 형식으로 변환..
-                    Log.d("phtoalbum_imageFile>", imageFile.toString());
-                    // 이미지뷰에 세팅
-                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage2.setVisibility(View.VISIBLE);
-                    unitBeforeAddPic.setVisibility(View.GONE);  //사진앨범 선택 후 추가버튼
-                    beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                   // path_list.add("교체 전: "+"두번째 사진 클릭시 -> 사진앨범");
-                    PIC_POSITION = 2;
-                    //path_list.set(1,imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + ".jpg").replaceAll("/", "%"));
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE+ "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitBeforeImage2.setVisibility(View.VISIBLE);
+                unitBeforeAddPic.setVisibility(View.INVISIBLE);
+                beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);
+                unitBeforeImage2.setImageBitmap(BmAlbumReSize(unitBeforeImage2, albumUri));
+                PIC_POSITION = 2;
+                createMap();
             }
         }
         /** 사진 촬영 후 --> 추가버튼1 **/    //Note: 순번 2
@@ -1824,37 +1732,15 @@ public class Fragment_trobule_care extends Fragment {
         } /** 사진앨범 선택 후 --> 추가버튼1 **/     //Note: 순번 2
         else if (requestCode == REQUEST_BEFORE_ADD_IMAGE_PICK){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile(); //변경된 Bitmap -> file 형식으로 변환..
-                    Log.d("phtoalbum_imageFile>", imageFile.toString());
-                    // 이미지뷰에 세팅
-                    unitBeforeImage2.setImageBitmap(resizedPhotoBm);
-                    unitBeforeImage2.setVisibility(View.VISIBLE);
-                    unitBeforeAddPic.setVisibility(View.GONE);
-                    selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
-                    beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                    //path_list.add("교체 전: "+"추가버튼 -> 사진촬영");
-                    PIC_POSITION = 2;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitBeforeImage2.setVisibility(View.VISIBLE);
+                unitBeforeAddPic.setVisibility(View.INVISIBLE);
+                selectUnitBeforeBtn.setVisibility(View.GONE);  //사진선택 버튼 삭제
+                beforeUnitDeleteBtn2.setVisibility(View.VISIBLE);  //삭제버튼 보이기
+                unitBeforeImage2.setImageBitmap(BmAlbumReSize(unitBeforeImage2, albumUri));
+                PIC_POSITION = 2;
+                createMap();
             }
         }
         //TODO: 작업 후 사진
@@ -1976,106 +1862,39 @@ public class Fragment_trobule_care extends Fragment {
         /** 사진앨범 **/                  //Note: 순번 3
         else if (requestCode == REQUEST_AFTER_IMAGE_PICK){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile();
-                    Log.d("작업후_사진앨범_이미지파일>", imageFile.toString());
-                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage1.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.VISIBLE);
-                    afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
-                    selectUnitAfterBtn.setVisibility(View.GONE);
-                    //path_list.add("교체 후: "+"사진선택 버튼 -> 사진앨범");
-                    PIC_POSITION = 3;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitAfterImage1.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.VISIBLE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+                afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
+                unitAfterImage1.setImageBitmap(BmAlbumReSize(unitAfterImage1, albumUri));
+                PIC_POSITION = 3;
+                createMap();
             }
         }//NOTE: 첫번째 사진 클릭시 -> 사진앨범       //Note: 순번 3
         else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_1){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile();
-                    Log.d("작업후_사진앨범_이미지파일>", imageFile.toString());
-                    unitAfterImage1.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage1.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.VISIBLE);
-                    selectUnitAfterBtn.setVisibility(View.GONE);
-                    afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
-                    //path_list.add("교체 후: "+"첫번째 사진 클릭시 -> 사진앨범");
-                    PIC_POSITION = 3;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitAfterImage1.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.VISIBLE);
+                afterUnitDeletelBtn1.setVisibility(View.VISIBLE);
+                unitAfterImage1.setImageBitmap(BmAlbumReSize(unitAfterImage1, albumUri));
+                PIC_POSITION = 3;
+                createMap();
             }
         }//NOTE: 두번째 사진 클릭시 -> 사진앨범           //Note: 순번 4
         else if (requestCode == AFTER_PHOTO_CLICK_IMAGE_PICK_2){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile();
-                    Log.d("작업후_사진앨범_이미지파일>", imageFile.toString());
-                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage2.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.GONE);
-                    selectUnitAfterBtn.setVisibility(View.GONE);
-                    afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
-                   // path_list.add("교체 후: "+"두번째 사진 클릭시 -> 사진앨범");
-                    PIC_POSITION = 4;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitAfterImage2.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.INVISIBLE);
+                afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
+                unitAfterImage2.setImageBitmap(BmAlbumReSize(unitAfterImage2, albumUri));
+                PIC_POSITION = 4;
+                createMap();
             }
         }
         /** 사진 촬영 후 --> 추가버튼2 **/          //Note: 순번 4
@@ -2111,43 +1930,19 @@ public class Fragment_trobule_care extends Fragment {
                     mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
                     update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
                 }
-
-                Log.d("path_map: ", path_map+"");
             }
         }  /** 사진앨범 선택 후 --> 추가버튼2 **/          //Note: 순번 4
         else if (requestCode == REQUEST_AFTER_ADD_IMAGE_PICK){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile();
-                    Log.d("작업후_사진앨범_이미지파일>", imageFile.toString());
-                    unitAfterImage2.setImageBitmap(resizedPhotoBm);
-                    unitAfterImage2.setVisibility(View.VISIBLE);
-                    unitAfterAddPic.setVisibility(View.GONE);
-                    selectUnitAfterBtn.setVisibility(View.GONE);
-                    afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
-                    //path_list.add("교체 후: "+"추가버튼 -> 사진앨범");
-                    PIC_POSITION = 4;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                unitAfterImage2.setVisibility(View.VISIBLE);
+                unitAfterAddPic.setVisibility(View.INVISIBLE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
+                afterUnitDeletelBtn2.setVisibility(View.VISIBLE);
+                unitAfterImage2.setImageBitmap(BmAlbumReSize(unitAfterImage2, albumUri));
+                PIC_POSITION = 4;
+                createMap();
             }
         }
 
@@ -2161,7 +1956,7 @@ public class Fragment_trobule_care extends Fragment {
                         bm = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), imageUri);    //  Uri -----> Bitmap
                         ResizingBitmapPhoto();
                         BmToFile();
-                        Log.d("작업후_사진촬영_이미지파일>", imageFile.toString());
+                        //Log.d("작업후_사진촬영_이미지파일>", imageFile.toString());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -2172,6 +1967,7 @@ public class Fragment_trobule_care extends Fragment {
                         .load(resizedPhotoBm)
                         .into(busUnitImage);
                 busUnitImage.setVisibility(View.VISIBLE);
+                selectUnitAfterBtn.setVisibility(View.GONE);
                 busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
                 busUnitBtn.setVisibility(View.GONE);
                // path_list.add("차량 단말기: "+"사진선택 버튼 -> 사진촬영");
@@ -2184,43 +1980,19 @@ public class Fragment_trobule_care extends Fragment {
                     mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
                     update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
                 }
-
-                Log.d("path_map: ", path_map+"");
-
             }
         }
         /** 사진앨범 **/            //Note: 순번 5
         else if (requestCode == REQUEST_BUS_UNIT_IMAGE_PICK){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile();
-                    Log.d("차량_사진앨범_이미지파일>", imageFile.toString());
-                    busUnitImage.setImageBitmap(resizedPhotoBm);
-                    busUnitImage.setVisibility(View.VISIBLE);
-                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                    busUnitBtn.setVisibility(View.GONE);
-                    //path_list.add("차량 단말기: "+"사진선택 버튼 -> 사진앨범");
-                    PIC_POSITION = 5;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                busUnitImage.setVisibility(View.VISIBLE);
+                busUnitBtn.setVisibility(View.GONE);
+                busUnitCancelBtn.setVisibility(View.VISIBLE); //삭제버튼 보이기
+                busUnitImage.setImageBitmap(BmAlbumReSize(busUnitImage, albumUri));
+                PIC_POSITION = 5;
+                createMap();
             }
             //차량단말기 이미지 클릭시  -> 사진촬영      //Note: 순번 5
         }else if (requestCode == 1000) {
@@ -2254,43 +2026,18 @@ public class Fragment_trobule_care extends Fragment {
                     mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
                     update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
                 }
-
-                Log.d("path_map: ", path_map+"");
             }
         }//차량단말기 이미지 클릭시  -> 사진앨범        //Note: 순번 5
         else if (requestCode == 2000){
             if (resultCode == RESULT_OK){
-                try {
-                    InputStream in = getContext().getContentResolver().openInputStream(intent.getData());
-                    bm = BitmapFactory.decodeStream(in);
-                    in.close();
-                    ResizingBitmapPhoto();
-                    BmToFile();
-                    Log.d("차량_사진앨범_이미지파일>", imageFile.toString());
-                    busUnitImage.setImageBitmap(resizedPhotoBm);
-                    busUnitImage.setVisibility(View.VISIBLE);
-                    busUnitCancelBtn.setVisibility(View.VISIBLE);  //삭제버튼 보이기
-                    busUnitBtn.setVisibility(View.GONE);
-                   // path_list.add("차량 단말기: "+"사진 클릭시 -> 사진앨범");
-                    PIC_POSITION = 5;
-                    path_list.add(imageFile + "&" + (folderName + "TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replaceAll("/", "%"));
-                    Log.d("path_list  ", PIC_POSITION + " 번째=> " + path_list);
-
-
-
-                    for (String str : path_list){
-                        path_map.put("ITEM"+PIC_POSITION, str+"");
-                        mapValue = ("TROUBLE" + "/" + DTTI + "/" + "TROUBLE" + "_" + DTTI + "_" + TRANSP_BIZR_ID + "_" + BUS_ID + "_" + UNIT_CODE + "_" + PIC_POSITION + ".jpg").replace("%","/");
-                        update_trouble_history_map.put("ITEM"+PIC_POSITION, mapValue);
-                    }
-
-                    Log.d("path_map: ", path_map+"");
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                albumUri = intent.getData();
+                getAlbumImgFile();
+                busUnitImage.setVisibility(View.VISIBLE);
+                busUnitCancelBtn.setVisibility(View.VISIBLE);
+                busUnitBtn.setVisibility(View.GONE);
+                busUnitImage.setImageBitmap(BmAlbumReSize(busUnitImage, albumUri));
+                PIC_POSITION = 5;
+                createMap();
             }
         }else {
             String barcode = intentResult.getContents();
@@ -2301,7 +2048,6 @@ public class Fragment_trobule_care extends Fragment {
                 insert_care_unit_after.setText(barcode);
             }
         }
-
 
         Log.d("마지막체크","===============================================================");
         Log.d("<<<path_list>>>", path_list+"");

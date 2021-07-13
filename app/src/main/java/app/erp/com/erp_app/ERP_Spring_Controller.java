@@ -134,7 +134,7 @@ public interface ERP_Spring_Controller {
 
     //미처리 등록버튼
     @GET("barcode/trouble_history_undisposed_msg_update")
-    Call<Boolean> trouble_history_undisposed_msg_update(@QueryMap Map<String, Object> updateMap );
+    Call <Boolean> trouble_history_undisposed_msg_update(@QueryMap Map<String, Object> updateMap );
 
     @POST("barcode/app_trouble_equal_infra_insert")
     Call<Boolean> app_trouble_equal_infra_insert (@Body Trouble_HistoryListVO test , @Query("cooperate_list[]") List<String> cooperate_list);

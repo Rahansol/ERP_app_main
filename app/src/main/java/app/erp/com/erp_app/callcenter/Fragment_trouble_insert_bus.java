@@ -100,6 +100,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
     Boolean isClicked = true;
     Button  error_insert_btn ,edit_care_emp_list, btn_error_event_num
             , selectUnitBeforeBtn, selectUnitAfterBtn, busUnitBtn;
+    ImageView unitBeforeImage1, unitBeforeImage2, unitAfterImage1, unitAfterImage2, busUnitImage;
 
                 /* 교체 전 */
     public int REQUEST_BEFORE_IMAGE_CAPTURED = 200      //사진선택 버튼 -> 사진촬영
@@ -128,11 +129,18 @@ public class Fragment_trouble_insert_bus extends Fragment {
                ,AFTER_PHOTO_CLICK_IMAGE_PICK_2 = 88;    //두번째 사진 사진앨범
 
     /* 이미지 경로 */
+    private String mapValue;
     private ArrayList<String> path_list = new ArrayList<String>();
     private Map<String, Object> path_map = new HashMap<>();
     private String folderName = "nas_image/image/IERP/";
-    private String TABLE_NAME, DTTI ;    // tranp_bizr_id_value, bus_id_value
+    private String DTTI, TRANSP_BIZR_ID, BUS_ID, UNIT_CODE ;    // tranp_bizr_id_value, bus_id_value
     private int PIC_POSITION;
+
+    Uri imageUri, albumUri;
+    String click_type , page_info, mCurrentPhotoPath;
+    public File imageFile, cacheFilePath;
+    public static Bitmap resizedPhotoBm, bm;
+    //Bitmap bm;
 
     LinearLayout bus_num_barcode_find, insert_bus_info, bus_num_find;
     Context context;
@@ -141,11 +149,8 @@ public class Fragment_trouble_insert_bus extends Fragment {
     private DialogEduEmpList mdialog;
 
 
-    Uri imageUri;
-    String click_type , page_info, mCurrentPhotoPath;
-    File imageFile;
-    public static Bitmap resizedPhotoBm;
-    Bitmap bm;
+
+
 
 
     EditText find_bus_num ,field_error_garage ,field_error_route, field_error_phone, field_error_notice,unit_before_id,unit_after_id;
@@ -155,8 +160,7 @@ public class Fragment_trouble_insert_bus extends Fragment {
 
     LinearLayout care_layout , old_new_layout , old_barcode
             , new_old_layout ,new_barcode , bus_num_9999 , bus_num_nomal, new_selcet, old_select;
-    ImageView unit_before_camera, unit_after_camera,
-                unitBeforeImage1, unitBeforeImage2, unitAfterImage1, unitAfterImage2, busUnitImage;
+    ImageView unit_before_camera, unit_after_camera;
 
     CheckBox bs_yn;
 
